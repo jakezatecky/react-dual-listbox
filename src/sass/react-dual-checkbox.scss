@@ -1,0 +1,47 @@
+.react-dual-listbox {
+  display: flex;
+  align-items: stretch;
+  padding: 10px;
+
+  .rdl-available,
+  .rdl-selected {
+    display: flex;
+    flex: 1 1 0;
+
+    .form-control {
+      align-self: stretch;
+    }
+  }
+
+  .rdl-actions {
+    display: flex;
+    flex: 0 0 auto;
+    flex-direction: column;
+    margin: 0 10px;
+  }
+
+  .rdl-actions-right,
+  .rdl-actions-left {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .rdl-btn {
+    padding: 5px 10px;
+    margin-bottom: 5px;
+    font-size: 12px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    // Decrease spacing between icons
+    i {
+      margin: 0 -1px;
+    }
+  }
+
+  .rdl-actions-right {
+    margin-bottom: 10px;
+  }
+}

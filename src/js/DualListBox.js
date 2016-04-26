@@ -36,7 +36,7 @@ class DualListBox extends React.Component {
 		const isMoveAll = target.dataset.moveAll;
 		const selectRef = direction === 'right' ? 'available' : 'selected';
 
-		let { selected } = this.props;
+		let selected = [];
 
 		if (isMoveAll === '1') {
 			selected = direction === 'right' ? this.makeOptionsSelected(options) : [];
@@ -124,7 +124,7 @@ class DualListBox extends React.Component {
 	 * @returns {Array}
 	 */
 	toggleSelected(selected) {
-		const oldSelected = this.props.selected;
+		const oldSelected = this.props.selected.slice(0);
 
 		selected.forEach((value) => {
 			const index = oldSelected.indexOf(value);

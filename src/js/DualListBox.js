@@ -6,6 +6,7 @@ class DualListBox extends React.Component {
 	static propTypes = {
 		name: React.PropTypes.string,
 		options: React.PropTypes.array,
+		available: React.PropTypes.array,
 		preserveSelectOrder: React.PropTypes.bool,
 	};
 
@@ -168,6 +169,27 @@ class DualListBox extends React.Component {
 	}
 
 	/**
+	 * Filter the available options.
+	 *
+	 * @param {Array} options
+	 *
+	 * @returns {Array}
+	 */
+	filterAvailable(options) {
+		if (this.props.available !== undefined) {
+			return this.filterOptions(options, (option) =>
+				this.props.available.indexOf(option.value) >= 0 &&
+				this.state.selected.indexOf(option.value) < 0
+			);
+		}
+
+		// Show all un-selected options
+		return this.filterOptions(options, (option) =>
+			this.state.selected.indexOf(option.value) < 0
+		);
+	}
+
+	/**
 	 * Filter the selected options.
 	 *
 	 * @param {Array} options
@@ -227,10 +249,7 @@ class DualListBox extends React.Component {
 	 */
 	render() {
 		const { options } = this.props;
-		const available = this.renderOptions(this.filterOptions(
-			options,
-			(option) => this.state.selected.indexOf(option.value) < 0
-		));
+		const available = this.renderOptions(this.filterAvailable(options));
 		const selected = this.renderOptions(this.filterSelected(options));
 
 		return (

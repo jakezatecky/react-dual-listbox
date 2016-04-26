@@ -76,3 +76,20 @@ render() {
     return <DualListBox options={options} preserveSelectOrder />;
 }
 ```
+
+## Restrict Available Options
+
+Sometimes, it may be desirable to restrict what options are available
+for selection while having selected options not present in the available
+list. For example, you may have a select control above that restricts
+those available options to a particular planet but still want to show
+all selected moons to the right. Use the `available` property in that case.
+
+``` javascript
+render() {
+    ...
+    const available = ['io', 'europa', 'ganymede', 'callisto'];
+    
+    return <DualListBox options={options} available={available} />;
+}
+```

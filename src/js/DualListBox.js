@@ -113,7 +113,7 @@ class DualListBox extends React.Component {
 			}
 		});
 
-		return selected;
+		return [...this.props.selected, ...selected];
 	}
 
 	/**

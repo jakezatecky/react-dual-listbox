@@ -58,3 +58,21 @@ render() {
     return <DualListBox options={options} />;
 }
 ```
+
+## Preserve Select Ordering
+
+By default, `react-dual-listbox` will order any selected items according
+to the order of the `options` property. There may be times in which you
+wish to preserve the selection order instead. In this case, you can add
+the `preserveSelectOrder` property.
+
+**Note**: Any `<optgroup>`'s supplied will not be surfaced when preserving
+the selection order.
+
+``` javascript
+render() {
+    ...
+
+    return <DualListBox options={options} preserveSelectOrder />;
+}
+```

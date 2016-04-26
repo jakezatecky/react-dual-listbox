@@ -6,6 +6,7 @@ class DualListBox extends React.Component {
 	static propTypes = {
 		name: React.PropTypes.string,
 		options: React.PropTypes.array,
+		preserveSelectOrder: React.PropTypes.bool,
 	};
 
 	/**
@@ -57,6 +58,27 @@ class DualListBox extends React.Component {
 		const selected = this.toggleSelected([value]);
 
 		this.setState({ selected });
+	}
+
+	/**
+	 * Converts a flat array to a key/value mapping.
+	 *
+	 * @param {Array} options
+	 *
+	 * @returns {Object}
+	 */
+	getLabelMap(options) {
+		let labelMap = {};
+
+		options.forEach((option) => {
+			if (option.options !== undefined) {
+				labelMap = { ...labelMap, ...this.getLabelMap(option.options) };
+			} else {
+				labelMap[option.value] = option.label;
+			}
+		});
+
+		return labelMap;
 	}
 
 	/**
@@ -146,6 +168,40 @@ class DualListBox extends React.Component {
 	}
 
 	/**
+	 * Filter the selected options.
+	 *
+	 * @param {Array} options
+	 *
+	 * @returns {Array}
+	 */
+	filterSelected(options) {
+		if (this.props.preserveSelectOrder) {
+			return this.filterSelectedByOrder(options);
+		}
+
+		// Order the selections by the default order
+		return this.filterOptions(options, (option) =>
+			this.state.selected.indexOf(option.value) >= 0
+		);
+	}
+
+	/**
+	 * Preserve the selection order. This drops the opt-group associations.
+	 *
+	 * @param {Array} options
+	 *
+	 * @returns {Array}
+	 */
+	filterSelectedByOrder(options) {
+		const labelMap = this.getLabelMap(options);
+
+		return this.state.selected.map((selected) => ({
+			value: selected,
+			label: labelMap[selected],
+		}));
+	}
+
+	/**
 	 * @returns {Array}
 	 */
 	renderOptions(options) {
@@ -170,14 +226,12 @@ class DualListBox extends React.Component {
 	 * @returns {React.Component}
 	 */
 	render() {
+		const { options } = this.props;
 		const available = this.renderOptions(this.filterOptions(
-			this.props.options,
+			options,
 			(option) => this.state.selected.indexOf(option.value) < 0
 		));
-		const selected = this.renderOptions(this.filterOptions(
-			this.props.options,
-			(option) => this.state.selected.indexOf(option.value) >= 0
-		));
+		const selected = this.renderOptions(this.filterSelected(options));
 
 		return (
 			<div className="react-dual-listbox">

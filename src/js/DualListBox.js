@@ -105,7 +105,7 @@ class DualListBox extends React.Component {
 	makeOptionsSelected(options) {
 		let selected = [];
 
-		options.forEach((option) => {
+		this.filterAvailable(options).forEach((option) => {
 			if (option.options !== undefined) {
 				selected = [...selected, ...this.makeOptionsSelected(option.options)];
 			} else {

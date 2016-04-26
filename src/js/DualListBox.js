@@ -7,6 +7,8 @@ class DualListBox extends React.Component {
 		name: React.PropTypes.string,
 		options: React.PropTypes.array,
 		available: React.PropTypes.array,
+		selected: React.PropTypes.array,
+		onChange: React.PropTypes.func,
 		preserveSelectOrder: React.PropTypes.bool,
 	};
 
@@ -17,8 +19,6 @@ class DualListBox extends React.Component {
 	 */
 	constructor(props) {
 		super(props);
-
-		this.state = { selected: [] };
 
 		this.onClick = this.onClick.bind(this);
 		this.onDoubleClick = this.onDoubleClick.bind(this);
@@ -31,12 +31,12 @@ class DualListBox extends React.Component {
 	 */
 	onClick(event) {
 		const { target } = event;
-		const { options } = this.props;
+		const { options, onChange } = this.props;
 		const direction = target.dataset.moveDirection;
 		const isMoveAll = target.dataset.moveAll;
 		const selectRef = direction === 'right' ? 'available' : 'selected';
 
-		let { selected } = this.state;
+		let { selected } = this.props;
 
 		if (isMoveAll === '1') {
 			selected = direction === 'right' ? this.makeOptionsSelected(options) : [];
@@ -46,7 +46,7 @@ class DualListBox extends React.Component {
 			);
 		}
 
-		this.setState({ selected });
+		onChange(selected);
 	}
 
 	/**
@@ -58,7 +58,7 @@ class DualListBox extends React.Component {
 		const value = event.target.value;
 		const selected = this.toggleSelected([value]);
 
-		this.setState({ selected });
+		this.props.onChange(selected);
 	}
 
 	/**
@@ -124,7 +124,7 @@ class DualListBox extends React.Component {
 	 * @returns {Array}
 	 */
 	toggleSelected(selected) {
-		const oldSelected = this.state.selected;
+		const oldSelected = this.props.selected;
 
 		selected.forEach((value) => {
 			const index = oldSelected.indexOf(value);
@@ -179,13 +179,13 @@ class DualListBox extends React.Component {
 		if (this.props.available !== undefined) {
 			return this.filterOptions(options, (option) =>
 				this.props.available.indexOf(option.value) >= 0 &&
-				this.state.selected.indexOf(option.value) < 0
+				this.props.selected.indexOf(option.value) < 0
 			);
 		}
 
 		// Show all un-selected options
 		return this.filterOptions(options, (option) =>
-			this.state.selected.indexOf(option.value) < 0
+			this.props.selected.indexOf(option.value) < 0
 		);
 	}
 
@@ -203,7 +203,7 @@ class DualListBox extends React.Component {
 
 		// Order the selections by the default order
 		return this.filterOptions(options, (option) =>
-			this.state.selected.indexOf(option.value) >= 0
+			this.props.selected.indexOf(option.value) >= 0
 		);
 	}
 
@@ -217,7 +217,7 @@ class DualListBox extends React.Component {
 	filterSelectedByOrder(options) {
 		const labelMap = this.getLabelMap(options);
 
-		return this.state.selected.map((selected) => ({
+		return this.props.selected.map((selected) => ({
 			value: selected,
 			label: labelMap[selected],
 		}));

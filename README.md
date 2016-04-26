@@ -18,20 +18,31 @@ Install the library:
 npm install react-dual-listbox --save
 ```
 
-Then render the component:
+Then render the component (note that this is a [controlled] component):
 
 ``` javascript
 import DualListBox from 'react-dual-listbox';
 
-...
+class Widget extends React.Component {
+    constructor() {
+        super();
+        
+        this.state = { selected: ['one'] };
+        this.onChange = this.onChange.bind(this);
+    }
 
-render() {
-    const options = [
-        { value: 'one', label: 'One' },
-        { value: 'two', label: 'Two' },
-    ];
+    onChange(selected) {
+        this.setState({ selected });
+    }
 
-    return <DualListBox options={options} />;
+    render() {
+        const options = [
+            { value: 'one', label: 'One' },
+            { value: 'two', label: 'Two' },
+        ];
+
+        return <DualListBox options={options} selected={selected} onChange={this.onChange} />;
+    }
 }
 ```
 
@@ -93,3 +104,5 @@ render() {
     return <DualListBox options={options} available={available} />;
 }
 ```
+
+[controlled]: https://facebook.github.io/react/docs/forms.html#controlled-components

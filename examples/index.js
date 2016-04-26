@@ -19,7 +19,29 @@ const options = [
 	] },
 ];
 
-ReactDOM.render(
-	<DualListBox name="moons" options={options} />,
-	document.getElementById('mount')
-);
+class Container extends React.Component {
+	constructor() {
+		super();
+
+		this.state = { selected: [] };
+
+		this.onChange = this.onChange.bind(this);
+	}
+
+	onChange(selected) {
+		this.setState({ selected });
+	}
+
+	render() {
+		return (
+			<DualListBox
+				name="moons"
+				options={options}
+				selected={this.state.selected}
+				onChange={this.onChange}
+			/>
+		);
+	}
+}
+
+ReactDOM.render(<Container />, document.getElementById('mount'));

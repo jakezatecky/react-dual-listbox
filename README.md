@@ -40,6 +40,7 @@ class Widget extends React.Component {
             { value: 'one', label: 'One' },
             { value: 'two', label: 'Two' },
         ];
+        const { selected } = this.state;
 
         return <DualListBox options={options} selected={selected} onChange={this.onChange} />;
     }

@@ -34,7 +34,7 @@ class DualListBox extends React.Component {
 		const { options, onChange } = this.props;
 		const direction = target.dataset.moveDirection;
 		const isMoveAll = target.dataset.moveAll;
-		const selectRef = direction === 'right' ? 'available' : 'selected';
+		const select = direction === 'right' ? this.available : this.selected;
 
 		let selected = [];
 
@@ -42,7 +42,7 @@ class DualListBox extends React.Component {
 			selected = direction === 'right' ? this.makeOptionsSelected(options) : [];
 		} else {
 			selected = this.toggleSelected(
-				this.getSelectedOptions(this.refs[selectRef])
+				this.getSelectedOptions(select)
 			);
 		}
 
@@ -255,7 +255,7 @@ class DualListBox extends React.Component {
 		return (
 			<div className="react-dual-listbox">
 				<div className="rdl-available">
-					<select className="form-control" ref="available" multiple>
+					<select className="form-control" multiple ref={(c) => { this.available = c; }}>
 						{available}
 					</select>
 				</div>
@@ -270,7 +270,12 @@ class DualListBox extends React.Component {
 					</div>
 				</div>
 				<div className="rdl-selected">
-					<select className="form-control" name={this.props.name} ref="selected" multiple>
+					<select
+						className="form-control"
+						multiple
+						name={this.props.name}
+						ref={(c) => { this.selected = c; }}
+					>
 						{selected}
 					</select>
 				</div>

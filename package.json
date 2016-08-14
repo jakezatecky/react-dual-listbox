@@ -4,6 +4,14 @@
   "description": "React component for dual listboxes",
   "author": "Jake Zatecky",
   "license": "MIT",
+  "keywords": {
+    "react",
+    "dual-listbox",
+    "duallistbox",
+    "listbox",
+    "list builder",
+    "listswap"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/jakezatecky/react-dual-listbox"

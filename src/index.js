@@ -3,4 +3,4 @@
 //
 // See: https://github.com/webpack/webpack/issues/706
 
-module.exports = require('./js/DualListbox.js').default;
+module.exports = require('./js/DualListBox.js').default;

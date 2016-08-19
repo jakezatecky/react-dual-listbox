@@ -10,16 +10,16 @@ var pkg      = require('./package.json');
 var banner = '/*! <%= pkg.name %> - v<%= pkg.version %> | <%= new Date().getFullYear() %> */\n';
 
 gulp.task('test-script-format', function () {
-	return gulp.src(['./src/js/**/*.js'])
+	return gulp.src(['src/js/**/*.js'])
 		.pipe(eslint())
 		.pipe(eslint.format())
 		.pipe(eslint.failOnError());
 });
 
 gulp.task('compile-test-script', function () {
-	return gulp.src(['./test/index.js'])
+	return gulp.src(['test/index.js'])
 		.pipe(webpack(require('./webpack.config.js')))
-		.pipe(gulp.dest('./test/compiled/'));
+		.pipe(gulp.dest('test/compiled/'));
 });
 
 // Disabled for now
@@ -31,33 +31,33 @@ gulp.task('test-mocha', ['script-compile-test'], function () {
 gulp.task('test-script', ['test-script-format']);
 
 gulp.task('build-script', ['test-script'], function () {
-	return gulp.src(['./src/index.js'])
+	return gulp.src(['src/index.js'])
 		.pipe(webpack(require('./webpack.config.js')))
 		.pipe(header(banner, {
 			pkg: pkg,
 		}))
-		.pipe(gulp.dest('./lib/'));
+		.pipe(gulp.dest('lib/'));
 });
 
 gulp.task('build-style', function () {
-	return gulp.src('./src/sass/**/*.scss')
+	return gulp.src('src/sass/**/*.scss')
 		.pipe(scsslint())
 		.pipe(scsslint.failReporter())
 		.pipe(sass({
 			outputStyle: 'expanded',
 		}).on('error', sass.logError))
-		.pipe(gulp.dest('./lib'));
+		.pipe(gulp.dest('lib'));
 });
 
 gulp.task('build-examples', ['build-script', 'build-style'], function () {
-	return gulp.src(['./examples/index.js'])
+	return gulp.src(['examples/index.js'])
 		.pipe(webpack(require('./webpack.test.config.js')))
-		.pipe(gulp.dest('./examples/compiled/'));
+		.pipe(gulp.dest('examples/compiled/'));
 });
 
 gulp.task('watch', function () {
-	gulp.watch(['./src/js/**/*.js'], ['build-examples']);
-	gulp.watch(['./src/sass/**/*.scss'], ['build-examples']);
+	gulp.watch(['src/js/**/*.js'], ['build-examples']);
+	gulp.watch(['src/sass/**/*.scss'], ['build-examples']);
 });
 
 gulp.task('default', ['build-script', 'build-style']);

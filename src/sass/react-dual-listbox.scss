@@ -1,7 +1,7 @@
 .react-dual-listbox {
   display: flex;
-  align-items: stretch;
   padding: 10px;
+  align-items: stretch;
 
   .rdl-available,
   .rdl-selected {
@@ -15,9 +15,9 @@
 
   .rdl-actions {
     display: flex;
+    margin: 0 10px;
     flex: 0 0 auto;
     flex-direction: column;
-    margin: 0 10px;
   }
 
   .rdl-actions-right,

@@ -6,8 +6,8 @@ const webpack = require('webpack-stream');
 const scsslint = require('gulp-scss-lint');
 const sass = require('gulp-sass');
 const pkg = require('./package.json');
-const webpackConfig = require('./webpack.config.js');
-const testWebpackConfig = require('./webpack.test.config.js');
+const webpackConfig = require('./webpack.config');
+const testWebpackConfig = require('./webpack.test.config');
 
 const banner = '/*! <%= pkg.name %> - v<%= pkg.version %> | <%= new Date().getFullYear() %> */\n';
 

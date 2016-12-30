@@ -237,7 +237,7 @@ class DualListBox extends React.Component {
 			}
 
 			return (
-				<option key={index} value={option.value} onDoubleClick={this.onDoubleClick}>
+				<option key={index} value={option.value}>
 					{option.label}
 				</option>
 			);
@@ -255,7 +255,12 @@ class DualListBox extends React.Component {
 		return (
 			<div className="react-dual-listbox">
 				<div className="rdl-available">
-					<select className="form-control" multiple ref={(c) => { this.available = c; }}>
+					<select
+						className="form-control"
+						multiple
+						ref={(c) => { this.available = c; }}
+						onDoubleClick={this.onDoubleClick}
+					>
 						{available}
 					</select>
 				</div>
@@ -275,6 +280,7 @@ class DualListBox extends React.Component {
 						multiple
 						name={this.props.name}
 						ref={(c) => { this.selected = c; }}
+						onDoubleClick={this.onDoubleClick}
 					>
 						{selected}
 					</select>

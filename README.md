@@ -9,16 +9,15 @@
 
 ![Demo](demo.gif)
 
-**Note**: This application currently assumes Bootstrap 3 and FontAwesome
-have had their respective CSS files loaded.
-
 # Usage
 
-Install the library:
+Install the library from npm:
 
 ``` shell
 npm install react-dual-listbox --save
 ```
+
+> **Note**: This application currently assumes Bootstrap 3 and FontAwesome have had their respective CSS files loaded.
 
 Then render the component (note that this is a [controlled] component):
 

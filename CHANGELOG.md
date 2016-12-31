@@ -1,4 +1,6 @@
-# v0.4.0 (December 31, 2016)
+# CHANGELOG
+
+## v0.4.0 (December 31, 2016)
 
 ### Bug Fixes
 
@@ -9,7 +11,7 @@
 
 * [#11]: Add ability to toggle selected options on pressing <kbd>Enter</kbd>
 
-# v0.3.4 (December 28, 2016)
+## v0.3.4 (December 28, 2016)
 
 ### Bug Fixes
 

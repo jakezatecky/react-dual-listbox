@@ -22,6 +22,7 @@ class DualListBox extends React.Component {
 
 		this.onClick = this.onClick.bind(this);
 		this.onDoubleClick = this.onDoubleClick.bind(this);
+		this.onKeyUp = this.onKeyUp.bind(this);
 	}
 
 	/**
@@ -59,6 +60,25 @@ class DualListBox extends React.Component {
 		const selected = this.toggleSelected([value]);
 
 		this.props.onChange(selected);
+	}
+
+	/**
+	 * @param {Event} event
+	 *
+	 * @returns {void}
+	 */
+	onKeyUp(event) {
+		const { currentTarget, key } = event;
+
+		if (key === 'Enter') {
+			const selected = this.toggleSelected(
+				[...currentTarget.options]
+					.filter(option => option.selected)
+					.map(option => option.value)
+			);
+
+			this.props.onChange(selected);
+		}
 	}
 
 	/**
@@ -260,6 +280,7 @@ class DualListBox extends React.Component {
 						multiple
 						ref={(c) => { this.available = c; }}
 						onDoubleClick={this.onDoubleClick}
+						onKeyUp={this.onKeyUp}
 					>
 						{available}
 					</select>
@@ -281,6 +302,7 @@ class DualListBox extends React.Component {
 						name={this.props.name}
 						ref={(c) => { this.selected = c; }}
 						onDoubleClick={this.onDoubleClick}
+						onKeyUp={this.onKeyUp}
 					>
 						{selected}
 					</select>

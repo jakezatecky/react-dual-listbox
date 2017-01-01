@@ -5,7 +5,7 @@
 [![devDependency Status](https://david-dm.org/jakezatecky/react-dual-listbox/dev-status.svg?style=flat-square)](https://david-dm.org/jakezatecky/react-dual-listbox#info=devDependencies)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://raw.githubusercontent.com/jakezatecky/react-dual-listbox/master/LICENSE.txt)
 
-> Dual listbox for React.
+> A feature-rich dual listbox for React.
 
 ![Demo](demo.gif)
 

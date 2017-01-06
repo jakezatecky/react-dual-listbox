@@ -53,10 +53,28 @@ gulp.task('build-style', () =>
 		.pipe(gulp.dest('./lib'))
 );
 
-gulp.task('build-examples', ['build-script', 'build-style'], () =>
-	gulp.src(['./examples/index.js'])
+gulp.task('build-examples-style', ['build-style'], () =>
+	gulp.src('./examples/src/**/*.scss')
+		.pipe(scsslint())
+		.pipe(scsslint.failReporter())
+		.pipe(sass({
+			outputStyle: 'expanded',
+		}).on('error', sass.logError))
+		.pipe(autoprefixer({
+			browsers: ['last 2 versions'],
+		}))
+		.pipe(gulp.dest('./examples/dist'))
+);
+
+gulp.task('build-examples-script', ['build-script'], () =>
+	gulp.src(['./examples/src/index.js'])
 		.pipe(webpack(testWebpackConfig))
-		.pipe(gulp.dest('./examples/compiled/'))
+		.pipe(gulp.dest('./examples/dist/'))
+);
+
+gulp.task('build-examples', ['build-examples-style', 'build-examples-script'], () =>
+	gulp.src('./examples/src/index.html')
+		.pipe(gulp.dest('./examples/dist'))
 );
 
 gulp.task('watch', () => {

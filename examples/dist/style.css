@@ -1,0 +1,71 @@
+.react-dual-listbox {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: stretch;
+      align-items: stretch;
+  padding: 10px;
+}
+
+.react-dual-listbox .rdl-available,
+.react-dual-listbox .rdl-selected {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex: 1 1 0px;
+      flex: 1 1 0;
+}
+
+.react-dual-listbox .rdl-available .form-control,
+.react-dual-listbox .rdl-selected .form-control {
+  -ms-flex-item-align: stretch;
+      -ms-grid-row-align: stretch;
+      align-self: stretch;
+}
+
+.react-dual-listbox .rdl-actions {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex: 0 0 auto;
+      flex: 0 0 auto;
+  -ms-flex-direction: column;
+      flex-direction: column;
+  margin: 0 10px;
+}
+
+.react-dual-listbox .rdl-actions-right,
+.react-dual-listbox .rdl-actions-left {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+      flex-direction: column;
+}
+
+.react-dual-listbox .rdl-btn {
+  padding: 5px 10px;
+  margin-bottom: 5px;
+  font-size: 12px;
+}
+
+.react-dual-listbox .rdl-btn:last-child {
+  margin-bottom: 0;
+}
+
+.react-dual-listbox .rdl-btn i {
+  margin: 0 -1px;
+}
+
+.react-dual-listbox .rdl-actions-right {
+  margin-bottom: 10px;
+}
+
+html,
+body {
+  margin: 0;
+}
+
+body {
+  font-family: 'Lato', sans-serif;
+}
+
+.react-dual-listbox {
+  width: 600px;
+}

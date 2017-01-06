@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import DualListBox from '../src/js/DualListBox';
+import DualListBox from '../../src/js/DualListBox';
 
 const options = [
 	{

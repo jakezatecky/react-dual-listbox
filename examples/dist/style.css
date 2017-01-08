@@ -16,8 +16,8 @@
   line-height: 1.42857;
 }
 
-.react-dual-listbox .rdl-available,
-.react-dual-listbox .rdl-selected {
+.rdl-available,
+.rdl-selected {
   display: -ms-flexbox;
   display: flex;
   -ms-flex-item-align: stretch;
@@ -26,8 +26,7 @@
       flex: 1 1 0;
 }
 
-.react-dual-listbox .rdl-available .rdl-control,
-.react-dual-listbox .rdl-selected .rdl-control {
+.rdl-control {
   display: block;
   -ms-flex-item-align: stretch;
       -ms-grid-row-align: stretch;
@@ -40,13 +39,12 @@
   border-radius: 2px;
 }
 
-.react-dual-listbox .rdl-available optgroup,
-.react-dual-listbox .rdl-selected optgroup {
+.rdl-control optgroup {
   font: inherit;
   font-weight: 700;
 }
 
-.react-dual-listbox .rdl-actions {
+.rdl-actions {
   display: -ms-flexbox;
   display: flex;
   -ms-flex: 0 0 auto;
@@ -56,15 +54,15 @@
   margin: 0 10px;
 }
 
-.react-dual-listbox .rdl-actions-right,
-.react-dual-listbox .rdl-actions-left {
+.rdl-actions-right,
+.rdl-actions-left {
   display: -ms-flexbox;
   display: flex;
   -ms-flex-direction: column;
       flex-direction: column;
 }
 
-.react-dual-listbox .rdl-btn {
+.rdl-btn {
   padding: 5px 10px;
   margin-bottom: 5px;
   font-size: 12px;
@@ -75,30 +73,30 @@
   border-radius: 2px;
 }
 
-.react-dual-listbox .rdl-btn:active, .react-dual-listbox .rdl-btn:focus {
+.rdl-btn:active, .rdl-btn:focus {
   background: #e6e6e6;
   border-color: #8c8c8c;
 }
 
-.react-dual-listbox .rdl-btn:focus {
+.rdl-btn:focus {
   outline: thin dotted;
   outline-offset: -2px;
 }
 
-.react-dual-listbox .rdl-btn:hover {
+.rdl-btn:hover {
   background: #e6e6e6;
   border-color: #adadad;
 }
 
-.react-dual-listbox .rdl-btn:last-child {
+.rdl-btn:last-child {
   margin-bottom: 0;
 }
 
-.react-dual-listbox .rdl-btn i {
+.rdl-btn i {
   margin: 0 -1px;
 }
 
-.react-dual-listbox .rdl-actions-right {
+.rdl-actions-right {
   margin-bottom: 10px;
 }
 

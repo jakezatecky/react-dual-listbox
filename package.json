@@ -20,7 +20,8 @@
   "bugs": "https://github.com/jakezatecky/react-dual-listbox/issues",
   "main": "lib/index.js",
   "scripts": {
-    "examples": "gulp build-examples && http-server examples/dist"
+    "examples": "gulp build-examples && http-server examples/dist",
+    "gh-deploy": "git subtree push --prefix examples/dist origin gh-pages"
   },
   "peerDependencies": {
     "react": "^15.0.0"

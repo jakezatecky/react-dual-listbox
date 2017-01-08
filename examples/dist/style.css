@@ -33,7 +33,7 @@
       -ms-grid-row-align: stretch;
       align-self: stretch;
   width: 100%;
-  padding: 6px 12px;
+  padding: 8px 12px;
   font-size: 14px;
   color: #555;
   border: 1px solid #ccc;
@@ -465,7 +465,6 @@ a:hover {
 html,
 body {
   margin: 0;
-  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .react-dual-listbox {

@@ -56,8 +56,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
@@ -66,64 +64,18 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _DualListBox = __webpack_require__(175);
+	var _BasicExample = __webpack_require__(175);
 
-	var _DualListBox2 = _interopRequireDefault(_DualListBox);
+	var _BasicExample2 = _interopRequireDefault(_BasicExample);
+
+	var _OptGroupExample = __webpack_require__(178);
+
+	var _OptGroupExample2 = _interopRequireDefault(_OptGroupExample);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var options = [{
-		label: 'Earth',
-		options: [{ value: 'luna', label: 'Moon' }]
-	}, {
-		label: 'Mars',
-		options: [{ value: 'phobos', label: 'Phobos' }, { value: 'deimos', label: 'Deimos' }]
-	}, {
-		label: 'Jupiter (Galilean moons)',
-		options: [{ value: 'io', label: 'Io' }, { value: 'europa', label: 'Europa' }, { value: 'ganymede', label: 'Ganymede' }, { value: 'callisto', label: 'Callisto' }]
-	}];
-
-	var Container = function (_React$Component) {
-		_inherits(Container, _React$Component);
-
-		function Container() {
-			_classCallCheck(this, Container);
-
-			var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Container).call(this));
-
-			_this.state = { selected: [] };
-
-			_this.onChange = _this.onChange.bind(_this);
-			return _this;
-		}
-
-		_createClass(Container, [{
-			key: 'onChange',
-			value: function onChange(selected) {
-				this.setState({ selected: selected });
-			}
-		}, {
-			key: 'render',
-			value: function render() {
-				return _react2.default.createElement(_DualListBox2.default, {
-					name: 'moons',
-					options: options,
-					selected: this.state.selected,
-					onChange: this.onChange
-				});
-			}
-		}]);
-
-		return Container;
-	}(_react2.default.Component);
-
-	_reactDom2.default.render(_react2.default.createElement(Container, null), document.getElementById('mount'));
+	_reactDom2.default.render(_react2.default.createElement(_BasicExample2.default, null), document.getElementById('basic-example'));
+	_reactDom2.default.render(_react2.default.createElement(_OptGroupExample2.default, null), document.getElementById('optgroup-example'));
 
 /***/ },
 /* 1 */
@@ -21541,6 +21493,69 @@ return /******/ (function(modules) { // webpackBootstrap
 		value: true
 	});
 
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _DualListBox = __webpack_require__(176);
+
+	var _DualListBox2 = _interopRequireDefault(_DualListBox);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var options = [{ value: 'luna', label: 'Moon' }, { value: 'phobos', label: 'Phobos' }, { value: 'deimos', label: 'Deimos' }, { value: 'io', label: 'Io' }, { value: 'europa', label: 'Europa' }, { value: 'ganymede', label: 'Ganymede' }, { value: 'callisto', label: 'Callisto' }, { value: 'mimas', label: 'Mimas' }, { value: 'enceladus', label: 'Enceladus' }, { value: 'tethys', label: 'Tethys' }, { value: 'rhea', label: 'Rhea' }, { value: 'titan', label: 'Titan' }, { value: 'iapetus', label: 'Iapetus' }];
+
+	var BasicExample = function (_React$Component) {
+		_inherits(BasicExample, _React$Component);
+
+		function BasicExample() {
+			_classCallCheck(this, BasicExample);
+
+			var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(BasicExample).call(this));
+
+			_this.state = { selected: ['phobos', 'titan'] };
+			_this.onChange = _this.onChange.bind(_this);
+			return _this;
+		}
+
+		_createClass(BasicExample, [{
+			key: 'onChange',
+			value: function onChange(selected) {
+				this.setState({ selected: selected });
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				var selected = this.state.selected;
+
+
+				return _react2.default.createElement(_DualListBox2.default, { options: options, selected: selected, onChange: this.onChange });
+			}
+		}]);
+
+		return BasicExample;
+	}(_react2.default.Component);
+
+	exports.default = BasicExample;
+
+/***/ },
+/* 176 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -21549,7 +21564,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Action = __webpack_require__(176);
+	var _Action = __webpack_require__(177);
 
 	var _Action2 = _interopRequireDefault(_Action);
 
@@ -21962,7 +21977,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = DualListBox;
 
 /***/ },
-/* 176 */
+/* 177 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22066,6 +22081,81 @@ return /******/ (function(modules) { // webpackBootstrap
 		onClick: _react2.default.PropTypes.func
 	};
 	exports.default = Action;
+
+/***/ },
+/* 178 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _DualListBox = __webpack_require__(176);
+
+	var _DualListBox2 = _interopRequireDefault(_DualListBox);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var options = [{
+		label: 'Earth',
+		options: [{ value: 'luna', label: 'Moon' }]
+	}, {
+		label: 'Mars',
+		options: [{ value: 'phobos', label: 'Phobos' }, { value: 'deimos', label: 'Deimos' }]
+	}, {
+		label: 'Jupiter (Galilean moons)',
+		options: [{ value: 'io', label: 'Io' }, { value: 'europa', label: 'Europa' }, { value: 'ganymede', label: 'Ganymede' }, { value: 'callisto', label: 'Callisto' }]
+	}];
+
+	var OptGroupExample = function (_React$Component) {
+		_inherits(OptGroupExample, _React$Component);
+
+		function OptGroupExample() {
+			_classCallCheck(this, OptGroupExample);
+
+			var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(OptGroupExample).call(this));
+
+			_this.state = { selected: [] };
+
+			_this.onChange = _this.onChange.bind(_this);
+			return _this;
+		}
+
+		_createClass(OptGroupExample, [{
+			key: 'onChange',
+			value: function onChange(selected) {
+				this.setState({ selected: selected });
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				return _react2.default.createElement(_DualListBox2.default, {
+					name: 'moons',
+					options: options,
+					selected: this.state.selected,
+					onChange: this.onChange
+				});
+			}
+		}]);
+
+		return OptGroupExample;
+	}(_react2.default.Component);
+
+	exports.default = OptGroupExample;
 
 /***/ }
 /******/ ])

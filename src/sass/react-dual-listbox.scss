@@ -6,7 +6,7 @@ $rdl-line-height: 1.428571429;
 
 .react-dual-listbox {
   display: flex;
-  align-items: stretch;
+  align-items: center;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   box-sizing: border-box;
 
@@ -22,6 +22,7 @@ $rdl-line-height: 1.428571429;
   .rdl-available,
   .rdl-selected {
     display: flex;
+    align-self: stretch;
     flex: 1 1 0;
 
     .rdl-control {

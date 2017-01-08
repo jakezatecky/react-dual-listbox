@@ -4,6 +4,17 @@
   -ms-flex-align: stretch;
       align-items: stretch;
   padding: 10px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  box-sizing: border-box;
+}
+
+.react-dual-listbox * {
+  box-sizing: border-box;
+}
+
+.react-dual-listbox button,
+.react-dual-listbox select {
+  line-height: 1.42857;
 }
 
 .react-dual-listbox .rdl-available,
@@ -14,11 +25,24 @@
       flex: 1 1 0;
 }
 
-.react-dual-listbox .rdl-available .form-control,
-.react-dual-listbox .rdl-selected .form-control {
+.react-dual-listbox .rdl-available .rdl-control,
+.react-dual-listbox .rdl-selected .rdl-control {
+  display: block;
   -ms-flex-item-align: stretch;
       -ms-grid-row-align: stretch;
       align-self: stretch;
+  width: 100%;
+  padding: 6px 12px;
+  font-size: 14px;
+  color: #555;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+}
+
+.react-dual-listbox .rdl-available optgroup,
+.react-dual-listbox .rdl-selected optgroup {
+  font: inherit;
+  font-weight: 700;
 }
 
 .react-dual-listbox .rdl-actions {
@@ -43,6 +67,26 @@
   padding: 5px 10px;
   margin-bottom: 5px;
   font-size: 12px;
+  color: #333;
+  cursor: pointer;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+}
+
+.react-dual-listbox .rdl-btn:active, .react-dual-listbox .rdl-btn:focus {
+  background: #e6e6e6;
+  border-color: #8c8c8c;
+}
+
+.react-dual-listbox .rdl-btn:focus {
+  outline: thin dotted;
+  outline-offset: -2px;
+}
+
+.react-dual-listbox .rdl-btn:hover {
+  background: #e6e6e6;
+  border-color: #adadad;
 }
 
 .react-dual-listbox .rdl-btn:last-child {

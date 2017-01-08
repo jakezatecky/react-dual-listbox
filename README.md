@@ -19,7 +19,7 @@ npm install react-dual-listbox --save
 
 > **Note**: You **must** include the [ES6 polyfill](https://babeljs.io/docs/usage/polyfill/) in your project if you want IE 11 support.
 
-> **Note**: This application currently assumes Bootstrap 3 and FontAwesome have had their respective CSS files loaded.
+> **Note**: This library requires that [Font Awesome](http://fontawesome.io/) styles are loaded in the browser.
 
 Then render the component (note that this is a [controlled] component):
 

@@ -276,7 +276,7 @@ class DualListBox extends React.Component {
 			<div className="react-dual-listbox">
 				<div className="rdl-available">
 					<select
-						className="form-control"
+						className="rdl-control"
 						multiple
 						ref={(c) => { this.available = c; }}
 						onDoubleClick={this.onDoubleClick}
@@ -297,7 +297,7 @@ class DualListBox extends React.Component {
 				</div>
 				<div className="rdl-selected">
 					<select
-						className="form-control"
+						className="rdl-control"
 						multiple
 						name={this.props.name}
 						ref={(c) => { this.selected = c; }}

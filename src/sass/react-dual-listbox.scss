@@ -1,15 +1,44 @@
+$rdl-input-bg: #fff !default;
+$rdl-input-border: #ccc !default;
+$rdl-input-color: #555 !default;
+$rdl-btn-color: #333 !default;
+$rdl-line-height: 1.428571429;
+
 .react-dual-listbox {
   display: flex;
   align-items: stretch;
   padding: 10px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  box-sizing: border-box;
+
+  * {
+    box-sizing: border-box;
+  }
+
+  button,
+  select {
+    line-height: $rdl-line-height;
+  }
 
   .rdl-available,
   .rdl-selected {
     display: flex;
     flex: 1 1 0;
 
-    .form-control {
+    .rdl-control {
+      display: block;
       align-self: stretch;
+      width: 100%;
+      padding: 6px 12px;
+      font-size: 14px;
+      color: $rdl-input-color;
+      border: 1px solid $rdl-input-border;
+      border-radius: 2px;
+    }
+
+    optgroup {
+      font: inherit;
+      font-weight: 700;
     }
   }
 
@@ -30,6 +59,27 @@
     padding: 5px 10px;
     margin-bottom: 5px;
     font-size: 12px;
+    color: $rdl-btn-color;
+    cursor: pointer;
+    background: $rdl-input-bg;
+    border: 1px solid $rdl-input-border;
+    border-radius: 2px;
+
+    &:active,
+    &:focus {
+      background: darken($rdl-input-bg, 10%);
+      border-color: darken($rdl-input-border, 25%);
+    }
+
+    &:focus {
+      outline: thin dotted;
+      outline-offset: -2px;
+    }
+
+    &:hover {
+      background: darken($rdl-input-bg, 10%);
+      border-color: darken($rdl-input-border, 12%);
+    }
 
     &:last-child {
       margin-bottom: 0;

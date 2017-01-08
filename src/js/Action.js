@@ -48,7 +48,7 @@ class Action extends React.Component {
 		return (
 			<button
 				type="button"
-				className={`btn btn-default ${className}`}
+				className={className}
 				onClick={onClick}
 				data-move-direction={direction}
 				data-move-all={isMoveAll ? 1 : 0}

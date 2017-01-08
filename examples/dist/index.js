@@ -21899,7 +21899,7 @@ return /******/ (function(modules) { // webpackBootstrap
 						_react2.default.createElement(
 							'select',
 							{
-								className: 'form-control',
+								className: 'rdl-control',
 								multiple: true,
 								ref: function ref(c) {
 									_this8.available = c;
@@ -21932,7 +21932,7 @@ return /******/ (function(modules) { // webpackBootstrap
 						_react2.default.createElement(
 							'select',
 							{
-								className: 'form-control',
+								className: 'rdl-control',
 								multiple: true,
 								name: this.props.name,
 								ref: function ref(c) {
@@ -22047,7 +22047,7 @@ return /******/ (function(modules) { // webpackBootstrap
 					'button',
 					{
 						type: 'button',
-						className: 'btn btn-default ' + className,
+						className: className,
 						onClick: onClick,
 						'data-move-direction': direction,
 						'data-move-all': isMoveAll ? 1 : 0

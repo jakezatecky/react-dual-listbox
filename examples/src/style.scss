@@ -1,14 +1,15 @@
+$header-bg-color: #2c3e50;
+$header-bg-color-secondary: #3498db;
+$section-headings-color: #2c3e50;
+
 @import "../../src/sass/react-dual-listbox";
+@import "cayman";
 
 html,
 body {
   margin: 0;
 }
 
-body {
-  font-family: 'Lato', sans-serif;
-}
-
 .react-dual-listbox {
-  width: 600px;
+  width: 100%;
 }

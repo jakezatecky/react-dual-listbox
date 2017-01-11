@@ -53,7 +53,7 @@ gulp.task('build-style', () =>
 		.pipe(gulp.dest('./lib'))
 );
 
-gulp.task('build-examples-style', ['build-style'], () =>
+gulp.task('build-examples-style', () =>
 	gulp.src('./examples/src/**/*.scss')
 		.pipe(scsslint())
 		.pipe(scsslint.failReporter())
@@ -66,7 +66,7 @@ gulp.task('build-examples-style', ['build-style'], () =>
 		.pipe(gulp.dest('./examples/dist'))
 );
 
-gulp.task('build-examples-script', ['build-script'], () =>
+gulp.task('build-examples-script', () =>
 	gulp.src(['./examples/src/index.js'])
 		.pipe(webpack(testWebpackConfig))
 		.pipe(gulp.dest('./examples/dist/'))

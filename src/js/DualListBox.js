@@ -2,12 +2,25 @@ import React from 'react';
 
 import Action from './Action';
 
+const optionShape = React.PropTypes.shape({
+	value: React.PropTypes.any.isRequired,
+	label: React.PropTypes.string.isRequired,
+});
+
 class DualListBox extends React.Component {
 	static propTypes = {
 		name: React.PropTypes.string,
-		options: React.PropTypes.array,
-		available: React.PropTypes.array,
-		selected: React.PropTypes.array,
+		options: React.PropTypes.arrayOf(
+			React.PropTypes.oneOfType([
+				optionShape,
+				React.PropTypes.shape({
+					value: React.PropTypes.any,
+					options: React.PropTypes.arrayOf(optionShape),
+				}),
+			]),
+		).isRequired,
+		available: React.PropTypes.arrayOf(React.PropTypes.string),
+		selected: React.PropTypes.arrayOf(React.PropTypes.string),
 		onChange: React.PropTypes.func,
 		preserveSelectOrder: React.PropTypes.bool,
 	};

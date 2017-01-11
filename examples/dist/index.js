@@ -21578,6 +21578,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+	var optionShape = _react2.default.PropTypes.shape({
+		value: _react2.default.PropTypes.any.isRequired,
+		label: _react2.default.PropTypes.string.isRequired
+	});
+
 	var DualListBox = function (_React$Component) {
 		_inherits(DualListBox, _React$Component);
 
@@ -21968,9 +21973,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	DualListBox.propTypes = {
 		name: _react2.default.PropTypes.string,
-		options: _react2.default.PropTypes.array,
-		available: _react2.default.PropTypes.array,
-		selected: _react2.default.PropTypes.array,
+		options: _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.oneOfType([optionShape, _react2.default.PropTypes.shape({
+			value: _react2.default.PropTypes.any,
+			options: _react2.default.PropTypes.arrayOf(optionShape)
+		})])).isRequired,
+		available: _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.string),
+		selected: _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.string),
 		onChange: _react2.default.PropTypes.func,
 		preserveSelectOrder: _react2.default.PropTypes.bool
 	};
@@ -22076,9 +22084,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	}(_react2.default.Component);
 
 	Action.propTypes = {
-		direction: _react2.default.PropTypes.string,
+		direction: _react2.default.PropTypes.oneOf(['left', 'right']).isRequired,
 		isMoveAll: _react2.default.PropTypes.bool,
-		onClick: _react2.default.PropTypes.func
+		onClick: _react2.default.PropTypes.func.isRequired
 	};
 	exports.default = Action;
 

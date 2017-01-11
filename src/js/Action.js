@@ -2,9 +2,9 @@ import React from 'react';
 
 class Action extends React.Component {
 	static propTypes = {
-		direction: React.PropTypes.string,
+		direction: React.PropTypes.oneOf(['left', 'right']).isRequired,
 		isMoveAll: React.PropTypes.bool,
-		onClick: React.PropTypes.func,
+		onClick: React.PropTypes.func.isRequired,
 	};
 
 	/**

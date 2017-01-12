@@ -7,6 +7,10 @@ class Action extends React.Component {
 		onClick: React.PropTypes.func.isRequired,
 	};
 
+	static defaultProps = {
+		isMoveAll: false,
+	};
+
 	/**
 	 * @param {string} direction
 	 *

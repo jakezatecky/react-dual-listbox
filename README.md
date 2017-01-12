@@ -85,13 +85,9 @@ render() {
 
 ## Preserve Select Ordering
 
-By default, `react-dual-listbox` will order any selected items according
-to the order of the `options` property. There may be times in which you
-wish to preserve the selection order instead. In this case, you can add
-the `preserveSelectOrder` property.
+By default, `react-dual-listbox` will order any selected items according to the order of the `options` property. There may be times in which you wish to preserve the selection order instead. In this case, you can add the `preserveSelectOrder` property.
 
-**Note**: Any `<optgroup>`'s supplied will not be surfaced when preserving
-the selection order.
+**Note**: Any `<optgroup>`'s supplied will not be surfaced when preserving the selection order.
 
 ``` javascript
 render() {
@@ -103,11 +99,7 @@ render() {
 
 ## Restrict Available Options
 
-Sometimes, it may be desirable to restrict what options are available
-for selection while having selected options not present in the available
-list. For example, you may have a select control above that restricts
-those available options to a particular planet but still want to show
-all selected moons to the right. Use the `available` property in that case.
+Sometimes, it may be desirable to restrict what options are available for selection while having selected options not present in the available list. For example, you may have a select control above that restricts those available options to a particular planet but still want to show all selected moons to the right. Use the `available` property in that case.
 
 ``` javascript
 render() {

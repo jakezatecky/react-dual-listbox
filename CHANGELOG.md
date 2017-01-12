@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## [v0.5.1](https://github.com/jakezatecky/react-dual-listbox/compare/v0.4.0...v0.5.0) (2016-01-10)
+## [v0.5.0](https://github.com/jakezatecky/react-dual-listbox/compare/v0.4.0...v0.5.0) (2016-01-10)
 
 ### New Features
 

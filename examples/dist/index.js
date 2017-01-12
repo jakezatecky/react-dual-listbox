@@ -72,10 +72,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _OptGroupExample2 = _interopRequireDefault(_OptGroupExample);
 
+	var _RestrictAvailableExample = __webpack_require__(179);
+
+	var _RestrictAvailableExample2 = _interopRequireDefault(_RestrictAvailableExample);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	_reactDom2.default.render(_react2.default.createElement(_BasicExample2.default, null), document.getElementById('basic-example'));
 	_reactDom2.default.render(_react2.default.createElement(_OptGroupExample2.default, null), document.getElementById('optgroup-example'));
+	_reactDom2.default.render(_react2.default.createElement(_RestrictAvailableExample2.default, null), document.getElementById('restrict-available-example'));
 
 /***/ },
 /* 1 */
@@ -21879,18 +21884,18 @@ return /******/ (function(modules) { // webpackBootstrap
 			value: function renderOptions(options) {
 				var _this7 = this;
 
-				return options.map(function (option, index) {
+				return options.map(function (option) {
 					if (option.options !== undefined) {
 						return _react2.default.createElement(
 							'optgroup',
-							{ key: index, label: option.label },
+							{ key: option.label, label: option.label },
 							_this7.renderOptions(option.options)
 						);
 					}
 
 					return _react2.default.createElement(
 						'option',
-						{ key: index, value: option.value },
+						{ key: option.value, value: option.value },
 						option.label
 					);
 				});
@@ -21979,8 +21984,14 @@ return /******/ (function(modules) { // webpackBootstrap
 		})])).isRequired,
 		available: _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.string),
 		selected: _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.string),
-		onChange: _react2.default.PropTypes.func,
+		onChange: _react2.default.PropTypes.func.isRequired,
 		preserveSelectOrder: _react2.default.PropTypes.bool
+	};
+	DualListBox.defaultProps = {
+		name: null,
+		available: undefined,
+		selected: [],
+		preserveSelectOrder: null
 	};
 	exports.default = DualListBox;
 
@@ -22088,6 +22099,9 @@ return /******/ (function(modules) { // webpackBootstrap
 		isMoveAll: _react2.default.PropTypes.bool,
 		onClick: _react2.default.PropTypes.func.isRequired
 	};
+	Action.defaultProps = {
+		isMoveAll: false
+	};
 	exports.default = Action;
 
 /***/ },
@@ -22164,6 +22178,127 @@ return /******/ (function(modules) { // webpackBootstrap
 	}(_react2.default.Component);
 
 	exports.default = OptGroupExample;
+
+/***/ },
+/* 179 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _DualListBox = __webpack_require__(176);
+
+	var _DualListBox2 = _interopRequireDefault(_DualListBox);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var options = [{ value: 'luna', label: 'Moon' }, { value: 'phobos', label: 'Phobos' }, { value: 'deimos', label: 'Deimos' }, { value: 'io', label: 'Io' }, { value: 'europa', label: 'Europa' }, { value: 'ganymede', label: 'Ganymede' }, { value: 'callisto', label: 'Callisto' }, { value: 'mimas', label: 'Mimas' }, { value: 'enceladus', label: 'Enceladus' }, { value: 'tethys', label: 'Tethys' }, { value: 'rhea', label: 'Rhea' }, { value: 'titan', label: 'Titan' }, { value: 'iapetus', label: 'Iapetus' }];
+
+	var planets = {
+		earth: { name: 'Earth', moons: ['luna'] },
+		mars: { name: 'Mars', moons: ['phobos', 'deimos'] },
+		jupiter: { name: 'Jupiter', moons: ['io', 'europa', 'ganymede', 'callisto'] },
+		saturn: { name: 'Saturn', moons: ['mimas', 'enceladus', 'tehys', 'rhea', 'titan', 'iapetus'] }
+	};
+
+	var RestrictAvailableExample = function (_React$Component) {
+		_inherits(RestrictAvailableExample, _React$Component);
+
+		function RestrictAvailableExample() {
+			_classCallCheck(this, RestrictAvailableExample);
+
+			var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(RestrictAvailableExample).call(this));
+
+			_this.state = {
+				planet: 'earth',
+				selected: ['phobos', 'titan']
+			};
+
+			_this.onChange = _this.onChange.bind(_this);
+			_this.onPlanetChange = _this.onPlanetChange.bind(_this);
+			return _this;
+		}
+
+		_createClass(RestrictAvailableExample, [{
+			key: 'onChange',
+			value: function onChange(selected) {
+				this.setState({ selected: selected });
+			}
+		}, {
+			key: 'onPlanetChange',
+			value: function onPlanetChange(event) {
+				var planet = event.currentTarget.value;
+
+				this.setState({ planet: planet });
+			}
+		}, {
+			key: 'renderPlanets',
+			value: function renderPlanets() {
+				var _this2 = this;
+
+				var selectedPlanet = this.state.planet;
+
+				return Object.keys(planets).map(function (planet) {
+					return _react2.default.createElement(
+						'label',
+						{ key: planet, htmlFor: planet },
+						_react2.default.createElement('input', {
+							type: 'radio',
+							id: planet,
+							value: planet,
+							name: 'planets',
+							onChange: _this2.onPlanetChange,
+							checked: planet === selectedPlanet
+						}),
+						planets[planet].name
+					);
+				});
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				var _state = this.state;
+				var selected = _state.selected;
+				var planet = _state.planet;
+
+
+				return _react2.default.createElement(
+					'div',
+					{ className: 'restrict-available-container' },
+					_react2.default.createElement(
+						'div',
+						{ className: 'moons' },
+						this.renderPlanets()
+					),
+					_react2.default.createElement(_DualListBox2.default, {
+						options: options,
+						available: planets[planet].moons,
+						selected: selected,
+						onChange: this.onChange
+					})
+				);
+			}
+		}]);
+
+		return RestrictAvailableExample;
+	}(_react2.default.Component);
+
+	exports.default = RestrictAvailableExample;
 
 /***/ }
 /******/ ])

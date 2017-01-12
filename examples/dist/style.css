@@ -468,3 +468,15 @@ body {
 .react-dual-listbox {
   width: 100%;
 }
+
+.moons {
+  margin-bottom: 10px;
+}
+
+.moons input[type="radio"] {
+  margin-right: 5px;
+}
+
+.moons label {
+  margin-right: 10px;
+}

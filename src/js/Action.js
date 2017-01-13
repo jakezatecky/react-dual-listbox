@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React from 'react';
 
 class Action extends React.Component {
@@ -48,7 +49,10 @@ class Action extends React.Component {
 	render() {
 		const { direction, isMoveAll, onClick } = this.props;
 		const iconClass = this.getIconClass(direction);
-		const className = isMoveAll ? 'rdl-btn rdl-btn-all' : 'rdl-btn';
+		const className = classNames({
+			'rdl-btn': true,
+			'rdl-btn-all': isMoveAll,
+		});
 
 		return (
 			<button

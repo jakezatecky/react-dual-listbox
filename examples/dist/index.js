@@ -68,11 +68,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _BasicExample2 = _interopRequireDefault(_BasicExample);
 
-	var _OptGroupExample = __webpack_require__(178);
+	var _OptGroupExample = __webpack_require__(179);
 
 	var _OptGroupExample2 = _interopRequireDefault(_OptGroupExample);
 
-	var _RestrictAvailableExample = __webpack_require__(179);
+	var _RestrictAvailableExample = __webpack_require__(180);
 
 	var _RestrictAvailableExample2 = _interopRequireDefault(_RestrictAvailableExample);
 
@@ -22023,6 +22023,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+	var _classnames = __webpack_require__(178);
+
+	var _classnames2 = _interopRequireDefault(_classnames);
+
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
@@ -22091,7 +22095,10 @@ return /******/ (function(modules) { // webpackBootstrap
 				var onClick = _props.onClick;
 
 				var iconClass = this.getIconClass(direction);
-				var className = isMoveAll ? 'rdl-btn rdl-btn-all' : 'rdl-btn';
+				var className = (0, _classnames2.default)({
+					'rdl-btn': true,
+					'rdl-btn-all': isMoveAll
+				});
 
 				return _react2.default.createElement(
 					'button',
@@ -22123,6 +22130,60 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 178 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
+	  Copyright (c) 2016 Jed Watson.
+	  Licensed under the MIT License (MIT), see
+	  http://jedwatson.github.io/classnames
+	*/
+	/* global define */
+
+	(function () {
+		'use strict';
+
+		var hasOwn = {}.hasOwnProperty;
+
+		function classNames () {
+			var classes = [];
+
+			for (var i = 0; i < arguments.length; i++) {
+				var arg = arguments[i];
+				if (!arg) continue;
+
+				var argType = typeof arg;
+
+				if (argType === 'string' || argType === 'number') {
+					classes.push(arg);
+				} else if (Array.isArray(arg)) {
+					classes.push(classNames.apply(null, arg));
+				} else if (argType === 'object') {
+					for (var key in arg) {
+						if (hasOwn.call(arg, key) && arg[key]) {
+							classes.push(key);
+						}
+					}
+				}
+			}
+
+			return classes.join(' ');
+		}
+
+		if (typeof module !== 'undefined' && module.exports) {
+			module.exports = classNames;
+		} else if (true) {
+			// register as 'classnames', consistent with npm package name
+			!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = function () {
+				return classNames;
+			}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+		} else {
+			window.classNames = classNames;
+		}
+	}());
+
+
+/***/ },
+/* 179 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22197,7 +22258,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = OptGroupExample;
 
 /***/ },
-/* 179 */
+/* 180 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';

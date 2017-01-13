@@ -3,8 +3,9 @@ import React from 'react';
 class Action extends React.Component {
 	static propTypes = {
 		direction: React.PropTypes.oneOf(['left', 'right']).isRequired,
-		isMoveAll: React.PropTypes.bool,
 		onClick: React.PropTypes.func.isRequired,
+
+		isMoveAll: React.PropTypes.bool,
 	};
 
 	static defaultProps = {
@@ -51,11 +52,11 @@ class Action extends React.Component {
 
 		return (
 			<button
-				type="button"
 				className={className}
-				onClick={onClick}
-				data-move-direction={direction}
 				data-move-all={isMoveAll ? 1 : 0}
+				data-move-direction={direction}
+				type="button"
+				onClick={onClick}
 			>
 				{this.renderIcons(iconClass, isMoveAll)}
 			</button>

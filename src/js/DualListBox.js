@@ -9,7 +9,6 @@ const optionShape = React.PropTypes.shape({
 
 class DualListBox extends React.Component {
 	static propTypes = {
-		name: React.PropTypes.string,
 		options: React.PropTypes.arrayOf(
 			React.PropTypes.oneOfType([
 				optionShape,
@@ -19,17 +18,19 @@ class DualListBox extends React.Component {
 				}),
 			]),
 		).isRequired,
-		available: React.PropTypes.arrayOf(React.PropTypes.string),
-		selected: React.PropTypes.arrayOf(React.PropTypes.string),
 		onChange: React.PropTypes.func.isRequired,
+
+		available: React.PropTypes.arrayOf(React.PropTypes.string),
+		name: React.PropTypes.string,
 		preserveSelectOrder: React.PropTypes.bool,
+		selected: React.PropTypes.arrayOf(React.PropTypes.string),
 	};
 
 	static defaultProps = {
-		name: null,
 		available: undefined,
-		selected: [],
+		name: null,
 		preserveSelectOrder: null,
+		selected: [],
 	};
 
 	/**
@@ -293,8 +294,8 @@ class DualListBox extends React.Component {
 				<div className="rdl-available">
 					<select
 						className="rdl-control"
-						multiple
 						ref={(c) => { this.available = c; }}
+						multiple
 						onDoubleClick={this.onDoubleClick}
 						onKeyUp={this.onKeyUp}
 					>
@@ -314,9 +315,9 @@ class DualListBox extends React.Component {
 				<div className="rdl-selected">
 					<select
 						className="rdl-control"
-						multiple
 						name={this.props.name}
 						ref={(c) => { this.selected = c; }}
+						multiple
 						onDoubleClick={this.onDoubleClick}
 						onKeyUp={this.onKeyUp}
 					>

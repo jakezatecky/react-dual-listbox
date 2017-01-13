@@ -21884,18 +21884,22 @@ return /******/ (function(modules) { // webpackBootstrap
 			value: function renderOptions(options) {
 				var _this7 = this;
 
-				return options.map(function (option) {
+				return options.map(function (option, index) {
+					// Intentionally use array index to allow React to jump to next selection
+					// https://github.com/jakezatecky/react-dual-listbox/issues/10
+					var key = 'key-' + index;
+
 					if (option.options !== undefined) {
 						return _react2.default.createElement(
 							'optgroup',
-							{ key: option.label, label: option.label },
+							{ key: key, label: option.label },
 							_this7.renderOptions(option.options)
 						);
 					}
 
 					return _react2.default.createElement(
 						'option',
-						{ key: option.value, value: option.value },
+						{ key: key, value: option.value },
 						option.label
 					);
 				});

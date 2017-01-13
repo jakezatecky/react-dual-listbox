@@ -268,17 +268,21 @@ class DualListBox extends React.Component {
 	 * @returns {Array}
 	 */
 	renderOptions(options) {
-		return options.map((option) => {
+		return options.map((option, index) => {
+			// Intentionally use array index to allow React to jump to next selection
+			// https://github.com/jakezatecky/react-dual-listbox/issues/10
+			const key = `key-${index}`;
+
 			if (option.options !== undefined) {
 				return (
-					<optgroup key={option.label} label={option.label}>
+					<optgroup key={key} label={option.label}>
 						{this.renderOptions(option.options)}
 					</optgroup>
 				);
 			}
 
 			return (
-				<option key={option.value} value={option.value}>
+				<option key={key} value={option.value}>
 					{option.label}
 				</option>
 			);

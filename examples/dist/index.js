@@ -21910,7 +21910,10 @@ return /******/ (function(modules) { // webpackBootstrap
 			value: function render() {
 				var _this8 = this;
 
-				var options = this.props.options;
+				var _props2 = this.props;
+				var options = _props2.options;
+				var availableRef = _props2.availableRef;
+				var selectedRef = _props2.selectedRef;
 
 				var available = this.renderOptions(this.filterAvailable(options));
 				var selected = this.renderOptions(this.filterSelected(options));
@@ -21925,10 +21928,14 @@ return /******/ (function(modules) { // webpackBootstrap
 							'select',
 							{
 								className: 'rdl-control',
-								multiple: true,
 								ref: function ref(c) {
 									_this8.available = c;
+
+									if (availableRef) {
+										availableRef(c);
+									}
 								},
+								multiple: true,
 								onDoubleClick: this.onDoubleClick,
 								onKeyUp: this.onKeyUp
 							},
@@ -21958,11 +21965,15 @@ return /******/ (function(modules) { // webpackBootstrap
 							'select',
 							{
 								className: 'rdl-control',
-								multiple: true,
 								name: this.props.name,
 								ref: function ref(c) {
 									_this8.selected = c;
+
+									if (selectedRef) {
+										selectedRef(c);
+									}
 								},
+								multiple: true,
 								onDoubleClick: this.onDoubleClick,
 								onKeyUp: this.onKeyUp
 							},
@@ -21977,21 +21988,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	}(_react2.default.Component);
 
 	DualListBox.propTypes = {
-		name: _react2.default.PropTypes.string,
 		options: _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.oneOfType([optionShape, _react2.default.PropTypes.shape({
 			value: _react2.default.PropTypes.any,
 			options: _react2.default.PropTypes.arrayOf(optionShape)
 		})])).isRequired,
-		available: _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.string),
-		selected: _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.string),
 		onChange: _react2.default.PropTypes.func.isRequired,
-		preserveSelectOrder: _react2.default.PropTypes.bool
+
+		available: _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.string),
+		availableRef: _react2.default.PropTypes.func,
+		name: _react2.default.PropTypes.string,
+		preserveSelectOrder: _react2.default.PropTypes.bool,
+		selected: _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.string),
+		selectedRef: _react2.default.PropTypes.func
 	};
 	DualListBox.defaultProps = {
-		name: null,
 		available: undefined,
+		availableRef: null,
+		name: null,
+		preserveSelectOrder: null,
 		selected: [],
-		preserveSelectOrder: null
+		selectedRef: null
 	};
 	exports.default = DualListBox;
 
@@ -22080,11 +22096,11 @@ return /******/ (function(modules) { // webpackBootstrap
 				return _react2.default.createElement(
 					'button',
 					{
-						type: 'button',
 						className: className,
-						onClick: onClick,
+						'data-move-all': isMoveAll ? 1 : 0,
 						'data-move-direction': direction,
-						'data-move-all': isMoveAll ? 1 : 0
+						type: 'button',
+						onClick: onClick
 					},
 					this.renderIcons(iconClass, isMoveAll)
 				);
@@ -22096,8 +22112,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	Action.propTypes = {
 		direction: _react2.default.PropTypes.oneOf(['left', 'right']).isRequired,
-		isMoveAll: _react2.default.PropTypes.bool,
-		onClick: _react2.default.PropTypes.func.isRequired
+		onClick: _react2.default.PropTypes.func.isRequired,
+
+		isMoveAll: _react2.default.PropTypes.bool
 	};
 	Action.defaultProps = {
 		isMoveAll: false

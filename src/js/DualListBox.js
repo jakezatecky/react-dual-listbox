@@ -21,16 +21,20 @@ class DualListBox extends React.Component {
 		onChange: React.PropTypes.func.isRequired,
 
 		available: React.PropTypes.arrayOf(React.PropTypes.string),
+		availableRef: React.PropTypes.func,
 		name: React.PropTypes.string,
 		preserveSelectOrder: React.PropTypes.bool,
 		selected: React.PropTypes.arrayOf(React.PropTypes.string),
+		selectedRef: React.PropTypes.func,
 	};
 
 	static defaultProps = {
 		available: undefined,
+		availableRef: null,
 		name: null,
 		preserveSelectOrder: null,
 		selected: [],
+		selectedRef: null,
 	};
 
 	/**
@@ -285,7 +289,7 @@ class DualListBox extends React.Component {
 	 * @returns {React.Component}
 	 */
 	render() {
-		const { options } = this.props;
+		const { options, availableRef, selectedRef } = this.props;
 		const available = this.renderOptions(this.filterAvailable(options));
 		const selected = this.renderOptions(this.filterSelected(options));
 
@@ -294,7 +298,13 @@ class DualListBox extends React.Component {
 				<div className="rdl-available">
 					<select
 						className="rdl-control"
-						ref={(c) => { this.available = c; }}
+						ref={(c) => {
+							this.available = c;
+
+							if (availableRef) {
+								availableRef(c);
+							}
+						}}
 						multiple
 						onDoubleClick={this.onDoubleClick}
 						onKeyUp={this.onKeyUp}
@@ -316,7 +326,13 @@ class DualListBox extends React.Component {
 					<select
 						className="rdl-control"
 						name={this.props.name}
-						ref={(c) => { this.selected = c; }}
+						ref={(c) => {
+							this.selected = c;
+
+							if (selectedRef) {
+								selectedRef(c);
+							}
+						}}
 						multiple
 						onDoubleClick={this.onDoubleClick}
 						onKeyUp={this.onKeyUp}

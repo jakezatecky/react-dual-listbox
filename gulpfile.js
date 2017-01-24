@@ -7,6 +7,7 @@ const scsslint = require('gulp-scss-lint');
 const sass = require('gulp-sass');
 const autoprefixer = require('gulp-autoprefixer');
 const pkg = require('./package.json');
+const browserSync = require('browser-sync').create();
 const webpackConfig = require('./webpack.config');
 const testWebpackConfig = require('./webpack.test.config');
 
@@ -53,6 +54,8 @@ gulp.task('build-style', () =>
 		.pipe(gulp.dest('./lib'))
 );
 
+gulp.task('build', ['build-script', 'build-style']);
+
 gulp.task('build-examples-style', () =>
 	gulp.src('./examples/src/**/*.scss')
 		.pipe(scsslint())
@@ -64,22 +67,28 @@ gulp.task('build-examples-style', () =>
 			browsers: ['last 2 versions'],
 		}))
 		.pipe(gulp.dest('./examples/dist'))
+		.pipe(browserSync.stream())
 );
 
 gulp.task('build-examples-script', () =>
 	gulp.src(['./examples/src/index.js'])
 		.pipe(webpack(testWebpackConfig))
 		.pipe(gulp.dest('./examples/dist/'))
+		.pipe(browserSync.stream())
 );
 
-gulp.task('build-examples', ['build-examples-style', 'build-examples-script'], () =>
+gulp.task('build-examples-html', () =>
 	gulp.src('./examples/src/index.html')
 		.pipe(gulp.dest('./examples/dist'))
+		.pipe(browserSync.stream())
 );
 
-gulp.task('watch', () => {
-	gulp.watch(['./src/js/**/*.js'], ['build-examples']);
-	gulp.watch(['./src/sass/**/*.scss'], ['build-examples']);
+gulp.task('examples', ['build-examples-style', 'build-examples-script', 'build-examples-html'], () => {
+	browserSync.init({ server: './examples/dist' });
+
+	gulp.watch(['./src/js/**/*.js', './examples/src/**/*.js'], ['build-examples-script']);
+	gulp.watch(['./src/sass/**/*.scss', './examples/src/**/*.scss'], ['build-examples-style']);
+	gulp.watch(['./examples/src/**/*.html'], ['build-examples-html']).on('change', browserSync.reload);
 });
 
 gulp.task('default', ['build-script', 'build-style']);

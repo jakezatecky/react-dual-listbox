@@ -20,7 +20,7 @@
   "bugs": "https://github.com/jakezatecky/react-dual-listbox/issues",
   "main": "lib/index.js",
   "scripts": {
-    "examples": "gulp build-examples && http-server examples/dist",
+    "examples": "gulp examples",
     "gh-deploy": "git subtree push --prefix examples/dist origin gh-pages"
   },
   "peerDependencies": {
@@ -33,6 +33,7 @@
     "babel-preset-es2015": "^6.3.13",
     "babel-preset-react": "^6.3.13",
     "babel-preset-stage-0": "^6.3.13",
+    "browser-sync": "^2.18.6",
     "chai": "^3.5.0",
     "eslint": "^3.13.0",
     "eslint-config-airbnb": "^14.0.0",
@@ -46,7 +47,6 @@
     "gulp-mocha-phantomjs": "^0.12.0",
     "gulp-sass": "^3.0.0",
     "gulp-scss-lint": "^0.4.0",
-    "http-server": "^0.9.0",
     "mocha": "^3.0.2",
     "react": "^15.0.0",
     "react-dom": "^15.0.0",

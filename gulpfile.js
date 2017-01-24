@@ -57,7 +57,7 @@ gulp.task('build-style', () =>
 gulp.task('build', ['build-script', 'build-style']);
 
 gulp.task('build-examples-style', () =>
-	gulp.src('./examples/src/**/*.scss')
+	gulp.src('./examples/src/sass/**/*.scss')
 		.pipe(scsslint())
 		.pipe(scsslint.failReporter())
 		.pipe(sass({

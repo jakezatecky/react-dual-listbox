@@ -121,7 +121,7 @@ linters:
     ignore_unspecified: false
     min_properties: 2
     separate_groups: false
-    order: recess # use Twitter's sort order
+    order: concentric # use Twitter's sort order
 
   PropertySpelling:
     enabled: true

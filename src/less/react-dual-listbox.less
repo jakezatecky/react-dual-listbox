@@ -23,19 +23,19 @@
 .rdl-available,
 .rdl-selected {
   display: flex;
-  align-self: stretch;
   flex: 1 1 0;
+  align-self: stretch;
 }
 
 .rdl-control {
   display: block;
   align-self: stretch;
-  width: 100%;
-  padding: 8px 12px;
-  font-size: 14px;
-  color: @rdl-input-color;
   border: 1px solid @rdl-input-border;
   border-radius: 2px;
+  padding: 8px 12px;
+  width: 100%;
+  color: @rdl-input-color;
+  font-size: 14px;
 
   optgroup {
     font: inherit;
@@ -57,19 +57,19 @@
 }
 
 .rdl-btn {
-  padding: 5px 10px;
   margin-bottom: 5px;
-  font-size: 12px;
-  color: @rdl-btn-color;
-  cursor: pointer;
-  background: @rdl-input-bg;
   border: 1px solid @rdl-input-border;
   border-radius: 2px;
+  background: @rdl-input-bg;
+  cursor: pointer;
+  padding: 5px 10px;
+  color: @rdl-btn-color;
+  font-size: 12px;
 
   &:active,
   &:focus {
-    background: darken(@rdl-input-bg, 10%);
     border-color: darken(@rdl-input-border, 25%);
+    background: darken(@rdl-input-bg, 10%);
   }
 
   &:focus {
@@ -78,8 +78,8 @@
   }
 
   &:hover {
-    background: darken(@rdl-input-bg, 10%);
     border-color: darken(@rdl-input-border, 12%);
+    background: darken(@rdl-input-bg, 10%);
   }
 
   &:last-child {

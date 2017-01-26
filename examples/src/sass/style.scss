@@ -5,11 +5,6 @@ $section-headings-color: #3498db;
 @import "../../../src/sass/react-dual-listbox";
 @import "cayman";
 
-html,
-body {
-  margin: 0;
-}
-
 .react-dual-listbox {
   width: 100%;
 }
@@ -17,7 +12,7 @@ body {
 .moons {
   margin-bottom: 10px;
 
-  input[type="radio"] {
+  [type="radio"] {
     margin-right: 5px;
   }
 

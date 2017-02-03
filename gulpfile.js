@@ -22,12 +22,6 @@ gulp.task('test-script-format', () =>
 		.pipe(eslint.failOnError())
 );
 
-gulp.task('script-compile-test', () =>
-	gulp.src(['./test/index.js'])
-		.pipe(webpackStream(webpackConfig, webpack))
-		.pipe(gulp.dest('./test/compiled/'))
-);
-
 gulp.task('test-mocha', ['test-script-format'], () =>
 	gulp.src(['./test/**/*.js'])
 		.pipe(mocha({

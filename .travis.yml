@@ -5,6 +5,9 @@ node_js:
   - '6'
   - '7'
 before_script:
+  # Remove ./node_modules/.bin from PATH so node-which doesn't replace Unix which and cause RVM to barf. See https://github.com/travis-ci/travis-ci/issues/5092
+  - export PATH=$(python -c 'from sys import argv;from collections import OrderedDict as od;print(":".join(od((p,None) for p in argv[1].split(":") if p.startswith("/")).keys()))' "$PATH")
+  - echo $PATH
   - rvm install ruby --latest
   - gem install sass scss_lint
 script:

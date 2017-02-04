@@ -5,8 +5,7 @@ node_js:
   - '6'
   - '7'
 before_script:
-  - npm install -g gulp
   - rvm install ruby --latest
   - gem install sass scss_lint
 script:
-  - gulp build
+  - npm run build

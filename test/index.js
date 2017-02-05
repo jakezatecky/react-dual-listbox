@@ -23,4 +23,26 @@ describe('<DualListBox />', () => {
 		assert.isTrue(wrapper.contains(<option value="luna">Moon</option>));
 		assert.isTrue(wrapper.contains(<option value="phobos">Phobos</option>));
 	});
+
+	it('should render optgroups and their children', () => {
+		const wrapper = shallow(<DualListBox
+			options={[
+				{
+					label: 'Mars',
+					options: [
+						{ value: 'phobos', label: 'Phobos' },
+						{ value: 'deimos', label: 'Deimos' },
+					],
+				},
+			]}
+			onChange={() => {}}
+		/>);
+
+		assert.isTrue(wrapper.contains((
+			<optgroup label="Mars">
+				<option value="phobos">Phobos</option>
+				<option value="deimos">Deimos</option>
+			</optgroup>
+		)));
+	});
 });

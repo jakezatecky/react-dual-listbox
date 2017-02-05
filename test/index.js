@@ -63,4 +63,55 @@ describe('<DualListBox />', () => {
 			<option value="phobos">Phobos</option>
 		)));
 	});
+
+	describe('props.available', () => {
+		it('should include options in the array in the available list', () => {
+			const wrapper = shallow(<DualListBox
+				available={['luna']}
+				options={[
+					{ label: 'Moon', value: 'luna' },
+					{ label: 'Phobos', value: 'phobos' },
+				]}
+				onChange={() => {}}
+			/>);
+
+			assert.isTrue(wrapper.find('.rdl-available').contains((
+				<option value="luna">Moon</option>
+			)));
+		});
+
+		it('should exclude options not in the array from the available list', () => {
+			const wrapper = shallow(<DualListBox
+				available={['luna']}
+				options={[
+					{ label: 'Moon', value: 'luna' },
+					{ label: 'Phobos', value: 'phobos' },
+				]}
+				onChange={() => {}}
+			/>);
+
+			assert.isFalse(wrapper.find('.rdl-available').contains((
+				<option value="phobos">Phobos</option>
+			)));
+		});
+
+		it('should not interfere with selected options', () => {
+			const wrapper = shallow(<DualListBox
+				available={['luna']}
+				options={[
+					{ label: 'Moon', value: 'luna' },
+					{ label: 'Phobos', value: 'phobos' },
+				]}
+				selected={['luna', 'phobos']}
+				onChange={() => {}}
+			/>);
+
+			assert.isTrue(wrapper.find('.rdl-selected').contains((
+				<option value="luna">Moon</option>
+			)));
+			assert.isTrue(wrapper.find('.rdl-selected').contains((
+				<option value="phobos">Phobos</option>
+			)));
+		});
+	});
 });

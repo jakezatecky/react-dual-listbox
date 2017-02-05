@@ -45,4 +45,22 @@ describe('<DualListBox />', () => {
 			</optgroup>
 		)));
 	});
+
+	it('should render selected and non-selected options', () => {
+		const wrapper = shallow(<DualListBox
+			options={[
+				{ label: 'Moon', value: 'luna' },
+				{ label: 'Phobos', value: 'phobos' },
+			]}
+			onChange={() => {}}
+			selected={['phobos']}
+		/>);
+
+		assert.isTrue(wrapper.find('.rdl-available').contains((
+			<option value="luna">Moon</option>
+		)));
+		assert.isTrue(wrapper.find('.rdl-selected').contains((
+			<option value="phobos">Phobos</option>
+		)));
+	});
 });

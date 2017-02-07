@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import { assert } from 'chai';
 
 import DualListBox from '../src/js/DualListBox';
@@ -115,6 +115,47 @@ describe('<DualListBox />', () => {
 			assert.isTrue(wrapper.find('.rdl-selected').contains((
 				<option value="phobos">Phobos</option>
 			)));
+		});
+	});
+
+	describe('moveAllRight', () => {
+		it('should call onChange with all available options selected', () => {
+			let actual = null;
+
+			const wrapper = mount(<DualListBox
+				options={[
+					{ label: 'Moon', value: 'luna' },
+					{ label: 'Phobos', value: 'phobos' },
+				]}
+				onChange={(selected) => {
+					actual = selected;
+				}}
+			/>);
+
+			wrapper.find('.rdl-btn-all.rdl-btn-right').simulate('click');
+
+			assert.deepEqual(['luna', 'phobos'], actual);
+		});
+	});
+
+	describe('moveAllLeft', () => {
+		it('should call onChange with no options selected', () => {
+			let actual = null;
+
+			const wrapper = mount(<DualListBox
+				options={[
+					{ label: 'Moon', value: 'luna' },
+					{ label: 'Phobos', value: 'phobos' },
+				]}
+				selected={['luna', 'phobos']}
+				onChange={(selected) => {
+					actual = selected;
+				}}
+			/>);
+
+			wrapper.find('.rdl-btn-all.rdl-btn-left').simulate('click');
+
+			assert.deepEqual([], actual);
 		});
 	});
 });

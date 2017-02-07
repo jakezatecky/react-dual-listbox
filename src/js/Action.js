@@ -73,6 +73,8 @@ class Action extends React.Component {
 		const className = classNames({
 			'rdl-btn': true,
 			'rdl-btn-all': isMoveAll,
+			'rdl-btn-right': direction === 'right',
+			'rdl-btn-left': direction === 'left',
 		});
 
 		return (

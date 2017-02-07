@@ -51,20 +51,18 @@ class DualListBox extends React.Component {
 	}
 
 	/**
-	 * @param {Object} event
+	 * @param {string} direction
+	 * @param {boolean} isMoveAll
 	 *
 	 * @return {void}
 	 */
-	onClick(event) {
-		const { currentTarget } = event;
+	onClick({ direction, isMoveAll }) {
 		const { options, onChange } = this.props;
-		const direction = currentTarget.dataset.moveDirection;
-		const isMoveAll = currentTarget.dataset.moveAll;
 		const select = direction === 'right' ? this.available : this.selected;
 
 		let selected = [];
 
-		if (isMoveAll === '1') {
+		if (isMoveAll) {
 			selected = direction === 'right' ? this.makeOptionsSelected(options) : [];
 		} else {
 			selected = this.toggleSelected(

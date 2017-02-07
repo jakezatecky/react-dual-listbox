@@ -14,6 +14,27 @@ class Action extends React.Component {
 	};
 
 	/**
+	 * @returns {void}
+	 */
+	constructor() {
+		super();
+
+		this.onClick = this.onClick.bind(this);
+	}
+
+	/**
+	 * @returns {void}
+	 */
+	onClick() {
+		const { direction, isMoveAll, onClick } = this.props;
+
+		onClick({
+			direction,
+			isMoveAll,
+		});
+	}
+
+	/**
 	 * @param {string} direction
 	 *
 	 * @returns {string}
@@ -47,7 +68,7 @@ class Action extends React.Component {
 	 * @returns {React.Component}
 	 */
 	render() {
-		const { direction, isMoveAll, onClick } = this.props;
+		const { direction, isMoveAll } = this.props;
 		const iconClass = this.getIconClass(direction);
 		const className = classNames({
 			'rdl-btn': true,
@@ -57,10 +78,8 @@ class Action extends React.Component {
 		return (
 			<button
 				className={className}
-				data-move-all={isMoveAll ? 1 : 0}
-				data-move-direction={direction}
 				type="button"
-				onClick={onClick}
+				onClick={this.onClick}
 			>
 				{this.renderIcons(iconClass, isMoveAll)}
 			</button>

@@ -118,6 +118,48 @@ describe('<DualListBox />', () => {
 		});
 	});
 
+	describe('moveRight', () => {
+		it('should call onChange with the newly-selected options', () => {
+			let actual = null;
+
+			const wrapper = mount(<DualListBox
+				options={[
+					{ label: 'Moon', value: 'luna' },
+					{ label: 'Phobos', value: 'phobos' },
+				]}
+				onChange={(selected) => {
+					actual = selected;
+				}}
+			/>);
+
+			wrapper.find('.rdl-available option[value="phobos"]').first().node.selected = true;
+			wrapper.find('.rdl-btn-right').not('.rdl-btn-all').simulate('click');
+
+			assert.deepEqual(['phobos'], actual);
+		});
+
+		it('should persist previously-selected values', () => {
+			let actual = null;
+
+			const wrapper = mount(<DualListBox
+				options={[
+					{ label: 'Moon', value: 'luna' },
+					{ label: 'Phobos', value: 'phobos' },
+					{ label: 'Deimos', value: 'deimos' },
+				]}
+				selected={['deimos']}
+				onChange={(selected) => {
+					actual = selected;
+				}}
+			/>);
+
+			wrapper.find('.rdl-available option[value="phobos"]').first().node.selected = true;
+			wrapper.find('.rdl-btn-right').not('.rdl-btn-all').simulate('click');
+
+			assert.deepEqual(['deimos', 'phobos'], actual);
+		});
+	});
+
 	describe('moveAllRight', () => {
 		it('should call onChange with all available options selected', () => {
 			let actual = null;
@@ -135,6 +177,28 @@ describe('<DualListBox />', () => {
 			wrapper.find('.rdl-btn-all.rdl-btn-right').simulate('click');
 
 			assert.deepEqual(['luna', 'phobos'], actual);
+		});
+	});
+
+	describe('moveLeft', () => {
+		it('should call onChange with the newly-selected options removed', () => {
+			let actual = null;
+
+			const wrapper = mount(<DualListBox
+				options={[
+					{ label: 'Moon', value: 'luna' },
+					{ label: 'Phobos', value: 'phobos' },
+				]}
+				onChange={(selected) => {
+					actual = selected;
+				}}
+				selected={['phobos']}
+			/>);
+
+			wrapper.find('.rdl-selected option[value="phobos"]').first().node.selected = true;
+			wrapper.find('.rdl-btn-left').not('.rdl-btn-all').simulate('click');
+
+			assert.deepEqual([], actual);
 		});
 	});
 

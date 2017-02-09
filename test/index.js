@@ -118,6 +118,38 @@ describe('<DualListBox />', () => {
 		});
 	});
 
+	describe('props.preserveSelectOrder', () => {
+		it('should arrange the selected options by their original order when false', () => {
+			const wrapper = shallow(<DualListBox
+				options={[
+					{ label: 'Moon', value: 'luna' },
+					{ label: 'Phobos', value: 'phobos' },
+				]}
+				preserveSelectOrder={false}
+				selected={['phobos', 'luna']}
+				onChange={() => {}}
+			/>);
+
+			assert.equal('luna', wrapper.find('.rdl-selected option').at(0).prop('value'));
+			assert.equal('phobos', wrapper.find('.rdl-selected option').at(1).prop('value'));
+		});
+
+		it('should arrange the selected options by their selection order when true', () => {
+			const wrapper = shallow(<DualListBox
+				options={[
+					{ label: 'Moon', value: 'luna' },
+					{ label: 'Phobos', value: 'phobos' },
+				]}
+				preserveSelectOrder
+				selected={['phobos', 'luna']}
+				onChange={() => {}}
+			/>);
+
+			assert.equal('phobos', wrapper.find('.rdl-selected option').at(0).prop('value'));
+			assert.equal('luna', wrapper.find('.rdl-selected option').at(1).prop('value'));
+		});
+	});
+
 	describe('moveRight', () => {
 		it('should call onChange with the newly-selected options', () => {
 			let actual = null;

@@ -25,6 +25,7 @@ npm install react-dual-listbox --save
 Then render the component (note that this is a [controlled] component):
 
 ``` javascript
+import React from 'react';
 import DualListBox from 'react-dual-listbox';
 
 class Widget extends React.Component {

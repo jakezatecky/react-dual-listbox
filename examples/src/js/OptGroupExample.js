@@ -30,7 +30,7 @@ class OptGroupExample extends React.Component {
 	constructor() {
 		super();
 
-		this.state = { selected: [] };
+		this.state = { selected: ['luna', 'io'] };
 
 		this.onChange = this.onChange.bind(this);
 	}

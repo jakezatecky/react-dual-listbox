@@ -30,7 +30,7 @@ class PreserveSelectOrderExample extends React.Component {
 	constructor() {
 		super();
 
-		this.state = { selected: [] };
+		this.state = { selected: ['io', 'luna'] };
 
 		this.onChange = this.onChange.bind(this);
 	}

@@ -10023,7 +10023,7 @@ var OptGroupExample = function (_React$Component) {
 
 		var _this = _possibleConstructorReturn(this, (OptGroupExample.__proto__ || Object.getPrototypeOf(OptGroupExample)).call(this));
 
-		_this.state = { selected: [] };
+		_this.state = { selected: ['luna', 'io'] };
 
 		_this.onChange = _this.onChange.bind(_this);
 		return _this;
@@ -10099,7 +10099,7 @@ var PreserveSelectOrderExample = function (_React$Component) {
 
 		var _this = _possibleConstructorReturn(this, (PreserveSelectOrderExample.__proto__ || Object.getPrototypeOf(PreserveSelectOrderExample)).call(this));
 
-		_this.state = { selected: [] };
+		_this.state = { selected: ['io', 'luna'] };
 
 		_this.onChange = _this.onChange.bind(_this);
 		return _this;

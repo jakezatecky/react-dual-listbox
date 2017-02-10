@@ -20,10 +20,10 @@
 .rdl-selected {
   display: -ms-flexbox;
   display: flex;
-  -ms-flex-item-align: stretch;
-      align-self: stretch;
   -ms-flex: 1 1 0px;
       flex: 1 1 0;
+  -ms-flex-item-align: stretch;
+      align-self: stretch;
 }
 
 .rdl-control {
@@ -31,12 +31,12 @@
   -ms-flex-item-align: stretch;
       -ms-grid-row-align: stretch;
       align-self: stretch;
-  width: 100%;
-  padding: 8px 12px;
-  font-size: 14px;
-  color: #555;
   border: 1px solid #ccc;
   border-radius: 2px;
+  padding: 8px 12px;
+  width: 100%;
+  color: #555;
+  font-size: 14px;
 }
 
 .rdl-control optgroup {
@@ -63,19 +63,19 @@
 }
 
 .rdl-btn {
-  padding: 5px 10px;
   margin-bottom: 5px;
-  font-size: 12px;
-  color: #333;
-  cursor: pointer;
-  background: #fff;
   border: 1px solid #ccc;
   border-radius: 2px;
+  background: #fff;
+  cursor: pointer;
+  padding: 5px 10px;
+  color: #333;
+  font-size: 12px;
 }
 
 .rdl-btn:active, .rdl-btn:focus {
-  background: #e6e6e6;
   border-color: #8c8c8c;
+  background: #e6e6e6;
 }
 
 .rdl-btn:focus {
@@ -84,8 +84,8 @@
 }
 
 .rdl-btn:hover {
-  background: #e6e6e6;
   border-color: #adadad;
+  background: #e6e6e6;
 }
 
 .rdl-btn:last-child {
@@ -460,11 +460,6 @@ a:hover {
   color: #819198;
 }
 
-html,
-body {
-  margin: 0;
-}
-
 .react-dual-listbox {
   width: 100%;
 }
@@ -473,7 +468,7 @@ body {
   margin-bottom: 10px;
 }
 
-.moons input[type="radio"] {
+.moons [type="radio"] {
   margin-right: 5px;
 }
 

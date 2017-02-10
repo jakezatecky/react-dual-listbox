@@ -22,7 +22,7 @@ gulp.task('test-script-format', () =>
 		.pipe(eslint.failOnError())
 );
 
-gulp.task('test-mocha', ['test-script-format'], () =>
+gulp.task('test-mocha', () =>
 	gulp.src(['./test/**/*.js'])
 		.pipe(mocha({
 			compilers: {

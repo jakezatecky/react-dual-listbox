@@ -62,12 +62,12 @@ class Action extends React.Component {
 	renderIcons(iconClass, isMoveAll) {
 		if (isMoveAll) {
 			return [
-				<i key={0} className={iconClass} />,
-				<i key={1} className={iconClass} />,
+				<span key={0} className={iconClass} />,
+				<span key={1} className={iconClass} />,
 			];
 		}
 
-		return <i className={iconClass} />;
+		return <span className={iconClass} />;
 	}
 
 	/**

@@ -307,6 +307,7 @@ class DualListBox extends React.Component {
 					<select
 						className="rdl-control"
 						id={`${this.id}-available`}
+						multiple
 						ref={(c) => {
 							this.available = c;
 
@@ -314,7 +315,6 @@ class DualListBox extends React.Component {
 								availableRef(c);
 							}
 						}}
-						multiple
 						onDoubleClick={this.onDoubleClick}
 						onKeyUp={this.onKeyUp}
 					>
@@ -338,6 +338,7 @@ class DualListBox extends React.Component {
 					<select
 						className="rdl-control"
 						id={`${this.id}-selected`}
+						multiple
 						name={this.props.name}
 						ref={(c) => {
 							this.selected = c;
@@ -346,7 +347,6 @@ class DualListBox extends React.Component {
 								selectedRef(c);
 							}
 						}}
-						multiple
 						onDoubleClick={this.onDoubleClick}
 						onKeyUp={this.onKeyUp}
 					>

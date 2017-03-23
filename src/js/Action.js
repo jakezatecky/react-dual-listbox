@@ -78,10 +78,10 @@ class Action extends React.Component {
 		const iconClass = this.getIconClass(direction);
 		const label = this.getLabel(direction, isMoveAll);
 		const className = classNames({
-			'rdl-btn': true,
-			'rdl-btn-all': isMoveAll,
-			'rdl-btn-right': direction === 'right',
-			'rdl-btn-left': direction === 'left',
+			'rdl-move': true,
+			'rdl-move-all': isMoveAll,
+			'rdl-move-right': direction === 'right',
+			'rdl-move-left': direction === 'left',
 		});
 
 		return (

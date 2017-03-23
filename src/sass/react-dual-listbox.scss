@@ -61,7 +61,11 @@ $rdl-line-height: 1.428571429;
   flex-direction: column;
 }
 
-.rdl-btn {
+.rdl-actions-right {
+  margin-bottom: 10px;
+}
+
+.rdl-move {
   margin-bottom: 5px;
   border: 1px solid $rdl-input-border;
   border-radius: 2px;
@@ -95,8 +99,4 @@ $rdl-line-height: 1.428571429;
   i {
     margin: 0 -1px;
   }
-}
-
-.rdl-actions-right {
-  margin-bottom: 10px;
 }

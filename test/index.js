@@ -165,7 +165,7 @@ describe('<DualListBox />', () => {
 			/>);
 
 			wrapper.find('.rdl-available option[value="phobos"]').first().node.selected = true;
-			wrapper.find('.rdl-btn-right').not('.rdl-btn-all').simulate('click');
+			wrapper.find('.rdl-move-right').not('.rdl-move-all').simulate('click');
 
 			assert.deepEqual(['phobos'], actual);
 		});
@@ -186,7 +186,7 @@ describe('<DualListBox />', () => {
 			/>);
 
 			wrapper.find('.rdl-available option[value="phobos"]').first().node.selected = true;
-			wrapper.find('.rdl-btn-right').not('.rdl-btn-all').simulate('click');
+			wrapper.find('.rdl-move-right').not('.rdl-move-all').simulate('click');
 
 			assert.deepEqual(['deimos', 'phobos'], actual);
 		});
@@ -206,7 +206,7 @@ describe('<DualListBox />', () => {
 				}}
 			/>);
 
-			wrapper.find('.rdl-btn-all.rdl-btn-right').simulate('click');
+			wrapper.find('.rdl-move-all.rdl-move-right').simulate('click');
 
 			assert.deepEqual(['luna', 'phobos'], actual);
 		});
@@ -228,7 +228,7 @@ describe('<DualListBox />', () => {
 			/>);
 
 			wrapper.find('.rdl-selected option[value="phobos"]').first().node.selected = true;
-			wrapper.find('.rdl-btn-left').not('.rdl-btn-all').simulate('click');
+			wrapper.find('.rdl-move-left').not('.rdl-move-all').simulate('click');
 
 			assert.deepEqual([], actual);
 		});
@@ -249,7 +249,7 @@ describe('<DualListBox />', () => {
 				}}
 			/>);
 
-			wrapper.find('.rdl-btn-all.rdl-btn-left').simulate('click');
+			wrapper.find('.rdl-move-all.rdl-move-left').simulate('click');
 
 			assert.deepEqual([], actual);
 		});

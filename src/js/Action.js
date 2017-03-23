@@ -47,6 +47,12 @@ class Action extends React.Component {
 		return 'fa fa-chevron-left';
 	}
 
+	getLabel(direction, isMoveAll) {
+		const allText = isMoveAll ? ' all' : '';
+
+		return `Move${allText} ${direction}`;
+	}
+
 	/**
 	 * @param {string} iconClass
 	 * @param {boolean} isMoveAll
@@ -70,6 +76,7 @@ class Action extends React.Component {
 	render() {
 		const { direction, isMoveAll } = this.props;
 		const iconClass = this.getIconClass(direction);
+		const label = this.getLabel(direction, isMoveAll);
 		const className = classNames({
 			'rdl-btn': true,
 			'rdl-btn-all': isMoveAll,
@@ -79,6 +86,7 @@ class Action extends React.Component {
 
 		return (
 			<button
+				aria-label={label}
 				className={className}
 				type="button"
 				onClick={this.onClick}

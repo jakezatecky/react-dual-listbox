@@ -1,4 +1,5 @@
 import React from 'react';
+import shortid from 'shortid';
 
 import Action from './Action';
 
@@ -48,6 +49,8 @@ class DualListBox extends React.Component {
 		this.onClick = this.onClick.bind(this);
 		this.onDoubleClick = this.onDoubleClick.bind(this);
 		this.onKeyUp = this.onKeyUp.bind(this);
+
+		this.id = shortid.generate();
 	}
 
 	/**
@@ -298,8 +301,12 @@ class DualListBox extends React.Component {
 		return (
 			<div className="react-dual-listbox">
 				<div className="rdl-available">
+					<label className="rdl-control-label" htmlFor={`${this.id}-available`}>
+						Available
+					</label>
 					<select
 						className="rdl-control"
+						id={`${this.id}-available`}
 						ref={(c) => {
 							this.available = c;
 
@@ -325,8 +332,12 @@ class DualListBox extends React.Component {
 					</div>
 				</div>
 				<div className="rdl-selected">
+					<label className="rdl-control-label" htmlFor={`${this.id}-selected`}>
+						Selected
+					</label>
 					<select
 						className="rdl-control"
+						id={`${this.id}-selected`}
 						name={this.props.name}
 						ref={(c) => {
 							this.selected = c;

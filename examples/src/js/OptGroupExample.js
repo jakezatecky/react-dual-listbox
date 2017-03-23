@@ -16,7 +16,7 @@ const options = [
 		],
 	},
 	{
-		label: 'Jupiter (Galilean moons)',
+		label: 'Jupiter',
 		options: [
 			{ value: 'io', label: 'Io' },
 			{ value: 'europa', label: 'Europa' },

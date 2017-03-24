@@ -1,13 +1,12 @@
 $rdl-input-bg: #fff !default;
 $rdl-input-border: #ccc !default;
-$rdl-input-color: #555 !default;
+$rdl-input-color: #333 !default;
 $rdl-btn-color: #333 !default;
 $rdl-line-height: 1.428571429;
 
 .react-dual-listbox {
   display: flex;
   align-items: center;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   box-sizing: border-box;
 
   * {
@@ -17,6 +16,7 @@ $rdl-line-height: 1.428571429;
   button,
   select {
     line-height: $rdl-line-height;
+    font-family: inherit;
   }
 }
 

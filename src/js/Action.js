@@ -88,6 +88,7 @@ class Action extends React.Component {
 			<button
 				aria-label={label}
 				className={className}
+				title={label}
 				type="button"
 				onClick={this.onClick}
 			>

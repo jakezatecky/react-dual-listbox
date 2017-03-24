@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## v0.6.0 (TBA)
+
+### New Features
+
+* [#15]: Components are now more accessible to assistive technologies
+
+### Other
+
+* [#16]: (breaking) Rename `.rdl-btn` to `.rdl-move`
+# [#17]: (breaking) Use color more consistently and make font-family inherit
+
 ## [v0.5.1](https://github.com/jakezatecky/react-dual-listbox/compare/v0.5.0...v0.5.1) (2016-01-12)
 
 ### New Features

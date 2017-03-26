@@ -3,7 +3,6 @@
   display: flex;
   -ms-flex-align: center;
       align-items: center;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   box-sizing: border-box;
 }
 
@@ -14,6 +13,7 @@
 .react-dual-listbox button,
 .react-dual-listbox select {
   line-height: 1.42857;
+  font-family: inherit;
 }
 
 .rdl-available,
@@ -26,6 +26,11 @@
       align-self: stretch;
 }
 
+.rdl-control-label {
+  position: absolute;
+  clip: rect(0 0 0 0);
+}
+
 .rdl-control {
   display: block;
   -ms-flex-item-align: stretch;
@@ -35,7 +40,7 @@
   border-radius: 2px;
   padding: 8px 12px;
   width: 100%;
-  color: #555;
+  color: #333;
   font-size: 14px;
 }
 
@@ -62,7 +67,11 @@
       flex-direction: column;
 }
 
-.rdl-btn {
+.rdl-actions-right {
+  margin-bottom: 10px;
+}
+
+.rdl-move {
   margin-bottom: 5px;
   border: 1px solid #ccc;
   border-radius: 2px;
@@ -73,31 +82,27 @@
   font-size: 12px;
 }
 
-.rdl-btn:active, .rdl-btn:focus {
+.rdl-move:active, .rdl-move:focus {
   border-color: #8c8c8c;
   background: #e6e6e6;
 }
 
-.rdl-btn:focus {
+.rdl-move:focus {
   outline: thin dotted;
   outline-offset: -2px;
 }
 
-.rdl-btn:hover {
+.rdl-move:hover {
   border-color: #adadad;
   background: #e6e6e6;
 }
 
-.rdl-btn:last-child {
+.rdl-move:last-child {
   margin-bottom: 0;
 }
 
-.rdl-btn i {
+.rdl-move i {
   margin: 0 -1px;
-}
-
-.rdl-actions-right {
-  margin-bottom: 10px;
 }
 
 * {

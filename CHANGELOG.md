@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## v0.6.0 (TBA)
+## [v0.6.0](https://github.com/jakezatecky/react-dual-listbox/compare/v0.5.1...v0.6.0) (2017-03-25)
 
 ### New Features
 
@@ -8,16 +8,16 @@
 
 ### Other
 
-* [#16]: (breaking) Rename `.rdl-btn` to `.rdl-move`
-# [#17]: (breaking) Use color more consistently and make font-family inherit
+* [#16]: **(breaking)** Rename `.rdl-btn` to `.rdl-move`
+* [#17]: **(breaking)** Use color more consistently and make font-family inherit
 
-## [v0.5.1](https://github.com/jakezatecky/react-dual-listbox/compare/v0.5.0...v0.5.1) (2016-01-12)
+## [v0.5.1](https://github.com/jakezatecky/react-dual-listbox/compare/v0.5.0...v0.5.1) (2017-01-12)
 
 ### New Features
 
 * [#2]: Add support for `availableRef` and `selectedRef`
 
-## [v0.5.0](https://github.com/jakezatecky/react-dual-listbox/compare/v0.4.0...v0.5.0) (2016-01-10)
+## [v0.5.0](https://github.com/jakezatecky/react-dual-listbox/compare/v0.4.0...v0.5.0) (2017-01-10)
 
 ### New Features
 

@@ -266,6 +266,36 @@ class DualListBox extends React.Component {
 	}
 
 	/**
+	 * @param {string} key
+	 * @param {Array} options
+	 * @param {function} ref
+	 * @param {string} name
+	 *
+	 * @returns {React.Component}
+	 */
+	renderSelect(key, options, ref, name = null) {
+		return (
+			<select
+				className="rdl-control"
+				id={`${this.id}-${key}`}
+				multiple
+				name={name}
+				ref={(c) => {
+					this[key] = c;
+
+					if (ref) {
+						ref(c);
+					}
+				}}
+				onDoubleClick={this.onDoubleClick}
+				onKeyUp={this.onKeyUp}
+			>
+				{options}
+			</select>
+		);
+	}
+
+	/**
 	 * @returns {Array}
 	 */
 	renderOptions(options) {
@@ -294,7 +324,7 @@ class DualListBox extends React.Component {
 	 * @returns {React.Component}
 	 */
 	render() {
-		const { options, availableRef, selectedRef } = this.props;
+		const { name, options, availableRef, selectedRef } = this.props;
 		const available = this.renderOptions(this.filterAvailable(options));
 		const selected = this.renderOptions(this.filterSelected(options));
 
@@ -304,22 +334,7 @@ class DualListBox extends React.Component {
 					<label className="rdl-control-label" htmlFor={`${this.id}-available`}>
 						Available
 					</label>
-					<select
-						className="rdl-control"
-						id={`${this.id}-available`}
-						multiple
-						ref={(c) => {
-							this.available = c;
-
-							if (availableRef) {
-								availableRef(c);
-							}
-						}}
-						onDoubleClick={this.onDoubleClick}
-						onKeyUp={this.onKeyUp}
-					>
-						{available}
-					</select>
+					{this.renderSelect('available', available, availableRef)}
 				</div>
 				<div className="rdl-actions">
 					<div className="rdl-actions-right">
@@ -335,23 +350,7 @@ class DualListBox extends React.Component {
 					<label className="rdl-control-label" htmlFor={`${this.id}-selected`}>
 						Selected
 					</label>
-					<select
-						className="rdl-control"
-						id={`${this.id}-selected`}
-						multiple
-						name={this.props.name}
-						ref={(c) => {
-							this.selected = c;
-
-							if (selectedRef) {
-								selectedRef(c);
-							}
-						}}
-						onDoubleClick={this.onDoubleClick}
-						onKeyUp={this.onKeyUp}
-					>
-						{selected}
-					</select>
+					{this.renderSelect('selected', selected, selectedRef, name)}
 				</div>
 			</div>
 		);

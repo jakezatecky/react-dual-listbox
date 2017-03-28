@@ -15,7 +15,7 @@ const testWebpackConfig = require('./webpack.test.config');
 const banner = '/*! <%= pkg.name %> - v<%= pkg.version %> | <%= new Date().getFullYear() %> */\n';
 
 gulp.task('test-script-format', () => (
-	gulp.src(['./src/js/**/*.js'])
+	gulp.src(['./src/js/**/*.js', './examples/src/js/**/*.js'])
 		.pipe(eslint())
 		.pipe(eslint.format())
 		.pipe(eslint.failOnError())

@@ -1,5 +1,5 @@
 import React from 'react';
-import DualListBox from '../../../src/js/DualListBox';
+import DualListBox from 'react-dual-listbox';
 
 const options = [
 	{ value: 'luna', label: 'Moon' },
@@ -22,6 +22,7 @@ class BasicExample extends React.Component {
 		super();
 
 		this.state = { selected: ['phobos', 'titan'] };
+
 		this.onChange = this.onChange.bind(this);
 	}
 

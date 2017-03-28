@@ -1,8 +1,15 @@
+const path = require('path');
+
 module.exports = {
 	output: {
 		filename: 'index.js',
 		libraryTarget: 'umd',
 		library: 'ReactDualListBox',
+	},
+	resolve: {
+		alias: {
+			'react-dual-listbox': path.resolve(__dirname, 'src/js/DualListBox'),
+		},
 	},
 	module: {
 		rules: [

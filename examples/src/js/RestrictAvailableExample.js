@@ -1,5 +1,5 @@
 import React from 'react';
-import DualListBox from '../../../src/js/DualListBox';
+import DualListBox from 'react-dual-listbox';
 
 const options = [
 	{ value: 'luna', label: 'Moon' },

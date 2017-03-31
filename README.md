@@ -28,6 +28,20 @@ yarn add react-dual-listbox
 
 > **Note** &ndash; If you want support for IE 11, you **must** include the [ES6 polyfill](https://babeljs.io/docs/usage/polyfill/) in your project.
 
+### Include CSS
+
+For your convenience, the library's styles can be consumed utilizing one of the following files:
+
+* `node_modules/react-dual-listbox/lib/react-dual-listbox.css`
+* `node_modules/react-dual-listbox/src/less/react-dual-listbox.less`
+* `node_modules/react-dual-listbox/src/sass/react-dual-listbox.scss`
+
+Either include one of these files in your stylesheets or utilize a CSS loader:
+
+``` javascript
+import 'react-dual-listbox/lib/react-dual-listbox.css';
+```
+
 ### Render Component
 
 The `DualListBox` is a [controlled] component, so you have to update the `selected` property in conjunction with the `onChange` handler if you want the selected values to change.

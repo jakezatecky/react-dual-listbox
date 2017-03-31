@@ -14,7 +14,7 @@
 
 ### Installation
 
-Install the library from your favorite dependency manager:
+Install the library using your favorite dependency manager:
 
 ``` shell
 npm install react-dual-listbox --save

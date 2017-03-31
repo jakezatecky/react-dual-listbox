@@ -24,9 +24,9 @@ npm install react-dual-listbox --save
 yarn add react-dual-listbox
 ```
 
-> **Note** &ndash; This library requires that [Font Awesome](http://fontawesome.io/) styles are loaded in the browser.
+> **Note** &ndash; This library makes use of [Font Awesome](http://fontawesome.io/) styles and expects them to be loaded in the browser.
 
-> **Note** &ndash; If you want support for IE 11, you **must** include the [ES6 polyfill](https://babeljs.io/docs/usage/polyfill/) in your project.
+> **Note** &ndash; If you need support for IE 11, you **must** include an `Array.from` polyfill, such as the [Babel ES6 polyfill](https://babeljs.io/docs/usage/polyfill/).
 
 ### Include CSS
 

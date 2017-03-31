@@ -10,49 +10,51 @@
 
 ![Demo](demo.gif)
 
-# Usage
+## Usage
 
-Install the library from npm:
+### Installation
+
+Install the library from your favorite dependency manager:
 
 ``` shell
 npm install react-dual-listbox --save
+```
+
+``` shell
+yarn add react-dual-listbox
 ```
 
 > **Note** &ndash; This library requires that [Font Awesome](http://fontawesome.io/) styles are loaded in the browser.
 
 > **Note** &ndash; If you want support for IE 11, you **must** include the [ES6 polyfill](https://babeljs.io/docs/usage/polyfill/) in your project.
 
-Then render the component (note that this is a [controlled] component):
+### Render Component
+
+The `DualListBox` is a [controlled] component, so you have to update the `selected` property in conjunction with the `onChange` handler if you want the selected values to change.
+
+Here is a minimal rendering of the component:
 
 ``` javascript
 import React from 'react';
 import DualListBox from 'react-dual-listbox';
 
-class Widget extends React.Component {
-    constructor() {
-        super();
-        
-        this.state = { selected: ['one'] };
-        this.onChange = this.onChange.bind(this);
-    }
+...
 
-    onChange(selected) {
-        this.setState({ selected });
-    }
-
-    render() {
-        const options = [
-            { value: 'one', label: 'One' },
-            { value: 'two', label: 'Two' },
-        ];
-        const { selected } = this.state;
-
-        return <DualListBox options={options} selected={selected} onChange={this.onChange} />;
-    }
-}
+<DualListBox
+    options={[
+        { value: 'one', label: 'One' },
+        { value: 'two', label: 'Two' },
+    ]}
+    selected={['one']}
+    onChange={(selected) => {
+        console.log(selected);
+    }}
+/>
 ```
 
-`<optgroup>`'s are also supported:
+### Optgroups
+
+Traditional `<optgroup>`'s are also supported:
 
 ``` javascript
 render() {
@@ -85,7 +87,7 @@ render() {
 }
 ```
 
-## Preserve Select Ordering
+### Preserve Select Ordering
 
 By default, `react-dual-listbox` will order any selected items according to the order of the `options` property. There may be times in which you wish to preserve the selection order instead. In this case, you can add the `preserveSelectOrder` property.
 
@@ -99,7 +101,7 @@ render() {
 }
 ```
 
-## Restrict Available Options
+### Restrict Available Options
 
 Sometimes, it may be desirable to restrict what options are available for selection. For example, you may have a control above the dual listbox that allows a user to search for a planet in the solar system. Once a planet is selected, you want to restrict the available options to the moons of that planet. Use the `available` property in that case.
 

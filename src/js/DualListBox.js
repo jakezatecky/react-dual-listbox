@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React from 'react';
 import shortid from 'shortid';
 
@@ -23,6 +24,8 @@ class DualListBox extends React.Component {
 
 		available: React.PropTypes.arrayOf(React.PropTypes.string),
 		availableRef: React.PropTypes.func,
+		canFilter: React.PropTypes.bool,
+		filterPlaceholder: React.PropTypes.string,
 		name: React.PropTypes.string,
 		preserveSelectOrder: React.PropTypes.bool,
 		selected: React.PropTypes.arrayOf(React.PropTypes.string),
@@ -32,6 +35,8 @@ class DualListBox extends React.Component {
 	static defaultProps = {
 		available: undefined,
 		availableRef: null,
+		canFilter: false,
+		filterPlaceholder: 'Search...',
 		name: null,
 		preserveSelectOrder: null,
 		selected: [],
@@ -320,17 +325,31 @@ class DualListBox extends React.Component {
 		});
 	}
 
+	renderFilter(canFilter, filterPlaceholder) {
+		if (!canFilter) {
+			return null;
+		}
+
+		return <input className="rdl-filter" placeholder={filterPlaceholder} type="text" />;
+	}
+
 	/**
 	 * @returns {React.Component}
 	 */
 	render() {
-		const { name, options, availableRef, selectedRef } = this.props;
+		const { name, options, canFilter, filterPlaceholder, availableRef, selectedRef } = this.props;
 		const available = this.renderOptions(this.filterAvailable(options));
 		const selected = this.renderOptions(this.filterSelected(options));
 
+		const className = classNames({
+			'react-dual-listbox': true,
+			'rdl-has-filter': canFilter,
+		});
+
 		return (
-			<div className="react-dual-listbox">
+			<div className={className}>
 				<div className="rdl-available">
+					{this.renderFilter(canFilter, filterPlaceholder)}
 					<label className="rdl-control-label" htmlFor={`${this.id}-available`}>
 						Available
 					</label>
@@ -347,6 +366,7 @@ class DualListBox extends React.Component {
 					</div>
 				</div>
 				<div className="rdl-selected">
+					{this.renderFilter(canFilter, filterPlaceholder)}
 					<label className="rdl-control-label" htmlFor={`${this.id}-selected`}>
 						Selected
 					</label>

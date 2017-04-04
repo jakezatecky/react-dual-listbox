@@ -23,8 +23,24 @@ $rdl-line-height: 1.428571429;
 .rdl-available,
 .rdl-selected {
   display: flex;
+  flex-direction: column;
   flex: 1 1 0;
   align-self: stretch;
+}
+
+.rdl-filter,
+.rdl-control {
+  display: block;
+  border: 1px solid $rdl-input-border;
+  border-radius: 2px;
+  padding: 8px 12px;
+  width: 100%;
+  color: $rdl-input-color;
+  font-size: 14px;
+}
+
+.rdl-filter {
+  margin-bottom: 10px;
 }
 
 .rdl-control-label {
@@ -33,14 +49,7 @@ $rdl-line-height: 1.428571429;
 }
 
 .rdl-control {
-  display: block;
-  align-self: stretch;
-  border: 1px solid $rdl-input-border;
-  border-radius: 2px;
-  padding: 8px 12px;
-  width: 100%;
-  color: $rdl-input-color;
-  font-size: 14px;
+  flex: 1 0 auto;
 
   optgroup {
     font: inherit;
@@ -53,6 +62,11 @@ $rdl-line-height: 1.428571429;
   flex: 0 0 auto;
   flex-direction: column;
   margin: 0 10px;
+
+  // Add search input height and margin
+  .rdl-has-filter & {
+    padding-top: 44px;
+  }
 }
 
 .rdl-actions-right,

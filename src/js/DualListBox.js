@@ -322,7 +322,9 @@ class DualListBox extends React.Component {
 		}));
 
 		if (canFilter) {
-			return selectedOptions.filter(selected => filterCallback(selected, this.state.filter.selected));
+			return selectedOptions.filter(
+				selected => filterCallback(selected, this.state.filter.selected),
+			);
 		}
 
 		return selectedOptions;
@@ -332,17 +334,15 @@ class DualListBox extends React.Component {
 	 * @param {string} key
 	 * @param {Array} options
 	 * @param {function} ref
-	 * @param {string} name
 	 *
 	 * @returns {React.Component}
 	 */
-	renderSelect(key, options, ref, name = null) {
+	renderSelect(key, options, ref) {
 		return (
 			<select
 				className="rdl-control"
 				id={`${this.id}-${key}`}
 				multiple
-				name={name}
 				ref={(c) => {
 					this[key] = c;
 
@@ -411,9 +411,17 @@ class DualListBox extends React.Component {
 	 * @returns {React.Component}
 	 */
 	render() {
-		const { name, options, canFilter, filterPlaceholder, availableRef, selectedRef } = this.props;
-		const available = this.renderOptions(this.filterAvailable(options));
-		const selected = this.renderOptions(this.filterSelected(options));
+		const {
+			canFilter,
+			filterPlaceholder,
+			name,
+			options,
+			selected,
+			availableRef,
+			selectedRef,
+		} = this.props;
+		const availableOptions = this.renderOptions(this.filterAvailable(options));
+		const selectedOptions = this.renderOptions(this.filterSelected(options));
 
 		const className = classNames({
 			'react-dual-listbox': true,
@@ -427,7 +435,7 @@ class DualListBox extends React.Component {
 					<label className="rdl-control-label" htmlFor={`${this.id}-available`}>
 						Available
 					</label>
-					{this.renderSelect('available', available, availableRef)}
+					{this.renderSelect('available', availableOptions, availableRef)}
 				</div>
 				<div className="rdl-actions">
 					<div className="rdl-actions-right">
@@ -444,8 +452,9 @@ class DualListBox extends React.Component {
 					<label className="rdl-control-label" htmlFor={`${this.id}-selected`}>
 						Selected
 					</label>
-					{this.renderSelect('selected', selected, selectedRef, name)}
+					{this.renderSelect('selected', selectedOptions, selectedRef)}
 				</div>
+				<input type="hidden" name={name} value={selected} />
 			</div>
 		);
 	}

@@ -397,6 +397,7 @@ class DualListBox extends React.Component {
 			<input
 				className="rdl-filter"
 				data-name={name}
+				id={`${this.id}-filter-${name}`}
 				placeholder={filterPlaceholder}
 				type="text"
 				value={this.state.filter[name]}
@@ -429,6 +430,9 @@ class DualListBox extends React.Component {
 		return (
 			<div className={className}>
 				<div className="rdl-available">
+					<label className="rdl-control-label" htmlFor={`${this.id}-filter-available`}>
+						Filter Available
+					</label>
 					{this.renderFilter(canFilter, filterPlaceholder, 'available')}
 					<label className="rdl-control-label" htmlFor={`${this.id}-available`}>
 						Available
@@ -446,6 +450,9 @@ class DualListBox extends React.Component {
 					</div>
 				</div>
 				<div className="rdl-selected">
+					<label className="rdl-control-label" htmlFor={`${this.id}-filter-selected`}>
+						Filter Selected
+					</label>
 					{this.renderFilter(canFilter, filterPlaceholder, 'selected')}
 					<label className="rdl-control-label" htmlFor={`${this.id}-selected`}>
 						Selected

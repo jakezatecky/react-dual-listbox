@@ -9,6 +9,14 @@ const optionShape = React.PropTypes.shape({
 	label: React.PropTypes.string.isRequired,
 });
 
+const defaultFilter = (option, filterInput) => {
+	if (filterInput === '') {
+		return true;
+	}
+
+	return (new RegExp(filterInput, 'i')).test(option.label);
+};
+
 class DualListBox extends React.Component {
 	static propTypes = {
 		options: React.PropTypes.arrayOf(
@@ -25,6 +33,7 @@ class DualListBox extends React.Component {
 		available: React.PropTypes.arrayOf(React.PropTypes.string),
 		availableRef: React.PropTypes.func,
 		canFilter: React.PropTypes.bool,
+		filterCallback: React.PropTypes.func,
 		filterPlaceholder: React.PropTypes.string,
 		name: React.PropTypes.string,
 		preserveSelectOrder: React.PropTypes.bool,
@@ -37,6 +46,7 @@ class DualListBox extends React.Component {
 		availableRef: null,
 		canFilter: false,
 		filterPlaceholder: 'Search...',
+		filterCallback: defaultFilter,
 		name: null,
 		preserveSelectOrder: null,
 		selected: [],
@@ -51,9 +61,17 @@ class DualListBox extends React.Component {
 	constructor(props) {
 		super(props);
 
+		this.state = {
+			filter: {
+				available: '',
+				selected: '',
+			},
+		};
+
 		this.onClick = this.onClick.bind(this);
 		this.onDoubleClick = this.onDoubleClick.bind(this);
 		this.onKeyUp = this.onKeyUp.bind(this);
+		this.onFilterChange = this.onFilterChange.bind(this);
 
 		this.id = shortid.generate();
 	}
@@ -110,6 +128,20 @@ class DualListBox extends React.Component {
 
 			this.props.onChange(selected);
 		}
+	}
+
+	/**
+	 * @param {Event} event
+	 *
+	 * @returns {void}
+	 */
+	onFilterChange(event) {
+		this.setState({
+			filter: {
+				...this.state.filter,
+				[event.target.dataset.name]: event.target.value,
+			},
+		});
 	}
 
 	/**
@@ -195,15 +227,17 @@ class DualListBox extends React.Component {
 	 *
 	 * @param {Array} options
 	 * @param {Function} filterer
+	 * @param {string} filterInput
 	 *
 	 * @returns {Array}
 	 */
-	filterOptions(options, filterer) {
+	filterOptions(options, filterer, filterInput) {
+		const { canFilter, filterCallback } = this.props;
 		const filtered = [];
 
 		options.forEach((option) => {
 			if (option.options !== undefined) {
-				const children = this.filterOptions(option.options, filterer);
+				const children = this.filterOptions(option.options, filterer, filterInput);
 
 				if (children.length > 0) {
 					filtered.push({
@@ -212,6 +246,11 @@ class DualListBox extends React.Component {
 					});
 				}
 			} else if (filterer(option)) {
+				// Test option against filter input
+				if (canFilter && !filterCallback(option, filterInput)) {
+					return;
+				}
+
 				filtered.push(option);
 			}
 		});
@@ -228,14 +267,22 @@ class DualListBox extends React.Component {
 	 */
 	filterAvailable(options) {
 		if (this.props.available !== undefined) {
-			return this.filterOptions(options, option =>
-				this.props.available.indexOf(option.value) >= 0 &&
-				this.props.selected.indexOf(option.value) < 0,
+			return this.filterOptions(
+				options,
+				option => (
+					this.props.available.indexOf(option.value) >= 0 &&
+					this.props.selected.indexOf(option.value) < 0
+				),
+				this.state.filter.available,
 			);
 		}
 
 		// Show all un-selected options
-		return this.filterOptions(options, option => this.props.selected.indexOf(option.value) < 0);
+		return this.filterOptions(
+			options,
+			option => this.props.selected.indexOf(option.value) < 0,
+			this.state.filter.available,
+		);
 	}
 
 	/**
@@ -251,7 +298,11 @@ class DualListBox extends React.Component {
 		}
 
 		// Order the selections by the default order
-		return this.filterOptions(options, option => this.props.selected.indexOf(option.value) >= 0);
+		return this.filterOptions(
+			options,
+			option => this.props.selected.indexOf(option.value) >= 0,
+			this.state.filter.selected,
+		);
 	}
 
 	/**
@@ -262,12 +313,19 @@ class DualListBox extends React.Component {
 	 * @returns {Array}
 	 */
 	filterSelectedByOrder(options) {
+		const { canFilter, filterCallback } = this.props;
 		const labelMap = this.getLabelMap(options);
 
-		return this.props.selected.map(selected => ({
+		const selectedOptions = this.props.selected.map(selected => ({
 			value: selected,
 			label: labelMap[selected],
 		}));
+
+		if (canFilter) {
+			return selectedOptions.filter(selected => filterCallback(selected, this.state.filter.selected));
+		}
+
+		return selectedOptions;
 	}
 
 	/**
@@ -325,12 +383,28 @@ class DualListBox extends React.Component {
 		});
 	}
 
-	renderFilter(canFilter, filterPlaceholder) {
+	/**
+	 * @param {boolean} canFilter
+	 * @param {string} filterPlaceholder
+	 * @param {string} name
+	 *
+	 * @returns {React.Component}
+	 */
+	renderFilter(canFilter, filterPlaceholder, name) {
 		if (!canFilter) {
 			return null;
 		}
 
-		return <input className="rdl-filter" placeholder={filterPlaceholder} type="text" />;
+		return (
+			<input
+				className="rdl-filter"
+				data-name={name}
+				placeholder={filterPlaceholder}
+				type="text"
+				value={this.state.filter[name]}
+				onChange={this.onFilterChange}
+			/>
+		);
 	}
 
 	/**
@@ -349,7 +423,7 @@ class DualListBox extends React.Component {
 		return (
 			<div className={className}>
 				<div className="rdl-available">
-					{this.renderFilter(canFilter, filterPlaceholder)}
+					{this.renderFilter(canFilter, filterPlaceholder, 'available')}
 					<label className="rdl-control-label" htmlFor={`${this.id}-available`}>
 						Available
 					</label>
@@ -366,7 +440,7 @@ class DualListBox extends React.Component {
 					</div>
 				</div>
 				<div className="rdl-selected">
-					{this.renderFilter(canFilter, filterPlaceholder)}
+					{this.renderFilter(canFilter, filterPlaceholder, 'selected')}
 					<label className="rdl-control-label" htmlFor={`${this.id}-selected`}>
 						Selected
 					</label>

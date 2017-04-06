@@ -38,7 +38,7 @@ For your convenience, the library's styles can be consumed utilizing one of the 
 
 Either include one of these files in your stylesheets or utilize a CSS loader:
 
-``` javascript
+``` jsx
 import 'react-dual-listbox/lib/react-dual-listbox.css';
 ```
 
@@ -48,7 +48,7 @@ The `DualListBox` is a [controlled] component, so you have to update the `select
 
 Here is a minimal rendering of the component:
 
-``` javascript
+``` jsx
 import React from 'react';
 import DualListBox from 'react-dual-listbox';
 
@@ -70,7 +70,7 @@ import DualListBox from 'react-dual-listbox';
 
 Traditional `<optgroup>`'s are also supported:
 
-``` javascript
+``` jsx
 render() {
     const options = [
         {
@@ -105,7 +105,7 @@ render() {
 
 You can enable filtering of available and selected options by merely passing in the `canFilter` property:
 
-``` javascript
+``` jsx
 render() {
     ...
 
@@ -115,7 +115,7 @@ render() {
 
 Optionally, you can also override the default filter placeholder text and the filtering function:
 
-``` javascript
+``` jsx
 render() {
     ...
 
@@ -141,7 +141,7 @@ By default, `react-dual-listbox` will order any selected items according to the 
 
 > **Note** &ndash; Any `<optgroup>`'s supplied will not be surfaced when preserving the selection order.
 
-``` javascript
+``` jsx
 render() {
     ...
 
@@ -153,7 +153,7 @@ render() {
 
 Sometimes, it may be desirable to restrict what options are available for selection. For example, you may have a control above the dual listbox that allows a user to search for a planet in the solar system. Once a planet is selected, you want to restrict the available options to the moons of that planet. Use the `available` property in that case.
 
-``` javascript
+``` jsx
 render() {
     ...
     

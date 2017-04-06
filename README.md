@@ -101,6 +101,40 @@ render() {
 }
 ```
 
+### Filtering
+
+You can enable filtering of available and selected options by merely passing in the `canFilter` property:
+
+``` javascript
+render() {
+    ...
+
+    return <DualListBox canFilter options={options} />;
+}
+```
+
+Optionally, you can also override the default filter placeholder text and the filtering function:
+
+``` javascript
+render() {
+    ...
+
+    return (
+        <DualListBox
+            canFilter
+            filterCallback={(option, filterInput) => {
+                if (filterInput === '') {
+                    return true;
+                }
+
+                return (new RegExp(filterInput, 'i')).test(option.label);
+            })
+            filterPlaceholder="Filter..."
+        />
+    );
+}
+```
+
 ### Preserve Select Ordering
 
 By default, `react-dual-listbox` will order any selected items according to the order of the `options` property. There may be times in which you wish to preserve the selection order instead. In this case, you can add the `preserveSelectOrder` property.

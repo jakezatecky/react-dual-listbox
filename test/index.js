@@ -118,6 +118,116 @@ describe('<DualListBox />', () => {
 		});
 	});
 
+	describe('props.canFilter', () => {
+		it('should render the available and selected filter inputs', () => {
+			const wrapper = shallow(<DualListBox
+				canFilter
+				options={[
+					{ label: 'Moon', value: 'luna' },
+					{ label: 'Phobos', value: 'phobos' },
+				]}
+				onChange={() => {}}
+			/>);
+
+			assert.isTrue(wrapper.find('.rdl-available .rdl-filter').exists());
+			assert.isTrue(wrapper.find('.rdl-selected .rdl-filter').exists());
+		});
+
+		it('should filter available and selected options when non-empty', () => {
+			const wrapper = shallow(<DualListBox
+				canFilter
+				options={[
+					{ label: 'Moon', value: 'luna' },
+					{ label: 'Phobos', value: 'phobos' },
+				]}
+				onChange={() => {}}
+			/>);
+
+			wrapper.find('.rdl-available .rdl-filter').simulate('change', {
+				target: {
+					dataset: { name: 'available' },
+					value: 'mo',
+				},
+			});
+
+			assert.isTrue(wrapper.find('.rdl-available option[value="luna"]').exists());
+			assert.isFalse(wrapper.find('.rdl-available option[value="phobos"]').exists());
+		});
+	});
+
+	describe('props.filterCallback', () => {
+		it('should invoke the filterCallback function with the available options', () => {
+			let available = [];
+
+			const wrapper = shallow(<DualListBox
+				canFilter
+				filterCallback={(option) => {
+					available.push(option.value);
+				}}
+				options={[
+					{ label: 'Moon', value: 'luna' },
+					{ label: 'Phobos', value: 'phobos' },
+				]}
+				onChange={() => {}}
+			/>);
+
+			// Initial render
+			assert.deepEqual(['luna', 'phobos'], available);
+
+			// Clear for subsequent re-render
+			available = [];
+			wrapper.find('.rdl-available .rdl-filter').simulate('change', {
+				target: {
+					dataset: { name: 'available' },
+					value: 'mo',
+				},
+			});
+
+			assert.deepEqual(['luna', 'phobos'], available);
+		});
+
+		it('should invoke the filterCallback function with the input string', () => {
+			let filterInput = '';
+
+			const wrapper = shallow(<DualListBox
+				canFilter
+				filterCallback={(option, input) => {
+					filterInput = input;
+				}}
+				options={[
+					{ label: 'Moon', value: 'luna' },
+					{ label: 'Phobos', value: 'phobos' },
+				]}
+				onChange={() => {}}
+			/>);
+
+			wrapper.find('.rdl-available .rdl-filter').simulate('change', {
+				target: {
+					dataset: { name: 'available' },
+					value: 'mo',
+				},
+			});
+
+			assert.deepEqual('mo', filterInput);
+		});
+	});
+
+	describe('props.filterPlaceholder', () => {
+		it('should set the placeholder text on the filter inputs', () => {
+			const wrapper = shallow(<DualListBox
+				canFilter
+				filterPlaceholder="Filter"
+				options={[
+					{ label: 'Moon', value: 'luna' },
+					{ label: 'Phobos', value: 'phobos' },
+				]}
+				onChange={() => {}}
+			/>);
+
+			assert.equal('Filter', wrapper.find('.rdl-available .rdl-filter').prop('placeholder'));
+		});
+	});
+
 	describe('props.preserveSelectOrder', () => {
 		it('should arrange the selected options by their original order when false', () => {
 			const wrapper = shallow(<DualListBox

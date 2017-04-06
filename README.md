@@ -128,7 +128,7 @@ render() {
                 }
 
                 return (new RegExp(filterInput, 'i')).test(option.label);
-            })
+            }}
             filterPlaceholder="Filter..."
         />
     );

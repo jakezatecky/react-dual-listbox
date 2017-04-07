@@ -26,8 +26,6 @@ yarn add react-dual-listbox
 
 > **Note** &ndash; This library makes use of [Font Awesome](http://fontawesome.io/) styles and expects them to be loaded in the browser.
 
-> **Note** &ndash; If you need support for IE 11, you **must** include an `Array.from` polyfill, such as the [Babel ES6 polyfill](https://babeljs.io/docs/usage/polyfill/).
-
 ### Include CSS
 
 For your convenience, the library's styles can be consumed utilizing one of the following files:

@@ -3,6 +3,7 @@ import React from 'react';
 import shortid from 'shortid';
 
 import Action from './Action';
+import arrayFrom from './arrayFrom';
 
 const optionShape = React.PropTypes.shape({
 	value: React.PropTypes.any.isRequired,
@@ -121,7 +122,7 @@ class DualListBox extends React.Component {
 
 		if (key === 'Enter') {
 			const selected = this.toggleSelected(
-				[...currentTarget.options]
+				arrayFrom(currentTarget.options)
 					.filter(option => option.selected)
 					.map(option => option.value),
 			);
@@ -173,7 +174,7 @@ class DualListBox extends React.Component {
 	 * @returns {Array}
 	 */
 	getSelectedOptions(element) {
-		return [...element.options]
+		return arrayFrom(element.options)
 			.filter(option => option.selected)
 			.map(option => option.value);
 	}

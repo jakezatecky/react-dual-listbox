@@ -4,6 +4,7 @@ import shortid from 'shortid';
 
 import Action from './Action';
 import arrayFrom from './arrayFrom';
+import ListBox from './ListBox';
 
 const optionShape = React.PropTypes.shape({
 	value: React.PropTypes.any.isRequired,
@@ -140,7 +141,7 @@ class DualListBox extends React.Component {
 		this.setState({
 			filter: {
 				...this.state.filter,
-				[event.target.dataset.name]: event.target.value,
+				[event.target.dataset.key]: event.target.value,
 			},
 		});
 	}
@@ -332,34 +333,6 @@ class DualListBox extends React.Component {
 	}
 
 	/**
-	 * @param {string} key
-	 * @param {Array} options
-	 * @param {function} ref
-	 *
-	 * @returns {React.Component}
-	 */
-	renderSelect(key, options, ref) {
-		return (
-			<select
-				className="rdl-control"
-				id={`${this.id}-${key}`}
-				multiple
-				ref={(c) => {
-					this[key] = c;
-
-					if (ref) {
-						ref(c);
-					}
-				}}
-				onDoubleClick={this.onDoubleClick}
-				onKeyUp={this.onKeyUp}
-			>
-				{options}
-			</select>
-		);
-	}
-
-	/**
 	 * @returns {Array}
 	 */
 	renderOptions(options) {
@@ -383,27 +356,40 @@ class DualListBox extends React.Component {
 	}
 
 	/**
-	 * @param {boolean} canFilter
-	 * @param {string} filterPlaceholder
-	 * @param {string} name
+	 * @param {string} controlKey
+	 * @param {string} displayName
+	 * @param {Array} options
+	 * @param {function} ref
 	 *
 	 * @returns {React.Component}
 	 */
-	renderFilter(canFilter, filterPlaceholder, name) {
-		if (!canFilter) {
-			return null;
-		}
+	renderListBox(controlKey, displayName, options, ref) {
+		const {
+			canFilter,
+			filterPlaceholder,
+		} = this.props;
 
 		return (
-			<input
-				className="rdl-filter"
-				data-name={name}
-				id={`${this.id}-filter-${name}`}
-				placeholder={filterPlaceholder}
-				type="text"
-				value={this.state.filter[name]}
-				onChange={this.onFilterChange}
-			/>
+			<ListBox
+				canFilter={canFilter}
+				controlKey={controlKey}
+				displayName={displayName}
+				filterPlaceholder={filterPlaceholder}
+				filterValue={this.state.filter[controlKey]}
+				id={this.id}
+				inputRef={(c) => {
+					this[controlKey] = c;
+
+					if (ref) {
+						ref(c);
+					}
+				}}
+				onDoubleClick={this.onDoubleClick}
+				onFilterChange={this.onFilterChange}
+				onKeyUp={this.onKeyUp}
+			>
+				{options}
+			</ListBox>
 		);
 	}
 
@@ -413,7 +399,6 @@ class DualListBox extends React.Component {
 	render() {
 		const {
 			canFilter,
-			filterPlaceholder,
 			name,
 			options,
 			selected,
@@ -430,16 +415,7 @@ class DualListBox extends React.Component {
 
 		return (
 			<div className={className}>
-				<div className="rdl-available">
-					<label className="rdl-control-label" htmlFor={`${this.id}-filter-available`}>
-						Filter Available
-					</label>
-					{this.renderFilter(canFilter, filterPlaceholder, 'available')}
-					<label className="rdl-control-label" htmlFor={`${this.id}-available`}>
-						Available
-					</label>
-					{this.renderSelect('available', availableOptions, availableRef)}
-				</div>
+				{this.renderListBox('available', 'Available', availableOptions, availableRef)}
 				<div className="rdl-actions">
 					<div className="rdl-actions-right">
 						<Action direction="right" isMoveAll onClick={this.onClick} />
@@ -450,16 +426,7 @@ class DualListBox extends React.Component {
 						<Action direction="left" isMoveAll onClick={this.onClick} />
 					</div>
 				</div>
-				<div className="rdl-selected">
-					<label className="rdl-control-label" htmlFor={`${this.id}-filter-selected`}>
-						Filter Selected
-					</label>
-					{this.renderFilter(canFilter, filterPlaceholder, 'selected')}
-					<label className="rdl-control-label" htmlFor={`${this.id}-selected`}>
-						Selected
-					</label>
-					{this.renderSelect('selected', selectedOptions, selectedRef)}
-				</div>
+				{this.renderListBox('selected', 'Selected', selectedOptions, selectedRef)}
 				<input type="hidden" name={name} value={selected} />
 			</div>
 		);

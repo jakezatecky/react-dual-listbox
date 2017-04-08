@@ -61,7 +61,7 @@ describe('<DualListBox />', () => {
 				selected={['phobos']}
 			/>);
 
-			assert.isTrue(wrapper.find('.rdl-selected').contains((
+			assert.isTrue(wrapper.find('ListBox').at(1).contains((
 				<option value="phobos">Phobos</option>
 			)));
 		});
@@ -78,7 +78,7 @@ describe('<DualListBox />', () => {
 				onChange={() => {}}
 			/>);
 
-			assert.isTrue(wrapper.find('.rdl-available').contains((
+			assert.isTrue(wrapper.find('ListBox').at(0).contains((
 				<option value="luna">Moon</option>
 			)));
 		});
@@ -93,7 +93,7 @@ describe('<DualListBox />', () => {
 				onChange={() => {}}
 			/>);
 
-			assert.isFalse(wrapper.find('.rdl-available').contains((
+			assert.isFalse(wrapper.find('ListBox').at(0).contains((
 				<option value="phobos">Phobos</option>
 			)));
 		});
@@ -109,10 +109,10 @@ describe('<DualListBox />', () => {
 				onChange={() => {}}
 			/>);
 
-			assert.isTrue(wrapper.find('.rdl-selected').contains((
+			assert.isTrue(wrapper.find('ListBox').at(1).contains((
 				<option value="luna">Moon</option>
 			)));
-			assert.isTrue(wrapper.find('.rdl-selected').contains((
+			assert.isTrue(wrapper.find('ListBox').at(1).contains((
 				<option value="phobos">Phobos</option>
 			)));
 		});
@@ -129,8 +129,8 @@ describe('<DualListBox />', () => {
 				onChange={() => {}}
 			/>);
 
-			assert.isTrue(wrapper.find('.rdl-available .rdl-filter').exists());
-			assert.isTrue(wrapper.find('.rdl-selected .rdl-filter').exists());
+			assert.isTrue(wrapper.find('ListBox').at(0).prop('canFilter'));
+			assert.isTrue(wrapper.find('ListBox').at(1).prop('canFilter'));
 		});
 
 		it('should filter available and selected options when non-empty', () => {
@@ -143,15 +143,15 @@ describe('<DualListBox />', () => {
 				onChange={() => {}}
 			/>);
 
-			wrapper.find('.rdl-available .rdl-filter').simulate('change', {
+			wrapper.find('ListBox').at(0).simulate('filterChange', {
 				target: {
-					dataset: { name: 'available' },
+					dataset: { key: 'available' },
 					value: 'mo',
 				},
 			});
 
-			assert.isTrue(wrapper.find('.rdl-available option[value="luna"]').exists());
-			assert.isFalse(wrapper.find('.rdl-available option[value="phobos"]').exists());
+			assert.isTrue(wrapper.find('ListBox[controlKey="available"] option[value="luna"]').exists());
+			assert.isFalse(wrapper.find('ListBox[controlKey="available"] option[value="phobos"]').exists());
 		});
 	});
 
@@ -176,9 +176,9 @@ describe('<DualListBox />', () => {
 
 			// Clear for subsequent re-render
 			available = [];
-			wrapper.find('.rdl-available .rdl-filter').simulate('change', {
+			wrapper.find('ListBox').at(0).simulate('filterChange', {
 				target: {
-					dataset: { name: 'available' },
+					dataset: { key: 'available' },
 					value: 'mo',
 				},
 			});
@@ -201,9 +201,9 @@ describe('<DualListBox />', () => {
 				onChange={() => {}}
 			/>);
 
-			wrapper.find('.rdl-available .rdl-filter').simulate('change', {
+			wrapper.find('ListBox').at(0).simulate('filterChange', {
 				target: {
-					dataset: { name: 'available' },
+					dataset: { key: 'available' },
 					value: 'mo',
 				},
 			});
@@ -224,7 +224,7 @@ describe('<DualListBox />', () => {
 				onChange={() => {}}
 			/>);
 
-			assert.equal('Filter', wrapper.find('.rdl-available .rdl-filter').prop('placeholder'));
+			assert.equal('Filter', wrapper.find('ListBox').at(0).prop('filterPlaceholder'));
 		});
 	});
 
@@ -240,8 +240,8 @@ describe('<DualListBox />', () => {
 				onChange={() => {}}
 			/>);
 
-			assert.equal('luna', wrapper.find('.rdl-selected option').at(0).prop('value'));
-			assert.equal('phobos', wrapper.find('.rdl-selected option').at(1).prop('value'));
+			assert.deepEqual('luna', wrapper.find('ListBox[controlKey="selected"] option').at(0).prop('value'));
+			assert.deepEqual('phobos', wrapper.find('ListBox[controlKey="selected"] option').at(1).prop('value'));
 		});
 
 		it('should arrange the selected options by their selection order when true', () => {
@@ -255,8 +255,8 @@ describe('<DualListBox />', () => {
 				onChange={() => {}}
 			/>);
 
-			assert.equal('phobos', wrapper.find('.rdl-selected option').at(0).prop('value'));
-			assert.equal('luna', wrapper.find('.rdl-selected option').at(1).prop('value'));
+			assert.deepEqual('phobos', wrapper.find('ListBox[controlKey="selected"] option').at(0).prop('value'));
+			assert.deepEqual('luna', wrapper.find('ListBox[controlKey="selected"] option').at(1).prop('value'));
 		});
 	});
 

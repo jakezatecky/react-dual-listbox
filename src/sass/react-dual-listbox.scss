@@ -43,6 +43,11 @@ $rdl-line-height: 1.428571429;
   margin-bottom: 10px;
 }
 
+.rdl-control-container {
+  display: flex;
+  flex: 1 0 auto;
+}
+
 .rdl-control-label {
   position: absolute;
   clip: rect(0 0 0 0);

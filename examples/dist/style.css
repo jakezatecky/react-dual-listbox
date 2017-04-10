@@ -16,14 +16,37 @@
   font-family: inherit;
 }
 
-.rdl-available,
-.rdl-selected {
+.rdl-listbox {
   display: -ms-flexbox;
   display: flex;
   -ms-flex: 1 1 0px;
       flex: 1 1 0;
+  -ms-flex-direction: column;
+      flex-direction: column;
   -ms-flex-item-align: stretch;
       align-self: stretch;
+}
+
+.rdl-filter,
+.rdl-control {
+  display: block;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  padding: 8px 12px;
+  width: 100%;
+  color: #333;
+  font-size: 14px;
+}
+
+.rdl-filter {
+  margin-bottom: 10px;
+}
+
+.rdl-control-container {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex: 1 0 auto;
+      flex: 1 0 auto;
 }
 
 .rdl-control-label {
@@ -32,16 +55,8 @@
 }
 
 .rdl-control {
-  display: block;
-  -ms-flex-item-align: stretch;
-      -ms-grid-row-align: stretch;
-      align-self: stretch;
-  border: 1px solid #ccc;
-  border-radius: 2px;
-  padding: 8px 12px;
-  width: 100%;
-  color: #333;
-  font-size: 14px;
+  -ms-flex: 1 0 auto;
+      flex: 1 0 auto;
 }
 
 .rdl-control optgroup {
@@ -57,6 +72,10 @@
   -ms-flex-direction: column;
       flex-direction: column;
   margin: 0 10px;
+}
+
+.rdl-has-filter .rdl-actions {
+  padding-top: 44px;
 }
 
 .rdl-actions-right,
@@ -103,6 +122,44 @@
 
 .rdl-move i {
   margin: 0 -1px;
+}
+
+.rdl-align-top .rdl-available {
+  margin-right: 10px;
+}
+
+.rdl-align-top .rdl-selected {
+  margin-left: 10px;
+}
+
+.rdl-align-top .rdl-control {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.rdl-align-top .rdl-actions-left,
+.rdl-align-top .rdl-actions-right {
+  -ms-flex-direction: row;
+      flex-direction: row;
+  margin: 0;
+}
+
+.rdl-align-top .rdl-move {
+  -ms-flex: 0 0 50%;
+      flex: 0 0 50%;
+}
+
+.rdl-align-top .rdl-move:first-child {
+  margin-bottom: 0;
+  border-top-right-radius: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.rdl-align-top .rdl-move:last-child {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 * {
@@ -463,10 +520,6 @@ a:hover {
 
 .site-footer-credits {
   color: #819198;
-}
-
-.react-dual-listbox {
-  width: 100%;
 }
 
 .moons {

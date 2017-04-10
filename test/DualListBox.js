@@ -67,6 +67,38 @@ describe('<DualListBox />', () => {
 		});
 	});
 
+	describe('props.alignActions', () => {
+		it('should align the actions in the middle by default', () => {
+			const wrapper = shallow(<DualListBox
+				options={[
+					{ label: 'Moon', value: 'luna' },
+					{ label: 'Phobos', value: 'phobos' },
+				]}
+				onChange={() => {}}
+			/>);
+
+			assert.isTrue(wrapper.find('.rdl-actions > .rdl-actions-right > Action').exists());
+			assert.isTrue(wrapper.find('.rdl-actions > .rdl-actions-right > Action[isMoveAll]').exists());
+			assert.isTrue(wrapper.find('.rdl-actions > .rdl-actions-left > Action').exists());
+			assert.isTrue(wrapper.find('.rdl-actions > .rdl-actions-left > Action[isMoveAll]').exists());
+		});
+
+		it('should put the actions in the listbox when set to \'top\'', () => {
+			const wrapper = shallow(<DualListBox
+				alignActions="top"
+				options={[
+					{ label: 'Moon', value: 'luna' },
+					{ label: 'Phobos', value: 'phobos' },
+				]}
+				onChange={() => {}}
+			/>);
+
+			assert.isFalse(wrapper.find('.rdl-actions').exists());
+			assert.isTrue(wrapper.find('ListBox').at(0).prop('actions') !== null);
+			assert.isTrue(wrapper.find('ListBox').at(1).prop('actions') !== null);
+		});
+	});
+
 	describe('props.available', () => {
 		it('should include options in the array in the available list', () => {
 			const wrapper = shallow(<DualListBox

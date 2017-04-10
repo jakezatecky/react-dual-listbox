@@ -20,8 +20,7 @@ $rdl-line-height: 1.428571429;
   }
 }
 
-.rdl-available,
-.rdl-selected {
+.rdl-listbox {
   display: flex;
   flex: 1 1 0;
   flex-direction: column;
@@ -117,5 +116,43 @@ $rdl-line-height: 1.428571429;
   // Decrease spacing between icons
   i {
     margin: 0 -1px;
+  }
+}
+
+.rdl-align-top {
+  .rdl-available {
+    margin-right: 10px;
+  }
+
+  .rdl-selected {
+    margin-left: 10px;
+  }
+
+  .rdl-control {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+  .rdl-actions-left,
+  .rdl-actions-right {
+    flex-direction: row;
+    margin: 0;
+  }
+
+  .rdl-move {
+    flex: 0 0 50%;
+
+    &:first-child {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      border-bottom-left-radius: 0;
+      margin-bottom: 0;
+    }
+
+    &:last-child {
+      border-top-left-radius: 0;
+      border-bottom-right-radius: 0;
+      border-bottom-left-radius: 0;
+    }
   }
 }

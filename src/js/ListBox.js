@@ -13,6 +13,12 @@ class ListBox extends React.Component {
 		onDoubleClick: React.PropTypes.func.isRequired,
 		onFilterChange: React.PropTypes.func.isRequired,
 		onKeyUp: React.PropTypes.func.isRequired,
+
+		actions: React.PropTypes.node,
+	};
+
+	static defaultProps = {
+		actions: null,
 	};
 
 	/**
@@ -77,11 +83,12 @@ class ListBox extends React.Component {
 	}
 
 	render() {
-		const { controlKey } = this.props;
+		const { actions, controlKey } = this.props;
 
 		return (
-			<div className={`rdl-${controlKey}`}>
+			<div className={`rdl-listbox rdl-${controlKey}`}>
 				{this.renderFilter()}
+				{actions}
 				{this.renderSelect()}
 			</div>
 		);

@@ -32,6 +32,7 @@ class DualListBox extends React.Component {
 		).isRequired,
 		onChange: React.PropTypes.func.isRequired,
 
+		alignActions: React.PropTypes.string,
 		available: React.PropTypes.arrayOf(React.PropTypes.string),
 		availableRef: React.PropTypes.func,
 		canFilter: React.PropTypes.bool,
@@ -44,6 +45,7 @@ class DualListBox extends React.Component {
 	};
 
 	static defaultProps = {
+		alignActions: 'middle',
 		available: undefined,
 		availableRef: null,
 		canFilter: false,
@@ -360,17 +362,20 @@ class DualListBox extends React.Component {
 	 * @param {string} displayName
 	 * @param {Array} options
 	 * @param {function} ref
+	 * @param {React.Component} actions
 	 *
 	 * @returns {React.Component}
 	 */
-	renderListBox(controlKey, displayName, options, ref) {
+	renderListBox(controlKey, displayName, options, ref, actions) {
 		const {
+			alignActions,
 			canFilter,
 			filterPlaceholder,
 		} = this.props;
 
 		return (
 			<ListBox
+				actions={alignActions === 'top' ? actions : null}
 				canFilter={canFilter}
 				controlKey={controlKey}
 				displayName={displayName}
@@ -398,6 +403,7 @@ class DualListBox extends React.Component {
 	 */
 	render() {
 		const {
+			alignActions,
 			canFilter,
 			name,
 			options,
@@ -407,26 +413,35 @@ class DualListBox extends React.Component {
 		} = this.props;
 		const availableOptions = this.renderOptions(this.filterAvailable(options));
 		const selectedOptions = this.renderOptions(this.filterSelected(options));
+		const actionsRight = (
+			<div className="rdl-actions-right">
+				<Action direction="right" isMoveAll onClick={this.onClick} />
+				<Action direction="right" onClick={this.onClick} />
+			</div>
+		);
+		const actionsLeft = (
+			<div className="rdl-actions-left">
+				<Action direction="left" onClick={this.onClick} />
+				<Action direction="left" isMoveAll onClick={this.onClick} />
+			</div>
+		);
 
 		const className = classNames({
 			'react-dual-listbox': true,
 			'rdl-has-filter': canFilter,
+			'rdl-align-top': alignActions === 'top',
 		});
 
 		return (
 			<div className={className}>
-				{this.renderListBox('available', 'Available', availableOptions, availableRef)}
-				<div className="rdl-actions">
-					<div className="rdl-actions-right">
-						<Action direction="right" isMoveAll onClick={this.onClick} />
-						<Action direction="right" onClick={this.onClick} />
+				{this.renderListBox('available', 'Available', availableOptions, availableRef, actionsRight)}
+				{alignActions === 'middle' ? (
+					<div className="rdl-actions">
+						{actionsRight}
+						{actionsLeft}
 					</div>
-					<div className="rdl-actions-left">
-						<Action direction="left" onClick={this.onClick} />
-						<Action direction="left" isMoveAll onClick={this.onClick} />
-					</div>
-				</div>
-				{this.renderListBox('selected', 'Selected', selectedOptions, selectedRef)}
+				) : null}
+				{this.renderListBox('selected', 'Selected', selectedOptions, selectedRef, actionsLeft)}
 				<input type="hidden" name={name} value={selected} />
 			</div>
 		);

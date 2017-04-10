@@ -32,7 +32,7 @@ For your convenience, the library's styles can be consumed utilizing one of the 
 
 * `node_modules/react-dual-listbox/lib/react-dual-listbox.css`
 * `node_modules/react-dual-listbox/src/less/react-dual-listbox.less`
-* `node_modules/react-dual-listbox/src/sass/react-dual-listbox.scss`
+* `node_modules/react-dual-listbox/src/scss/react-dual-listbox.scss`
 
 Either include one of these files in your stylesheets or utilize a CSS loader:
 

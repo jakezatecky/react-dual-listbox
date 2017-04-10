@@ -134,6 +134,20 @@ render() {
 }
 ```
 
+### Action/Button Alignment
+
+By default, the movement buttons are aligned to the center of the component. Another option is to align these actions to be above their respective lists:
+
+``` jsx
+render() {
+    ...
+
+    return (
+        <DualListBox alignActions="top" options={options} />
+    );
+}
+```
+
 ### Preserve Select Ordering
 
 By default, `react-dual-listbox` will order any selected items according to the order of the `options` property. There may be times in which you wish to preserve the selection order instead. In this case, you can add the `preserveSelectOrder` property.

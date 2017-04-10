@@ -13,60 +13,6 @@ describe('<DualListBox />', () => {
 		});
 	});
 
-	describe('props.children', () => {
-		it('should render the supplied options', () => {
-			const wrapper = shallow(<DualListBox
-				options={[
-					{ label: 'Moon', value: 'luna' },
-					{ label: 'Phobos', value: 'phobos' },
-				]}
-				onChange={() => {}}
-			/>);
-
-			assert.isTrue(wrapper.contains(<option value="luna">Moon</option>));
-			assert.isTrue(wrapper.contains(<option value="phobos">Phobos</option>));
-		});
-
-		it('should render optgroups and their children', () => {
-			const wrapper = shallow(<DualListBox
-				options={[
-					{
-						label: 'Mars',
-						options: [
-							{ value: 'phobos', label: 'Phobos' },
-							{ value: 'deimos', label: 'Deimos' },
-						],
-					},
-				]}
-				onChange={() => {}}
-			/>);
-
-			assert.isTrue(wrapper.contains((
-				<optgroup label="Mars">
-					<option value="phobos">Phobos</option>
-					<option value="deimos">Deimos</option>
-				</optgroup>
-			)));
-		});
-	});
-
-	describe('props.selected', () => {
-		it('should render selected options', () => {
-			const wrapper = shallow(<DualListBox
-				options={[
-					{ label: 'Moon', value: 'luna' },
-					{ label: 'Phobos', value: 'phobos' },
-				]}
-				onChange={() => {}}
-				selected={['phobos']}
-			/>);
-
-			assert.isTrue(wrapper.find('ListBox').at(1).contains((
-				<option value="phobos">Phobos</option>
-			)));
-		});
-	});
-
 	describe('props.alignActions', () => {
 		it('should align the actions in the middle by default', () => {
 			const wrapper = shallow(<DualListBox
@@ -260,6 +206,43 @@ describe('<DualListBox />', () => {
 		});
 	});
 
+	describe('props.options', () => {
+		it('should render the supplied options', () => {
+			const wrapper = shallow(<DualListBox
+				options={[
+					{ label: 'Moon', value: 'luna' },
+					{ label: 'Phobos', value: 'phobos' },
+				]}
+				onChange={() => {}}
+			/>);
+
+			assert.isTrue(wrapper.contains(<option value="luna">Moon</option>));
+			assert.isTrue(wrapper.contains(<option value="phobos">Phobos</option>));
+		});
+
+		it('should render optgroups and their children', () => {
+			const wrapper = shallow(<DualListBox
+				options={[
+					{
+						label: 'Mars',
+						options: [
+							{ value: 'phobos', label: 'Phobos' },
+							{ value: 'deimos', label: 'Deimos' },
+						],
+					},
+				]}
+				onChange={() => {}}
+			/>);
+
+			assert.isTrue(wrapper.contains((
+				<optgroup label="Mars">
+					<option value="phobos">Phobos</option>
+					<option value="deimos">Deimos</option>
+				</optgroup>
+			)));
+		});
+	});
+
 	describe('props.preserveSelectOrder', () => {
 		it('should arrange the selected options by their original order when false', () => {
 			const wrapper = shallow(<DualListBox
@@ -289,6 +272,23 @@ describe('<DualListBox />', () => {
 
 			assert.deepEqual('phobos', wrapper.find('ListBox[controlKey="selected"] option').at(0).prop('value'));
 			assert.deepEqual('luna', wrapper.find('ListBox[controlKey="selected"] option').at(1).prop('value'));
+		});
+	});
+
+	describe('props.selected', () => {
+		it('should render selected options', () => {
+			const wrapper = shallow(<DualListBox
+				options={[
+					{ label: 'Moon', value: 'luna' },
+					{ label: 'Phobos', value: 'phobos' },
+				]}
+				onChange={() => {}}
+				selected={['phobos']}
+			/>);
+
+			assert.isTrue(wrapper.find('ListBox').at(1).contains((
+				<option value="phobos">Phobos</option>
+			)));
 		});
 	});
 

@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## [v1.0.0]
+
+### New Features
+
+* [#6]: Search and filtering has been added with the props `canFilter`, `filterPlaceholder`, and `filterCallback`
+
+### Bug Fixes
+
+* [#10]: Fix an issue where selections would shift down after moving items to the opposite list
+
 ## [v0.6.0](https://github.com/jakezatecky/react-dual-listbox/compare/v0.5.1...v0.6.0) (2017-03-25)
 
 ### New Features

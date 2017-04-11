@@ -17,11 +17,13 @@
 Install the library using your favorite dependency manager:
 
 ``` shell
-npm install react-dual-listbox --save
+yarn add react-dual-listbox
 ```
 
+Using npm:
+
 ``` shell
-yarn add react-dual-listbox
+npm install react-dual-listbox --save
 ```
 
 > **Note** &ndash; This library makes use of [Font Awesome](http://fontawesome.io/) styles and expects them to be loaded in the browser.

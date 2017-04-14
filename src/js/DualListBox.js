@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
 import React from 'react';
 import shortid from 'shortid';
 
@@ -6,9 +7,9 @@ import Action from './Action';
 import arrayFrom from './arrayFrom';
 import ListBox from './ListBox';
 
-const optionShape = React.PropTypes.shape({
-	value: React.PropTypes.any.isRequired,
-	label: React.PropTypes.string.isRequired,
+const optionShape = PropTypes.shape({
+	value: PropTypes.any.isRequired,
+	label: PropTypes.string.isRequired,
 });
 
 const defaultFilter = (option, filterInput) => {
@@ -21,27 +22,27 @@ const defaultFilter = (option, filterInput) => {
 
 class DualListBox extends React.Component {
 	static propTypes = {
-		options: React.PropTypes.arrayOf(
-			React.PropTypes.oneOfType([
+		options: PropTypes.arrayOf(
+			PropTypes.oneOfType([
 				optionShape,
-				React.PropTypes.shape({
-					value: React.PropTypes.any,
-					options: React.PropTypes.arrayOf(optionShape),
+				PropTypes.shape({
+					value: PropTypes.any,
+					options: PropTypes.arrayOf(optionShape),
 				}),
 			]),
 		).isRequired,
-		onChange: React.PropTypes.func.isRequired,
+		onChange: PropTypes.func.isRequired,
 
-		alignActions: React.PropTypes.string,
-		available: React.PropTypes.arrayOf(React.PropTypes.string),
-		availableRef: React.PropTypes.func,
-		canFilter: React.PropTypes.bool,
-		filterCallback: React.PropTypes.func,
-		filterPlaceholder: React.PropTypes.string,
-		name: React.PropTypes.string,
-		preserveSelectOrder: React.PropTypes.bool,
-		selected: React.PropTypes.arrayOf(React.PropTypes.string),
-		selectedRef: React.PropTypes.func,
+		alignActions: PropTypes.string,
+		available: PropTypes.arrayOf(PropTypes.string),
+		availableRef: PropTypes.func,
+		canFilter: PropTypes.bool,
+		filterCallback: PropTypes.func,
+		filterPlaceholder: PropTypes.string,
+		name: PropTypes.string,
+		preserveSelectOrder: PropTypes.bool,
+		selected: PropTypes.arrayOf(PropTypes.string),
+		selectedRef: PropTypes.func,
 	};
 
 	static defaultProps = {

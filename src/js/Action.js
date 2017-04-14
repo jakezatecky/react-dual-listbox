@@ -1,12 +1,13 @@
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
 import React from 'react';
 
 class Action extends React.Component {
 	static propTypes = {
-		direction: React.PropTypes.oneOf(['left', 'right']).isRequired,
-		onClick: React.PropTypes.func.isRequired,
+		direction: PropTypes.oneOf(['left', 'right']).isRequired,
+		onClick: PropTypes.func.isRequired,
 
-		isMoveAll: React.PropTypes.bool,
+		isMoveAll: PropTypes.bool,
 	};
 
 	static defaultProps = {

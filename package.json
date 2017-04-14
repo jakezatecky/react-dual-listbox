@@ -56,11 +56,13 @@
     "react": "^15.0.0",
     "react-addons-test-utils": "^15.4.2",
     "react-dom": "^15.0.0",
+    "react-test-renderer": "^15.5.4",
     "webpack": "^2.2.1",
     "webpack-stream": "^3.1.0"
   },
   "dependencies": {
     "classnames": "^2.2.5",
+    "prop-types": "^15.5.8",
     "shortid": "^2.2.8"
   }
 }

@@ -1,20 +1,21 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 class ListBox extends React.Component {
 	static propTypes = {
-		canFilter: React.PropTypes.bool.isRequired,
-		children: React.PropTypes.node.isRequired,
-		controlKey: React.PropTypes.string.isRequired,
-		displayName: React.PropTypes.string.isRequired,
-		filterPlaceholder: React.PropTypes.string.isRequired,
-		filterValue: React.PropTypes.string.isRequired,
-		id: React.PropTypes.string.isRequired,
-		inputRef: React.PropTypes.func.isRequired,
-		onDoubleClick: React.PropTypes.func.isRequired,
-		onFilterChange: React.PropTypes.func.isRequired,
-		onKeyUp: React.PropTypes.func.isRequired,
+		canFilter: PropTypes.bool.isRequired,
+		children: PropTypes.node.isRequired,
+		controlKey: PropTypes.string.isRequired,
+		displayName: PropTypes.string.isRequired,
+		filterPlaceholder: PropTypes.string.isRequired,
+		filterValue: PropTypes.string.isRequired,
+		id: PropTypes.string.isRequired,
+		inputRef: PropTypes.func.isRequired,
+		onDoubleClick: PropTypes.func.isRequired,
+		onFilterChange: PropTypes.func.isRequired,
+		onKeyUp: PropTypes.func.isRequired,
 
-		actions: React.PropTypes.node,
+		actions: PropTypes.node,
 	};
 
 	static defaultProps = {

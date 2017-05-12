@@ -10,6 +10,12 @@
   box-sizing: border-box;
 }
 
+.react-dual-listbox input:disabled,
+.react-dual-listbox select:disabled {
+  background: #eee;
+  cursor: not-allowed;
+}
+
 .react-dual-listbox button,
 .react-dual-listbox select {
   line-height: 1.42857;
@@ -101,19 +107,24 @@
   font-size: 12px;
 }
 
-.rdl-move:active, .rdl-move:focus {
+.rdl-move:active:not(:disabled), .rdl-move:focus:not(:disabled) {
   border-color: #8c8c8c;
   background: #e6e6e6;
 }
 
-.rdl-move:focus {
+.rdl-move:focus:not(:disabled) {
   outline: thin dotted;
   outline-offset: -2px;
 }
 
-.rdl-move:hover {
+.rdl-move:hover:not(:disabled) {
   border-color: #adadad;
   background: #e6e6e6;
+}
+
+.rdl-move:disabled {
+  opacity: .5;
+  cursor: not-allowed;
 }
 
 .rdl-move:last-child {

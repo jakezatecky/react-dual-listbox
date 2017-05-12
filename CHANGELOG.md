@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v1.1.0
+
+* [#21]: Add support for `disabled` property
+
 ## [v1.0.1](https://github.com/jakezatecky/react-dual-listbox/compare/v1.0.0...v1.0.1) (2017-04-11)
 
 ### Bug Fixes

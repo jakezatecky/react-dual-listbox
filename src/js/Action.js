@@ -5,6 +5,7 @@ import React from 'react';
 class Action extends React.Component {
 	static propTypes = {
 		direction: PropTypes.oneOf(['left', 'right']).isRequired,
+		disabled: PropTypes.bool.isRequired,
 		onClick: PropTypes.func.isRequired,
 
 		isMoveAll: PropTypes.bool,
@@ -75,7 +76,7 @@ class Action extends React.Component {
 	 * @returns {React.Component}
 	 */
 	render() {
-		const { direction, isMoveAll } = this.props;
+		const { direction, disabled, isMoveAll } = this.props;
 		const iconClass = this.getIconClass(direction);
 		const label = this.getLabel(direction, isMoveAll);
 		const className = classNames({
@@ -89,6 +90,7 @@ class Action extends React.Component {
 			<button
 				aria-label={label}
 				className={className}
+				disabled={disabled}
 				title={label}
 				type="button"
 				onClick={this.onClick}

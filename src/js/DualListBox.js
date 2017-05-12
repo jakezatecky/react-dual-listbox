@@ -37,6 +37,7 @@ class DualListBox extends React.Component {
 		available: PropTypes.arrayOf(PropTypes.string),
 		availableRef: PropTypes.func,
 		canFilter: PropTypes.bool,
+		disabled: PropTypes.bool,
 		filterCallback: PropTypes.func,
 		filterPlaceholder: PropTypes.string,
 		name: PropTypes.string,
@@ -50,6 +51,7 @@ class DualListBox extends React.Component {
 		available: undefined,
 		availableRef: null,
 		canFilter: false,
+		disabled: false,
 		filterPlaceholder: 'Search...',
 		filterCallback: defaultFilter,
 		name: null,
@@ -371,6 +373,7 @@ class DualListBox extends React.Component {
 		const {
 			alignActions,
 			canFilter,
+			disabled,
 			filterPlaceholder,
 		} = this.props;
 
@@ -379,6 +382,7 @@ class DualListBox extends React.Component {
 				actions={alignActions === 'top' ? actions : null}
 				canFilter={canFilter}
 				controlKey={controlKey}
+				disabled={disabled}
 				displayName={displayName}
 				filterPlaceholder={filterPlaceholder}
 				filterValue={this.state.filter[controlKey]}
@@ -406,6 +410,7 @@ class DualListBox extends React.Component {
 		const {
 			alignActions,
 			canFilter,
+			disabled,
 			name,
 			options,
 			selected,
@@ -416,14 +421,14 @@ class DualListBox extends React.Component {
 		const selectedOptions = this.renderOptions(this.filterSelected(options));
 		const actionsRight = (
 			<div className="rdl-actions-right">
-				<Action direction="right" isMoveAll onClick={this.onClick} />
-				<Action direction="right" onClick={this.onClick} />
+				<Action disabled={disabled} direction="right" isMoveAll onClick={this.onClick} />
+				<Action disabled={disabled} direction="right" onClick={this.onClick} />
 			</div>
 		);
 		const actionsLeft = (
 			<div className="rdl-actions-left">
-				<Action direction="left" onClick={this.onClick} />
-				<Action direction="left" isMoveAll onClick={this.onClick} />
+				<Action disabled={disabled} direction="left" onClick={this.onClick} />
+				<Action disabled={disabled} direction="left" isMoveAll onClick={this.onClick} />
 			</div>
 		);
 
@@ -443,7 +448,7 @@ class DualListBox extends React.Component {
 					</div>
 				) : null}
 				{this.renderListBox('selected', 'Selected', selectedOptions, selectedRef, actionsLeft)}
-				<input type="hidden" name={name} value={selected} />
+				<input disabled={disabled} name={name} value={selected} type="hidden" />
 			</div>
 		);
 	}

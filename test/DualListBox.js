@@ -7,7 +7,10 @@ import DualListBox from '../src/js/DualListBox';
 describe('<DualListBox />', () => {
 	describe('component', () => {
 		it('should render the react-dual-listbox container', () => {
-			const wrapper = shallow(<DualListBox options={[{ label: 'Phobos', value: 'phobos' }]} onChange={() => {}} />);
+			const wrapper = shallow(<DualListBox
+				options={[{ label: 'Phobos', value: 'phobos' }]}
+				onChange={() => {}}
+			/>);
 
 			assert.isTrue(wrapper.find('.react-dual-listbox').exists());
 		});
@@ -130,6 +133,33 @@ describe('<DualListBox />', () => {
 
 			assert.isTrue(wrapper.find('ListBox[controlKey="available"] option[value="luna"]').exists());
 			assert.isFalse(wrapper.find('ListBox[controlKey="available"] option[value="phobos"]').exists());
+		});
+	});
+
+	describe('props.disabled', () => {
+		it('should assign the disabled property to all inputs, selects, and buttons when true', () => {
+			const wrapper = shallow(<DualListBox
+				disabled
+				options={[{ label: 'Phobos', value: 'phobos' }]}
+				onChange={() => {}}
+			/>);
+
+			assert.isTrue(wrapper.find('Action').at(0).prop('disabled'));
+			assert.isTrue(wrapper.find('Action').at(1).prop('disabled'));
+			assert.isTrue(wrapper.find('ListBox').at(0).prop('disabled'));
+			assert.isTrue(wrapper.find('ListBox').at(1).prop('disabled'));
+		});
+
+		it('should NOT assign the disabled property to all inputs, selects, and buttons when false', () => {
+			const wrapper = shallow(<DualListBox
+				options={[{ label: 'Phobos', value: 'phobos' }]}
+				onChange={() => {}}
+			/>);
+
+			assert.isFalse(wrapper.find('Action').at(0).prop('disabled'));
+			assert.isFalse(wrapper.find('Action').at(1).prop('disabled'));
+			assert.isFalse(wrapper.find('ListBox').at(0).prop('disabled'));
+			assert.isFalse(wrapper.find('ListBox').at(1).prop('disabled'));
 		});
 	});
 

@@ -1,8 +1,11 @@
 $rdl-input-bg: #fff !default;
+$rdl-input-disabled-bg: #eee !default;
 $rdl-input-border: #ccc !default;
 $rdl-input-color: #333 !default;
+$rdl-btn-bg: $rdl-input-bg !default;
+$rdl-btn-border: $rdl-input-border !default;
 $rdl-btn-color: #333 !default;
-$rdl-line-height: 1.428571429;
+$rdl-line-height: 1.428571429 !default;
 
 .react-dual-listbox {
   display: flex;
@@ -11,6 +14,14 @@ $rdl-line-height: 1.428571429;
 
   * {
     box-sizing: border-box;
+  }
+
+  input,
+  select {
+    &:disabled {
+      background: $rdl-input-disabled-bg;
+      cursor: not-allowed;
+    }
   }
 
   button,
@@ -85,7 +96,7 @@ $rdl-line-height: 1.428571429;
 
 .rdl-move {
   margin-bottom: 5px;
-  border: 1px solid $rdl-input-border;
+  border: 1px solid $rdl-btn-border;
   border-radius: 2px;
   background: $rdl-input-bg;
   cursor: pointer;
@@ -93,20 +104,25 @@ $rdl-line-height: 1.428571429;
   color: $rdl-btn-color;
   font-size: 12px;
 
-  &:active,
-  &:focus {
-    border-color: darken($rdl-input-border, 25%);
-    background: darken($rdl-input-bg, 10%);
+  &:active:not(:disabled),
+  &:focus:not(:disabled) {
+    border-color: darken($rdl-btn-border, 25%);
+    background: darken($rdl-btn-bg, 10%);
   }
 
-  &:focus {
+  &:focus:not(:disabled) {
     outline: thin dotted;
     outline-offset: -2px;
   }
 
-  &:hover {
-    border-color: darken($rdl-input-border, 12%);
-    background: darken($rdl-input-bg, 10%);
+  &:hover:not(:disabled) {
+    border-color: darken($rdl-btn-border, 12%);
+    background: darken($rdl-btn-bg, 10%);
+  }
+
+  &:disabled {
+    opacity: .5;
+    cursor: not-allowed;
   }
 
   &:last-child {

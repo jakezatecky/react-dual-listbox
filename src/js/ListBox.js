@@ -6,6 +6,7 @@ class ListBox extends React.Component {
 		canFilter: PropTypes.bool.isRequired,
 		children: PropTypes.node.isRequired,
 		controlKey: PropTypes.string.isRequired,
+		disabled: PropTypes.bool.isRequired,
 		displayName: PropTypes.string.isRequired,
 		filterPlaceholder: PropTypes.string.isRequired,
 		filterValue: PropTypes.string.isRequired,
@@ -29,6 +30,7 @@ class ListBox extends React.Component {
 		const {
 			canFilter,
 			controlKey,
+			disabled,
 			displayName,
 			filterPlaceholder,
 			filterValue,
@@ -48,6 +50,7 @@ class ListBox extends React.Component {
 				<input
 					className="rdl-filter"
 					data-key={controlKey}
+					disabled={disabled}
 					id={`${id}-filter-${controlKey}`}
 					placeholder={filterPlaceholder}
 					type="text"
@@ -62,7 +65,16 @@ class ListBox extends React.Component {
 	 * @returns {React.Component}
 	 */
 	renderSelect() {
-		const { children, controlKey, displayName, id, inputRef, onDoubleClick, onKeyUp } = this.props;
+		const {
+			children,
+			disabled,
+			controlKey,
+			displayName,
+			id,
+			inputRef,
+			onDoubleClick,
+			onKeyUp,
+		} = this.props;
 
 		return (
 			<div className="rdl-control-container">
@@ -71,6 +83,7 @@ class ListBox extends React.Component {
 				</label>
 				<select
 					className="rdl-control"
+					disabled={disabled}
 					id={`${id}-${controlKey}`}
 					multiple
 					ref={inputRef}

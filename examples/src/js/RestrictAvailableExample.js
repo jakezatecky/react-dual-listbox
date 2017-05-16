@@ -50,7 +50,7 @@ class RestrictAvailableExample extends React.Component {
 	renderPlanets() {
 		const selectedPlanet = this.state.planet;
 
-		return Object.keys(planets).map(planet =>
+		return Object.keys(planets).map(planet => (
 			<label key={planet} htmlFor={planet}>
 				<input
 					type="radio"
@@ -61,8 +61,8 @@ class RestrictAvailableExample extends React.Component {
 					checked={planet === selectedPlanet}
 				/>
 				{planets[planet].name}
-			</label>,
-		);
+			</label>
+		));
 	}
 
 	render() {

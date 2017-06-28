@@ -2,54 +2,54 @@ import React from 'react';
 import DualListBox from 'react-dual-listbox';
 
 const options = [
-	{
-		label: 'Earth',
-		options: [
-			{ value: 'luna', label: 'Moon' },
-		],
-	},
-	{
-		label: 'Mars',
-		options: [
-			{ value: 'phobos', label: 'Phobos' },
-			{ value: 'deimos', label: 'Deimos' },
-		],
-	},
-	{
-		label: 'Jupiter',
-		options: [
-			{ value: 'io', label: 'Io' },
-			{ value: 'europa', label: 'Europa' },
-			{ value: 'ganymede', label: 'Ganymede' },
-			{ value: 'callisto', label: 'Callisto' },
-		],
-	},
+    {
+        label: 'Earth',
+        options: [
+            { value: 'luna', label: 'Moon' },
+        ],
+    },
+    {
+        label: 'Mars',
+        options: [
+            { value: 'phobos', label: 'Phobos' },
+            { value: 'deimos', label: 'Deimos' },
+        ],
+    },
+    {
+        label: 'Jupiter',
+        options: [
+            { value: 'io', label: 'Io' },
+            { value: 'europa', label: 'Europa' },
+            { value: 'ganymede', label: 'Ganymede' },
+            { value: 'callisto', label: 'Callisto' },
+        ],
+    },
 ];
 
 class DisabledExample extends React.Component {
-	constructor() {
-		super();
+    constructor() {
+        super();
 
-		this.state = { selected: ['luna', 'io'] };
+        this.state = { selected: ['luna', 'io'] };
 
-		this.onChange = this.onChange.bind(this);
-	}
+        this.onChange = this.onChange.bind(this);
+    }
 
-	onChange(selected) {
-		this.setState({ selected });
-	}
+    onChange(selected) {
+        this.setState({ selected });
+    }
 
-	render() {
-		return (
-			<DualListBox
-				canFilter
-				disabled
-				name="moons"
-				options={options}
-				selected={this.state.selected}
-				onChange={this.onChange}
-			/>
-		);
-	}
+    render() {
+        return (
+            <DualListBox
+                canFilter
+                disabled
+                name="moons"
+                options={options}
+                selected={this.state.selected}
+                onChange={this.onChange}
+            />
+        );
+    }
 }
 export default DisabledExample;

@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## [v1.2.0](https://github.com/jakezatecky/react-dual-listbox/compare/v1.1.0...v1.2.0) (2017-08-12)
+
+* [#26]: Add support for `filter` and `onFilterChange` properties
+
 ## [v1.1.0](https://github.com/jakezatecky/react-dual-listbox/compare/v1.0.1...v1.1.0) (2017-05-11)
 
 * [#21]: Add support for `disabled` property

@@ -163,6 +163,27 @@ describe('<DualListBox />', () => {
         });
     });
 
+    describe('props.filter', () => {
+        it('should set the value of the filter text boxes', () => {
+            const wrapper = shallow((
+                <DualListBox
+                    filter={{
+                        available: 'pho',
+                        selected: 'europa',
+                    }}
+                    options={[
+                        { label: 'Phobos', value: 'phobos' },
+                        { label: 'Europa', value: 'europa' },
+                    ]}
+                    onChange={() => {}}
+                />
+            ));
+
+            assert.equal('pho', wrapper.find('ListBox').at(0).prop('filterValue'));
+            assert.equal('europa', wrapper.find('ListBox').at(1).prop('filterValue'));
+        });
+    });
+
     describe('props.filterCallback', () => {
         it('should invoke the filterCallback function with the available options', () => {
             let available = [];
@@ -319,6 +340,38 @@ describe('<DualListBox />', () => {
             assert.isTrue(wrapper.find('ListBox').at(1).contains((
                 <option value="phobos">Phobos</option>
             )));
+        });
+    });
+
+    describe('props.onFilterChange', () => {
+        it('should be called with the updated filter value', () => {
+            let filter = {
+                available: '',
+                selected: '',
+            };
+
+            const wrapper = shallow((
+                <DualListBox
+                    filter={filter}
+                    options={[{ label: 'Phobos', value: 'phobos' }]}
+                    onChange={() => {}}
+                    onFilterChange={(newFilter) => {
+                        filter = newFilter;
+                    }}
+                />
+            ));
+
+            wrapper.find('ListBox').at(0).simulate('filterChange', {
+                target: {
+                    dataset: { key: 'available' },
+                    value: 'pho',
+                },
+            });
+
+            assert.deepEqual({
+                available: 'pho',
+                selected: '',
+            }, filter);
         });
     });
 

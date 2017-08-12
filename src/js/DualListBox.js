@@ -38,12 +38,17 @@ class DualListBox extends React.Component {
         availableRef: PropTypes.func,
         canFilter: PropTypes.bool,
         disabled: PropTypes.bool,
+        filter: PropTypes.shape({
+            available: PropTypes.string.isRequired,
+            selected: PropTypes.string.isRequired,
+        }),
         filterCallback: PropTypes.func,
         filterPlaceholder: PropTypes.string,
         name: PropTypes.string,
         preserveSelectOrder: PropTypes.bool,
         selected: PropTypes.arrayOf(PropTypes.string),
         selectedRef: PropTypes.func,
+        onFilterChange: PropTypes.func,
     };
 
     static defaultProps = {
@@ -52,12 +57,14 @@ class DualListBox extends React.Component {
         availableRef: null,
         canFilter: false,
         disabled: false,
+        filter: null,
         filterPlaceholder: 'Search...',
         filterCallback: defaultFilter,
         name: null,
         preserveSelectOrder: null,
         selected: [],
         selectedRef: null,
+        onFilterChange: null,
     };
 
     /**
@@ -69,7 +76,7 @@ class DualListBox extends React.Component {
         super(props);
 
         this.state = {
-            filter: {
+            filter: props.filter ? props.filter : {
                 available: '',
                 selected: '',
             },
@@ -84,10 +91,21 @@ class DualListBox extends React.Component {
     }
 
     /**
+     * @param {Object} filter
+     *
+     * @returns {void}
+     */
+    componentWillReceiveProps({ filter }) {
+        if (filter !== null) {
+            this.setState({ filter });
+        }
+    }
+
+    /**
      * @param {string} direction
      * @param {boolean} isMoveAll
      *
-     * @return {void}
+     * @returns {void}
      */
     onClick({ direction, isMoveAll }) {
         const { options, onChange } = this.props;
@@ -143,12 +161,18 @@ class DualListBox extends React.Component {
      * @returns {void}
      */
     onFilterChange(event) {
-        this.setState({
-            filter: {
-                ...this.state.filter,
-                [event.target.dataset.key]: event.target.value,
-            },
-        });
+        const { onFilterChange } = this.props;
+
+        const newFilter = {
+            ...this.state.filter,
+            [event.target.dataset.key]: event.target.value,
+        };
+
+        if (onFilterChange) {
+            onFilterChange(newFilter);
+        } else {
+            this.setState({ filter: newFilter });
+        }
     }
 
     /**

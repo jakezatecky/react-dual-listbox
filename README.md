@@ -136,6 +136,28 @@ render() {
 }
 ```
 
+In addition, you can control the filter search text, rather than leaving it up to the component:
+
+``` jsx
+render() {
+    ...
+
+    return (
+        <DualListBox
+            canFilter
+            filter={{
+                available: 'europa',
+                selected: '',
+            }}
+            options={options}
+            onFilterChange={(filter) => {
+                console.log(filter;
+            }}
+        />
+    );
+}
+```
+
 ### Action/Button Alignment
 
 By default, the movement buttons are aligned to the center of the component. Another option is to align these actions to be above their respective lists:

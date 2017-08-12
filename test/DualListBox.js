@@ -7,10 +7,12 @@ import DualListBox from '../src/js/DualListBox';
 describe('<DualListBox />', () => {
     describe('component', () => {
         it('should render the react-dual-listbox container', () => {
-            const wrapper = shallow(<DualListBox
-                options={[{ label: 'Phobos', value: 'phobos' }]}
-                onChange={() => {}}
-            />);
+            const wrapper = shallow((
+                <DualListBox
+                    options={[{ label: 'Phobos', value: 'phobos' }]}
+                    onChange={() => {}}
+                />
+            ));
 
             assert.isTrue(wrapper.find('.react-dual-listbox').exists());
         });
@@ -18,13 +20,15 @@ describe('<DualListBox />', () => {
 
     describe('props.alignActions', () => {
         it('should align the actions in the middle by default', () => {
-            const wrapper = shallow(<DualListBox
-                options={[
-                    { label: 'Moon', value: 'luna' },
-                    { label: 'Phobos', value: 'phobos' },
-                ]}
-                onChange={() => {}}
-            />);
+            const wrapper = shallow((
+                <DualListBox
+                    options={[
+                        { label: 'Moon', value: 'luna' },
+                        { label: 'Phobos', value: 'phobos' },
+                    ]}
+                    onChange={() => {}}
+                />
+            ));
 
             assert.isTrue(wrapper.find('.rdl-actions > .rdl-actions-right > Action').exists());
             assert.isTrue(wrapper.find('.rdl-actions > .rdl-actions-right > Action[isMoveAll]').exists());
@@ -33,14 +37,16 @@ describe('<DualListBox />', () => {
         });
 
         it('should put the actions in the listbox when set to \'top\'', () => {
-            const wrapper = shallow(<DualListBox
-                alignActions="top"
-                options={[
-                    { label: 'Moon', value: 'luna' },
-                    { label: 'Phobos', value: 'phobos' },
-                ]}
-                onChange={() => {}}
-            />);
+            const wrapper = shallow((
+                <DualListBox
+                    alignActions="top"
+                    options={[
+                        { label: 'Moon', value: 'luna' },
+                        { label: 'Phobos', value: 'phobos' },
+                    ]}
+                    onChange={() => {}}
+                />
+            ));
 
             assert.isFalse(wrapper.find('.rdl-actions').exists());
             assert.isTrue(wrapper.find('ListBox').at(0).prop('actions') !== null);
@@ -50,14 +56,16 @@ describe('<DualListBox />', () => {
 
     describe('props.available', () => {
         it('should include options in the array in the available list', () => {
-            const wrapper = shallow(<DualListBox
-                available={['luna']}
-                options={[
-                    { label: 'Moon', value: 'luna' },
-                    { label: 'Phobos', value: 'phobos' },
-                ]}
-                onChange={() => {}}
-            />);
+            const wrapper = shallow((
+                <DualListBox
+                    available={['luna']}
+                    options={[
+                        { label: 'Moon', value: 'luna' },
+                        { label: 'Phobos', value: 'phobos' },
+                    ]}
+                    onChange={() => {}}
+                />
+            ));
 
             assert.isTrue(wrapper.find('ListBox').at(0).contains((
                 <option value="luna">Moon</option>
@@ -65,14 +73,16 @@ describe('<DualListBox />', () => {
         });
 
         it('should exclude options not in the array from the available list', () => {
-            const wrapper = shallow(<DualListBox
-                available={['luna']}
-                options={[
-                    { label: 'Moon', value: 'luna' },
-                    { label: 'Phobos', value: 'phobos' },
-                ]}
-                onChange={() => {}}
-            />);
+            const wrapper = shallow((
+                <DualListBox
+                    available={['luna']}
+                    options={[
+                        { label: 'Moon', value: 'luna' },
+                        { label: 'Phobos', value: 'phobos' },
+                    ]}
+                    onChange={() => {}}
+                />
+            ));
 
             assert.isFalse(wrapper.find('ListBox').at(0).contains((
                 <option value="phobos">Phobos</option>
@@ -80,15 +90,17 @@ describe('<DualListBox />', () => {
         });
 
         it('should not interfere with selected options', () => {
-            const wrapper = shallow(<DualListBox
-                available={['luna']}
-                options={[
-                    { label: 'Moon', value: 'luna' },
-                    { label: 'Phobos', value: 'phobos' },
-                ]}
-                selected={['luna', 'phobos']}
-                onChange={() => {}}
-            />);
+            const wrapper = shallow((
+                <DualListBox
+                    available={['luna']}
+                    options={[
+                        { label: 'Moon', value: 'luna' },
+                        { label: 'Phobos', value: 'phobos' },
+                    ]}
+                    selected={['luna', 'phobos']}
+                    onChange={() => {}}
+                />
+            ));
 
             assert.isTrue(wrapper.find('ListBox').at(1).contains((
                 <option value="luna">Moon</option>
@@ -101,28 +113,32 @@ describe('<DualListBox />', () => {
 
     describe('props.canFilter', () => {
         it('should render the available and selected filter inputs', () => {
-            const wrapper = shallow(<DualListBox
-                canFilter
-                options={[
-                    { label: 'Moon', value: 'luna' },
-                    { label: 'Phobos', value: 'phobos' },
-                ]}
-                onChange={() => {}}
-            />);
+            const wrapper = shallow((
+                <DualListBox
+                    canFilter
+                    options={[
+                        { label: 'Moon', value: 'luna' },
+                        { label: 'Phobos', value: 'phobos' },
+                    ]}
+                    onChange={() => {}}
+                />
+            ));
 
             assert.isTrue(wrapper.find('ListBox').at(0).prop('canFilter'));
             assert.isTrue(wrapper.find('ListBox').at(1).prop('canFilter'));
         });
 
         it('should filter available and selected options when non-empty', () => {
-            const wrapper = shallow(<DualListBox
-                canFilter
-                options={[
-                    { label: 'Moon', value: 'luna' },
-                    { label: 'Phobos', value: 'phobos' },
-                ]}
-                onChange={() => {}}
-            />);
+            const wrapper = shallow((
+                <DualListBox
+                    canFilter
+                    options={[
+                        { label: 'Moon', value: 'luna' },
+                        { label: 'Phobos', value: 'phobos' },
+                    ]}
+                    onChange={() => {}}
+                />
+            ));
 
             wrapper.find('ListBox').at(0).simulate('filterChange', {
                 target: {
@@ -138,11 +154,13 @@ describe('<DualListBox />', () => {
 
     describe('props.disabled', () => {
         it('should assign the disabled property to all inputs, selects, and buttons when true', () => {
-            const wrapper = shallow(<DualListBox
-                disabled
-                options={[{ label: 'Phobos', value: 'phobos' }]}
-                onChange={() => {}}
-            />);
+            const wrapper = shallow((
+                <DualListBox
+                    disabled
+                    options={[{ label: 'Phobos', value: 'phobos' }]}
+                    onChange={() => {}}
+                />
+            ));
 
             assert.isTrue(wrapper.find('Action').at(0).prop('disabled'));
             assert.isTrue(wrapper.find('Action').at(1).prop('disabled'));
@@ -151,10 +169,12 @@ describe('<DualListBox />', () => {
         });
 
         it('should NOT assign the disabled property to all inputs, selects, and buttons when false', () => {
-            const wrapper = shallow(<DualListBox
-                options={[{ label: 'Phobos', value: 'phobos' }]}
-                onChange={() => {}}
-            />);
+            const wrapper = shallow((
+                <DualListBox
+                    options={[{ label: 'Phobos', value: 'phobos' }]}
+                    onChange={() => {}}
+                />
+            ));
 
             assert.isFalse(wrapper.find('Action').at(0).prop('disabled'));
             assert.isFalse(wrapper.find('Action').at(1).prop('disabled'));
@@ -188,17 +208,19 @@ describe('<DualListBox />', () => {
         it('should invoke the filterCallback function with the available options', () => {
             let available = [];
 
-            const wrapper = shallow(<DualListBox
-                canFilter
-                filterCallback={(option) => {
-                    available.push(option.value);
-                }}
-                options={[
-                    { label: 'Moon', value: 'luna' },
-                    { label: 'Phobos', value: 'phobos' },
-                ]}
-                onChange={() => {}}
-            />);
+            const wrapper = shallow((
+                <DualListBox
+                    canFilter
+                    filterCallback={(option) => {
+                        available.push(option.value);
+                    }}
+                    options={[
+                        { label: 'Moon', value: 'luna' },
+                        { label: 'Phobos', value: 'phobos' },
+                    ]}
+                    onChange={() => {}}
+                />
+            ));
 
             // Initial render
             assert.deepEqual(['luna', 'phobos'], available);
@@ -218,17 +240,19 @@ describe('<DualListBox />', () => {
         it('should invoke the filterCallback function with the input string', () => {
             let filterInput = '';
 
-            const wrapper = shallow(<DualListBox
-                canFilter
-                filterCallback={(option, input) => {
-                    filterInput = input;
-                }}
-                options={[
-                    { label: 'Moon', value: 'luna' },
-                    { label: 'Phobos', value: 'phobos' },
-                ]}
-                onChange={() => {}}
-            />);
+            const wrapper = shallow((
+                <DualListBox
+                    canFilter
+                    filterCallback={(option, input) => {
+                        filterInput = input;
+                    }}
+                    options={[
+                        { label: 'Moon', value: 'luna' },
+                        { label: 'Phobos', value: 'phobos' },
+                    ]}
+                    onChange={() => {}}
+                />
+            ));
 
             wrapper.find('ListBox').at(0).simulate('filterChange', {
                 target: {
@@ -243,15 +267,17 @@ describe('<DualListBox />', () => {
 
     describe('props.filterPlaceholder', () => {
         it('should set the placeholder text on the filter inputs', () => {
-            const wrapper = shallow(<DualListBox
-                canFilter
-                filterPlaceholder="Filter"
-                options={[
-                    { label: 'Moon', value: 'luna' },
-                    { label: 'Phobos', value: 'phobos' },
-                ]}
-                onChange={() => {}}
-            />);
+            const wrapper = shallow((
+                <DualListBox
+                    canFilter
+                    filterPlaceholder="Filter"
+                    options={[
+                        { label: 'Moon', value: 'luna' },
+                        { label: 'Phobos', value: 'phobos' },
+                    ]}
+                    onChange={() => {}}
+                />
+            ));
 
             assert.equal('Filter', wrapper.find('ListBox').at(0).prop('filterPlaceholder'));
         });
@@ -259,31 +285,35 @@ describe('<DualListBox />', () => {
 
     describe('props.options', () => {
         it('should render the supplied options', () => {
-            const wrapper = shallow(<DualListBox
-                options={[
-                    { label: 'Moon', value: 'luna' },
-                    { label: 'Phobos', value: 'phobos' },
-                ]}
-                onChange={() => {}}
-            />);
+            const wrapper = shallow((
+                <DualListBox
+                    options={[
+                        { label: 'Moon', value: 'luna' },
+                        { label: 'Phobos', value: 'phobos' },
+                    ]}
+                    onChange={() => {}}
+                />
+            ));
 
             assert.isTrue(wrapper.contains(<option value="luna">Moon</option>));
             assert.isTrue(wrapper.contains(<option value="phobos">Phobos</option>));
         });
 
         it('should render optgroups and their children', () => {
-            const wrapper = shallow(<DualListBox
-                options={[
-                    {
-                        label: 'Mars',
-                        options: [
-                            { value: 'phobos', label: 'Phobos' },
-                            { value: 'deimos', label: 'Deimos' },
-                        ],
-                    },
-                ]}
-                onChange={() => {}}
-            />);
+            const wrapper = shallow((
+                <DualListBox
+                    options={[
+                        {
+                            label: 'Mars',
+                            options: [
+                                { value: 'phobos', label: 'Phobos' },
+                                { value: 'deimos', label: 'Deimos' },
+                            ],
+                        },
+                    ]}
+                    onChange={() => {}}
+                />
+            ));
 
             assert.isTrue(wrapper.contains((
                 <optgroup label="Mars">
@@ -296,30 +326,34 @@ describe('<DualListBox />', () => {
 
     describe('props.preserveSelectOrder', () => {
         it('should arrange the selected options by their original order when false', () => {
-            const wrapper = shallow(<DualListBox
-                options={[
-                    { label: 'Moon', value: 'luna' },
-                    { label: 'Phobos', value: 'phobos' },
-                ]}
-                preserveSelectOrder={false}
-                selected={['phobos', 'luna']}
-                onChange={() => {}}
-            />);
+            const wrapper = shallow((
+                <DualListBox
+                    options={[
+                        { label: 'Moon', value: 'luna' },
+                        { label: 'Phobos', value: 'phobos' },
+                    ]}
+                    preserveSelectOrder={false}
+                    selected={['phobos', 'luna']}
+                    onChange={() => {}}
+                />
+            ));
 
             assert.deepEqual('luna', wrapper.find('ListBox[controlKey="selected"] option').at(0).prop('value'));
             assert.deepEqual('phobos', wrapper.find('ListBox[controlKey="selected"] option').at(1).prop('value'));
         });
 
         it('should arrange the selected options by their selection order when true', () => {
-            const wrapper = shallow(<DualListBox
-                options={[
-                    { label: 'Moon', value: 'luna' },
-                    { label: 'Phobos', value: 'phobos' },
-                ]}
-                preserveSelectOrder
-                selected={['phobos', 'luna']}
-                onChange={() => {}}
-            />);
+            const wrapper = shallow((
+                <DualListBox
+                    options={[
+                        { label: 'Moon', value: 'luna' },
+                        { label: 'Phobos', value: 'phobos' },
+                    ]}
+                    preserveSelectOrder
+                    selected={['phobos', 'luna']}
+                    onChange={() => {}}
+                />
+            ));
 
             assert.deepEqual('phobos', wrapper.find('ListBox[controlKey="selected"] option').at(0).prop('value'));
             assert.deepEqual('luna', wrapper.find('ListBox[controlKey="selected"] option').at(1).prop('value'));
@@ -328,14 +362,16 @@ describe('<DualListBox />', () => {
 
     describe('props.selected', () => {
         it('should render selected options', () => {
-            const wrapper = shallow(<DualListBox
-                options={[
-                    { label: 'Moon', value: 'luna' },
-                    { label: 'Phobos', value: 'phobos' },
-                ]}
-                onChange={() => {}}
-                selected={['phobos']}
-            />);
+            const wrapper = shallow((
+                <DualListBox
+                    options={[
+                        { label: 'Moon', value: 'luna' },
+                        { label: 'Phobos', value: 'phobos' },
+                    ]}
+                    onChange={() => {}}
+                    selected={['phobos']}
+                />
+            ));
 
             assert.isTrue(wrapper.find('ListBox').at(1).contains((
                 <option value="phobos">Phobos</option>
@@ -379,15 +415,17 @@ describe('<DualListBox />', () => {
         it('should call onChange with the newly-selected options', () => {
             let actual = null;
 
-            const wrapper = mount(<DualListBox
-                options={[
-                    { label: 'Moon', value: 'luna' },
-                    { label: 'Phobos', value: 'phobos' },
-                ]}
-                onChange={(selected) => {
-                    actual = selected;
-                }}
-            />);
+            const wrapper = mount((
+                <DualListBox
+                    options={[
+                        { label: 'Moon', value: 'luna' },
+                        { label: 'Phobos', value: 'phobos' },
+                    ]}
+                    onChange={(selected) => {
+                        actual = selected;
+                    }}
+                />
+            ));
 
             wrapper.find('.rdl-available option[value="phobos"]').first().node.selected = true;
             wrapper.find('.rdl-move-right').not('.rdl-move-all').simulate('click');
@@ -398,17 +436,19 @@ describe('<DualListBox />', () => {
         it('should persist previously-selected values', () => {
             let actual = null;
 
-            const wrapper = mount(<DualListBox
-                options={[
-                    { label: 'Moon', value: 'luna' },
-                    { label: 'Phobos', value: 'phobos' },
-                    { label: 'Deimos', value: 'deimos' },
-                ]}
-                selected={['deimos']}
-                onChange={(selected) => {
-                    actual = selected;
-                }}
-            />);
+            const wrapper = mount((
+                <DualListBox
+                    options={[
+                        { label: 'Moon', value: 'luna' },
+                        { label: 'Phobos', value: 'phobos' },
+                        { label: 'Deimos', value: 'deimos' },
+                    ]}
+                    selected={['deimos']}
+                    onChange={(selected) => {
+                        actual = selected;
+                    }}
+                />
+            ));
 
             wrapper.find('.rdl-available option[value="phobos"]').first().node.selected = true;
             wrapper.find('.rdl-move-right').not('.rdl-move-all').simulate('click');
@@ -421,15 +461,17 @@ describe('<DualListBox />', () => {
         it('should call onChange with all available options selected', () => {
             let actual = null;
 
-            const wrapper = mount(<DualListBox
-                options={[
-                    { label: 'Moon', value: 'luna' },
-                    { label: 'Phobos', value: 'phobos' },
-                ]}
-                onChange={(selected) => {
-                    actual = selected;
-                }}
-            />);
+            const wrapper = mount((
+                <DualListBox
+                    options={[
+                        { label: 'Moon', value: 'luna' },
+                        { label: 'Phobos', value: 'phobos' },
+                    ]}
+                    onChange={(selected) => {
+                        actual = selected;
+                    }}
+                />
+            ));
 
             wrapper.find('.rdl-move-all.rdl-move-right').simulate('click');
 
@@ -441,16 +483,18 @@ describe('<DualListBox />', () => {
         it('should call onChange with the newly-selected options removed', () => {
             let actual = null;
 
-            const wrapper = mount(<DualListBox
-                options={[
-                    { label: 'Moon', value: 'luna' },
-                    { label: 'Phobos', value: 'phobos' },
-                ]}
-                onChange={(selected) => {
-                    actual = selected;
-                }}
-                selected={['phobos']}
-            />);
+            const wrapper = mount((
+                <DualListBox
+                    options={[
+                        { label: 'Moon', value: 'luna' },
+                        { label: 'Phobos', value: 'phobos' },
+                    ]}
+                    onChange={(selected) => {
+                        actual = selected;
+                    }}
+                    selected={['phobos']}
+                />
+            ));
 
             wrapper.find('.rdl-selected option[value="phobos"]').first().node.selected = true;
             wrapper.find('.rdl-move-left').not('.rdl-move-all').simulate('click');
@@ -463,16 +507,18 @@ describe('<DualListBox />', () => {
         it('should call onChange with no options selected', () => {
             let actual = null;
 
-            const wrapper = mount(<DualListBox
-                options={[
-                    { label: 'Moon', value: 'luna' },
-                    { label: 'Phobos', value: 'phobos' },
-                ]}
-                selected={['luna', 'phobos']}
-                onChange={(selected) => {
-                    actual = selected;
-                }}
-            />);
+            const wrapper = mount((
+                <DualListBox
+                    options={[
+                        { label: 'Moon', value: 'luna' },
+                        { label: 'Phobos', value: 'phobos' },
+                    ]}
+                    selected={['luna', 'phobos']}
+                    onChange={(selected) => {
+                        actual = selected;
+                    }}
+                />
+            ));
 
             wrapper.find('.rdl-move-all.rdl-move-left').simulate('click');
 

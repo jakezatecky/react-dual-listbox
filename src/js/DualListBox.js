@@ -11,6 +11,12 @@ const optionShape = PropTypes.shape({
     value: PropTypes.any.isRequired,
     label: PropTypes.string.isRequired,
 });
+const valuePropType = PropTypes.arrayOf(
+    PropTypes.oneOfType([
+        PropTypes.string,
+        optionShape,
+    ]),
+);
 
 const defaultFilter = (option, filterInput) => {
     if (filterInput === '') {
@@ -34,7 +40,7 @@ class DualListBox extends React.Component {
         onChange: PropTypes.func.isRequired,
 
         alignActions: PropTypes.string,
-        available: PropTypes.arrayOf(PropTypes.string),
+        available: valuePropType,
         availableRef: PropTypes.func,
         canFilter: PropTypes.bool,
         disabled: PropTypes.bool,
@@ -46,8 +52,9 @@ class DualListBox extends React.Component {
         filterPlaceholder: PropTypes.string,
         name: PropTypes.string,
         preserveSelectOrder: PropTypes.bool,
-        selected: PropTypes.arrayOf(PropTypes.string),
+        selected: valuePropType,
         selectedRef: PropTypes.func,
+        simpleValue: PropTypes.bool,
         onFilterChange: PropTypes.func,
     };
 
@@ -64,6 +71,7 @@ class DualListBox extends React.Component {
         preserveSelectOrder: null,
         selected: [],
         selectedRef: null,
+        simpleValue: true,
         onFilterChange: null,
     };
 
@@ -102,13 +110,28 @@ class DualListBox extends React.Component {
     }
 
     /**
+     * @param {Array} selected
+     *
+     * @returns {void}
+     */
+    onChange(selected) {
+        const { options, simpleValue, onChange } = this.props;
+
+        if (simpleValue) {
+            onChange(selected);
+        } else {
+            onChange(options.filter(option => selected.indexOf(option.value) > -1));
+        }
+    }
+
+    /**
      * @param {string} direction
      * @param {boolean} isMoveAll
      *
      * @returns {void}
      */
     onClick({ direction, isMoveAll }) {
-        const { options, onChange } = this.props;
+        const { options } = this.props;
         const select = direction === 'right' ? this.available : this.selected;
 
         let selected = [];
@@ -121,7 +144,7 @@ class DualListBox extends React.Component {
             );
         }
 
-        onChange(selected);
+        this.onChange(selected);
     }
 
     /**
@@ -133,7 +156,7 @@ class DualListBox extends React.Component {
         const value = event.currentTarget.value;
         const selected = this.toggleSelected([value]);
 
-        this.props.onChange(selected);
+        this.onChange(selected);
     }
 
     /**
@@ -151,7 +174,7 @@ class DualListBox extends React.Component {
                     .map(option => option.value),
             );
 
-            this.props.onChange(selected);
+            this.onChange(selected);
         }
     }
 
@@ -173,6 +196,21 @@ class DualListBox extends React.Component {
         } else {
             this.setState({ filter: newFilter });
         }
+    }
+
+    /**
+     * @param {Array} options
+     *
+     * @returns {Array}
+     */
+    getFlatOptions(options) {
+        const { simpleValue } = this.props;
+
+        if (simpleValue) {
+            return options;
+        }
+
+        return options.map(option => option.value);
     }
 
     /**
@@ -227,7 +265,10 @@ class DualListBox extends React.Component {
             }
         });
 
-        return [...this.props.selected, ...selected];
+        return [
+            ...this.getFlatOptions(this.props.selected),
+            ...selected,
+        ];
     }
 
     /**
@@ -238,7 +279,7 @@ class DualListBox extends React.Component {
      * @returns {Array}
      */
     toggleSelected(selected) {
-        const oldSelected = this.props.selected.slice(0);
+        const oldSelected = this.getFlatOptions(this.props.selected).slice(0);
 
         selected.forEach((value) => {
             const index = oldSelected.indexOf(value);
@@ -301,8 +342,8 @@ class DualListBox extends React.Component {
             return this.filterOptions(
                 options,
                 option => (
-                    this.props.available.indexOf(option.value) >= 0 &&
-                    this.props.selected.indexOf(option.value) < 0
+                    this.getFlatOptions(this.props.available).indexOf(option.value) >= 0 &&
+                    this.getFlatOptions(this.props.selected).indexOf(option.value) < 0
                 ),
                 this.state.filter.available,
             );
@@ -311,7 +352,7 @@ class DualListBox extends React.Component {
         // Show all un-selected options
         return this.filterOptions(
             options,
-            option => this.props.selected.indexOf(option.value) < 0,
+            option => this.getFlatOptions(this.props.selected).indexOf(option.value) < 0,
             this.state.filter.available,
         );
     }
@@ -331,7 +372,7 @@ class DualListBox extends React.Component {
         // Order the selections by the default order
         return this.filterOptions(
             options,
-            option => this.props.selected.indexOf(option.value) >= 0,
+            option => this.getFlatOptions(this.props.selected).indexOf(option.value) >= 0,
             this.state.filter.selected,
         );
     }
@@ -347,7 +388,7 @@ class DualListBox extends React.Component {
         const { canFilter, filterCallback } = this.props;
         const labelMap = this.getLabelMap(options);
 
-        const selectedOptions = this.props.selected.map(selected => ({
+        const selectedOptions = this.getFlatOptions(this.props.selected).map(selected => ({
             value: selected,
             label: labelMap[selected],
         }));
@@ -461,6 +502,7 @@ class DualListBox extends React.Component {
             'rdl-has-filter': canFilter,
             'rdl-align-top': alignActions === 'top',
         });
+        const value = this.getFlatOptions(selected).join(',');
 
         return (
             <div className={className}>
@@ -472,7 +514,7 @@ class DualListBox extends React.Component {
                     </div>
                 ) : null}
                 {this.renderListBox('selected', 'Selected', selectedOptions, selectedRef, actionsLeft)}
-                <input disabled={disabled} name={name} value={selected} type="hidden" />
+                <input disabled={disabled} name={name} value={value} type="hidden" />
             </div>
         );
     }

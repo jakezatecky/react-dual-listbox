@@ -201,4 +201,10 @@ render() {
 }
 ```
 
+### Other Properties
+
+| Property    | Type | Description                                                                                                            | Default |
+| ----------- | ---- | ---------------------------------------------------------------------------------------------------------------------- | ------- |
+| simpleValue | bool | If true, the `selected` value passed in `onChange` is an array of string values. Otherwise, it is an array of options. | `true`  |
+
 [controlled]: https://facebook.github.io/react/docs/forms.html#controlled-components

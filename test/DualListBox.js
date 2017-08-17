@@ -379,6 +379,54 @@ describe('<DualListBox />', () => {
         });
     });
 
+    describe('props.simpleValue', () => {
+        it('should pass an array of string values by default', () => {
+            let actual = null;
+
+            const wrapper = mount((
+                <DualListBox
+                    options={[
+                        { label: 'Moon', value: 'luna' },
+                        { label: 'Phobos', value: 'phobos' },
+                    ]}
+                    onChange={(selected) => {
+                        actual = selected;
+                    }}
+                />
+            ));
+
+            wrapper.find('.rdl-available option[value="phobos"]').first().node.selected = true;
+            wrapper.find('.rdl-available select').simulate('dblclick');
+
+            assert.deepEqual(['phobos'], actual);
+        });
+
+        it('should pass an array of options when false', () => {
+            let actual = null;
+
+            const wrapper = mount((
+                <DualListBox
+                    options={[
+                        { label: 'Moon', value: 'luna' },
+                        { label: 'Phobos', value: 'phobos' },
+                    ]}
+                    simpleValue={false}
+                    onChange={(selected) => {
+                        actual = selected;
+                    }}
+                />
+            ));
+
+            wrapper.find('.rdl-available option[value="phobos"]').first().node.selected = true;
+            wrapper.find('.rdl-available select').simulate('dblclick');
+
+            assert.deepEqual([{
+                label: 'Phobos',
+                value: 'phobos',
+            }], actual);
+        });
+    });
+
     describe('props.onFilterChange', () => {
         it('should be called with the updated filter value', () => {
             let filter = {

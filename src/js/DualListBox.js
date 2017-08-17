@@ -48,7 +48,7 @@ class DualListBox extends React.Component {
         name: PropTypes.string,
         preserveSelectOrder: PropTypes.bool,
         selected: PropTypes.arrayOf(PropTypes.string),
-        selectedLabel: PropTypes.string
+        selectedLabel: PropTypes.string,
         selectedRef: PropTypes.func,
         onFilterChange: PropTypes.func,
     };

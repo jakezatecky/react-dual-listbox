@@ -41,6 +41,7 @@ class DualListBox extends React.Component {
 
         alignActions: PropTypes.string,
         available: valuePropType,
+        availableLabel: PropTypes.string,
         availableRef: PropTypes.func,
         canFilter: PropTypes.bool,
         disabled: PropTypes.bool,
@@ -53,6 +54,7 @@ class DualListBox extends React.Component {
         name: PropTypes.string,
         preserveSelectOrder: PropTypes.bool,
         selected: valuePropType,
+        selectedLabel: PropTypes.string,
         selectedRef: PropTypes.func,
         simpleValue: PropTypes.bool,
         onFilterChange: PropTypes.func,
@@ -61,6 +63,7 @@ class DualListBox extends React.Component {
     static defaultProps = {
         alignActions: 'middle',
         available: undefined,
+        availableLabel: 'Available',
         availableRef: null,
         canFilter: false,
         disabled: false,
@@ -70,6 +73,7 @@ class DualListBox extends React.Component {
         name: null,
         preserveSelectOrder: null,
         selected: [],
+        selectedLabel: 'Selected',
         selectedRef: null,
         simpleValue: true,
         onFilterChange: null,
@@ -474,12 +478,14 @@ class DualListBox extends React.Component {
     render() {
         const {
             alignActions,
+            availableLabel,
+            availableRef,
             canFilter,
             disabled,
             name,
             options,
             selected,
-            availableRef,
+            selectedLabel,
             selectedRef,
         } = this.props;
         const availableOptions = this.renderOptions(this.filterAvailable(options));
@@ -506,14 +512,14 @@ class DualListBox extends React.Component {
 
         return (
             <div className={className}>
-                {this.renderListBox('available', 'Available', availableOptions, availableRef, actionsRight)}
+                {this.renderListBox('available', availableLabel, availableOptions, availableRef, actionsRight)}
                 {alignActions === 'middle' ? (
                     <div className="rdl-actions">
                         {actionsRight}
                         {actionsLeft}
                     </div>
                 ) : null}
-                {this.renderListBox('selected', 'Selected', selectedOptions, selectedRef, actionsLeft)}
+                {this.renderListBox('selected', selectedLabel, selectedOptions, selectedRef, actionsLeft)}
                 <input disabled={disabled} name={name} value={value} type="hidden" />
             </div>
         );

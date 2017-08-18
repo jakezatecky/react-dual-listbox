@@ -111,6 +111,22 @@ describe('<DualListBox />', () => {
         });
     });
 
+    describe('props.availableLabel', () => {
+        it('should set the label for available control to the specified value', () => {
+            const wrapper = mount((
+                <DualListBox
+                    availableLabel="Team A"
+                    options={[
+                        { label: 'Moon', value: 'luna' },
+                    ]}
+                    onChange={() => {}}
+                />
+            ));
+
+            assert.equal('Team A', wrapper.find('ListBox').at(0).find('label').text());
+        });
+    });
+
     describe('props.canFilter', () => {
         it('should render the available and selected filter inputs', () => {
             const wrapper = shallow((
@@ -376,6 +392,22 @@ describe('<DualListBox />', () => {
             assert.isTrue(wrapper.find('ListBox').at(1).contains((
                 <option value="phobos">Phobos</option>
             )));
+        });
+    });
+
+    describe('props.selectLabel', () => {
+        it('should set the label for selected control to the specified value', () => {
+            const wrapper = mount((
+                <DualListBox
+                    options={[
+                        { label: 'Moon', value: 'luna' },
+                    ]}
+                    selectedLabel="Team B"
+                    onChange={() => {}}
+                />
+            ));
+
+            assert.equal('Team B', wrapper.find('ListBox').at(1).find('label').text());
         });
     });
 

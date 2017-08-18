@@ -203,8 +203,10 @@ render() {
 
 ### Other Properties
 
-| Property    | Type | Description                                                                                                            | Default |
-| ----------- | ---- | ---------------------------------------------------------------------------------------------------------------------- | ------- |
-| simpleValue | bool | If true, the `selected` value passed in `onChange` is an array of string values. Otherwise, it is an array of options. | `true`  |
+| Property       | Type   | Description                                                                                                             | Default        |
+| -------------- | ------ | ----------------------------------------------------------------------------------------------------------------------- | -------------- |
+| availableLabel | string | The display name for the hidden label for the available options control group.                                          | `"Available"`  |
+| selectedLabel  | string | The display name for the hidden label for the selected options control group.                                           | `"Selected"`   |
+| simpleValue    | bool   | If true, the `selected` value passed in `onChange` is an array of string values. Otherwise, it is an array of options.  | `true`         |
 
 [controlled]: https://facebook.github.io/react/docs/forms.html#controlled-components

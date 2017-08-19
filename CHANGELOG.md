@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## v1.3.0 (TBA)
+
+### Features
+
+* [#27]: Add `simpleValue` property to disable the default behavior of returning an array of values rather than an array of option objects
+* [#28]: Add `availableLabel` and `selectedLabel` to change the hidden control label texts
+
 ## [v1.2.0](https://github.com/jakezatecky/react-dual-listbox/compare/v1.1.0...v1.2.0) (2017-08-12)
 
 * [#26]: Add support for `filter` and `onFilterChange` properties

@@ -206,6 +206,7 @@ render() {
 | Property       | Type   | Description                                                                                                             | Default        |
 | -------------- | ------ | ----------------------------------------------------------------------------------------------------------------------- | -------------- |
 | availableLabel | string | The display name for the hidden label for the available options control group.                                          | `"Available"`  |
+| moveKeyCodes   | array  | The key codes that will trigger a toggle of the selected options.                                                       | `[13, 32]`     |
 | selectedLabel  | string | The display name for the hidden label for the selected options control group.                                           | `"Selected"`   |
 | simpleValue    | bool   | If true, the `selected` value passed in `onChange` is an array of string values. Otherwise, it is an array of options.  | `true`         |
 

@@ -299,6 +299,35 @@ describe('<DualListBox />', () => {
         });
     });
 
+    describe('props.moveKeyCodes', () => {
+        it('should pass an array of string values by default', () => {
+            let actual = null;
+
+            const wrapper = mount((
+                <DualListBox
+                    moveKeyCodes={[31, 32]}
+                    options={[
+                        { label: 'Moon', value: 'luna' },
+                        { label: 'Phobos', value: 'phobos' },
+                    ]}
+                    onChange={(selected) => {
+                        actual = selected;
+                    }}
+                />
+            ));
+
+            wrapper.find('.rdl-available option[value="phobos"]').first().node.selected = true;
+            wrapper.find('.rdl-available select').simulate('keyup', { keyCode: 32 });
+
+            assert.deepEqual(['phobos'], actual);
+
+            wrapper.find('.rdl-available option[value="luna"]').first().node.selected = true;
+            wrapper.find('.rdl-available select').simulate('keyup', { keyCode: 31 });
+
+            assert.deepEqual(['luna', 'phobos'], actual);
+        });
+    });
+
     describe('props.options', () => {
         it('should render the supplied options', () => {
             const wrapper = shallow((

@@ -7,6 +7,10 @@ import Action from './Action';
 import arrayFrom from './arrayFrom';
 import ListBox from './ListBox';
 
+const KEY_CODES = {
+    SPACEBAR: 32,
+    ENTER: 13,
+};
 const optionShape = PropTypes.shape({
     value: PropTypes.any.isRequired,
     label: PropTypes.string.isRequired,
@@ -51,6 +55,7 @@ class DualListBox extends React.Component {
         }),
         filterCallback: PropTypes.func,
         filterPlaceholder: PropTypes.string,
+        moveKeyCodes: PropTypes.arrayOf(PropTypes.number),
         name: PropTypes.string,
         preserveSelectOrder: PropTypes.bool,
         selected: valuePropType,
@@ -70,6 +75,7 @@ class DualListBox extends React.Component {
         filter: null,
         filterPlaceholder: 'Search...',
         filterCallback: defaultFilter,
+        moveKeyCodes: [KEY_CODES.SPACEBAR, KEY_CODES.ENTER],
         name: null,
         preserveSelectOrder: null,
         selected: [],
@@ -169,9 +175,10 @@ class DualListBox extends React.Component {
      * @returns {void}
      */
     onKeyUp(event) {
-        const { currentTarget, key } = event;
+        const { currentTarget, keyCode } = event;
+        const { moveKeyCodes } = this.props;
 
-        if (key === 'Enter') {
+        if (moveKeyCodes.indexOf(keyCode) > -1) {
             const selected = this.toggleSelected(
                 arrayFrom(currentTarget.options)
                     .filter(option => option.selected)

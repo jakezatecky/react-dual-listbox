@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## v1.3.0 (TBA)
+## [v1.3.0](https://github.com/jakezatecky/react-dual-listbox/compare/v1.2.0...v1.3.0) (2017-09-10)
 
 ### Features
 

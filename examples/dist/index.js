@@ -2546,10 +2546,15 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var KEY_CODES = {
+    SPACEBAR: 32,
+    ENTER: 13
+};
 var optionShape = _propTypes2.default.shape({
     value: _propTypes2.default.any.isRequired,
     label: _propTypes2.default.string.isRequired
 });
+var valuePropType = _propTypes2.default.arrayOf(_propTypes2.default.oneOfType([_propTypes2.default.string, optionShape]));
 
 var defaultFilter = function defaultFilter(option, filterInput) {
     if (filterInput === '') {
@@ -2606,6 +2611,30 @@ var DualListBox = function (_React$Component) {
         }
 
         /**
+         * @param {Array} selected
+         *
+         * @returns {void}
+         */
+
+    }, {
+        key: 'onChange',
+        value: function onChange(selected) {
+            var _props = this.props,
+                options = _props.options,
+                simpleValue = _props.simpleValue,
+                onChange = _props.onChange;
+
+
+            if (simpleValue) {
+                onChange(selected);
+            } else {
+                onChange(options.filter(function (option) {
+                    return selected.indexOf(option.value) > -1;
+                }));
+            }
+        }
+
+        /**
          * @param {string} direction
          * @param {boolean} isMoveAll
          *
@@ -2617,9 +2646,7 @@ var DualListBox = function (_React$Component) {
         value: function onClick(_ref2) {
             var direction = _ref2.direction,
                 isMoveAll = _ref2.isMoveAll;
-            var _props = this.props,
-                options = _props.options,
-                onChange = _props.onChange;
+            var options = this.props.options;
 
             var select = direction === 'right' ? this.available : this.selected;
 
@@ -2631,7 +2658,7 @@ var DualListBox = function (_React$Component) {
                 selected = this.toggleSelected(this.getSelectedOptions(select));
             }
 
-            onChange(selected);
+            this.onChange(selected);
         }
 
         /**
@@ -2646,7 +2673,7 @@ var DualListBox = function (_React$Component) {
             var value = event.currentTarget.value;
             var selected = this.toggleSelected([value]);
 
-            this.props.onChange(selected);
+            this.onChange(selected);
         }
 
         /**
@@ -2659,17 +2686,18 @@ var DualListBox = function (_React$Component) {
         key: 'onKeyUp',
         value: function onKeyUp(event) {
             var currentTarget = event.currentTarget,
-                key = event.key;
+                keyCode = event.keyCode;
+            var moveKeyCodes = this.props.moveKeyCodes;
 
 
-            if (key === 'Enter') {
+            if (moveKeyCodes.indexOf(keyCode) > -1) {
                 var selected = this.toggleSelected((0, _arrayFrom2.default)(currentTarget.options).filter(function (option) {
                     return option.selected;
                 }).map(function (option) {
                     return option.value;
                 }));
 
-                this.props.onChange(selected);
+                this.onChange(selected);
             }
         }
 
@@ -2692,6 +2720,27 @@ var DualListBox = function (_React$Component) {
             } else {
                 this.setState({ filter: newFilter });
             }
+        }
+
+        /**
+         * @param {Array} options
+         *
+         * @returns {Array}
+         */
+
+    }, {
+        key: 'getFlatOptions',
+        value: function getFlatOptions(options) {
+            var simpleValue = this.props.simpleValue;
+
+
+            if (simpleValue) {
+                return options;
+            }
+
+            return options.map(function (option) {
+                return option.value;
+            });
         }
 
         /**
@@ -2761,7 +2810,7 @@ var DualListBox = function (_React$Component) {
                 }
             });
 
-            return [].concat(_toConsumableArray(this.props.selected), _toConsumableArray(selected));
+            return [].concat(_toConsumableArray(this.getFlatOptions(this.props.selected)), _toConsumableArray(selected));
         }
 
         /**
@@ -2775,7 +2824,7 @@ var DualListBox = function (_React$Component) {
     }, {
         key: 'toggleSelected',
         value: function toggleSelected(selected) {
-            var oldSelected = this.props.selected.slice(0);
+            var oldSelected = this.getFlatOptions(this.props.selected).slice(0);
 
             selected.forEach(function (value) {
                 var index = oldSelected.indexOf(value);
@@ -2849,13 +2898,13 @@ var DualListBox = function (_React$Component) {
 
             if (this.props.available !== undefined) {
                 return this.filterOptions(options, function (option) {
-                    return _this5.props.available.indexOf(option.value) >= 0 && _this5.props.selected.indexOf(option.value) < 0;
+                    return _this5.getFlatOptions(_this5.props.available).indexOf(option.value) >= 0 && _this5.getFlatOptions(_this5.props.selected).indexOf(option.value) < 0;
                 }, this.state.filter.available);
             }
 
             // Show all un-selected options
             return this.filterOptions(options, function (option) {
-                return _this5.props.selected.indexOf(option.value) < 0;
+                return _this5.getFlatOptions(_this5.props.selected).indexOf(option.value) < 0;
             }, this.state.filter.available);
         }
 
@@ -2878,7 +2927,7 @@ var DualListBox = function (_React$Component) {
 
             // Order the selections by the default order
             return this.filterOptions(options, function (option) {
-                return _this6.props.selected.indexOf(option.value) >= 0;
+                return _this6.getFlatOptions(_this6.props.selected).indexOf(option.value) >= 0;
             }, this.state.filter.selected);
         }
 
@@ -2901,7 +2950,7 @@ var DualListBox = function (_React$Component) {
 
             var labelMap = this.getLabelMap(options);
 
-            var selectedOptions = this.props.selected.map(function (selected) {
+            var selectedOptions = this.getFlatOptions(this.props.selected).map(function (selected) {
                 return {
                     value: selected,
                     label: labelMap[selected]
@@ -3002,12 +3051,14 @@ var DualListBox = function (_React$Component) {
         value: function render() {
             var _props5 = this.props,
                 alignActions = _props5.alignActions,
+                availableLabel = _props5.availableLabel,
+                availableRef = _props5.availableRef,
                 canFilter = _props5.canFilter,
                 disabled = _props5.disabled,
                 name = _props5.name,
                 options = _props5.options,
                 selected = _props5.selected,
-                availableRef = _props5.availableRef,
+                selectedLabel = _props5.selectedLabel,
                 selectedRef = _props5.selectedRef;
 
             var availableOptions = this.renderOptions(this.filterAvailable(options));
@@ -3030,19 +3081,20 @@ var DualListBox = function (_React$Component) {
                 'rdl-has-filter': canFilter,
                 'rdl-align-top': alignActions === 'top'
             });
+            var value = this.getFlatOptions(selected).join(',');
 
             return _react2.default.createElement(
                 'div',
                 { className: className },
-                this.renderListBox('available', 'Available', availableOptions, availableRef, actionsRight),
+                this.renderListBox('available', availableLabel, availableOptions, availableRef, actionsRight),
                 alignActions === 'middle' ? _react2.default.createElement(
                     'div',
                     { className: 'rdl-actions' },
                     actionsRight,
                     actionsLeft
                 ) : null,
-                this.renderListBox('selected', 'Selected', selectedOptions, selectedRef, actionsLeft),
-                _react2.default.createElement('input', { disabled: disabled, name: name, value: selected, type: 'hidden' })
+                this.renderListBox('selected', selectedLabel, selectedOptions, selectedRef, actionsLeft),
+                _react2.default.createElement('input', { disabled: disabled, name: name, value: value, type: 'hidden' })
             );
         }
     }]);
@@ -3058,7 +3110,8 @@ DualListBox.propTypes = {
     onChange: _propTypes2.default.func.isRequired,
 
     alignActions: _propTypes2.default.string,
-    available: _propTypes2.default.arrayOf(_propTypes2.default.string),
+    available: valuePropType,
+    availableLabel: _propTypes2.default.string,
     availableRef: _propTypes2.default.func,
     canFilter: _propTypes2.default.bool,
     disabled: _propTypes2.default.bool,
@@ -3068,25 +3121,32 @@ DualListBox.propTypes = {
     }),
     filterCallback: _propTypes2.default.func,
     filterPlaceholder: _propTypes2.default.string,
+    moveKeyCodes: _propTypes2.default.arrayOf(_propTypes2.default.number),
     name: _propTypes2.default.string,
     preserveSelectOrder: _propTypes2.default.bool,
-    selected: _propTypes2.default.arrayOf(_propTypes2.default.string),
+    selected: valuePropType,
+    selectedLabel: _propTypes2.default.string,
     selectedRef: _propTypes2.default.func,
+    simpleValue: _propTypes2.default.bool,
     onFilterChange: _propTypes2.default.func
 };
 DualListBox.defaultProps = {
     alignActions: 'middle',
     available: undefined,
+    availableLabel: 'Available',
     availableRef: null,
     canFilter: false,
     disabled: false,
     filter: null,
     filterPlaceholder: 'Search...',
     filterCallback: defaultFilter,
+    moveKeyCodes: [KEY_CODES.SPACEBAR, KEY_CODES.ENTER],
     name: null,
     preserveSelectOrder: null,
     selected: [],
+    selectedLabel: 'Selected',
     selectedRef: null,
+    simpleValue: true,
     onFilterChange: null
 };
 exports.default = DualListBox;

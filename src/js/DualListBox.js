@@ -163,7 +163,7 @@ class DualListBox extends React.Component {
      * @returns {void}
      */
     onDoubleClick(event) {
-        const value = event.currentTarget.value;
+        const { value } = event.currentTarget;
         const selected = this.toggleSelected([value]);
 
         this.onChange(selected);

@@ -29,10 +29,8 @@ gulp.task('test-script-format', () => (
 gulp.task('test-mocha', () => (
     gulp.src(['./test/**/*.js'])
         .pipe(mocha({
-            compilers: [
-                'js:babel-core/register',
-            ],
             require: [
+                'babel-register',
                 './test/setup.js',
             ],
         }))

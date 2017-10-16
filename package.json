@@ -27,7 +27,7 @@
     "test": "gulp test"
   },
   "peerDependencies": {
-    "react": "^15.0.0"
+    "react": "^15.0.0 || ^16.0.0"
   },
   "devDependencies": {
     "babel-core": "^6.4.5",

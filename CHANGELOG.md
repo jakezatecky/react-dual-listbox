@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## [v1.3.1](https://github.com/jakezatecky/react-dual-listbox/compare/v1.3.0...v1.3.1) (2018-01-06)
+
+### Bug Fixes
+
+* [#33]: Fix sizing issues in IE 11 when the action buttons are aligned to the top
+
 ## [v1.3.0](https://github.com/jakezatecky/react-dual-listbox/compare/v1.2.0...v1.3.0) (2017-09-10)
 
 ### New Features

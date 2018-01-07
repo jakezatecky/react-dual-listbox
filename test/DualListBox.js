@@ -413,8 +413,8 @@ describe('<DualListBox />', () => {
                         { label: 'Moon', value: 'luna' },
                         { label: 'Phobos', value: 'phobos' },
                     ]}
-                    onChange={() => {}}
                     selected={['phobos']}
+                    onChange={() => {}}
                 />
             ));
 
@@ -598,10 +598,10 @@ describe('<DualListBox />', () => {
                         { label: 'Moon', value: 'luna' },
                         { label: 'Phobos', value: 'phobos' },
                     ]}
+                    selected={['phobos']}
                     onChange={(selected) => {
                         actual = selected;
                     }}
-                    selected={['phobos']}
                 />
             ));
 

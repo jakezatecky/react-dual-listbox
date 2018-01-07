@@ -499,14 +499,14 @@ class DualListBox extends React.Component {
         const selectedOptions = this.renderOptions(this.filterSelected(options));
         const actionsRight = (
             <div className="rdl-actions-right">
-                <Action disabled={disabled} direction="right" isMoveAll onClick={this.onClick} />
-                <Action disabled={disabled} direction="right" onClick={this.onClick} />
+                <Action direction="right" disabled={disabled} isMoveAll onClick={this.onClick} />
+                <Action direction="right" disabled={disabled} onClick={this.onClick} />
             </div>
         );
         const actionsLeft = (
             <div className="rdl-actions-left">
-                <Action disabled={disabled} direction="left" onClick={this.onClick} />
-                <Action disabled={disabled} direction="left" isMoveAll onClick={this.onClick} />
+                <Action direction="left" disabled={disabled} onClick={this.onClick} />
+                <Action direction="left" disabled={disabled} isMoveAll onClick={this.onClick} />
             </div>
         );
 
@@ -527,7 +527,7 @@ class DualListBox extends React.Component {
                     </div>
                 ) : null}
                 {this.renderListBox('selected', selectedLabel, selectedOptions, selectedRef, actionsLeft)}
-                <input disabled={disabled} name={name} value={value} type="hidden" />
+                <input disabled={disabled} name={name} type="hidden" value={value} />
             </div>
         );
     }

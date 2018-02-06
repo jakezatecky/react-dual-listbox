@@ -532,6 +532,39 @@ describe('<DualListBox />', () => {
                 value: 'phobos',
             }], actual);
         });
+
+        it('should also pass optgroups when false', () => {
+            let actual = null;
+
+            const wrapper = mount((
+                <DualListBox
+                    options={[
+                        {
+                            label: 'Mars',
+                            options: [
+                                { value: 'phobos', label: 'Phobos' },
+                                { value: 'deimos', label: 'Deimos' },
+                            ],
+                        },
+                    ]}
+                    simpleValue={false}
+                    onChange={(selected) => {
+                        actual = selected;
+                    }}
+                />
+            ));
+
+            wrapper.find('.rdl-available option[value="phobos"]').first().node.selected = true;
+            wrapper.find('.rdl-available select').simulate('dblclick');
+
+            assert.deepEqual([{
+                label: 'Mars',
+                options: [{
+                    label: 'Phobos',
+                    value: 'phobos',
+                }],
+            }], actual);
+        });
     });
 
     describe('props.onFilterChange', () => {

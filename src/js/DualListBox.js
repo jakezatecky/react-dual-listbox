@@ -20,6 +20,10 @@ const valuePropType = PropTypes.arrayOf(
     PropTypes.oneOfType([
         PropTypes.string,
         optionShape,
+        PropTypes.shape({
+            value: PropTypes.any,
+            options: PropTypes.arrayOf(optionShape),
+        }),
     ]),
 );
 
@@ -131,7 +135,33 @@ class DualListBox extends React.Component {
         if (simpleValue) {
             onChange(selected);
         } else {
-            onChange(options.filter(option => selected.indexOf(option.value) > -1));
+            const complexSelected = [];
+
+            options.forEach((option) => {
+                if (option.value) {
+                    // Reconstruct selected single-level options
+                    if (selected.indexOf(option.value) > -1) {
+                        complexSelected.push(option);
+                    }
+                } else {
+                    // Reconstruct optgroup options with those children selected
+                    const subSelected = [];
+                    option.options.forEach((subOption) => {
+                        if (selected.indexOf(subOption.value) > -1) {
+                            subSelected.push(subOption);
+                        }
+                    });
+
+                    if (subSelected.length > 0) {
+                        complexSelected.push({
+                            label: option.label,
+                            options: subSelected,
+                        });
+                    }
+                }
+            });
+
+            onChange(complexSelected);
         }
     }
 
@@ -222,7 +252,20 @@ class DualListBox extends React.Component {
             return options;
         }
 
-        return options.map(option => option.value);
+        const flattened = [];
+        options.forEach((option) => {
+            if (option.value) {
+                // Flatten single-level options
+                flattened.push(option.value);
+            } else {
+                // Flatten optgroup options
+                option.options.forEach((subOption) => {
+                    flattened.push(subOption.value);
+                });
+            }
+        });
+
+        return flattened;
     }
 
     /**

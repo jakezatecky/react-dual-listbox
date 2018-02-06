@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## [v1.3.2](https://github.com/jakezatecky/react-dual-listbox/compare/v1.3.1...v1.3.2) (2018-02-06)
+
+### Bug Fixes
+
+* [#35]: Fix issue where `simpleValue` would not reveal selected optgroup options
+* [#36]: Fix default filtering when dealing with regular expression symbols
+
 ## [v1.3.1](https://github.com/jakezatecky/react-dual-listbox/compare/v1.3.0...v1.3.1) (2018-01-06)
 
 ### Bug Fixes

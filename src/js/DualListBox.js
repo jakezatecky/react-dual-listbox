@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import escapeRegExp from 'lodash/escapeRegExp';
 import PropTypes from 'prop-types';
 import React from 'react';
 import shortid from 'shortid';
@@ -27,7 +28,7 @@ const defaultFilter = (option, filterInput) => {
         return true;
     }
 
-    return (new RegExp(filterInput, 'i')).test(option.label);
+    return (new RegExp(escapeRegExp(filterInput), 'i')).test(option.label);
 };
 
 class DualListBox extends React.Component {

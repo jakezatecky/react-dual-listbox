@@ -218,6 +218,52 @@ describe('<DualListBox />', () => {
             assert.equal('pho', wrapper.find('ListBox').at(0).prop('filterValue'));
             assert.equal('europa', wrapper.find('ListBox').at(1).prop('filterValue'));
         });
+
+        it('should do a substring filter by default', () => {
+            const wrapper = shallow((
+                <DualListBox
+                    canFilter
+                    options={[
+                        { label: 'Moon', value: 'luna' },
+                        { label: 'Phobos', value: 'phobos' },
+                    ]}
+                    onChange={() => {}}
+                />
+            ));
+
+            wrapper.find('ListBox').at(0).simulate('filterChange', {
+                target: {
+                    dataset: { key: 'available' },
+                    value: 'moo',
+                },
+            });
+
+            assert.isTrue(wrapper.contains(<option value="luna">Moon</option>));
+            assert.isFalse(wrapper.contains(<option value="phobos">Phobos</option>));
+        });
+
+        it('should not error on a substring filter that contains regex characters', () => {
+            const wrapper = shallow((
+                <DualListBox
+                    canFilter
+                    options={[
+                        { label: 'Moon', value: 'luna' },
+                        { label: 'Phobos (Mars)', value: 'phobos' },
+                    ]}
+                    onChange={() => {}}
+                />
+            ));
+
+            wrapper.find('ListBox').at(0).simulate('filterChange', {
+                target: {
+                    dataset: { key: 'available' },
+                    value: '(mars',
+                },
+            });
+
+            assert.isFalse(wrapper.contains(<option value="luna">Moon</option>));
+            assert.isTrue(wrapper.contains(<option value="phobos">Phobos (Mars)</option>));
+        });
     });
 
     describe('props.filterCallback', () => {

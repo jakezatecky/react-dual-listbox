@@ -18,7 +18,7 @@ gulp.task('test-script-format', () => (
     gulp.src([
         './examples/src/**.js',
         './src/**/*.js',
-        './test/**/*.js',
+        './test/unit/**/*.js',
         './*.js',
     ])
         .pipe(eslint())
@@ -27,11 +27,11 @@ gulp.task('test-script-format', () => (
 ));
 
 gulp.task('test-mocha', () => (
-    gulp.src(['./test/**/*.js'])
+    gulp.src(['./test/unit/**/*.js'])
         .pipe(mocha({
             require: [
                 'babel-register',
-                './test/setup.js',
+                './test/unit/setup.js',
             ],
         }))
 ));

@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow, mount } from 'enzyme';
 import { assert } from 'chai';
 
-import DualListBox from '../src/js/DualListBox';
+import DualListBox from '../../src/js/DualListBox';
 
 describe('<DualListBox />', () => {
     describe('component', () => {

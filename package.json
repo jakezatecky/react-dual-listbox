@@ -19,17 +19,21 @@
   },
   "bugs": "https://github.com/jakezatecky/react-dual-listbox/issues",
   "main": "lib/index.js",
+  "typings": "./index.d.ts",
   "scripts": {
     "build": "gulp build",
     "examples": "gulp examples",
     "gh-deploy": "git subtree push --prefix examples/dist origin gh-pages",
     "prepublishOnly": "gulp build",
-    "test": "gulp test"
+    "test:unit": "gulp test",
+    "test:ts": "tsc --noEmit",
+    "test": "concurrently -n \"unit,ts\" -c \"green,blue\" \"npm run test:unit\" \"npm run test:ts\""
   },
   "peerDependencies": {
     "react": "^15.0.0 || ^16.0.0"
   },
   "devDependencies": {
+    "@types/react": "^15",
     "babel-core": "^6.4.5",
     "babel-eslint": "^8.0.0",
     "babel-loader": "^7.0.0",
@@ -38,6 +42,7 @@
     "babel-preset-stage-2": "^6.3.13",
     "browser-sync": "^2.18.6",
     "chai": "^4.0.1",
+    "concurrently": "^3.5.1",
     "enzyme": "^2.7.1",
     "eslint": "^4.3.0",
     "eslint-config-takiyon-react": "^0.3.0",
@@ -58,6 +63,7 @@
     "react-addons-test-utils": "^15.4.2",
     "react-dom": "^15.0.0",
     "react-test-renderer": "^15.5.4",
+    "typescript": "^2.8.0-dev.20180211",
     "webpack": "^3.0.0",
     "webpack-stream": "^4.0.0"
   },

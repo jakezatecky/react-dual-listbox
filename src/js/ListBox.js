@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import arrayFrom from './arrayFrom';
+
 class ListBox extends React.Component {
     static propTypes = {
         canFilter: PropTypes.bool.isRequired,
@@ -22,6 +24,32 @@ class ListBox extends React.Component {
     static defaultProps = {
         actions: null,
     };
+
+    /**
+     * @returns {void}
+     */
+    constructor() {
+        super();
+
+        this.state = {
+            value: [],
+        };
+
+        this.onChange = this.onChange.bind(this);
+    }
+
+    /**
+     * @param {object} event
+     *
+     * @returns {void}
+     */
+    onChange(event) {
+        const value = arrayFrom(event.target.options)
+            .filter(option => option.selected)
+            .map(option => option.value);
+
+        this.setState({ value });
+    }
 
     /**
      * @returns {React.Component}
@@ -75,6 +103,7 @@ class ListBox extends React.Component {
             onDoubleClick,
             onKeyUp,
         } = this.props;
+        const { value } = this.state;
 
         return (
             <div className="rdl-control-container">
@@ -87,6 +116,8 @@ class ListBox extends React.Component {
                     id={`${id}-${controlKey}`}
                     multiple
                     ref={inputRef}
+                    value={value}
+                    onChange={this.onChange}
                     onDoubleClick={onDoubleClick}
                     onKeyUp={onKeyUp}
                 >

@@ -4,6 +4,14 @@ import { assert } from 'chai';
 
 import DualListBox from '../src/js/DualListBox';
 
+function simulateChange(values) {
+    return {
+        target: {
+            options: values.map(value => ({ value, selected: true })),
+        },
+    };
+}
+
 describe('<DualListBox />', () => {
     describe('component', () => {
         it('should render the react-dual-listbox container', () => {
@@ -362,12 +370,12 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            wrapper.find('.rdl-available option[value="phobos"]').first().node.selected = true;
+            wrapper.find('.rdl-available select').simulate('change', simulateChange(['phobos']));
             wrapper.find('.rdl-available select').simulate('keyup', { keyCode: 32 });
 
             assert.deepEqual(['phobos'], actual);
 
-            wrapper.find('.rdl-available option[value="luna"]').first().node.selected = true;
+            wrapper.find('.rdl-available select').simulate('change', simulateChange(['luna', 'phobos']));
             wrapper.find('.rdl-available select').simulate('keyup', { keyCode: 31 });
 
             assert.deepEqual(['luna', 'phobos'], actual);
@@ -502,7 +510,7 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            wrapper.find('.rdl-available option[value="phobos"]').first().node.selected = true;
+            wrapper.find('.rdl-available select').simulate('change', simulateChange(['phobos']));
             wrapper.find('.rdl-available select').simulate('dblclick');
 
             assert.deepEqual(['phobos'], actual);
@@ -524,7 +532,7 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            wrapper.find('.rdl-available option[value="phobos"]').first().node.selected = true;
+            wrapper.find('.rdl-available select').simulate('change', simulateChange(['phobos']));
             wrapper.find('.rdl-available select').simulate('dblclick');
 
             assert.deepEqual([{
@@ -554,7 +562,7 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            wrapper.find('.rdl-available option[value="phobos"]').first().node.selected = true;
+            wrapper.find('.rdl-available select').simulate('change', simulateChange(['phobos']));
             wrapper.find('.rdl-available select').simulate('dblclick');
 
             assert.deepEqual([{
@@ -615,7 +623,7 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            wrapper.find('.rdl-available option[value="phobos"]').first().node.selected = true;
+            wrapper.find('.rdl-available select').simulate('change', simulateChange(['phobos']));
             wrapper.find('.rdl-move-right').not('.rdl-move-all').simulate('click');
 
             assert.deepEqual(['phobos'], actual);
@@ -638,7 +646,7 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            wrapper.find('.rdl-available option[value="phobos"]').first().node.selected = true;
+            wrapper.find('.rdl-available select').simulate('change', simulateChange(['phobos']));
             wrapper.find('.rdl-move-right').not('.rdl-move-all').simulate('click');
 
             assert.deepEqual(['deimos', 'phobos'], actual);
@@ -684,7 +692,7 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            wrapper.find('.rdl-selected option[value="phobos"]').first().node.selected = true;
+            wrapper.find('.rdl-selected select').simulate('change', simulateChange(['phobos']));
             wrapper.find('.rdl-move-left').not('.rdl-move-all').simulate('click');
 
             assert.deepEqual([], actual);

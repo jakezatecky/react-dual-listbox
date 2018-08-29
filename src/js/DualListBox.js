@@ -227,9 +227,10 @@ class DualListBox extends React.Component {
      */
     onFilterChange(event) {
         const { onFilterChange } = this.props;
+        const { filter } = this.state;
 
         const newFilter = {
-            ...this.state.filter,
+            ...filter,
             [event.target.dataset.key]: event.target.value,
         };
 
@@ -303,40 +304,42 @@ class DualListBox extends React.Component {
     }
 
     /**
-     * Make all the given options selected.
+     * Make all the given options selected, appending them after the existing selections.
      *
      * @param {Array} options
      *
      * @returns {Array}
      */
     makeOptionsSelected(options) {
-        let selected = [];
+        const { selected: previousSelected } = this.props;
+        let newSelected = [];
 
         this.filterAvailable(options).forEach((option) => {
             if (option.options !== undefined) {
-                selected = [...selected, ...this.makeOptionsSelected(option.options)];
+                newSelected = [...newSelected, ...this.makeOptionsSelected(option.options)];
             } else {
-                selected.push(option.value);
+                newSelected.push(option.value);
             }
         });
 
         return [
-            ...this.getFlatOptions(this.props.selected),
-            ...selected,
+            ...this.getFlatOptions(previousSelected),
+            ...newSelected,
         ];
     }
 
     /**
      * Toggle a new set of selected elements.
      *
-     * @param {Array} selected
+     * @param {Array} selectedItems
      *
      * @returns {Array}
      */
-    toggleSelected(selected) {
-        const oldSelected = this.getFlatOptions(this.props.selected).slice(0);
+    toggleSelected(selectedItems) {
+        const { selected } = this.props;
+        const oldSelected = this.getFlatOptions(selected).slice(0);
 
-        selected.forEach((value) => {
+        selectedItems.forEach((value) => {
             const index = oldSelected.indexOf(value);
 
             if (index >= 0) {
@@ -393,22 +396,25 @@ class DualListBox extends React.Component {
      * @returns {Array}
      */
     filterAvailable(options) {
-        if (this.props.available !== undefined) {
+        const { available, selected } = this.props;
+        const { filter: { available: availableFilter } } = this.state;
+
+        if (available !== undefined) {
             return this.filterOptions(
                 options,
                 option => (
-                    this.getFlatOptions(this.props.available).indexOf(option.value) >= 0 &&
-                    this.getFlatOptions(this.props.selected).indexOf(option.value) < 0
+                    this.getFlatOptions(available).indexOf(option.value) >= 0 &&
+                    this.getFlatOptions(selected).indexOf(option.value) < 0
                 ),
-                this.state.filter.available,
+                availableFilter,
             );
         }
 
         // Show all un-selected options
         return this.filterOptions(
             options,
-            option => this.getFlatOptions(this.props.selected).indexOf(option.value) < 0,
-            this.state.filter.available,
+            option => this.getFlatOptions(selected).indexOf(option.value) < 0,
+            availableFilter,
         );
     }
 
@@ -420,15 +426,18 @@ class DualListBox extends React.Component {
      * @returns {Array}
      */
     filterSelected(options) {
-        if (this.props.preserveSelectOrder) {
+        const { preserveSelectOrder, selected } = this.props;
+        const { filter: { selected: selectedFilter } } = this.state;
+
+        if (preserveSelectOrder) {
             return this.filterSelectedByOrder(options);
         }
 
         // Order the selections by the default order
         return this.filterOptions(
             options,
-            option => this.getFlatOptions(this.props.selected).indexOf(option.value) >= 0,
-            this.state.filter.selected,
+            option => this.getFlatOptions(selected).indexOf(option.value) >= 0,
+            selectedFilter,
         );
     }
 
@@ -440,17 +449,18 @@ class DualListBox extends React.Component {
      * @returns {Array}
      */
     filterSelectedByOrder(options) {
-        const { canFilter, filterCallback } = this.props;
+        const { canFilter, filterCallback, selected } = this.props;
+        const { filter: { selected: selectedFilter } } = this.state;
         const labelMap = this.getLabelMap(options);
 
-        const selectedOptions = this.getFlatOptions(this.props.selected).map(selected => ({
-            value: selected,
-            label: labelMap[selected],
+        const selectedOptions = this.getFlatOptions(selected).map(value => ({
+            value,
+            label: labelMap[value],
         }));
 
         if (canFilter) {
             return selectedOptions.filter(
-                selected => filterCallback(selected, this.state.filter.selected),
+                selectedOption => filterCallback(selectedOption, selectedFilter),
             );
         }
 
@@ -496,6 +506,7 @@ class DualListBox extends React.Component {
             disabled,
             filterPlaceholder,
         } = this.props;
+        const { filter } = this.state;
 
         return (
             <ListBox
@@ -505,7 +516,7 @@ class DualListBox extends React.Component {
                 disabled={disabled}
                 displayName={displayName}
                 filterPlaceholder={filterPlaceholder}
-                filterValue={this.state.filter[controlKey]}
+                filterValue={filter[controlKey]}
                 id={this.id}
                 inputRef={(c) => {
                     this[controlKey] = c;

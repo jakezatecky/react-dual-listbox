@@ -73,7 +73,8 @@ class ListBox extends React.Component {
         return (
             <div className="rdl-filter-container">
                 <label className="rdl-control-label" htmlFor={`${id}-filter-${controlKey}`}>
-                    Filter {displayName}
+                    Filter
+                    {` ${displayName}`}
                 </label>
                 <input
                     className="rdl-filter"

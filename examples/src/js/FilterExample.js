@@ -40,12 +40,14 @@ class FilterExample extends React.Component {
     }
 
     render() {
+        const { selected } = this.state;
+
         return (
             <DualListBox
                 canFilter
                 name="moons"
                 options={options}
-                selected={this.state.selected}
+                selected={selected}
                 onChange={this.onChange}
             />
         );

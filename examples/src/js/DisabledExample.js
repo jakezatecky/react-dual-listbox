@@ -40,13 +40,15 @@ class DisabledExample extends React.Component {
     }
 
     render() {
+        const { selected } = this.state;
+
         return (
             <DualListBox
                 canFilter
                 disabled
                 name="moons"
                 options={options}
-                selected={this.state.selected}
+                selected={selected}
                 onChange={this.onChange}
             />
         );

@@ -40,13 +40,15 @@ class AlignTopExample extends React.Component {
     }
 
     render() {
+        const { selected } = this.state;
+
         return (
             <DualListBox
                 alignActions="top"
                 canFilter
                 name="moons"
                 options={options}
-                selected={this.state.selected}
+                selected={selected}
                 onChange={this.onChange}
             />
         );

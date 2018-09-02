@@ -40,12 +40,14 @@ class PreserveSelectOrderExample extends React.Component {
     }
 
     render() {
+        const { selected } = this.state;
+
         return (
             <DualListBox
                 name="moons"
                 options={options}
                 preserveSelectOrder
-                selected={this.state.selected}
+                selected={selected}
                 onChange={this.onChange}
             />
         );

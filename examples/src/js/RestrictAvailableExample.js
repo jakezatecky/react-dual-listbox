@@ -48,17 +48,17 @@ class RestrictAvailableExample extends React.Component {
     }
 
     renderPlanets() {
-        const selectedPlanet = this.state.planet;
+        const { planet: selectedPlanet } = this.state;
 
         return Object.keys(planets).map(planet => (
             <label key={planet} htmlFor={planet}>
                 <input
-                    type="radio"
-                    id={planet}
-                    value={planet}
-                    name="planets"
-                    onChange={this.onPlanetChange}
                     checked={planet === selectedPlanet}
+                    id={planet}
+                    name="planets"
+                    type="radio"
+                    value={planet}
+                    onChange={this.onPlanetChange}
                 />
                 {planets[planet].name}
             </label>
@@ -74,8 +74,8 @@ class RestrictAvailableExample extends React.Component {
                     {this.renderPlanets()}
                 </div>
                 <DualListBox
-                    options={options}
                     available={planets[planet].moons}
+                    options={options}
                     selected={selected}
                     onChange={this.onChange}
                 />

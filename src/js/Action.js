@@ -7,6 +7,7 @@ class Action extends React.Component {
         direction: PropTypes.oneOf(['left', 'right']).isRequired,
         disabled: PropTypes.bool.isRequired,
         onClick: PropTypes.func.isRequired,
+        id: PropTypes.string,
 
         isMoveAll: PropTypes.bool,
     };
@@ -76,7 +77,7 @@ class Action extends React.Component {
      * @returns {React.Component}
      */
     render() {
-        const { direction, disabled, isMoveAll } = this.props;
+        const { direction, disabled, isMoveAll, id } = this.props;
         const iconClass = this.getIconClass(direction);
         const label = this.getLabel(direction, isMoveAll);
         const className = classNames({
@@ -88,6 +89,7 @@ class Action extends React.Component {
 
         return (
             <button
+                id={id}
                 aria-label={label}
                 className={className}
                 disabled={disabled}

@@ -4,6 +4,8 @@ import { assert } from 'chai';
 
 import DualListBox from '../src/js/DualListBox';
 
+const testId = 'test-id';
+
 function simulateChange(values) {
     return {
         target: {
@@ -12,13 +14,17 @@ function simulateChange(values) {
     };
 }
 
+function getExpectedId(rest) {
+    return testId + '-' + rest;
+}
+
 describe('<DualListBox />', () => {
     describe('component', () => {
         it('should render the react-dual-listbox container', () => {
             const wrapper = shallow((
                 <DualListBox
                     options={[{ label: 'Phobos', value: 'phobos' }]}
-                    onChange={() => {}}
+                    onChange={() => { }}
                 />
             ));
 
@@ -34,7 +40,7 @@ describe('<DualListBox />', () => {
                         { label: 'Moon', value: 'luna' },
                         { label: 'Phobos', value: 'phobos' },
                     ]}
-                    onChange={() => {}}
+                    onChange={() => { }}
                 />
             ));
 
@@ -52,7 +58,7 @@ describe('<DualListBox />', () => {
                         { label: 'Moon', value: 'luna' },
                         { label: 'Phobos', value: 'phobos' },
                     ]}
-                    onChange={() => {}}
+                    onChange={() => { }}
                 />
             ));
 
@@ -71,12 +77,13 @@ describe('<DualListBox />', () => {
                         { label: 'Moon', value: 'luna' },
                         { label: 'Phobos', value: 'phobos' },
                     ]}
-                    onChange={() => {}}
+                    onChange={() => { }}
+                    id={testId}
                 />
             ));
 
             assert.isTrue(wrapper.find('ListBox').at(0).contains((
-                <option value="luna">Moon</option>
+                <option id={getExpectedId('option-luna')} value="luna">Moon</option>
             )));
         });
 
@@ -88,7 +95,7 @@ describe('<DualListBox />', () => {
                         { label: 'Moon', value: 'luna' },
                         { label: 'Phobos', value: 'phobos' },
                     ]}
-                    onChange={() => {}}
+                    onChange={() => { }}
                 />
             ));
 
@@ -106,15 +113,16 @@ describe('<DualListBox />', () => {
                         { label: 'Phobos', value: 'phobos' },
                     ]}
                     selected={['luna', 'phobos']}
-                    onChange={() => {}}
+                    onChange={() => { }}
+                    id={testId}
                 />
             ));
 
             assert.isTrue(wrapper.find('ListBox').at(1).contains((
-                <option value="luna">Moon</option>
+                <option id={getExpectedId('option-luna')} value="luna">Moon</option>
             )));
             assert.isTrue(wrapper.find('ListBox').at(1).contains((
-                <option value="phobos">Phobos</option>
+                <option id={getExpectedId('option-phobos')} value="phobos">Phobos</option>
             )));
         });
     });
@@ -127,7 +135,7 @@ describe('<DualListBox />', () => {
                     options={[
                         { label: 'Moon', value: 'luna' },
                     ]}
-                    onChange={() => {}}
+                    onChange={() => { }}
                 />
             ));
 
@@ -144,7 +152,7 @@ describe('<DualListBox />', () => {
                         { label: 'Moon', value: 'luna' },
                         { label: 'Phobos', value: 'phobos' },
                     ]}
-                    onChange={() => {}}
+                    onChange={() => { }}
                 />
             ));
 
@@ -160,7 +168,7 @@ describe('<DualListBox />', () => {
                         { label: 'Moon', value: 'luna' },
                         { label: 'Phobos', value: 'phobos' },
                     ]}
-                    onChange={() => {}}
+                    onChange={() => { }}
                 />
             ));
 
@@ -182,7 +190,7 @@ describe('<DualListBox />', () => {
                 <DualListBox
                     disabled
                     options={[{ label: 'Phobos', value: 'phobos' }]}
-                    onChange={() => {}}
+                    onChange={() => { }}
                 />
             ));
 
@@ -196,7 +204,7 @@ describe('<DualListBox />', () => {
             const wrapper = shallow((
                 <DualListBox
                     options={[{ label: 'Phobos', value: 'phobos' }]}
-                    onChange={() => {}}
+                    onChange={() => { }}
                 />
             ));
 
@@ -219,7 +227,7 @@ describe('<DualListBox />', () => {
                         { label: 'Phobos', value: 'phobos' },
                         { label: 'Europa', value: 'europa' },
                     ]}
-                    onChange={() => {}}
+                    onChange={() => { }}
                 />
             ));
 
@@ -235,7 +243,8 @@ describe('<DualListBox />', () => {
                         { label: 'Moon', value: 'luna' },
                         { label: 'Phobos', value: 'phobos' },
                     ]}
-                    onChange={() => {}}
+                    onChange={() => { }}
+                    id={testId}
                 />
             ));
 
@@ -246,8 +255,8 @@ describe('<DualListBox />', () => {
                 },
             });
 
-            assert.isTrue(wrapper.contains(<option value="luna">Moon</option>));
-            assert.isFalse(wrapper.contains(<option value="phobos">Phobos</option>));
+            assert.isTrue(wrapper.contains(<option id={getExpectedId('option-luna')} value="luna">Moon</option>));
+            assert.isFalse(wrapper.contains(<option id={getExpectedId('option-phobos')} value="phobos">Phobos</option>));
         });
 
         it('should not error on a substring filter that contains regex characters', () => {
@@ -258,7 +267,8 @@ describe('<DualListBox />', () => {
                         { label: 'Moon', value: 'luna' },
                         { label: 'Phobos (Mars)', value: 'phobos' },
                     ]}
-                    onChange={() => {}}
+                    onChange={() => { }}
+                    id={testId}
                 />
             ));
 
@@ -269,8 +279,8 @@ describe('<DualListBox />', () => {
                 },
             });
 
-            assert.isFalse(wrapper.contains(<option value="luna">Moon</option>));
-            assert.isTrue(wrapper.contains(<option value="phobos">Phobos (Mars)</option>));
+            assert.isFalse(wrapper.contains(<option id={getExpectedId('option-luna')} value="luna">Moon</option>));
+            assert.isTrue(wrapper.contains(<option id={getExpectedId('option-phobos')} value="phobos">Phobos (Mars)</option>));
         });
     });
 
@@ -288,7 +298,7 @@ describe('<DualListBox />', () => {
                         { label: 'Moon', value: 'luna' },
                         { label: 'Phobos', value: 'phobos' },
                     ]}
-                    onChange={() => {}}
+                    onChange={() => { }}
                 />
             ));
 
@@ -320,7 +330,7 @@ describe('<DualListBox />', () => {
                         { label: 'Moon', value: 'luna' },
                         { label: 'Phobos', value: 'phobos' },
                     ]}
-                    onChange={() => {}}
+                    onChange={() => { }}
                 />
             ));
 
@@ -345,7 +355,7 @@ describe('<DualListBox />', () => {
                         { label: 'Moon', value: 'luna' },
                         { label: 'Phobos', value: 'phobos' },
                     ]}
-                    onChange={() => {}}
+                    onChange={() => { }}
                 />
             ));
 
@@ -390,12 +400,13 @@ describe('<DualListBox />', () => {
                         { label: 'Moon', value: 'luna' },
                         { label: 'Phobos', value: 'phobos' },
                     ]}
-                    onChange={() => {}}
+                    onChange={() => { }}
+                    id={testId}
                 />
             ));
 
-            assert.isTrue(wrapper.contains(<option value="luna">Moon</option>));
-            assert.isTrue(wrapper.contains(<option value="phobos">Phobos</option>));
+            assert.isTrue(wrapper.contains(<option id={getExpectedId('option-luna')} value="luna">Moon</option>));
+            assert.isTrue(wrapper.contains(<option id={getExpectedId('option-phobos')} value="phobos">Phobos</option>));
         });
 
         it('should render optgroups and their children', () => {
@@ -410,14 +421,15 @@ describe('<DualListBox />', () => {
                             ],
                         },
                     ]}
-                    onChange={() => {}}
+                    onChange={() => { }}
+                    id={testId}
                 />
             ));
 
             assert.isTrue(wrapper.contains((
-                <optgroup label="Mars">
-                    <option value="phobos">Phobos</option>
-                    <option value="deimos">Deimos</option>
+                <optgroup id={getExpectedId('optgroup-Mars')} label="Mars">
+                    <option id={getExpectedId('option-phobos')} value="phobos">Phobos</option>
+                    <option id={getExpectedId('option-deimos')} value="deimos">Deimos</option>
                 </optgroup>
             )));
         });
@@ -433,7 +445,7 @@ describe('<DualListBox />', () => {
                     ]}
                     preserveSelectOrder={false}
                     selected={['phobos', 'luna']}
-                    onChange={() => {}}
+                    onChange={() => { }}
                 />
             ));
 
@@ -450,7 +462,7 @@ describe('<DualListBox />', () => {
                     ]}
                     preserveSelectOrder
                     selected={['phobos', 'luna']}
-                    onChange={() => {}}
+                    onChange={() => { }}
                 />
             ));
 
@@ -468,12 +480,13 @@ describe('<DualListBox />', () => {
                         { label: 'Phobos', value: 'phobos' },
                     ]}
                     selected={['phobos']}
-                    onChange={() => {}}
+                    onChange={() => { }}
+                    id={testId}
                 />
             ));
 
             assert.isTrue(wrapper.find('ListBox').at(1).contains((
-                <option value="phobos">Phobos</option>
+                <option id={getExpectedId('option-phobos')} value="phobos">Phobos</option>
             )));
         });
     });
@@ -486,7 +499,7 @@ describe('<DualListBox />', () => {
                         { label: 'Moon', value: 'luna' },
                     ]}
                     selectedLabel="Team B"
-                    onChange={() => {}}
+                    onChange={() => { }}
                 />
             ));
 
@@ -514,6 +527,28 @@ describe('<DualListBox />', () => {
             wrapper.find('.rdl-available select').simulate('dblclick');
 
             assert.deepEqual(['phobos'], actual);
+        });
+
+        describe('props.id', () => {
+         it('should pass the id for all elements', () => {
+
+            const id = 'test-id';
+
+            const wrapper = mount((
+                <DualListBox
+                    options={[
+                        { label: 'Moon', value: 'luna' },
+                        { label: 'Phobos', value: 'phobos' },
+                    ]}
+                    onChange={(selected) => {
+                        actual = selected;
+                    }}
+                    id={id} 
+                />
+            ));
+
+            assert.isTrue(wrapper.find(`#${id}-option-luna`).exists());
+         });
         });
 
         it('should pass an array of options when false', () => {
@@ -586,7 +621,7 @@ describe('<DualListBox />', () => {
                 <DualListBox
                     filter={filter}
                     options={[{ label: 'Phobos', value: 'phobos' }]}
-                    onChange={() => {}}
+                    onChange={() => { }}
                     onFilterChange={(newFilter) => {
                         filter = newFilter;
                     }}

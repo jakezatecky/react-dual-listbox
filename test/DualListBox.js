@@ -15,7 +15,7 @@ function simulateChange(values) {
 }
 
 function getExpectedId(rest) {
-    return testId + '-' + rest;
+    return `${testId}-${rest}`;
 }
 
 describe('<DualListBox />', () => {
@@ -73,12 +73,12 @@ describe('<DualListBox />', () => {
             const wrapper = shallow((
                 <DualListBox
                     available={['luna']}
+                    id={testId}
                     options={[
                         { label: 'Moon', value: 'luna' },
                         { label: 'Phobos', value: 'phobos' },
                     ]}
                     onChange={() => { }}
-                    id={testId}
                 />
             ));
 
@@ -108,13 +108,13 @@ describe('<DualListBox />', () => {
             const wrapper = shallow((
                 <DualListBox
                     available={['luna']}
+                    id={testId}
                     options={[
                         { label: 'Moon', value: 'luna' },
                         { label: 'Phobos', value: 'phobos' },
                     ]}
                     selected={['luna', 'phobos']}
                     onChange={() => { }}
-                    id={testId}
                 />
             ));
 
@@ -239,12 +239,12 @@ describe('<DualListBox />', () => {
             const wrapper = shallow((
                 <DualListBox
                     canFilter
+                    id={testId}
                     options={[
                         { label: 'Moon', value: 'luna' },
                         { label: 'Phobos', value: 'phobos' },
                     ]}
                     onChange={() => { }}
-                    id={testId}
                 />
             ));
 
@@ -263,12 +263,12 @@ describe('<DualListBox />', () => {
             const wrapper = shallow((
                 <DualListBox
                     canFilter
+                    id={testId}
                     options={[
                         { label: 'Moon', value: 'luna' },
                         { label: 'Phobos (Mars)', value: 'phobos' },
                     ]}
                     onChange={() => { }}
-                    id={testId}
                 />
             ));
 
@@ -396,12 +396,12 @@ describe('<DualListBox />', () => {
         it('should render the supplied options', () => {
             const wrapper = shallow((
                 <DualListBox
+                    id={testId}
                     options={[
                         { label: 'Moon', value: 'luna' },
                         { label: 'Phobos', value: 'phobos' },
                     ]}
                     onChange={() => { }}
-                    id={testId}
                 />
             ));
 
@@ -412,6 +412,7 @@ describe('<DualListBox />', () => {
         it('should render optgroups and their children', () => {
             const wrapper = shallow((
                 <DualListBox
+                    id={testId}
                     options={[
                         {
                             label: 'Mars',
@@ -422,7 +423,6 @@ describe('<DualListBox />', () => {
                         },
                     ]}
                     onChange={() => { }}
-                    id={testId}
                 />
             ));
 
@@ -475,13 +475,13 @@ describe('<DualListBox />', () => {
         it('should render selected options', () => {
             const wrapper = shallow((
                 <DualListBox
+                    id={testId}
                     options={[
                         { label: 'Moon', value: 'luna' },
                         { label: 'Phobos', value: 'phobos' },
                     ]}
                     selected={['phobos']}
                     onChange={() => { }}
-                    id={testId}
                 />
             ));
 
@@ -530,25 +530,22 @@ describe('<DualListBox />', () => {
         });
 
         describe('props.id', () => {
-         it('should pass the id for all elements', () => {
+            it('should pass the id for all elements', () => {
+                const id = 'test-id';
 
-            const id = 'test-id';
+                const wrapper = mount((
+                    <DualListBox
+                        id={id}
+                        options={[
+                            { label: 'Moon', value: 'luna' },
+                            { label: 'Phobos', value: 'phobos' },
+                        ]}
+                        onChange={() => { }}
+                    />
+                ));
 
-            const wrapper = mount((
-                <DualListBox
-                    options={[
-                        { label: 'Moon', value: 'luna' },
-                        { label: 'Phobos', value: 'phobos' },
-                    ]}
-                    onChange={(selected) => {
-                        actual = selected;
-                    }}
-                    id={id} 
-                />
-            ));
-
-            assert.isTrue(wrapper.find(`#${id}-option-luna`).exists());
-         });
+                assert.isTrue(wrapper.find(`#${id}-option-luna`).exists());
+            });
         });
 
         it('should pass an array of options when false', () => {

@@ -62,6 +62,53 @@ describe('<DualListBox />', () => {
         });
     });
 
+    describe('props.allowDuplicates', () => {
+        it('should allow repeated selections of the same option when set to true', () => {
+            let actual = null;
+
+            const wrapper = mount((
+                <DualListBox
+                    allowDuplicates
+                    options={[
+                        { label: 'Moon', value: 'luna' },
+                        { label: 'Phobos', value: 'phobos' },
+                    ]}
+                    selected={['luna', 'phobos']}
+                    onChange={(selected) => {
+                        actual = selected;
+                    }}
+                />
+            ));
+
+            wrapper.find('.rdl-available select').simulate('change', simulateChange(['phobos-1']));
+            wrapper.find('.rdl-available select').simulate('dblclick');
+
+            assert.deepEqual(['luna', 'phobos', 'phobos'], actual);
+        });
+
+        it('should NOT allow repeated selections of the same option when set to false', () => {
+            let actual = null;
+
+            const wrapper = mount((
+                <DualListBox
+                    options={[
+                        { label: 'Moon', value: 'luna' },
+                        { label: 'Phobos', value: 'phobos' },
+                    ]}
+                    selected={['luna', 'phobos']}
+                    onChange={(selected) => {
+                        actual = selected;
+                    }}
+                />
+            ));
+
+            wrapper.find('.rdl-available select').simulate('change', simulateChange(['phobos-1']));
+            wrapper.find('.rdl-available select').simulate('dblclick');
+
+            assert.deepEqual(['luna', 'phobos', 'phobos'], actual);
+        });
+    });
+
     describe('props.available', () => {
         it('should include options in the array in the available list', () => {
             const wrapper = shallow((
@@ -75,7 +122,7 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            assert.isTrue(wrapper.find('ListBox').at(0).contains((
+            assert.isTrue(wrapper.find('ListBox').at(0).containsMatchingElement((
                 <option value="luna">Moon</option>
             )));
         });
@@ -110,10 +157,10 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            assert.isTrue(wrapper.find('ListBox').at(1).contains((
+            assert.isTrue(wrapper.find('ListBox').at(1).containsMatchingElement((
                 <option value="luna">Moon</option>
             )));
-            assert.isTrue(wrapper.find('ListBox').at(1).contains((
+            assert.isTrue(wrapper.find('ListBox').at(1).containsMatchingElement((
                 <option value="phobos">Phobos</option>
             )));
         });
@@ -246,8 +293,8 @@ describe('<DualListBox />', () => {
                 },
             });
 
-            assert.isTrue(wrapper.contains(<option value="luna">Moon</option>));
-            assert.isFalse(wrapper.contains(<option value="phobos">Phobos</option>));
+            assert.isTrue(wrapper.containsMatchingElement(<option value="luna">Moon</option>));
+            assert.isFalse(wrapper.containsMatchingElement(<option value="phobos">Phobos</option>));
         });
 
         it('should not error on a substring filter that contains regex characters', () => {
@@ -269,8 +316,8 @@ describe('<DualListBox />', () => {
                 },
             });
 
-            assert.isFalse(wrapper.contains(<option value="luna">Moon</option>));
-            assert.isTrue(wrapper.contains(<option value="phobos">Phobos (Mars)</option>));
+            assert.isFalse(wrapper.containsMatchingElement(<option value="luna">Moon</option>));
+            assert.isTrue(wrapper.containsMatchingElement(<option value="phobos">Phobos (Mars)</option>));
         });
     });
 
@@ -394,8 +441,8 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            assert.isTrue(wrapper.contains(<option value="luna">Moon</option>));
-            assert.isTrue(wrapper.contains(<option value="phobos">Phobos</option>));
+            assert.isTrue(wrapper.containsMatchingElement(<option value="luna">Moon</option>));
+            assert.isTrue(wrapper.containsMatchingElement(<option value="phobos">Phobos</option>));
         });
 
         it('should render optgroups and their children', () => {
@@ -416,8 +463,8 @@ describe('<DualListBox />', () => {
 
             assert.isTrue(wrapper.contains((
                 <optgroup label="Mars">
-                    <option value="phobos">Phobos</option>
-                    <option value="deimos">Deimos</option>
+                    <option data-real-value="phobos" value="phobos">Phobos</option>
+                    <option data-real-value="deimos" value="deimos">Deimos</option>
                 </optgroup>
             )));
         });
@@ -472,7 +519,7 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            assert.isTrue(wrapper.find('ListBox').at(1).contains((
+            assert.isTrue(wrapper.find('ListBox').at(1).containsMatchingElement((
                 <option value="phobos">Phobos</option>
             )));
         });

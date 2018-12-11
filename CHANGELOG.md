@@ -2,6 +2,10 @@
 
 ## v1.4.0 (TBA)
 
+### New Features
+
+* [#48]: Add `allowDuplicates` property to allow more than one copy of an available value to be selected
+
 ### Bug Fixes
 
 * [#53]: Fix an issue where previously selected options would be duplicated when using the "Move all right" button

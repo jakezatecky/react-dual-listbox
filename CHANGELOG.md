@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v1.4.0 (TBA)
+
+### Bug Fixes
+
+* [#53]: Fix an issue where previously selected options would be duplicated when using the "Move all right" button
+
 ## [v1.3.2](https://github.com/jakezatecky/react-dual-listbox/compare/v1.3.1...v1.3.2) (2018-02-06)
 
 ### Bug Fixes

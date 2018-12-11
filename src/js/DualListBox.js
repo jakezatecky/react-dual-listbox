@@ -312,20 +312,36 @@ class DualListBox extends React.Component {
      */
     makeOptionsSelected(options) {
         const { selected: previousSelected } = this.props;
+        const availableOptions = this.filterAvailable(options);
+
+        return [
+            ...this.getFlatOptions(previousSelected),
+            ...this.makeOptionsSelectedRecursive(availableOptions),
+        ];
+    }
+
+    /**
+     * Recursively make the given set of options selected.
+     *
+     * @param {Array} options
+     *
+     * @returns {Array}
+     */
+    makeOptionsSelectedRecursive(options) {
         let newSelected = [];
 
-        this.filterAvailable(options).forEach((option) => {
+        options.forEach((option) => {
             if (option.options !== undefined) {
-                newSelected = [...newSelected, ...this.makeOptionsSelected(option.options)];
+                newSelected = [
+                    ...newSelected,
+                    ...this.makeOptionsSelectedRecursive(option.options),
+                ];
             } else {
                 newSelected.push(option.value);
             }
         });
 
-        return [
-            ...this.getFlatOptions(previousSelected),
-            ...newSelected,
-        ];
+        return newSelected;
     }
 
     /**

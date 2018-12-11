@@ -673,6 +673,33 @@ describe('<DualListBox />', () => {
 
             assert.deepEqual(['luna', 'phobos'], actual);
         });
+
+        // https://github.com/jakezatecky/react-dual-listbox/issues/53
+        it('should not duplicate any existing selections', () => {
+            let actual = null;
+
+            const wrapper = mount((
+                <DualListBox
+                    options={[
+                        {
+                            label: 'Mars',
+                            options: [
+                                { value: 'phobos', label: 'Phobos' },
+                                { value: 'deimos', label: 'Deimos' },
+                            ],
+                        },
+                    ]}
+                    selected={['phobos']}
+                    onChange={(selected) => {
+                        actual = selected;
+                    }}
+                />
+            ));
+
+            wrapper.find('.rdl-move-all.rdl-move-right').simulate('click');
+
+            assert.deepEqual(['phobos', 'deimos'], actual);
+        });
     });
 
     describe('moveLeft', () => {

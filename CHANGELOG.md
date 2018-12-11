@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v1.4.0 (TBA)
+
+### New Features
+
+* [#48]: Add `allowDuplicates` property to allow more than one copy of an available value to be selected
+
 ## [v1.3.2](https://github.com/jakezatecky/react-dual-listbox/compare/v1.3.1...v1.3.2) (2018-02-06)
 
 ### Bug Fixes

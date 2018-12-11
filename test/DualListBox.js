@@ -105,7 +105,7 @@ describe('<DualListBox />', () => {
             wrapper.find('.rdl-available select').simulate('change', simulateChange(['phobos-1']));
             wrapper.find('.rdl-available select').simulate('dblclick');
 
-            assert.deepEqual(['luna', 'phobos', 'phobos'], actual);
+            assert.deepEqual(['luna', 'phobos'], actual);
         });
     });
 

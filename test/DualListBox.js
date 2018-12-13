@@ -274,6 +274,31 @@ describe('<DualListBox />', () => {
             assert.equal('europa', wrapper.find('ListBox').at(1).prop('filterValue'));
         });
 
+        it('should update the filter value on subsequent property change', () => {
+            const wrapper = shallow((
+                <DualListBox
+                    filter={{
+                        available: 'ganymede',
+                        selected: '',
+                    }}
+                    options={[
+                        { label: 'Phobos', value: 'phobos' },
+                        { label: 'Europa', value: 'europa' },
+                    ]}
+                    onChange={() => {}}
+                />
+            ));
+
+            wrapper.setProps({
+                filter: {
+                    available: 'europa',
+                    selected: '',
+                },
+            });
+
+            assert.equal('europa', wrapper.find('ListBox').at(0).prop('filterValue'));
+        });
+
         it('should do a substring filter by default', () => {
             const wrapper = shallow((
                 <DualListBox

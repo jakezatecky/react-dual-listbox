@@ -119,12 +119,14 @@ class DualListBox extends React.Component {
     /**
      * @param {Object} filter
      *
-     * @returns {void}
+     * @returns {Object}
      */
-    componentWillReceiveProps({ filter }) {
+    static getDerivedStateFromProps({ filter }) {
         if (filter !== null) {
-            this.setState({ filter });
+            return { filter };
         }
+
+        return null;
     }
 
     /**

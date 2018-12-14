@@ -38,7 +38,6 @@ const defaultFilter = (option, filterInput) => {
 
 class DualListBox extends React.Component {
     static propTypes = {
-        id: PropTypes.string.isRequired,
         options: PropTypes.arrayOf(
             PropTypes.oneOfType([
                 optionShape,
@@ -63,6 +62,7 @@ class DualListBox extends React.Component {
         }),
         filterCallback: PropTypes.func,
         filterPlaceholder: PropTypes.string,
+        id: PropTypes.string,
         moveKeyCodes: PropTypes.arrayOf(PropTypes.number),
         name: PropTypes.string,
         preserveSelectOrder: PropTypes.bool,
@@ -84,6 +84,7 @@ class DualListBox extends React.Component {
         filter: null,
         filterPlaceholder: 'Search...',
         filterCallback: defaultFilter,
+        id: null,
         moveKeyCodes: [KEY_CODES.SPACEBAR, KEY_CODES.ENTER],
         name: null,
         preserveSelectOrder: null,
@@ -107,27 +108,34 @@ class DualListBox extends React.Component {
                 available: '',
                 selected: '',
             },
+            id: props.id || shortid.generate(),
         };
 
         this.onActionClick = this.onActionClick.bind(this);
         this.onOptionDoubleClick = this.onOptionDoubleClick.bind(this);
         this.onOptionKeyUp = this.onOptionKeyUp.bind(this);
         this.onFilterChange = this.onFilterChange.bind(this);
-
-        this.id = props.id || shortid.generate();
     }
 
     /**
      * @param {Object} filter
+     * @param {string} id
+     * @param {Object} prevState
      *
      * @returns {Object}
      */
-    static getDerivedStateFromProps({ filter }) {
+    static getDerivedStateFromProps({ filter, id }, prevState) {
+        let newState = { ...prevState };
+
         if (filter !== null) {
-            return { filter };
+            newState = { ...newState, filter };
         }
 
-        return null;
+        if (id !== null) {
+            newState = { ...newState, id };
+        }
+
+        return newState;
     }
 
     /**
@@ -534,13 +542,14 @@ class DualListBox extends React.Component {
      */
     renderOptions(options) {
         const { allowDuplicates } = this.props;
+        const { id } = this.state;
 
         return options.map((option, index) => {
             const key = `${option.value}-${option.label}-${index}`;
 
             if (option.options !== undefined) {
                 return (
-                    <optgroup key={key} id={`${this.id}-optgroup-${option.label}`} label={option.label}>
+                    <optgroup key={key} id={`${id}-optgroup-${option.label}`} label={option.label}>
                         {this.renderOptions(option.options)}
                     </optgroup>
                 );
@@ -555,7 +564,7 @@ class DualListBox extends React.Component {
                     key={key}
                     data-index={option.selectedIndex}
                     data-real-value={option.value}
-                    id={`${this.id}-option-${option.value}`}
+                    id={`${id}-option-${option.value}`}
                     value={value}
                 >
                     {option.label}
@@ -580,7 +589,7 @@ class DualListBox extends React.Component {
             disabled,
             filterPlaceholder,
         } = this.props;
-        const { filter } = this.state;
+        const { filter, id } = this.state;
 
         // Wrap event handlers with a controlKey reference
         const wrapHandler = handler => (event => handler(event, controlKey));
@@ -594,7 +603,7 @@ class DualListBox extends React.Component {
                 displayName={displayName}
                 filterPlaceholder={filterPlaceholder}
                 filterValue={filter[controlKey]}
-                id={this.id}
+                id={id}
                 inputRef={(c) => {
                     this[controlKey] = c;
 
@@ -621,6 +630,7 @@ class DualListBox extends React.Component {
             availableRef,
             canFilter,
             disabled,
+            id,
             name,
             options,
             selected,
@@ -631,14 +641,14 @@ class DualListBox extends React.Component {
         const selectedOptions = this.renderOptions(this.filterSelected(options));
         const actionsRight = (
             <div className="rdl-actions-right">
-                <Action direction="right" disabled={disabled} id={`${this.id}-move-all-right`} isMoveAll onClick={this.onActionClick} />
-                <Action direction="right" disabled={disabled} id={`${this.id}-move-right`} onClick={this.onActionClick} />
+                <Action direction="right" disabled={disabled} id={`${id}-move-all-right`} isMoveAll onClick={this.onActionClick} />
+                <Action direction="right" disabled={disabled} id={`${id}-move-right`} onClick={this.onActionClick} />
             </div>
         );
         const actionsLeft = (
             <div className="rdl-actions-left">
-                <Action direction="left" disabled={disabled} id={`${this.id}-move-left`} onClick={this.onActionClick} />
-                <Action direction="left" disabled={disabled} id={`${this.id}-move-all-left`} isMoveAll onClick={this.onActionClick} />
+                <Action direction="left" disabled={disabled} id={`${id}-move-left`} onClick={this.onActionClick} />
+                <Action direction="left" disabled={disabled} id={`${id}-move-all-left`} isMoveAll onClick={this.onActionClick} />
             </div>
         );
 

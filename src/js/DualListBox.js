@@ -660,7 +660,7 @@ class DualListBox extends React.Component {
         const value = this.getFlatOptions(selected).join(',');
 
         return (
-            <div className={className}>
+            <div className={className} id={id}>
                 {this.renderListBox('available', availableLabel, availableOptions, availableRef, actionsRight)}
                 {alignActions === 'middle' ? (
                     <div className="rdl-actions">

@@ -78,7 +78,10 @@ class Action extends React.Component {
      */
     render() {
         const {
-            direction, disabled, isMoveAll, id,
+            direction,
+            disabled,
+            id,
+            isMoveAll,
         } = this.props;
         const iconClass = this.getIconClass(direction);
         const label = this.getLabel(direction, isMoveAll);

@@ -38,6 +38,7 @@ const defaultFilter = (option, filterInput) => {
 
 class DualListBox extends React.Component {
     static propTypes = {
+        id: PropTypes.string.isRequired,
         options: PropTypes.arrayOf(
             PropTypes.oneOfType([
                 optionShape,
@@ -113,7 +114,7 @@ class DualListBox extends React.Component {
         this.onOptionKeyUp = this.onOptionKeyUp.bind(this);
         this.onFilterChange = this.onFilterChange.bind(this);
 
-        this.id = shortid.generate();
+        this.id = props.id || shortid.generate();
     }
 
     /**
@@ -539,7 +540,7 @@ class DualListBox extends React.Component {
 
             if (option.options !== undefined) {
                 return (
-                    <optgroup key={key} label={option.label}>
+                    <optgroup key={key} id={`${this.id}-optgroup-${option.label}`} label={option.label}>
                         {this.renderOptions(option.options)}
                     </optgroup>
                 );
@@ -554,6 +555,7 @@ class DualListBox extends React.Component {
                     key={key}
                     data-index={option.selectedIndex}
                     data-real-value={option.value}
+                    id={`${this.id}-option-${option.value}`}
                     value={value}
                 >
                     {option.label}
@@ -629,14 +631,14 @@ class DualListBox extends React.Component {
         const selectedOptions = this.renderOptions(this.filterSelected(options));
         const actionsRight = (
             <div className="rdl-actions-right">
-                <Action direction="right" disabled={disabled} isMoveAll onClick={this.onActionClick} />
-                <Action direction="right" disabled={disabled} onClick={this.onActionClick} />
+                <Action direction="right" disabled={disabled} id={`${this.id}-move-all-right`} isMoveAll onClick={this.onActionClick} />
+                <Action direction="right" disabled={disabled} id={`${this.id}-move-right`} onClick={this.onActionClick} />
             </div>
         );
         const actionsLeft = (
             <div className="rdl-actions-left">
-                <Action direction="left" disabled={disabled} onClick={this.onActionClick} />
-                <Action direction="left" disabled={disabled} isMoveAll onClick={this.onActionClick} />
+                <Action direction="left" disabled={disabled} id={`${this.id}-move-left`} onClick={this.onActionClick} />
+                <Action direction="left" disabled={disabled} id={`${this.id}-move-all-left`} isMoveAll onClick={this.onActionClick} />
             </div>
         );
 

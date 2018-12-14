@@ -4,12 +4,18 @@ import { assert } from 'chai';
 
 import DualListBox from '../src/js/DualListBox';
 
+const testId = 'test-id';
+
 function simulateChange(values) {
     return {
         target: {
             options: values.map(value => ({ value, selected: true })),
         },
     };
+}
+
+function getExpectedId(rest) {
+    return `${testId}-${rest}`;
 }
 
 describe('<DualListBox />', () => {
@@ -148,6 +154,7 @@ describe('<DualListBox />', () => {
             const wrapper = shallow((
                 <DualListBox
                     available={['luna']}
+                    id={testId}
                     options={[
                         { label: 'Moon', value: 'luna' },
                         { label: 'Phobos', value: 'phobos' },
@@ -303,6 +310,7 @@ describe('<DualListBox />', () => {
             const wrapper = shallow((
                 <DualListBox
                     canFilter
+                    id={testId}
                     options={[
                         { label: 'Moon', value: 'luna' },
                         { label: 'Phobos', value: 'phobos' },
@@ -326,6 +334,7 @@ describe('<DualListBox />', () => {
             const wrapper = shallow((
                 <DualListBox
                     canFilter
+                    id={testId}
                     options={[
                         { label: 'Moon', value: 'luna' },
                         { label: 'Phobos (Mars)', value: 'phobos' },
@@ -458,6 +467,7 @@ describe('<DualListBox />', () => {
         it('should render the supplied options', () => {
             const wrapper = shallow((
                 <DualListBox
+                    id={testId}
                     options={[
                         { label: 'Moon', value: 'luna' },
                         { label: 'Phobos', value: 'phobos' },
@@ -473,6 +483,7 @@ describe('<DualListBox />', () => {
         it('should render optgroups and their children', () => {
             const wrapper = shallow((
                 <DualListBox
+                    id={testId}
                     options={[
                         {
                             label: 'Mars',
@@ -487,9 +498,9 @@ describe('<DualListBox />', () => {
             ));
 
             assert.isTrue(wrapper.contains((
-                <optgroup label="Mars">
-                    <option data-real-value="phobos" value="phobos">Phobos</option>
-                    <option data-real-value="deimos" value="deimos">Deimos</option>
+                <optgroup id={getExpectedId('optgroup-Mars')} label="Mars">
+                    <option data-real-value="phobos" id={getExpectedId('option-phobos')} value="phobos">Phobos</option>
+                    <option data-real-value="deimos" id={getExpectedId('option-deimos')} value="deimos">Deimos</option>
                 </optgroup>
             )));
         });
@@ -535,6 +546,7 @@ describe('<DualListBox />', () => {
         it('should render selected options', () => {
             const wrapper = shallow((
                 <DualListBox
+                    id={testId}
                     options={[
                         { label: 'Moon', value: 'luna' },
                         { label: 'Phobos', value: 'phobos' },
@@ -586,6 +598,25 @@ describe('<DualListBox />', () => {
             wrapper.find('.rdl-available select').simulate('dblclick');
 
             assert.deepEqual(['phobos'], actual);
+        });
+
+        describe('props.id', () => {
+            it('should pass the id for all elements', () => {
+                const id = 'test-id';
+
+                const wrapper = mount((
+                    <DualListBox
+                        id={id}
+                        options={[
+                            { label: 'Moon', value: 'luna' },
+                            { label: 'Phobos', value: 'phobos' },
+                        ]}
+                        onChange={() => {}}
+                    />
+                ));
+
+                assert.isTrue(wrapper.find(`#${id}-option-luna`).exists());
+            });
         });
 
         it('should pass an array of options when false', () => {

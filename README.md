@@ -52,18 +52,32 @@ Here is a minimal rendering of the component:
 import React from 'react';
 import DualListBox from 'react-dual-listbox';
 
-...
+const options = [
+    { value: 'one', label: 'Option One' },
+    { value: 'two', label: 'Option Two' },
+];
 
-<DualListBox
-    options={[
-        { value: 'one', label: 'One' },
-        { value: 'two', label: 'Two' },
-    ]}
-    selected={['one']}
-    onChange={(selected) => {
-        console.log(selected);
-    }}
-/>
+class Widget extends React.Component {
+    constructor() {
+        super();
+
+        this.state = {
+            selected: ['one'],
+        };
+    }
+
+    render() {
+        return (
+            <DualListBox
+                options={options}
+                selected={this.state.selected}
+                onChange={(selected) => {
+                    this.setState({ selected });
+                }}
+            />
+        );
+    }
+}
 ```
 
 ### Optgroups

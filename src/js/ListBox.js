@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import arrayFrom from './arrayFrom';
+import arrayFrom from './util/arrayFrom';
 
 class ListBox extends React.Component {
     static propTypes = {

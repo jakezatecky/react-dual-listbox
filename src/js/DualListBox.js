@@ -5,13 +5,13 @@ import React from 'react';
 import shortid from 'shortid';
 
 import Action from './Action';
-import arrayFrom from './arrayFrom';
-import indexesOf from './indexesOf';
 import ListBox from './ListBox';
 import defaultLang from './lang/default';
 import languageShape from './shapes/languageShape';
 import optionsShape from './shapes/optionsShape';
 import valueShape from './shapes/valueShape';
+import arrayFrom from './util/arrayFrom';
+import indexesOf from './util/indexesOf';
 
 const KEY_CODES = {
     SPACEBAR: 32,

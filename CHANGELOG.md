@@ -6,6 +6,7 @@
 
 * [#48]: Add `allowDuplicates` property to allow more than one copy of an available value to be selected
 * [#50]: Add `id` property for control over the HTML ID assigned to the component instance
+* [#54]: Add `lang` property for localization
 
 ### Bug Fixes
 

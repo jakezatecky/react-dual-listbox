@@ -2,11 +2,14 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import languageShape from './shapes/languageShape';
+
 class Action extends React.Component {
     static propTypes = {
         direction: PropTypes.oneOf(['left', 'right']).isRequired,
         disabled: PropTypes.bool.isRequired,
         id: PropTypes.string.isRequired,
+        lang: languageShape.isRequired,
         onClick: PropTypes.func.isRequired,
 
         isMoveAll: PropTypes.bool,
@@ -38,11 +41,11 @@ class Action extends React.Component {
     }
 
     /**
-     * @param {string} direction
-     *
      * @returns {string}
      */
-    getIconClass(direction) {
+    getIconClass() {
+        const { direction } = this.props;
+
         if (direction === 'right') {
             return 'fa fa-chevron-right';
         }
@@ -50,10 +53,32 @@ class Action extends React.Component {
         return 'fa fa-chevron-left';
     }
 
-    getLabel(direction, isMoveAll) {
-        const allText = isMoveAll ? ' all' : '';
+    /**
+     * @returns {string}
+     */
+    getId() {
+        const { id, direction, isMoveAll } = this.props;
 
-        return `Move${allText} ${direction}`;
+        return `${id}-move${isMoveAll ? '-all' : ''}-${direction}`;
+    }
+
+    /**
+     * @returns {string}
+     */
+    getLabelKey() {
+        const { direction, isMoveAll } = this.props;
+        const directionCapitalized = direction.charAt(0).toUpperCase() + direction.slice(1);
+
+        return `move${isMoveAll ? 'All' : ''}${directionCapitalized}`;
+    }
+
+    /**
+     * @returns {string}
+     */
+    getLabel() {
+        const { lang } = this.props;
+
+        return lang[this.getLabelKey()];
     }
 
     /**
@@ -80,16 +105,15 @@ class Action extends React.Component {
         const {
             direction,
             disabled,
-            id,
             isMoveAll,
         } = this.props;
-        const iconClass = this.getIconClass(direction);
-        const label = this.getLabel(direction, isMoveAll);
+        const iconClass = this.getIconClass();
+        const id = this.getId();
+        const label = this.getLabel();
         const className = classNames({
             'rdl-move': true,
             'rdl-move-all': isMoveAll,
-            'rdl-move-right': direction === 'right',
-            'rdl-move-left': direction === 'left',
+            [`rdl-move-${direction}`]: true,
         });
 
         return (

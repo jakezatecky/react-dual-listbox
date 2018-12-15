@@ -434,6 +434,25 @@ describe('<DualListBox />', () => {
         });
     });
 
+    describe('props.lang', () => {
+        it('should overwrite the default text when set', () => {
+            const wrapper = mount((
+                <DualListBox
+                    lang={{
+                        moveAllRight: 'MOVE.ALL.RIGHT',
+                    }}
+                    options={[
+                        { label: 'Moon', value: 'luna' },
+                        { label: 'Phobos', value: 'phobos' },
+                    ]}
+                    onChange={() => {}}
+                />
+            ));
+
+            assert.equal('MOVE.ALL.RIGHT', wrapper.find('.rdl-move-all').filter('.rdl-move-right').prop('title'));
+        });
+    });
+
     describe('props.moveKeyCodes', () => {
         it('should pass an array of string values by default', () => {
             let actual = null;

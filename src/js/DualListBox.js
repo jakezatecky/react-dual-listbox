@@ -8,26 +8,15 @@ import Action from './Action';
 import arrayFrom from './arrayFrom';
 import indexesOf from './indexesOf';
 import ListBox from './ListBox';
+import defaultLang from './lang/default';
+import languageShape from './shapes/languageShape';
+import optionsShape from './shapes/optionsShape';
+import valueShape from './shapes/valueShape';
 
 const KEY_CODES = {
     SPACEBAR: 32,
     ENTER: 13,
 };
-const optionShape = PropTypes.shape({
-    value: PropTypes.any.isRequired,
-    label: PropTypes.string.isRequired,
-});
-const valuePropType = PropTypes.arrayOf(
-    PropTypes.oneOfType([
-        PropTypes.string,
-        optionShape,
-        PropTypes.shape({
-            value: PropTypes.any,
-            options: PropTypes.arrayOf(optionShape),
-        }),
-    ]),
-);
-
 const defaultFilter = (option, filterInput) => {
     if (filterInput === '') {
         return true;
@@ -38,20 +27,12 @@ const defaultFilter = (option, filterInput) => {
 
 class DualListBox extends React.Component {
     static propTypes = {
-        options: PropTypes.arrayOf(
-            PropTypes.oneOfType([
-                optionShape,
-                PropTypes.shape({
-                    value: PropTypes.any,
-                    options: PropTypes.arrayOf(optionShape),
-                }),
-            ]),
-        ).isRequired,
+        options: optionsShape.isRequired,
         onChange: PropTypes.func.isRequired,
 
         alignActions: PropTypes.string,
         allowDuplicates: PropTypes.bool,
-        available: valuePropType,
+        available: valueShape,
         availableLabel: PropTypes.string,
         availableRef: PropTypes.func,
         canFilter: PropTypes.bool,
@@ -63,10 +44,11 @@ class DualListBox extends React.Component {
         filterCallback: PropTypes.func,
         filterPlaceholder: PropTypes.string,
         id: PropTypes.string,
+        lang: languageShape,
         moveKeyCodes: PropTypes.arrayOf(PropTypes.number),
         name: PropTypes.string,
         preserveSelectOrder: PropTypes.bool,
-        selected: valuePropType,
+        selected: valueShape,
         selectedLabel: PropTypes.string,
         selectedRef: PropTypes.func,
         simpleValue: PropTypes.bool,
@@ -85,6 +67,7 @@ class DualListBox extends React.Component {
         filterPlaceholder: 'Search...',
         filterCallback: defaultFilter,
         id: null,
+        lang: defaultLang,
         moveKeyCodes: [KEY_CODES.SPACEBAR, KEY_CODES.ENTER],
         name: null,
         preserveSelectOrder: null,
@@ -630,28 +613,38 @@ class DualListBox extends React.Component {
             availableRef,
             canFilter,
             disabled,
-            id,
+            lang,
             name,
             options,
             selected,
             selectedLabel,
             selectedRef,
         } = this.props;
+        const { id } = this.state;
         const availableOptions = this.renderOptions(this.filterAvailable(options));
         const selectedOptions = this.renderOptions(this.filterSelected(options));
+        const makeAction = (direction, isMoveAll = false) => (
+            <Action
+                direction={direction}
+                disabled={disabled}
+                id={id}
+                isMoveAll={isMoveAll}
+                lang={lang}
+                onClick={this.onActionClick}
+            />
+        );
         const actionsRight = (
             <div className="rdl-actions-right">
-                <Action direction="right" disabled={disabled} id={`${id}-move-all-right`} isMoveAll onClick={this.onActionClick} />
-                <Action direction="right" disabled={disabled} id={`${id}-move-right`} onClick={this.onActionClick} />
+                {makeAction('right', true)}
+                {makeAction('right')}
             </div>
         );
         const actionsLeft = (
             <div className="rdl-actions-left">
-                <Action direction="left" disabled={disabled} id={`${id}-move-left`} onClick={this.onActionClick} />
-                <Action direction="left" disabled={disabled} id={`${id}-move-all-left`} isMoveAll onClick={this.onActionClick} />
+                {makeAction('left')}
+                {makeAction('left', true)}
             </div>
         );
-
         const className = classNames({
             'react-dual-listbox': true,
             'rdl-has-filter': canFilter,

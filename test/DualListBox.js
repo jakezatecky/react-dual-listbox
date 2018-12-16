@@ -434,6 +434,30 @@ describe('<DualListBox />', () => {
         });
     });
 
+    describe('props.icons', () => {
+        it('should overwrite the default nodes for any given action', () => {
+            const wrapper = mount((
+                <DualListBox
+                    icons={{
+                        moveLeft: null,
+                        moveAllLeft: null,
+                        moveRight: null,
+                        moveAllRight: <span className="new-icon" />,
+                    }}
+                    options={[
+                        { label: 'Moon', value: 'luna' },
+                        { label: 'Phobos', value: 'phobos' },
+                    ]}
+                    onChange={() => {}}
+                />
+            ));
+
+            assert.isTrue(wrapper.find('.rdl-move-all').filter('.rdl-move-right').contains(
+                <span className="new-icon" />,
+            ));
+        });
+    });
+
     describe('props.lang', () => {
         it('should overwrite the default text when set', () => {
             const wrapper = mount((

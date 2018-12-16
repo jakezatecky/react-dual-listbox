@@ -7,6 +7,7 @@ import shortid from 'shortid';
 import Action from './Action';
 import ListBox from './ListBox';
 import defaultLang from './lang/default';
+import iconsShape from './shapes/iconsShape';
 import languageShape from './shapes/languageShape';
 import optionsShape from './shapes/optionsShape';
 import valueShape from './shapes/valueShape';
@@ -23,6 +24,18 @@ const defaultFilter = (option, filterInput) => {
     }
 
     return (new RegExp(escapeRegExp(filterInput), 'i')).test(option.label);
+};
+const defaultIcons = {
+    moveLeft: <span className="fa fa-chevron-left" />,
+    moveAllLeft: [
+        <span key={0} className="fa fa-chevron-left" />,
+        <span key={1} className="fa fa-chevron-left" />,
+    ],
+    moveRight: <span className="fa fa-chevron-right" />,
+    moveAllRight: [
+        <span key={0} className="fa fa-chevron-right" />,
+        <span key={1} className="fa fa-chevron-right" />,
+    ],
 };
 
 class DualListBox extends React.Component {
@@ -43,6 +56,7 @@ class DualListBox extends React.Component {
         }),
         filterCallback: PropTypes.func,
         filterPlaceholder: PropTypes.string,
+        icons: iconsShape,
         id: PropTypes.string,
         lang: languageShape,
         moveKeyCodes: PropTypes.arrayOf(PropTypes.number),
@@ -66,6 +80,7 @@ class DualListBox extends React.Component {
         filter: null,
         filterPlaceholder: 'Search...',
         filterCallback: defaultFilter,
+        icons: defaultIcons,
         id: null,
         lang: defaultLang,
         moveKeyCodes: [KEY_CODES.SPACEBAR, KEY_CODES.ENTER],
@@ -613,6 +628,7 @@ class DualListBox extends React.Component {
             availableRef,
             canFilter,
             disabled,
+            icons,
             lang,
             name,
             options,
@@ -627,6 +643,7 @@ class DualListBox extends React.Component {
             <Action
                 direction={direction}
                 disabled={disabled}
+                icons={icons}
                 id={id}
                 isMoveAll={isMoveAll}
                 lang={lang}

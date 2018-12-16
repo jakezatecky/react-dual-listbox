@@ -2,12 +2,14 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import iconsShape from './shapes/iconsShape';
 import languageShape from './shapes/languageShape';
 
 class Action extends React.Component {
     static propTypes = {
         direction: PropTypes.oneOf(['left', 'right']).isRequired,
         disabled: PropTypes.bool.isRequired,
+        icons: iconsShape.isRequired,
         id: PropTypes.string.isRequired,
         lang: languageShape.isRequired,
         onClick: PropTypes.func.isRequired,
@@ -43,19 +45,6 @@ class Action extends React.Component {
     /**
      * @returns {string}
      */
-    getIconClass() {
-        const { direction } = this.props;
-
-        if (direction === 'right') {
-            return 'fa fa-chevron-right';
-        }
-
-        return 'fa fa-chevron-left';
-    }
-
-    /**
-     * @returns {string}
-     */
     getId() {
         const { id, direction, isMoveAll } = this.props;
 
@@ -65,7 +54,7 @@ class Action extends React.Component {
     /**
      * @returns {string}
      */
-    getLabelKey() {
+    getActionKey() {
         const { direction, isMoveAll } = this.props;
         const directionCapitalized = direction.charAt(0).toUpperCase() + direction.slice(1);
 
@@ -78,24 +67,16 @@ class Action extends React.Component {
     getLabel() {
         const { lang } = this.props;
 
-        return lang[this.getLabelKey()];
+        return lang[this.getActionKey()];
     }
 
     /**
-     * @param {string} iconClass
-     * @param {boolean} isMoveAll
-     *
      * @returns {*}
      */
-    renderIcons(iconClass, isMoveAll) {
-        if (isMoveAll) {
-            return [
-                <span key={0} className={iconClass} />,
-                <span key={1} className={iconClass} />,
-            ];
-        }
+    renderIcons() {
+        const { icons } = this.props;
 
-        return <span className={iconClass} />;
+        return icons[this.getActionKey()];
     }
 
     /**
@@ -107,7 +88,6 @@ class Action extends React.Component {
             disabled,
             isMoveAll,
         } = this.props;
-        const iconClass = this.getIconClass();
         const id = this.getId();
         const label = this.getLabel();
         const className = classNames({
@@ -126,7 +106,7 @@ class Action extends React.Component {
                 type="button"
                 onClick={this.onClick}
             >
-                {this.renderIcons(iconClass, isMoveAll)}
+                {this.renderIcons()}
             </button>
         );
     }

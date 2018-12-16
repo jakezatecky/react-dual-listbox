@@ -215,12 +215,35 @@ render() {
 }
 ```
 
+### Changing the Default Icons
+
+By default, **react-dual-listbox** uses Font Awesome for the various icons that appear in the component. To change the defaults, simply pass in the `icons` property and override the defaults:
+
+``` jsx
+<DualListBox
+    ...
+    icons={{
+        moveLeft: <span className="fa fa-chevron-left" />,
+        moveAllLeft: [
+            <span key={0} className="fa fa-chevron-left" />,
+            <span key={1} className="fa fa-chevron-left" />,
+        ],
+        moveRight: <span className="fa fa-chevron-right" />,
+        moveAllRight: [
+            <span key={0} className="fa fa-chevron-right" />,
+            <span key={1} className="fa fa-chevron-right" />,
+        ],
+    }}
+/>
+```
+
 ### Other Properties
 
 | Property       | Type   | Description                                                                                                             | Default        |
 | -------------- | ------ | ----------------------------------------------------------------------------------------------------------------------- | -------------- |
 | availableLabel | string | The display name for the hidden label for the available options control group.                                          | `"Available"`  |
 | disabled       | bool   | If true, both "available" and "selected" list boxes will be disabled.                                                   | `false`        |
+| icons          | object | The key-value pairing of action icons and their React nodes. See **Changing the Default Icons** for further info.       | `{ ... }`      |
 | id             | string | The HTML ID prefix for the various sub elements.                                                                        | `null`         |
 | lang           | object | The key-value pairing of localized text. See `src/js/lang/default.js` for a list of keys.                               | `{ ... }`      |
 | moveKeyCodes   | array  | The key codes that will trigger a toggle of the selected options.                                                       | `[13, 32]`     |

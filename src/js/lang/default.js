@@ -5,4 +5,6 @@ export default {
     moveAllRight: 'Move all right',
     moveDown: 'Move item down',
     moveUp: 'Move item up',
+    noAvailableOptions: 'No available options',
+    noSelectedOptions: 'No selected options',
 };

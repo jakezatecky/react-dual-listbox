@@ -621,6 +621,22 @@ describe('<DualListBox />', () => {
         });
     });
 
+    describe('props.showNoOptionsText', () => {
+        it('should render text in place of available/selected list boxes when no options are present', () => {
+            const wrapper = mount((
+                <DualListBox
+                    options={[
+                        { value: 'luna', label: 'Moon' },
+                    ]}
+                    showNoOptionsText
+                    onChange={() => {}}
+                />
+            ));
+
+            assert.isTrue(wrapper.find('.rdl-selected .rdl-no-options').exists());
+        });
+    });
+
     describe('props.showOrderButtons', () => {
         it('should render the up and down action buttons', () => {
             const wrapper = shallow((

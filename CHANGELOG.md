@@ -5,6 +5,7 @@
 ### New Features
 
 * [#24]: Add `showOrderButtons` property to allow users to move the selected options up or down in the list
+* [#43]: Add `showNoOptionsText` property to make text appear in place of available/selected list boxes when no options are present
 * [#48]: Add `allowDuplicates` property to allow more than one copy of an available value to be selected
 * [#50]: Add `id` property for control over the HTML ID assigned to the component instance
 * [#54]: Add `lang` property for localization

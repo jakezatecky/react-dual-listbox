@@ -1,7 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import languageShape from './shapes/languageShape';
 import arrayFrom from './util/arrayFrom';
+import capitalizeFirstLetter from './util/capitalizeFirstLetter';
 
 class ListBox extends React.Component {
     static propTypes = {
@@ -14,6 +16,8 @@ class ListBox extends React.Component {
         filterValue: PropTypes.string.isRequired,
         id: PropTypes.string.isRequired,
         inputRef: PropTypes.func.isRequired,
+        lang: languageShape.isRequired,
+        showNoOptionsText: PropTypes.bool.isRequired,
         onDoubleClick: PropTypes.func.isRequired,
         onFilterChange: PropTypes.func.isRequired,
         onKeyUp: PropTypes.func.isRequired,
@@ -101,10 +105,20 @@ class ListBox extends React.Component {
             displayName,
             id,
             inputRef,
+            lang,
+            showNoOptionsText,
             onDoubleClick,
             onKeyUp,
         } = this.props;
         const { value } = this.state;
+
+        if (showNoOptionsText && React.Children.count(children) === 0) {
+            return (
+                <div className="rdl-no-options">
+                    {lang[`no${capitalizeFirstLetter(controlKey)}Options`]}
+                </div>
+            );
+        }
 
         return (
             <div className="rdl-control-container">

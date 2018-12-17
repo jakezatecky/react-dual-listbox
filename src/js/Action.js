@@ -4,6 +4,7 @@ import React from 'react';
 
 import iconsShape from './shapes/iconsShape';
 import languageShape from './shapes/languageShape';
+import capitalizeFirstLetter from './util/capitalizeFirstLetter';
 
 class Action extends React.Component {
     static propTypes = {
@@ -56,9 +57,8 @@ class Action extends React.Component {
      */
     getActionKey() {
         const { direction, isMoveAll } = this.props;
-        const directionCapitalized = direction.charAt(0).toUpperCase() + direction.slice(1);
 
-        return `move${isMoveAll ? 'All' : ''}${directionCapitalized}`;
+        return `move${isMoveAll ? 'All' : ''}${capitalizeFirstLetter(direction)}`;
     }
 
     /**

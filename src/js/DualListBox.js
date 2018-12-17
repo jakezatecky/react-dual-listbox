@@ -67,6 +67,7 @@ class DualListBox extends React.Component {
         selected: valueShape,
         selectedLabel: PropTypes.string,
         selectedRef: PropTypes.func,
+        showNoOptionsText: PropTypes.bool,
         showOrderButtons: PropTypes.bool,
         simpleValue: PropTypes.bool,
         onFilterChange: PropTypes.func,
@@ -93,6 +94,7 @@ class DualListBox extends React.Component {
         selectedLabel: 'Selected',
         selectedRef: null,
         simpleValue: true,
+        showNoOptionsText: false,
         showOrderButtons: false,
         onFilterChange: null,
     };
@@ -319,6 +321,10 @@ class DualListBox extends React.Component {
      * @returns {Array}
      */
     getSelectedOptions(element) {
+        if (element === null) {
+            return [];
+        }
+
         return arrayFrom(element.options)
             .filter(option => option.selected)
             .map(option => ({
@@ -644,6 +650,8 @@ class DualListBox extends React.Component {
             canFilter,
             disabled,
             filterPlaceholder,
+            lang,
+            showNoOptionsText,
         } = this.props;
         const { filter, id } = this.state;
 
@@ -667,6 +675,8 @@ class DualListBox extends React.Component {
                         ref(c);
                     }
                 }}
+                lang={lang}
+                showNoOptionsText={showNoOptionsText}
                 onDoubleClick={wrapHandler(this.onOptionDoubleClick)}
                 onFilterChange={wrapHandler(this.onFilterChange)}
                 onKeyUp={wrapHandler(this.onOptionKeyUp)}

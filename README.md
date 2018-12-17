@@ -243,15 +243,16 @@ By default, **react-dual-listbox** uses Font Awesome for the various icons that 
 
 ### Other Properties
 
-| Property       | Type   | Description                                                                                                             | Default        |
-| -------------- | ------ | ----------------------------------------------------------------------------------------------------------------------- | -------------- |
-| availableLabel | string | The display name for the hidden label for the available options control group.                                          | `"Available"`  |
-| disabled       | bool   | If true, both "available" and "selected" list boxes will be disabled.                                                   | `false`        |
-| icons          | object | The key-value pairing of action icons and their React nodes. See **Changing the Default Icons** for further info.       | `{ ... }`      |
-| id             | string | The HTML ID prefix for the various sub elements.                                                                        | `null`         |
-| lang           | object | The key-value pairing of localized text. See `src/js/lang/default.js` for a list of keys.                               | `{ ... }`      |
-| moveKeyCodes   | array  | The key codes that will trigger a toggle of the selected options.                                                       | `[13, 32]`     |
-| selectedLabel  | string | The display name for the hidden label for the selected options control group.                                           | `"Selected"`   |
-| simpleValue    | bool   | If true, the `selected` value passed in `onChange` is an array of string values. Otherwise, it is an array of options.  | `true`         |
+| Property          | Type   | Description                                                                                                             | Default        |
+| ----------------- | ------ | ----------------------------------------------------------------------------------------------------------------------- | -------------- |
+| availableLabel    | string | The display name for the hidden label for the available options control group.                                          | `"Available"`  |
+| disabled          | bool   | If true, both "available" and "selected" list boxes will be disabled.                                                   | `false`        |
+| icons             | object | The key-value pairing of action icons and their React nodes. See **Changing the Default Icons** for further info.       | `{ ... }`      |
+| id                | string | The HTML ID prefix for the various sub elements.                                                                        | `null`         |
+| lang              | object | The key-value pairing of localized text. See `src/js/lang/default.js` for a list of keys.                               | `{ ... }`      |
+| moveKeyCodes      | array  | The key codes that will trigger a toggle of the selected options.                                                       | `[13, 32]`     |
+| selectedLabel     | string | The display name for the hidden label for the selected options control group.                                           | `"Selected"`   |
+| simpleValue       | bool   | If true, the `selected` value passed in `onChange` is an array of string values. Otherwise, it is an array of options.  | `true`         |
+| showNoOptionsText | bool   | If true, text will appear in place of the available/selected list boxes when no options are present.                    | `false`        |
 
 [controlled]: https://facebook.github.io/react/docs/forms.html#controlled-components

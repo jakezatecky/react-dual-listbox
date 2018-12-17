@@ -36,6 +36,8 @@ const defaultIcons = {
         <span key={0} className="fa fa-chevron-right" />,
         <span key={1} className="fa fa-chevron-right" />,
     ],
+    moveDown: <span className="fa fa-chevron-down" />,
+    moveUp: <span className="fa fa-chevron-up" />,
 };
 
 class DualListBox extends React.Component {
@@ -65,6 +67,7 @@ class DualListBox extends React.Component {
         selected: valueShape,
         selectedLabel: PropTypes.string,
         selectedRef: PropTypes.func,
+        showOrderButtons: PropTypes.bool,
         simpleValue: PropTypes.bool,
         onFilterChange: PropTypes.func,
     };
@@ -90,6 +93,7 @@ class DualListBox extends React.Component {
         selectedLabel: 'Selected',
         selectedRef: null,
         simpleValue: true,
+        showOrderButtons: false,
         onFilterChange: null,
     };
 
@@ -190,7 +194,9 @@ class DualListBox extends React.Component {
 
         let selected = [];
 
-        if (isMoveAll) {
+        if (['up', 'down'].indexOf(direction) > -1) {
+            selected = this.rearrangeSelected(this.getSelectedOptions(sourceListBox), direction);
+        } else if (isMoveAll) {
             selected = directionIsRight ? this.makeOptionsSelected(options) : [];
         } else {
             selected = this.toggleSelected(
@@ -316,9 +322,61 @@ class DualListBox extends React.Component {
         return arrayFrom(element.options)
             .filter(option => option.selected)
             .map(option => ({
-                index: option.dataset.index,
+                index: parseInt(option.dataset.index, 10),
                 value: option.dataset.realValue,
             }));
+    }
+
+    /**
+     * Re-arrange the marked options to move up or down in the selected list.
+     *
+     * @param {Array} markedOptions
+     * @param {string} direction
+     *
+     * @returns {Array}
+     */
+    rearrangeSelected(markedOptions, direction) {
+        const { selected } = this.props;
+
+        // Return a function to swap positions of the given indexes in an ordering
+        const swap = (index1, index2) => (
+            (options) => {
+                const newOptions = [...options];
+
+                [newOptions[index1], newOptions[index2]] = [
+                    newOptions[index2],
+                    newOptions[index1],
+                ];
+
+                return newOptions;
+            }
+        );
+        let newOrder = [...selected];
+
+        if (direction === 'up') {
+            // If all of the marked options are already as high as they can get, ignore the
+            // re-arrangement request because they will end of swapping their order amongst
+            // themselves.
+            if (markedOptions[markedOptions.length - 1].index > markedOptions.length - 1) {
+                markedOptions.forEach(({ index }) => {
+                    if (index > 0) {
+                        newOrder = swap(index, index - 1)(newOrder);
+                    }
+                });
+            }
+        } else if (direction === 'down') {
+            // Similar to the above, if all of the marked options are already as low as they can
+            // get, ignore the re-arrangement request.
+            if (markedOptions[0].index < selected.length - markedOptions.length) {
+                markedOptions.reverse().forEach(({ index }) => {
+                    if (index < selected.length - 1) {
+                        newOrder = swap(index, index + 1)(newOrder);
+                    }
+                });
+            }
+        }
+
+        return newOrder;
     }
 
     /**
@@ -632,9 +690,11 @@ class DualListBox extends React.Component {
             lang,
             name,
             options,
+            preserveSelectOrder,
             selected,
             selectedLabel,
             selectedRef,
+            showOrderButtons,
         } = this.props;
         const { id } = this.state;
         const availableOptions = this.renderOptions(this.filterAvailable(options));
@@ -679,6 +739,12 @@ class DualListBox extends React.Component {
                     </div>
                 ) : null}
                 {this.renderListBox('selected', selectedLabel, selectedOptions, selectedRef, actionsLeft)}
+                {preserveSelectOrder && showOrderButtons ? (
+                    <div className="rdl-actions">
+                        {makeAction('up', false)}
+                        {makeAction('down', false)}
+                    </div>
+                ) : null}
                 <input disabled={disabled} name={name} type="hidden" value={value} />
             </div>
         );

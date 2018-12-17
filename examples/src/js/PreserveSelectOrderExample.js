@@ -30,7 +30,7 @@ class PreserveSelectOrderExample extends React.Component {
     constructor() {
         super();
 
-        this.state = { selected: ['io', 'luna'] };
+        this.state = { selected: ['io', 'luna', 'europa'] };
 
         this.onChange = this.onChange.bind(this);
     }
@@ -48,6 +48,7 @@ class PreserveSelectOrderExample extends React.Component {
                 options={options}
                 preserveSelectOrder
                 selected={selected}
+                showOrderButtons
                 onChange={this.onChange}
             />
         );

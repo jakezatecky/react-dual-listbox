@@ -621,6 +621,138 @@ describe('<DualListBox />', () => {
         });
     });
 
+    describe('props.showOrderButtons', () => {
+        it('should render the up and down action buttons', () => {
+            const wrapper = shallow((
+                <DualListBox
+                    options={[
+                        { value: 'luna', label: 'Moon' },
+                        { value: 'phobos', label: 'Phobos' },
+                        { value: 'deimos', label: 'Deimos' },
+                        { value: 'io', label: 'Io' },
+                    ]}
+                    preserveSelectOrder
+                    showOrderButtons
+                    onChange={() => {}}
+                />
+            ));
+
+            assert.equal('up', wrapper.find('Action').at(4).prop('direction'));
+            assert.equal('down', wrapper.find('Action').at(5).prop('direction'));
+        });
+
+        it('should move a single item up or down when the respective button is clicked', () => {
+            let actual = null;
+
+            const wrapper = mount((
+                <DualListBox
+                    options={[
+                        { value: 'luna', label: 'Moon' },
+                        { value: 'phobos', label: 'Phobos' },
+                        { value: 'deimos', label: 'Deimos' },
+                        { value: 'io', label: 'Io' },
+                    ]}
+                    preserveSelectOrder
+                    selected={['luna', 'phobos', 'deimos', 'io']}
+                    showOrderButtons
+                    onChange={(selected) => {
+                        actual = selected;
+                    }}
+                />
+            ));
+
+            wrapper.find('.rdl-selected select').simulate('change', simulateChange(['phobos']));
+            wrapper.find('.rdl-move-up').simulate('click');
+
+            assert.deepEqual(['phobos', 'luna', 'deimos', 'io'], actual);
+
+            wrapper.find('.rdl-selected select').simulate('change', simulateChange(['phobos']));
+            wrapper.find('.rdl-move-down').simulate('click');
+
+            // Since we actually did not change the selected order, the down action is applied on
+            // the original selected order
+            assert.deepEqual(['luna', 'deimos', 'phobos', 'io'], actual);
+        });
+
+        it('should move non-adjacent marked items such that they maintain their separation', () => {
+            let actual = null;
+
+            const wrapper = mount((
+                <DualListBox
+                    options={[
+                        { value: 'luna', label: 'Moon' },
+                        { value: 'phobos', label: 'Phobos' },
+                        { value: 'deimos', label: 'Deimos' },
+                        { value: 'io', label: 'Io' },
+                    ]}
+                    preserveSelectOrder
+                    selected={['luna', 'phobos', 'deimos', 'io']}
+                    showOrderButtons
+                    onChange={(selected) => {
+                        actual = selected;
+                    }}
+                />
+            ));
+
+            wrapper.find('.rdl-selected select').simulate('change', simulateChange(['phobos', 'io']));
+            wrapper.find('.rdl-move-up').simulate('click');
+
+            assert.deepEqual(['phobos', 'luna', 'io', 'deimos'], actual);
+        });
+
+        it('should move adjacent items together, pushing the next non-marked item up or down', () => {
+            let actual = null;
+
+            const wrapper = mount((
+                <DualListBox
+                    options={[
+                        { value: 'luna', label: 'Moon' },
+                        { value: 'phobos', label: 'Phobos' },
+                        { value: 'deimos', label: 'Deimos' },
+                        { value: 'io', label: 'Io' },
+                    ]}
+                    preserveSelectOrder
+                    selected={['luna', 'phobos', 'deimos', 'io']}
+                    showOrderButtons
+                    onChange={(selected) => {
+                        actual = selected;
+                    }}
+                />
+            ));
+
+            wrapper.find('.rdl-selected select').simulate('change', simulateChange(['phobos', 'deimos']));
+            wrapper.find('.rdl-move-up').simulate('click');
+
+            assert.deepEqual(['phobos', 'deimos', 'luna', 'io'], actual);
+        });
+
+        it('should not change the order of items that are already at the top or bottom', () => {
+            let actual = null;
+
+            const wrapper = mount((
+                <DualListBox
+                    options={[
+                        { value: 'luna', label: 'Moon' },
+                        { value: 'phobos', label: 'Phobos' },
+                        { value: 'deimos', label: 'Deimos' },
+                        { value: 'io', label: 'Io' },
+                    ]}
+                    preserveSelectOrder
+                    selected={['luna', 'phobos', 'deimos', 'io']}
+                    showOrderButtons
+                    onChange={(selected) => {
+                        actual = selected;
+                    }}
+                />
+            ));
+
+            wrapper.find('.rdl-selected select').simulate('change', simulateChange(['luna', 'phobos']));
+            wrapper.find('.rdl-move-up').simulate('click');
+
+            assert.deepEqual(['luna', 'phobos', 'deimos', 'io'], actual);
+        });
+    });
+
     describe('props.simpleValue', () => {
         it('should pass an array of string values by default', () => {
             let actual = null;

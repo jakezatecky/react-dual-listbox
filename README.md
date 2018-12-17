@@ -200,6 +200,8 @@ render() {
 }
 ```
 
+To allow users to re-arrange their selections after moving items to the right, you may also pass in the `showOrderButtons` property.
+
 ### Restrict Available Options
 
 Sometimes, it may be desirable to restrict what options are available for selection. For example, you may have a control above the dual listbox that allows a user to search for a planet in the solar system. Once a planet is selected, you want to restrict the available options to the moons of that planet. Use the `available` property in that case.
@@ -233,6 +235,8 @@ By default, **react-dual-listbox** uses Font Awesome for the various icons that 
             <span key={0} className="fa fa-chevron-right" />,
             <span key={1} className="fa fa-chevron-right" />,
         ],
+        moveDown: <span className="fa fa-chevron-down" />,
+        moveUp: <span className="fa fa-chevron-up" />,
     }}
 />
 ```

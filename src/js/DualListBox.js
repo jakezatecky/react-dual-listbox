@@ -1,8 +1,8 @@
 import classNames from 'classnames';
 import escapeRegExp from 'lodash/escapeRegExp';
+import nanoid from 'nanoid';
 import PropTypes from 'prop-types';
 import React from 'react';
-import shortid from 'shortid';
 
 import Action from './Action';
 import ListBox from './ListBox';
@@ -112,7 +112,7 @@ class DualListBox extends React.Component {
                 available: '',
                 selected: '',
             },
-            id: props.id || shortid.generate(),
+            id: props.id || nanoid(7),
         };
 
         this.onActionClick = this.onActionClick.bind(this);

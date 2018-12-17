@@ -1,35 +1,44 @@
-module.exports = {
-    mode: 'production',
-    output: {
-        filename: 'index.js',
-        libraryTarget: 'umd',
-        library: 'ReactDualListBox',
-    },
-    externals: [
-        {
-            react: {
-                root: 'React',
-                commonjs2: 'react',
-                commonjs: 'react',
-                amd: 'react',
-            },
+function makeConfig(target) {
+    const fileMap = {
+        node: 'index.js',
+        web: 'index.browser.js',
+    };
+
+    return {
+        mode: 'production',
+        target,
+        output: {
+            filename: fileMap[target],
+            libraryTarget: 'umd',
+            library: 'ReactDualListBox',
         },
-        {
-            'react-dom': {
-                root: 'ReactDOM',
-                commonjs2: 'react-dom',
-                commonjs: 'react-dom',
-                amd: 'react-dom',
-            },
-        },
-    ],
-    module: {
-        rules: [
+        externals: [
             {
-                test: /\.js?$/,
-                exclude: /(node_modules|bower_components|vender_modules)/,
-                loader: 'babel-loader',
+                react: {
+                    root: 'React',
+                    commonjs2: 'react',
+                    commonjs: 'react',
+                    amd: 'react',
+                },
+                'react-dom': {
+                    root: 'ReactDOM',
+                    commonjs2: 'react-dom',
+                    commonjs: 'react-dom',
+                    amd: 'react-dom',
+                },
             },
+
         ],
-    },
-};
+        module: {
+            rules: [
+                {
+                    test: /\.js?$/,
+                    exclude: /(node_modules)/,
+                    loader: 'babel-loader',
+                },
+            ],
+        },
+    };
+}
+
+module.exports = makeConfig;

@@ -439,9 +439,9 @@ describe('<DualListBox />', () => {
             const wrapper = mount((
                 <DualListBox
                     icons={{
-                        moveLeft: null,
-                        moveAllLeft: null,
-                        moveRight: null,
+                        moveLeft: <span />,
+                        moveAllLeft: <span />,
+                        moveRight: <span />,
                         moveAllRight: <span className="new-icon" />,
                     }}
                     options={[
@@ -463,6 +463,9 @@ describe('<DualListBox />', () => {
             const wrapper = mount((
                 <DualListBox
                     lang={{
+                        moveLeft: '',
+                        moveAllLeft: '',
+                        moveRight: '',
                         moveAllRight: 'MOVE.ALL.RIGHT',
                     }}
                     options={[

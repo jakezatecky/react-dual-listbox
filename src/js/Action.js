@@ -8,7 +8,7 @@ import capitalizeFirstLetter from './util/capitalizeFirstLetter';
 
 class Action extends React.Component {
     static propTypes = {
-        direction: PropTypes.oneOf(['left', 'right']).isRequired,
+        direction: PropTypes.oneOf(['left', 'right', 'up', 'down']).isRequired,
         disabled: PropTypes.bool.isRequired,
         icons: iconsShape.isRequired,
         id: PropTypes.string.isRequired,

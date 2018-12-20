@@ -770,6 +770,31 @@ describe('<DualListBox />', () => {
 
             assert.deepEqual(['luna', 'phobos', 'deimos', 'io'], actual);
         });
+
+        it('should preserve the order if nothing is marked', () => {
+            let actual = null;
+
+            const wrapper = mount((
+                <DualListBox
+                    options={[
+                        { value: 'luna', label: 'Moon' },
+                        { value: 'phobos', label: 'Phobos' },
+                        { value: 'deimos', label: 'Deimos' },
+                        { value: 'io', label: 'Io' },
+                    ]}
+                    preserveSelectOrder
+                    selected={['luna', 'phobos', 'deimos', 'io']}
+                    showOrderButtons
+                    onChange={(selected) => {
+                        actual = selected;
+                    }}
+                />
+            ));
+
+            wrapper.find('.rdl-move-up').simulate('click');
+
+            assert.deepEqual(['luna', 'phobos', 'deimos', 'io'], actual);
+        });
     });
 
     describe('props.simpleValue', () => {

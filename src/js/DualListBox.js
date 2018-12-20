@@ -359,6 +359,10 @@ class DualListBox extends React.Component {
         );
         let newOrder = [...selected];
 
+        if (markedOptions.length === 0) {
+            return newOrder;
+        }
+
         if (direction === 'up') {
             // If all of the marked options are already as high as they can get, ignore the
             // re-arrangement request because they will end of swapping their order amongst

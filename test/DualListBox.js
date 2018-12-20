@@ -795,6 +795,26 @@ describe('<DualListBox />', () => {
 
             assert.deepEqual(['luna', 'phobos', 'deimos', 'io'], actual);
         });
+
+        // https://github.com/jakezatecky/react-dual-listbox/issues/57
+        it('should not error when nothing is in the selected list', () => {
+            const wrapper = mount((
+                <DualListBox
+                    options={[
+                        { value: 'luna', label: 'Moon' },
+                        { value: 'phobos', label: 'Phobos' },
+                        { value: 'deimos', label: 'Deimos' },
+                        { value: 'io', label: 'Io' },
+                    ]}
+                    preserveSelectOrder
+                    selected={[]}
+                    showOrderButtons
+                    onChange={() => {}}
+                />
+            ));
+
+            wrapper.find('.rdl-move-up').simulate('click');
+        });
     });
 
     describe('props.simpleValue', () => {

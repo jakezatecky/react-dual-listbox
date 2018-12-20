@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v1.4.2 (TBA)
+
+### Bug Fixes
+
+* [#57]: Fix issue where clicking on the ordering buttons would result in errors if the selected list was empty
+
 ## [v1.4.1](https://github.com/jakezatecky/react-dual-listbox/compare/v1.4.0...v1.4.1) (2018-12-17)
 
 ### Bug Fixes

@@ -1,11 +1,11 @@
 # CHANGELOG
 
-## v1.4.2 (TBA)
+## [v1.4.2](https://github.com/jakezatecky/react-dual-listbox/compare/v1.4.1...v1.4.2) (2018-12-21)
 
 ### Bug Fixes
 
 * [#57]: Fix issue where clicking on the ordering buttons would result in errors if the selected list was empty
-* [#58]: Fix an issue where not all items marked in the selected list would be removed when the "Move left" button was clicked
+* [#58]: Fix issue where not all items marked in the selected list would be removed when the "Move left" button was clicked
 
 ## [v1.4.1](https://github.com/jakezatecky/react-dual-listbox/compare/v1.4.0...v1.4.1) (2018-12-17)
 

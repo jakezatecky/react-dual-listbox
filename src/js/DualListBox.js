@@ -441,6 +441,7 @@ class DualListBox extends React.Component {
     toggleSelected(toggleItems, controlKey) {
         const { allowDuplicates, selected } = this.props;
         const selectedItems = this.getFlatOptions(selected).slice(0);
+        const toggleItemsMap = Object.assign({}, selectedItems);
 
         // Add/remove the individual items based on previous state
         toggleItems.forEach(({ value, index }) => {
@@ -448,12 +449,19 @@ class DualListBox extends React.Component {
 
             if (inSelectedOptions && (!allowDuplicates || controlKey === 'selected')) {
                 // Toggled items that were previously selected are removed unless `allowDuplicates`
-                // is set to true or the option was sourced from the selected ListBox.
-                selectedItems.splice(index, 1);
+                // is set to true or the option was sourced from the selected ListBox. We use an
+                // object mapping such that we can remove the exact index of the selected items
+                // without the array re-arranging itself.
+                delete toggleItemsMap[index];
             } else {
                 selectedItems.push(value);
             }
         });
+
+        // Convert object mapping back to an array
+        if (controlKey === 'selected') {
+            return Object.keys(toggleItemsMap).map(key => toggleItemsMap[key]);
+        }
 
         return selectedItems;
     }

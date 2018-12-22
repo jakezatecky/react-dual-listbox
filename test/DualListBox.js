@@ -1053,15 +1053,16 @@ describe('<DualListBox />', () => {
                     options={[
                         { label: 'Moon', value: 'luna' },
                         { label: 'Phobos', value: 'phobos' },
+                        { label: 'Deimos', value: 'deimos' },
                     ]}
-                    selected={['phobos']}
+                    selected={['phobos', 'deimos']}
                     onChange={(selected) => {
                         actual = selected;
                     }}
                 />
             ));
 
-            wrapper.find('.rdl-selected select').simulate('change', simulateChange(['phobos']));
+            wrapper.find('.rdl-selected select').simulate('change', simulateChange(['phobos', 'deimos']));
             wrapper.find('.rdl-move-left').not('.rdl-move-all').simulate('click');
 
             assert.deepEqual([], actual);

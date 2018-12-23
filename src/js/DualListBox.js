@@ -45,7 +45,7 @@ class DualListBox extends React.Component {
         options: optionsShape.isRequired,
         onChange: PropTypes.func.isRequired,
 
-        alignActions: PropTypes.string,
+        alignActions: PropTypes.oneOf(['top', 'middle']),
         allowDuplicates: PropTypes.bool,
         available: valueShape,
         availableLabel: PropTypes.string,

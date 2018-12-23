@@ -241,18 +241,33 @@ By default, **react-dual-listbox** uses Font Awesome for the various icons that 
 />
 ```
 
-### Other Properties
+### All Properties
 
-| Property          | Type   | Description                                                                                                             | Default        |
-| ----------------- | ------ | ----------------------------------------------------------------------------------------------------------------------- | -------------- |
-| availableLabel    | string | The display name for the hidden label for the available options control group.                                          | `"Available"`  |
-| disabled          | bool   | If true, both "available" and "selected" list boxes will be disabled.                                                   | `false`        |
-| icons             | object | The key-value pairing of action icons and their React nodes. See **Changing the Default Icons** for further info.       | `{ ... }`      |
-| id                | string | The HTML ID prefix for the various sub elements.                                                                        | `null`         |
-| lang              | object | The key-value pairing of localized text. See `src/js/lang/default.js` for a list of keys.                               | `{ ... }`      |
-| moveKeyCodes      | array  | The key codes that will trigger a toggle of the selected options.                                                       | `[13, 32]`     |
-| selectedLabel     | string | The display name for the hidden label for the selected options control group.                                           | `"Selected"`   |
-| simpleValue       | bool   | If true, the `selected` value passed in `onChange` is an array of string values. Otherwise, it is an array of options.  | `true`         |
-| showNoOptionsText | bool   | If true, text will appear in place of the available/selected list boxes when no options are present.                    | `false`        |
+| Property            | Type     | Description                                                                                                             | Default         |
+| ------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------- | --------------- |
+| `options`             | array    | **Required**. Specifies the list of options that may exist on either side of the dual list box.                         |                 |
+| `onChange`            | function | **Required**. The onChange handler called when an option is moved to either side: `function(selected) {}`.              |                 |
+| `alignActions`        | string   | A value specifying whether to align the action buttons to the `'top'` or `'middle'`.                                    | `middle`        |
+| `allowDuplicates`     | bool     | If true, duplicate options will be allowed in the selected list box.                                                    | `false`         |
+| `available`           | array    | A subset of the `options` array to optionally filter the available list box.                                            | `undefined`     |
+| `availableLabel`      | string   | The display name for the hidden label for the available options control group.                                          | `"Available"`   |
+| `availableRef`        | function | A React [ref] to the "available" list box.                                                                          | `null`          |
+| `canFilter`           | bool     | If true, search boxes will appear above both list boxes, allowing the user to filter the results.                       | `false`         |
+| `disabled`            | bool     | If true, both "available" and "selected" list boxes will be disabled.                                                   | `false`         |
+| `filterCallback`      | function | The filter function to run on a given option and input string: `function(option, filterInput) {}`. See **Filtering**.   | `() => { ... }` |
+| `filterPlaceholder`   | string   | The text placeholder used when the filter search boxes are empty.                                                       | `"Search..."`   |
+| `icons`               | object   | A key-value pairing of action icons and their React nodes. See **Changing the Default Icons** for further info.         | `{ ... }`       |
+| `id`                  | string   | An HTML ID prefix for the various sub elements.                                                                         | `null`          |
+| `lang`                | object   | A key-value pairing of localized text. See `src/js/lang/default.js` for a list of keys.                                 | `{ ... }`       |
+| `moveKeyCodes`        | array    | A list of key codes that will trigger a toggle of the selected options.                                                 | `[13, 32]`      |
+| `name`                | string   | A value for the `name` attribute on the hidden `<input />` element. This is potentially useful for form submissions.    | `null`          |
+| `preserveSelectOrder` | bool     | If true, the order in which the available options are selected are preserved when the items are moved to the right.     | `false`         |
+| `selected`            | array    | A list of the selected options appearing in the rightmost list box.                                                     | `[]`            |
+| `selectedLabel`       | string   | The display name for the hidden label for the selected options control group.                                           | `"Selected"`    |
+| `selectedRef`         | function | A React [ref] to the "selected" list box.                                                                           | `null`          |
+| `simpleValue`         | bool     | If true, the `selected` value passed in `onChange` is an array of string values. Otherwise, it is an array of options.  | `true`          |
+| `showNoOptionsText`   | bool     | If true, text will appear in place of the available/selected list boxes when no options are present.                    | `false`         |
+| `showOrderButtons`    | bool     | If true, a set of up/down buttons will appear near the selected list box to allow the user to re-arrange the items.     | `false`         |
 
 [controlled]: https://facebook.github.io/react/docs/forms.html#controlled-components
+[ref]: https://reactjs.org/docs/refs-and-the-dom.html

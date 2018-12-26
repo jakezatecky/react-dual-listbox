@@ -250,7 +250,7 @@ By default, **react-dual-listbox** uses Font Awesome for the various icons that 
 | `alignActions`        | string   | A value specifying whether to align the action buttons to the `'top'` or `'middle'`.                                    | `middle`        |
 | `allowDuplicates`     | bool     | If true, duplicate options will be allowed in the selected list box.                                                    | `false`         |
 | `available`           | array    | A subset of the `options` array to optionally filter the available list box.                                            | `undefined`     |
-| `availableLabel`      | string   | The display name for the hidden label for the available options control group.                                          | `"Available"`   |
+| `availableLabel`      | string   | The display name for the hidden label of the available options control group.                                           | `"Available"`   |
 | `availableRef`        | function | A React [ref] to the "available" list box.                                                                              | `null`          |
 | `canFilter`           | bool     | If true, search boxes will appear above both list boxes, allowing the user to filter the results.                       | `false`         |
 | `disabled`            | bool     | If true, both "available" and "selected" list boxes will be disabled.                                                   | `false`         |
@@ -263,7 +263,7 @@ By default, **react-dual-listbox** uses Font Awesome for the various icons that 
 | `name`                | string   | A value for the `name` attribute on the hidden `<input />` element. This is potentially useful for form submissions.    | `null`          |
 | `preserveSelectOrder` | bool     | If true, the order in which the available options are selected are preserved when the items are moved to the right.     | `false`         |
 | `selected`            | array    | A list of the selected options appearing in the rightmost list box.                                                     | `[]`            |
-| `selectedLabel`       | string   | The display name for the hidden label for the selected options control group.                                           | `"Selected"`    |
+| `selectedLabel`       | string   | The display name for the hidden label of the selected options control group.                                            | `"Selected"`    |
 | `selectedRef`         | function | A React [ref] to the "selected" list box.                                                                               | `null`          |
 | `simpleValue`         | bool     | If true, the `selected` value passed in `onChange` is an array of string values. Otherwise, it is an array of options.  | `true`          |
 | `showNoOptionsText`   | bool     | If true, text will appear in place of the available/selected list boxes when no options are present.                    | `false`         |

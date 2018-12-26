@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## v2.0.0
+
+### New Features
+
+* [#22]: Add `showHeaderLabels` property to make labels appear above the available and selected list boxes
+
+### Breaking Changes
+
+* [#61]: Merge `availableLabel` and `selectedLabel` into the `lang` property and rename them as `availableHeader` and `selectedHeader`
+
 ## [v1.4.2](https://github.com/jakezatecky/react-dual-listbox/compare/v1.4.1...v1.4.2) (2018-12-21)
 
 ### Bug Fixes

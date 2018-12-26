@@ -31,7 +31,7 @@ $rdl-line-height: 1.428571429 !default;
   }
 }
 
-.rdl-listbox {
+.rdl-list-box {
   display: flex;
   flex: 1 1 0;
   flex-direction: column;
@@ -56,11 +56,16 @@ $rdl-line-height: 1.428571429 !default;
 .rdl-control-container {
   display: flex;
   flex: 1 0 auto;
+  flex-direction: column;
 }
 
 .rdl-control-label {
-  position: absolute;
-  clip: rect(0 0 0 0);
+  padding: 2px 4px;
+
+  &.rdl-sr-only {
+    position: absolute;
+    clip: rect(0 0 0 0);
+  }
 }
 
 .rdl-control {
@@ -78,9 +83,16 @@ $rdl-line-height: 1.428571429 !default;
   flex-direction: column;
   margin: 0 10px;
 
-  // Add search input height and margin
+  .rdl-has-header & {
+    padding-top: 31px;
+  }
+
   .rdl-has-filter & {
     padding-top: 44px;
+  }
+
+  .rdl-has-header.rdl-has-filter & {
+    padding-top: 75px;
   }
 }
 

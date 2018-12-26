@@ -173,22 +173,6 @@ describe('<DualListBox />', () => {
         });
     });
 
-    describe('props.availableLabel', () => {
-        it('should set the label for available control to the specified value', () => {
-            const wrapper = mount((
-                <DualListBox
-                    availableLabel="Team A"
-                    options={[
-                        { label: 'Moon', value: 'luna' },
-                    ]}
-                    onChange={() => {}}
-                />
-            ));
-
-            assert.equal('Team A', wrapper.find('ListBox').at(0).find('label').text());
-        });
-    });
-
     describe('props.canFilter', () => {
         it('should render the available and selected filter inputs', () => {
             const wrapper = shallow((
@@ -608,19 +592,35 @@ describe('<DualListBox />', () => {
         });
     });
 
-    describe('props.selectLabel', () => {
-        it('should set the label for selected control to the specified value', () => {
+    describe('props.showHeaderLabels', () => {
+        it('should make the labels above the list boxes appear when set to true', () => {
             const wrapper = mount((
                 <DualListBox
                     options={[
-                        { label: 'Moon', value: 'luna' },
+                        { value: 'luna', label: 'Moon' },
                     ]}
-                    selectedLabel="Team B"
+                    showHeaderLabels
                     onChange={() => {}}
                 />
             ));
 
-            assert.equal('Team B', wrapper.find('ListBox').at(1).find('label').text());
+            const controlLabel = wrapper.find('.rdl-control-label').at(0);
+            assert.isTrue(controlLabel.exists() && !controlLabel.hasClass('rdl-sr-only'));
+        });
+
+        it('should hide the labels above the list boxes when set to false', () => {
+            const wrapper = mount((
+                <DualListBox
+                    options={[
+                        { value: 'luna', label: 'Moon' },
+                    ]}
+                    showHeaderLabels={false}
+                    onChange={() => {}}
+                />
+            ));
+
+            const controlLabel = wrapper.find('.rdl-control-label').at(0);
+            assert.isTrue(controlLabel.exists() && controlLabel.hasClass('rdl-sr-only'));
         });
     });
 

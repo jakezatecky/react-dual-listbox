@@ -1,6 +1,8 @@
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import Filter from './Filter';
 import languageShape from './shapes/languageShape';
 import arrayFrom from './util/arrayFrom';
 import capitalizeFirstLetter from './util/capitalizeFirstLetter';
@@ -11,12 +13,12 @@ class ListBox extends React.Component {
         children: PropTypes.node.isRequired,
         controlKey: PropTypes.string.isRequired,
         disabled: PropTypes.bool.isRequired,
-        displayName: PropTypes.string.isRequired,
         filterPlaceholder: PropTypes.string.isRequired,
         filterValue: PropTypes.string.isRequired,
         id: PropTypes.string.isRequired,
         inputRef: PropTypes.func.isRequired,
         lang: languageShape.isRequired,
+        showHeaderLabels: PropTypes.bool.isRequired,
         showNoOptionsText: PropTypes.bool.isRequired,
         onDoubleClick: PropTypes.func.isRequired,
         onFilterChange: PropTypes.func.isRequired,
@@ -32,8 +34,8 @@ class ListBox extends React.Component {
     /**
      * @returns {void}
      */
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.state = {
             value: [],
@@ -63,10 +65,10 @@ class ListBox extends React.Component {
             canFilter,
             controlKey,
             disabled,
-            displayName,
             filterPlaceholder,
             filterValue,
             id,
+            lang,
             onFilterChange,
         } = this.props;
 
@@ -75,22 +77,15 @@ class ListBox extends React.Component {
         }
 
         return (
-            <div className="rdl-filter-container">
-                <label className="rdl-control-label" htmlFor={`${id}-filter-${controlKey}`}>
-                    Filter
-                    {` ${displayName}`}
-                </label>
-                <input
-                    className="rdl-filter"
-                    data-key={controlKey}
-                    disabled={disabled}
-                    id={`${id}-filter-${controlKey}`}
-                    placeholder={filterPlaceholder}
-                    type="text"
-                    value={filterValue}
-                    onChange={onFilterChange}
-                />
-            </div>
+            <Filter
+                controlKey={controlKey}
+                disabled={disabled}
+                filterPlaceholder={filterPlaceholder}
+                filterValue={filterValue}
+                id={id}
+                lang={lang}
+                onFilterChange={onFilterChange}
+            />
         );
     }
 
@@ -99,10 +94,10 @@ class ListBox extends React.Component {
      */
     renderSelect() {
         const {
+            actions,
             children,
             disabled,
             controlKey,
-            displayName,
             id,
             inputRef,
             lang,
@@ -122,9 +117,7 @@ class ListBox extends React.Component {
 
         return (
             <div className="rdl-control-container">
-                <label className="rdl-control-label" htmlFor={`${id}-${controlKey}`}>
-                    {displayName}
-                </label>
+                {actions}
                 <select
                     className="rdl-control"
                     disabled={disabled}
@@ -143,12 +136,23 @@ class ListBox extends React.Component {
     }
 
     render() {
-        const { actions, controlKey } = this.props;
+        const {
+            controlKey,
+            id,
+            lang,
+            showHeaderLabels,
+        } = this.props;
+        const labelClassName = classNames({
+            'rdl-control-label': true,
+            'rdl-sr-only': !showHeaderLabels,
+        });
 
         return (
-            <div className={`rdl-listbox rdl-${controlKey}`}>
+            <div className={`rdl-list-box rdl-${controlKey}`}>
+                <label className={labelClassName} htmlFor={`${id}-${controlKey}`}>
+                    {lang[`${controlKey}Header`]}
+                </label>
                 {this.renderFilter()}
-                {actions}
                 {this.renderSelect()}
             </div>
         );

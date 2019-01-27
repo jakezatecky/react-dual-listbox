@@ -70,7 +70,6 @@ gulp.task('build-style', () => (
 
 gulp.task('build', gulp.series(gulp.parallel('build-script-web', 'build-style')));
 
-
 function buildExamplesScript(mode = 'development') {
     return gulp.src(['./examples/src/index.js'])
         .pipe(webpackStream({ ...testWebpackConfig, mode }, webpack))

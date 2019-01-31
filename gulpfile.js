@@ -2,8 +2,10 @@ const autoprefixer = require('gulp-autoprefixer');
 const browserSyncImport = require('browser-sync');
 const cleanCss = require('gulp-clean-css');
 const eslint = require('gulp-eslint');
+const exec = require('gulp-exec');
 const gulp = require('gulp');
 const header = require('gulp-header');
+const less = require('gulp-less');
 const mocha = require('gulp-mocha');
 const sass = require('gulp-sass');
 const scsslint = require('gulp-scss-lint');
@@ -66,9 +68,27 @@ gulp.task('build-style', () => (
             browsers: ['last 2 versions'],
         }))
         .pipe(gulp.dest('./lib'))
+        .pipe(cleanCss())
+        .pipe(gulp.dest('./.css-compare/scss'))
 ));
 
-gulp.task('build', gulp.series(gulp.parallel('build-script-web', 'build-style')));
+gulp.task('build-style-less', () => (
+    gulp.src('./src/less/**/*.less')
+        .pipe(less())
+        .pipe(autoprefixer({
+            browsers: ['last 2 versions'],
+        }))
+        .pipe(cleanCss())
+        .pipe(gulp.dest('./.css-compare/less'))
+));
+
+gulp.task('compare-css-output', gulp.series(gulp.parallel('build-style', 'build-style-less'), () => (
+    gulp.src('./gulpfile.js')
+        .pipe(exec('cmp .css-compare/less/react-dual-listbox.css .css-compare/scss/react-dual-listbox.css'))
+        .pipe(exec.reporter())
+)));
+
+gulp.task('build', gulp.series('build-script-web', 'compare-css-output'));
 
 function buildExamplesScript(mode = 'development') {
     return gulp.src(['./examples/src/index.js'])

@@ -110,7 +110,7 @@ class DualListBox extends React.Component {
                 available: '',
                 selected: '',
             },
-            id: props.id || nanoid(7),
+            id: props.id || `rdl-${nanoid()}`,
         };
 
         this.onActionClick = this.onActionClick.bind(this);

@@ -8,7 +8,7 @@
 
 ### Breaking Changes
 
-* [#61]: Merge `availableLabel` and `selectedLabel` into the `lang` property and rename them as `availableHeader` and `selectedHeader`
+* [#61]: Merge `availableLabel` and `selectedLabel` into the `lang` property and rename them to `availableHeader` and `selectedHeader`
 
 ## [v1.4.2](https://github.com/jakezatecky/react-dual-listbox/compare/v1.4.1...v1.4.2) (2018-12-21)
 

@@ -18,10 +18,10 @@ const options = [
 ];
 
 class BasicExample extends React.Component {
-    constructor() {
-        super();
+    state = { selected: ['phobos', 'titan'] };
 
-        this.state = { selected: ['phobos', 'titan'] };
+    constructor(props) {
+        super(props);
 
         this.onChange = this.onChange.bind(this);
     }

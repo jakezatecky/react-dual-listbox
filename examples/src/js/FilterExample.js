@@ -27,10 +27,10 @@ const options = [
 ];
 
 class FilterExample extends React.Component {
-    constructor() {
-        super();
+    state = { selected: ['luna', 'io'] };
 
-        this.state = { selected: ['luna', 'io'] };
+    constructor(props) {
+        super(props);
 
         this.onChange = this.onChange.bind(this);
     }

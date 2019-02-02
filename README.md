@@ -59,13 +59,9 @@ const options = [
 ];
 
 class Widget extends React.Component {
-    constructor() {
-        super();
-
-        this.state = {
-            selected: ['one'],
-        };
-    }
+    state = {
+        selected: ['one'],
+    };
 
     render() {
         return (

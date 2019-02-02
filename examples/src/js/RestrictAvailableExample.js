@@ -25,13 +25,13 @@ const planets = {
 };
 
 class RestrictAvailableExample extends React.Component {
-    constructor() {
-        super();
+    state = {
+        planet: 'earth',
+        selected: ['phobos', 'titan'],
+    };
 
-        this.state = {
-            planet: 'earth',
-            selected: ['phobos', 'titan'],
-        };
+    constructor(props) {
+        super(props);
 
         this.onChange = this.onChange.bind(this);
         this.onPlanetChange = this.onPlanetChange.bind(this);

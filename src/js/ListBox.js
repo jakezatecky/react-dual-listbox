@@ -12,6 +12,7 @@ class ListBox extends React.Component {
         controlKey: PropTypes.string.isRequired,
         disabled: PropTypes.bool.isRequired,
         displayName: PropTypes.string.isRequired,
+        filterLabelPrefix: PropTypes.string.isRequired,
         filterPlaceholder: PropTypes.string.isRequired,
         filterValue: PropTypes.string.isRequired,
         id: PropTypes.string.isRequired,
@@ -64,6 +65,7 @@ class ListBox extends React.Component {
             controlKey,
             disabled,
             displayName,
+            filterLabelPrefix,
             filterPlaceholder,
             filterValue,
             id,
@@ -77,8 +79,11 @@ class ListBox extends React.Component {
         return (
             <div className="rdl-filter-container">
                 <label className="rdl-control-label" htmlFor={`${id}-filter-${controlKey}`}>
-                    Filter
-                    {` ${displayName}`}
+                    {
+                        filterLabelPrefix
+                        ?`${filterLabelPrefix}${displayName}`
+                        :`${displayName}`
+                    }
                 </label>
                 <input
                     className="rdl-filter"

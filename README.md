@@ -173,6 +173,37 @@ render() {
 }
 ```
 
+To control the filtering labels use css to display labels:
+
+``` css
+.rdl-filter-container 
+  .rdl-control-label
+  {
+    position:relative;
+  }
+```
+
+and control the text with the properties:
+
+``` jsx
+render() {
+    ...
+
+    return (
+        <DualListBox
+            canFilter
+            filterLabelPrefix = 'Filter '
+            availableLabel = 'available items'
+            selectedLabel = 'selected items'
+            options={options}
+            onFilterChange={(filter) => {
+                console.log(filter;
+            }}
+        />
+    );
+}
+```
+
 ### Action/Button Alignment
 
 By default, the movement buttons are aligned to the center of the component. Another option is to align these actions to be above their respective lists:
@@ -256,6 +287,7 @@ By default, **react-dual-listbox** uses Font Awesome for the various icons that 
 | `canFilter`           | bool     | If true, search boxes will appear above both list boxes, allowing the user to filter the results.                       | `false`         |
 | `disabled`            | bool     | If true, both "available" and "selected" list boxes will be disabled.                                                   | `false`         |
 | `filterCallback`      | function | The filter function to run on a given option and input string: `function(option, filterInput) {}`. See **Filtering**.   | `() => { ... }` |
+| `filterLabelPrefix`   | string   | The prefix for the hiddens labels of the search fields. Set to `null` to hide                                           | `"Filter\n "`   |
 | `filterPlaceholder`   | string   | The text placeholder used when the filter search boxes are empty.                                                       | `"Search..."`   |
 | `icons`               | object   | A key-value pairing of action icons and their React nodes. See **Changing the Default Icons** for further info.         | `{ ... }`       |
 | `id`                  | string   | An HTML ID prefix for the various sub elements.                                                                         | `null`          |

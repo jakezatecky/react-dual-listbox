@@ -57,6 +57,7 @@ class DualListBox extends React.Component {
             selected: PropTypes.string.isRequired,
         }),
         filterCallback: PropTypes.func,
+        filterLabelPrefix: PropTypes.string,
         filterPlaceholder: PropTypes.string,
         icons: iconsShape,
         id: PropTypes.string,
@@ -83,6 +84,7 @@ class DualListBox extends React.Component {
         disabled: false,
         filter: null,
         filterPlaceholder: 'Search...',
+        filterLabelPrefix: 'Filter\n ',
         filterCallback: defaultFilter,
         icons: defaultIcons,
         id: null,
@@ -653,10 +655,11 @@ class DualListBox extends React.Component {
      * @param {Array} options
      * @param {function} ref
      * @param {React.Component} actions
+     * @param {string} filterLabelPrefix
      *
      * @returns {React.Component}
      */
-    renderListBox(controlKey, displayName, options, ref, actions) {
+    renderListBox(controlKey, displayName, options, ref, actions, filterLabelPrefix) {
         const {
             alignActions,
             canFilter,
@@ -677,6 +680,7 @@ class DualListBox extends React.Component {
                 controlKey={controlKey}
                 disabled={disabled}
                 displayName={displayName}
+                filterLabelPrefix={filterLabelPrefix}
                 filterPlaceholder={filterPlaceholder}
                 filterValue={filter[controlKey]}
                 id={id}
@@ -708,6 +712,7 @@ class DualListBox extends React.Component {
             availableRef,
             canFilter,
             disabled,
+            filterLabelPrefix,
             icons,
             lang,
             name,
@@ -753,14 +758,14 @@ class DualListBox extends React.Component {
 
         return (
             <div className={className} id={id}>
-                {this.renderListBox('available', availableLabel, availableOptions, availableRef, actionsRight)}
+                {this.renderListBox('available', availableLabel, availableOptions, availableRef, actionsRight, filterLabelPrefix)}
                 {alignActions === 'middle' ? (
                     <div className="rdl-actions">
                         {actionsRight}
                         {actionsLeft}
                     </div>
                 ) : null}
-                {this.renderListBox('selected', selectedLabel, selectedOptions, selectedRef, actionsLeft)}
+                {this.renderListBox('selected', selectedLabel, selectedOptions, selectedRef, actionsLeft, filterLabelPrefix)}
                 {preserveSelectOrder && showOrderButtons ? (
                     <div className="rdl-actions">
                         {makeAction('up', false)}

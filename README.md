@@ -68,7 +68,7 @@ class Widget extends React.Component {
     };
 
     render() {
-        const { selected} = this.state;
+        const { selected } = this.state;
 
         return (
             <DualListBox

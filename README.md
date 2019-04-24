@@ -59,22 +59,22 @@ const options = [
 ];
 
 class Widget extends React.Component {
-    constructor() {
-        super();
+    state = {
+        selected: ['one'],
+    };
 
-        this.state = {
-            selected: ['one'],
-        };
-    }
+    onChange = (selected) => {
+        this.setState({ selected });
+    };
 
     render() {
+        const { selected} = this.state;
+
         return (
             <DualListBox
                 options={options}
-                selected={this.state.selected}
-                onChange={(selected) => {
-                    this.setState({ selected });
-                }}
+                selected={selected}
+                onChange={this.onChange}
             />
         );
     }

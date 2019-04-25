@@ -46,7 +46,6 @@ class AlignTopExample extends React.Component {
             <DualListBox
                 alignActions="top"
                 canFilter
-                name="moons"
                 options={options}
                 selected={selected}
                 onChange={this.onChange}

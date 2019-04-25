@@ -33,7 +33,13 @@ class BasicExample extends React.Component {
     render() {
         const { selected } = this.state;
 
-        return <DualListBox options={options} selected={selected} onChange={this.onChange} />;
+        return (
+            <DualListBox
+                options={options}
+                selected={selected}
+                onChange={this.onChange}
+            />
+        );
     }
 }
 

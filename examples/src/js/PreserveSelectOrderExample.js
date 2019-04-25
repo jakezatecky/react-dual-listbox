@@ -44,7 +44,6 @@ class PreserveSelectOrderExample extends React.Component {
 
         return (
             <DualListBox
-                name="moons"
                 options={options}
                 preserveSelectOrder
                 selected={selected}

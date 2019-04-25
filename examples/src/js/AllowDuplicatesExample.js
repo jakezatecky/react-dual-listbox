@@ -45,7 +45,6 @@ class AllowDuplicatesExample extends React.Component {
         return (
             <DualListBox
                 allowDuplicates
-                name="moons"
                 options={options}
                 preserveSelectOrder
                 selected={selected}

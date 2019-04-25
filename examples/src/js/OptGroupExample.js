@@ -44,7 +44,6 @@ class OptGroupExample extends React.Component {
 
         return (
             <DualListBox
-                name="moons"
                 options={options}
                 selected={selected}
                 onChange={this.onChange}

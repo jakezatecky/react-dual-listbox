@@ -63,14 +63,18 @@ class Widget extends React.Component {
         selected: ['one'],
     };
 
+    onChange = (selected) => {
+        this.setState({ selected });
+    };
+
     render() {
+        const { selected } = this.state;
+
         return (
             <DualListBox
                 options={options}
-                selected={this.state.selected}
-                onChange={(selected) => {
-                    this.setState({ selected });
-                }}
+                selected={selected}
+                onChange={this.onChange}
             />
         );
     }

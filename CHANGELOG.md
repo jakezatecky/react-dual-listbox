@@ -10,9 +10,9 @@
 
 * [#73]: Fix issue where a numeric `value` types would be passed as strings in the `onChange` callback
 
-### Breaking Changes
+### Other
 
-* [#61]: Merge `availableLabel` and `selectedLabel` into the `lang` property and rename them to `availableHeader` and `selectedHeader`
+* [#61]: **(breaking)** Merge `availableLabel` and `selectedLabel` into the `lang` property and rename them to `availableHeader` and `selectedHeader`
 
 ## [v1.4.2](https://github.com/jakezatecky/react-dual-listbox/compare/v1.4.1...v1.4.2) (2018-12-21)
 

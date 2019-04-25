@@ -13,6 +13,7 @@
 ### Other
 
 * [#61]: **(breaking)** Merge `availableLabel` and `selectedLabel` into the `lang` property and rename them to `availableHeader` and `selectedHeader`
+* [#62]: Add test to ensure that Less and Sass source files generate the same compiled CSS
 
 ## [v1.4.2](https://github.com/jakezatecky/react-dual-listbox/compare/v1.4.1...v1.4.2) (2018-12-21)
 

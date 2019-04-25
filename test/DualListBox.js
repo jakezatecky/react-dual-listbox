@@ -837,7 +837,7 @@ describe('<DualListBox />', () => {
     });
 
     describe('props.simpleValue', () => {
-        it('should pass an array of string values by default', () => {
+        it('should pass an array of values by default', () => {
             let actual = null;
 
             const wrapper = mount((
@@ -914,6 +914,51 @@ describe('<DualListBox />', () => {
                     value: 'phobos',
                 }],
             }], actual);
+        });
+    });
+
+    describe('props.onChange', () => {
+        it('should pass all options in the selected listbox after a change', () => {
+            let actual = null;
+
+            const wrapper = mount((
+                <DualListBox
+                    options={[
+                        { label: 'Moon', value: 'luna' },
+                        { label: 'Phobos', value: 'phobos' },
+                    ]}
+                    onChange={(selected) => {
+                        actual = selected;
+                    }}
+                />
+            ));
+
+            wrapper.find('.rdl-available select').simulate('change', simulateChange(['phobos']));
+            wrapper.find('.rdl-available select').simulate('dblclick');
+
+            assert.deepEqual(['phobos'], actual);
+        });
+
+        it('should preserve previous selections', () => {
+            let actual = null;
+
+            const wrapper = mount((
+                <DualListBox
+                    options={[
+                        { label: 'Moon', value: 'luna' },
+                        { label: 'Phobos', value: 'phobos' },
+                    ]}
+                    selected={['luna']}
+                    onChange={(selected) => {
+                        actual = selected;
+                    }}
+                />
+            ));
+
+            wrapper.find('.rdl-available select').simulate('change', simulateChange(['phobos']));
+            wrapper.find('.rdl-available select').simulate('dblclick');
+
+            assert.deepEqual(['luna', 'phobos'], actual);
         });
     });
 

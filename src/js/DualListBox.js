@@ -327,7 +327,7 @@ class DualListBox extends React.Component {
             .filter(option => option.selected)
             .map(option => ({
                 index: parseInt(option.dataset.index, 10),
-                value: option.dataset.realValue,
+                value: JSON.parse(option.dataset.realValue),
             }));
     }
 
@@ -635,7 +635,7 @@ class DualListBox extends React.Component {
                 <option
                     key={key}
                     data-index={option.selectedIndex}
-                    data-real-value={option.value}
+                    data-real-value={JSON.stringify(option.value)}
                     id={`${id}-option-${option.value}`}
                     value={value}
                 >

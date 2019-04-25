@@ -548,8 +548,8 @@ describe('<DualListBox />', () => {
 
             assert.isTrue(wrapper.contains((
                 <optgroup id={getExpectedId('optgroup-Mars')} label="Mars">
-                    <option data-real-value="phobos" id={getExpectedId('option-phobos')} value="phobos">Phobos</option>
-                    <option data-real-value="deimos" id={getExpectedId('option-deimos')} value="deimos">Deimos</option>
+                    <option data-real-value={'"phobos"'} id={getExpectedId('option-phobos')} value="phobos">Phobos</option>
+                    <option data-real-value={'"deimos"'} id={getExpectedId('option-deimos')} value="deimos">Deimos</option>
                 </optgroup>
             )));
         });
@@ -959,6 +959,28 @@ describe('<DualListBox />', () => {
             wrapper.find('.rdl-available select').simulate('dblclick');
 
             assert.deepEqual(['luna', 'phobos'], actual);
+        });
+
+        it('should handle numeric and string values', () => {
+            let actual = null;
+
+            const wrapper = mount((
+                <DualListBox
+                    options={[
+                        { label: 'Option 1', value: 'one' },
+                        { label: 'Option 2', value: 2 },
+                    ]}
+                    selected={['one']}
+                    onChange={(selected) => {
+                        actual = selected;
+                    }}
+                />
+            ));
+
+            wrapper.find('.rdl-available select').simulate('change', simulateChange([2]));
+            wrapper.find('.rdl-available select').simulate('dblclick');
+
+            assert.deepEqual(['one', 2], actual);
         });
     });
 

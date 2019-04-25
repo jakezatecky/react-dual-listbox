@@ -6,6 +6,10 @@
 
 * [#22]: Add `showHeaderLabels` property to make labels appear above the available and selected list boxes
 
+### Bug Fixes
+
+* [#73]: Fix issue where a numeric `value` types would be passed as strings in the `onChange` callback
+
 ### Breaking Changes
 
 * [#61]: Merge `availableLabel` and `selectedLabel` into the `lang` property and rename them to `availableHeader` and `selectedHeader`

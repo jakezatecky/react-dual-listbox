@@ -442,6 +442,25 @@ describe('<DualListBox />', () => {
         });
     });
 
+    describe('props.id', () => {
+        it('should pass the id for all elements', () => {
+            const id = 'test-id';
+
+            const wrapper = mount((
+                <DualListBox
+                    id={id}
+                    options={[
+                        { label: 'Moon', value: 'luna' },
+                        { label: 'Phobos', value: 'phobos' },
+                    ]}
+                    onChange={() => {}}
+                />
+            ));
+
+            assert.isTrue(wrapper.find(`#${id}-option-luna`).exists());
+        });
+    });
+
     describe('props.lang', () => {
         it('should overwrite the default text when set', () => {
             const wrapper = mount((
@@ -837,25 +856,6 @@ describe('<DualListBox />', () => {
             wrapper.find('.rdl-available select').simulate('dblclick');
 
             assert.deepEqual(['phobos'], actual);
-        });
-
-        describe('props.id', () => {
-            it('should pass the id for all elements', () => {
-                const id = 'test-id';
-
-                const wrapper = mount((
-                    <DualListBox
-                        id={id}
-                        options={[
-                            { label: 'Moon', value: 'luna' },
-                            { label: 'Phobos', value: 'phobos' },
-                        ]}
-                        onChange={() => {}}
-                    />
-                ));
-
-                assert.isTrue(wrapper.find(`#${id}-option-luna`).exists());
-            });
         });
 
         it('should pass an array of options when false', () => {

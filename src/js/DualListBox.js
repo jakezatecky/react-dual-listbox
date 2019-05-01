@@ -18,6 +18,10 @@ const KEY_CODES = {
     SPACEBAR: 32,
     ENTER: 13,
 };
+const ALIGNMENTS = {
+    MIDDLE: 'middle',
+    TOP: 'top',
+};
 const defaultFilter = (option, filterInput) => {
     if (filterInput === '') {
         return true;
@@ -45,7 +49,7 @@ class DualListBox extends React.Component {
         options: optionsShape.isRequired,
         onChange: PropTypes.func.isRequired,
 
-        alignActions: PropTypes.oneOf(['top', 'middle']),
+        alignActions: PropTypes.oneOf([ALIGNMENTS.MIDDLE, ALIGNMENTS.TOP]),
         allowDuplicates: PropTypes.bool,
         available: valueShape,
         availableRef: PropTypes.func,
@@ -73,7 +77,7 @@ class DualListBox extends React.Component {
     };
 
     static defaultProps = {
-        alignActions: 'middle',
+        alignActions: ALIGNMENTS.MIDDLE,
         allowDuplicates: false,
         available: undefined,
         availableRef: null,
@@ -672,7 +676,7 @@ class DualListBox extends React.Component {
 
         return (
             <ListBox
-                actions={alignActions === 'top' ? actions : null}
+                actions={alignActions === ALIGNMENTS.TOP ? actions : null}
                 canFilter={canFilter}
                 controlKey={controlKey}
                 disabled={disabled}
@@ -747,14 +751,14 @@ class DualListBox extends React.Component {
             'react-dual-listbox': true,
             'rdl-has-filter': canFilter,
             'rdl-has-header': showHeaderLabels,
-            'rdl-align-top': alignActions === 'top',
+            'rdl-align-top': alignActions === ALIGNMENTS.TOP,
         });
         const value = this.getFlatOptions(selected).join(',');
 
         return (
             <div className={className} id={id}>
                 {this.renderListBox('available', availableOptions, availableRef, actionsRight)}
-                {alignActions === 'middle' ? (
+                {alignActions === ALIGNMENTS.MIDDLE ? (
                     <div className="rdl-actions">
                         {actionsRight}
                         {actionsLeft}

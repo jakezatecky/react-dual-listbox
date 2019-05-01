@@ -475,7 +475,7 @@ class DualListBox extends React.Component {
      */
     filterOptions(options, filterer, filterInput) {
         const { canFilter, filterCallback } = this.props;
-        let filtered = [];
+        const filtered = [];
 
         options.forEach((option) => {
             if (option.options !== undefined) {
@@ -518,7 +518,9 @@ class DualListBox extends React.Component {
                         return;
                     }
 
-                    filtered = [...filtered, ...subFiltered];
+                    subFiltered.forEach((subItem) => {
+                        filtered.push(subItem);
+                    });
                 }
             }
         });

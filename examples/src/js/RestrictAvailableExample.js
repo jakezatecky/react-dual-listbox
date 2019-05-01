@@ -21,7 +21,7 @@ const planets = {
     earth: { name: 'Earth', moons: ['luna'] },
     mars: { name: 'Mars', moons: ['phobos', 'deimos'] },
     jupiter: { name: 'Jupiter', moons: ['io', 'europa', 'ganymede', 'callisto'] },
-    saturn: { name: 'Saturn', moons: ['mimas', 'enceladus', 'tehys', 'rhea', 'titan', 'iapetus'] },
+    saturn: { name: 'Saturn', moons: ['mimas', 'enceladus', 'tethys', 'rhea', 'titan', 'iapetus'] },
 };
 
 class RestrictAvailableExample extends React.Component {

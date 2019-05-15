@@ -5,7 +5,8 @@ export default PropTypes.shape({
     moveAllLeft: PropTypes.string.isRequired,
     moveRight: PropTypes.string.isRequired,
     moveAllRight: PropTypes.string.isRequired,
-    // Optional, so not required
+
+    // Optional properties
     availableFilterHeader: PropTypes.string,
     availableHeader: PropTypes.string,
     moveDown: PropTypes.string,

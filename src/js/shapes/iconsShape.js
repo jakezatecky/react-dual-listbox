@@ -5,7 +5,8 @@ export default PropTypes.shape({
     moveAllLeft: PropTypes.node.isRequired,
     moveRight: PropTypes.node.isRequired,
     moveAllRight: PropTypes.node.isRequired,
-    // Optional, so not required
+
+    // Optional properties
     moveDown: PropTypes.node,
     moveUp: PropTypes.node,
 });

@@ -258,7 +258,7 @@ By default, **react-dual-listbox** uses Font Awesome for the various icons that 
 | `filterPlaceholder`   | string   | The text placeholder used when the filter search boxes are empty.                                                       | `"Search..."`   |
 | `icons`               | object   | A key-value pairing of action icons and their React nodes. See **Changing the Default Icons** for further info.         | `{ ... }`       |
 | `id`                  | string   | An HTML ID prefix for the various sub elements.                                                                         | `null`          |
-| `lang`                | object   | A key-value pairing of localized text. See `src/js/lang/default.js` for a list of keys.                                 | `{ ... }`       |
+| `lang`                | object   | A key-value pairing of localized text. See [`src/js/lang/default.js`][lang-file] for a list of keys.                    | `{ ... }`       |
 | `moveKeyCodes`        | array    | A list of key codes that will trigger a toggle of the selected options.                                                 | `[13, 32]`      |
 | `name`                | string   | A value for the `name` attribute on the hidden `<input />` element. This is potentially useful for form submissions.    | `null`          |
 | `preserveSelectOrder` | bool     | If true, the order in which the available options are selected are preserved when the items are moved to the right.     | `false`         |
@@ -270,4 +270,5 @@ By default, **react-dual-listbox** uses Font Awesome for the various icons that 
 | `showOrderButtons`    | bool     | If true, a set of up/down buttons will appear near the selected list box to allow the user to re-arrange the items.     | `false`         |
 
 [controlled]: https://facebook.github.io/react/docs/forms.html#controlled-components
+[lang-file]: https://github.com/jakezatecky/react-dual-listbox/blob/master/src/js/lang/default.js
 [ref]: https://reactjs.org/docs/refs-and-the-dom.html

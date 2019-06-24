@@ -553,6 +553,28 @@ describe('<DualListBox />', () => {
                 </optgroup>
             )));
         });
+
+        it('should disable marked options and optgroups', () => {
+            const wrapper = shallow((
+                <DualListBox
+                    options={[
+                        {
+                            label: 'Mars',
+                            disabled: true,
+                            options: [
+                                { value: 'phobos', label: 'Phobos', disabled: true },
+                                { value: 'deimos', label: 'Deimos' },
+                            ],
+                        },
+                    ]}
+                    onChange={() => {}}
+                />
+            ));
+
+            assert.isTrue(wrapper.find('ListBox[controlKey="available"] optgroup').prop('disabled'));
+            assert.isTrue(wrapper.find('ListBox[controlKey="available"] option').at(0).prop('disabled'));
+            assert.equal(undefined, wrapper.find('ListBox[controlKey="available"] option').at(1).prop('disabled'));
+        });
     });
 
     describe('props.preserveSelectOrder', () => {

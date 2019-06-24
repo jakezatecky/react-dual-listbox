@@ -488,7 +488,7 @@ class DualListBox extends React.Component {
 
                 if (children.length > 0) {
                     filtered.push({
-                        label: option.label,
+                        ...option,
                         options: children,
                     });
                 }
@@ -627,7 +627,12 @@ class DualListBox extends React.Component {
 
             if (option.options !== undefined) {
                 return (
-                    <optgroup key={key} id={`${id}-optgroup-${option.label}`} label={option.label}>
+                    <optgroup
+                        key={key}
+                        disabled={option.disabled}
+                        id={`${id}-optgroup-${option.label}`}
+                        label={option.label}
+                    >
                         {this.renderOptions(option.options)}
                     </optgroup>
                 );
@@ -642,6 +647,7 @@ class DualListBox extends React.Component {
                     key={key}
                     data-index={option.selectedIndex}
                     data-real-value={JSON.stringify(option.value)}
+                    disabled={option.disabled}
                     id={`${id}-option-${option.value}`}
                     value={value}
                 >

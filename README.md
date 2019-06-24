@@ -116,6 +116,36 @@ render() {
 }
 ```
 
+### Disabling Component or Options
+
+Pass in the `disabled` property to disable the entire component. Alternatively, individual options may be disabled on a per-item basis:
+
+``` jsx
+render() {
+    const options = [
+        {
+            label: 'Mars',
+            disabled: true,
+            options: [
+                { value: 'phobos', label: 'Phobos' },
+                { value: 'deimos', label: 'Deimos' },
+            ],
+        },
+        {
+            label: 'Jupiter',
+            options: [
+                { value: 'io', label: 'Io' },
+                { value: 'europa', label: 'Europa', disabled: true },
+                { value: 'ganymede', label: 'Ganymede' },
+                { value: 'callisto', label: 'Callisto' },
+            ],
+        },
+    ];
+
+    return <DualListBox options={options} />;
+}
+```
+
 ### Filtering
 
 You can enable filtering of available and selected options by merely passing in the `canFilter` property:

@@ -8,6 +8,9 @@ export default PropTypes.arrayOf(
         PropTypes.shape({
             label: PropTypes.any.isRequired,
             options: PropTypes.arrayOf(optionShape).isRequired,
+
+            // Optional properties
+            disabled: PropTypes.bool,
         }),
     ]),
 );

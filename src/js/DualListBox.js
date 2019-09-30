@@ -632,6 +632,7 @@ class DualListBox extends React.Component {
                         disabled={option.disabled}
                         id={`${id}-optgroup-${option.label}`}
                         label={option.label}
+                        title={option.title}
                     >
                         {this.renderOptions(option.options)}
                     </optgroup>
@@ -649,6 +650,7 @@ class DualListBox extends React.Component {
                     data-real-value={JSON.stringify(option.value)}
                     disabled={option.disabled}
                     id={`${id}-option-${option.value}`}
+                    title={option.title}
                     value={value}
                 >
                     {option.label}

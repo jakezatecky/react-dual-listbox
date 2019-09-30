@@ -6,4 +6,5 @@ export default PropTypes.shape({
 
     // Optional properties
     disabled: PropTypes.bool,
+    title: PropTypes.string,
 });

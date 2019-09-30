@@ -299,6 +299,15 @@ By default, **react-dual-listbox** uses Font Awesome for the various icons that 
 | `showNoOptionsText`   | bool     | If true, text will appear in place of the available/selected list boxes when no options are present.                    | `false`         |
 | `showOrderButtons`    | bool     | If true, a set of up/down buttons will appear near the selected list box to allow the user to re-arrange the items.     | `false`         |
 
+#### Option Properties
+
+| Property   | Type   | Description                                                   |
+| ---------- | ------ | ------------------------------------------------------------- |
+| `label`    | string | **Required**. The text label for the given option.            |
+| `value`    | mixed  | **Required**. The text or numeric value for the given option. |
+| `disabled` | bool   | If true, disables the option from selection.                  |
+| `title`    | string | Adds the HTML `title` attribute to the option.                |
+
 [controlled]: https://facebook.github.io/react/docs/forms.html#controlled-components
 [lang-file]: https://github.com/jakezatecky/react-dual-listbox/blob/master/src/js/lang/default.js
 [ref]: https://reactjs.org/docs/refs-and-the-dom.html

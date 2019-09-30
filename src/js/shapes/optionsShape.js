@@ -11,6 +11,7 @@ export default PropTypes.arrayOf(
 
             // Optional properties
             disabled: PropTypes.bool,
+            title: PropTypes.title,
         }),
     ]),
 );

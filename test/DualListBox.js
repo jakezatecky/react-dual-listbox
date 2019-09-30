@@ -575,6 +575,28 @@ describe('<DualListBox />', () => {
             assert.isTrue(wrapper.find('ListBox[controlKey="available"] option').at(0).prop('disabled'));
             assert.equal(undefined, wrapper.find('ListBox[controlKey="available"] option').at(1).prop('disabled'));
         });
+
+        it('should add the `title` attribute to specified options', () => {
+            const wrapper = shallow((
+                <DualListBox
+                    options={[
+                        {
+                            label: 'Mars',
+                            title: 'That one planet we may someday colonize',
+                            options: [
+                                { value: 'phobos', label: 'Phobos', title: 'The larger one' },
+                                { value: 'deimos', label: 'Deimos' },
+                            ],
+                        },
+                    ]}
+                    onChange={() => {}}
+                />
+            ));
+
+            assert.equal('That one planet we may someday colonize', wrapper.find('ListBox[controlKey="available"] optgroup').prop('title'));
+            assert.equal('The larger one', wrapper.find('ListBox[controlKey="available"] option').at(0).prop('title'));
+            assert.equal(undefined, wrapper.find('ListBox[controlKey="available"] option').at(1).prop('title'));
+        });
     });
 
     describe('props.preserveSelectOrder', () => {

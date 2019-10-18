@@ -79,9 +79,9 @@ $rdl-line-height: 1.42857 !default;
 
 .rdl-actions {
   display: flex;
+  margin: 0 10px;
   flex: 0 0 auto;
   flex-direction: column;
-  margin: 0 10px;
 
   .rdl-has-header & {
     padding-top: 31px;
@@ -163,8 +163,8 @@ $rdl-line-height: 1.42857 !default;
 
   .rdl-actions-left,
   .rdl-actions-right {
-    flex-direction: row;
     margin: 0;
+    flex-direction: row;
   }
 
   .rdl-move {

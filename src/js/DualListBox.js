@@ -54,6 +54,7 @@ class DualListBox extends React.Component {
         available: valueShape,
         availableRef: PropTypes.func,
         canFilter: PropTypes.bool,
+        className: PropTypes.string,
         disabled: PropTypes.bool,
         filter: PropTypes.shape({
             available: PropTypes.string.isRequired,
@@ -82,6 +83,7 @@ class DualListBox extends React.Component {
         available: undefined,
         availableRef: null,
         canFilter: false,
+        className: undefined,
         disabled: false,
         filter: null,
         filterPlaceholder: 'Search...',
@@ -710,6 +712,7 @@ class DualListBox extends React.Component {
             alignActions,
             availableRef,
             canFilter,
+            className,
             disabled,
             icons,
             lang,
@@ -747,7 +750,7 @@ class DualListBox extends React.Component {
                 {makeAction('left', true)}
             </div>
         );
-        const className = classNames({
+        const classes = classNames(className, {
             'react-dual-listbox': true,
             'rdl-has-filter': canFilter,
             'rdl-has-header': showHeaderLabels,
@@ -756,7 +759,7 @@ class DualListBox extends React.Component {
         const value = this.getFlatOptions(selected).join(',');
 
         return (
-            <div className={className} id={id}>
+            <div className={classes} id={id}>
                 {this.renderListBox('available', availableOptions, availableRef, actionsRight)}
                 {alignActions === ALIGNMENTS.MIDDLE ? (
                     <div className="rdl-actions">

@@ -1,47 +1,47 @@
-import classNames from "classnames";
-import escapeRegExp from "lodash/escapeRegExp";
-import nanoid from "nanoid";
-import PropTypes from "prop-types";
-import React from "react";
+import classNames from 'classnames';
+import escapeRegExp from 'lodash/escapeRegExp';
+import nanoid from 'nanoid';
+import PropTypes from 'prop-types';
+import React from 'react';
 
-import Action from "./Action";
-import ListBox from "./ListBox";
-import defaultLang from "./lang/default";
-import iconsShape from "./shapes/iconsShape";
-import languageShape from "./shapes/languageShape";
-import optionsShape from "./shapes/optionsShape";
-import valueShape from "./shapes/valueShape";
-import arrayFrom from "./util/arrayFrom";
-import indexesOf from "./util/indexesOf";
+import Action from './Action';
+import ListBox from './ListBox';
+import defaultLang from './lang/default';
+import iconsShape from './shapes/iconsShape';
+import languageShape from './shapes/languageShape';
+import optionsShape from './shapes/optionsShape';
+import valueShape from './shapes/valueShape';
+import arrayFrom from './util/arrayFrom';
+import indexesOf from './util/indexesOf';
 
 const KEY_CODES = {
     SPACEBAR: 32,
-    ENTER: 13
+    ENTER: 13,
 };
 const ALIGNMENTS = {
-    MIDDLE: "middle",
-    TOP: "top"
+    MIDDLE: 'middle',
+    TOP: 'top',
 };
 const defaultFilter = (option, filterInput) => {
-    if (filterInput === "") {
+    if (filterInput === '') {
         return true;
     }
 
-    return new RegExp(escapeRegExp(filterInput), "i").test(option.label);
+    return (new RegExp(escapeRegExp(filterInput), 'i')).test(option.label);
 };
 const defaultIcons = {
     moveLeft: <span className="fa fa-chevron-left" />,
     moveAllLeft: [
         <span key={0} className="fa fa-chevron-left" />,
-        <span key={1} className="fa fa-chevron-left" />
+        <span key={1} className="fa fa-chevron-left" />,
     ],
     moveRight: <span className="fa fa-chevron-right" />,
     moveAllRight: [
         <span key={0} className="fa fa-chevron-right" />,
-        <span key={1} className="fa fa-chevron-right" />
+        <span key={1} className="fa fa-chevron-right" />,
     ],
     moveDown: <span className="fa fa-chevron-down" />,
-    moveUp: <span className="fa fa-chevron-up" />
+    moveUp: <span className="fa fa-chevron-up" />,
 };
 
 class DualListBox extends React.Component {
@@ -57,7 +57,7 @@ class DualListBox extends React.Component {
         disabled: PropTypes.bool,
         filter: PropTypes.shape({
             available: PropTypes.string.isRequired,
-            selected: PropTypes.string.isRequired
+            selected: PropTypes.string.isRequired,
         }),
         filterCallback: PropTypes.func,
         filterPlaceholder: PropTypes.string,
@@ -73,7 +73,7 @@ class DualListBox extends React.Component {
         showNoOptionsText: PropTypes.bool,
         showOrderButtons: PropTypes.bool,
         simpleValue: PropTypes.bool,
-        onFilterChange: PropTypes.func
+        onFilterChange: PropTypes.func,
     };
 
     static defaultProps = {
@@ -84,7 +84,7 @@ class DualListBox extends React.Component {
         canFilter: false,
         disabled: false,
         filter: null,
-        filterPlaceholder: "Search...",
+        filterPlaceholder: 'Search...',
         filterCallback: defaultFilter,
         icons: defaultIcons,
         id: null,
@@ -98,7 +98,7 @@ class DualListBox extends React.Component {
         showHeaderLabels: false,
         showNoOptionsText: false,
         showOrderButtons: false,
-        onFilterChange: null
+        onFilterChange: null,
     };
 
     /**
@@ -110,13 +110,11 @@ class DualListBox extends React.Component {
         super(props);
 
         this.state = {
-            filter: props.filter
-                ? props.filter
-                : {
-                      available: "",
-                      selected: ""
-                  },
-            id: props.id || `rdl-${nanoid()}`
+            filter: props.filter ? props.filter : {
+                available: '',
+                selected: '',
+            },
+            id: props.id || `rdl-${nanoid()}`,
         };
 
         this.onActionClick = this.onActionClick.bind(this);
@@ -159,7 +157,7 @@ class DualListBox extends React.Component {
         } else {
             const complexSelected = [];
 
-            options.forEach(option => {
+            options.forEach((option) => {
                 if (option.value) {
                     // Reconstruct selected single-level options
                     if (selected.indexOf(option.value) > -1) {
@@ -168,7 +166,7 @@ class DualListBox extends React.Component {
                 } else {
                     // Reconstruct optgroup options with those children selected
                     const subSelected = [];
-                    option.options.forEach(subOption => {
+                    option.options.forEach((subOption) => {
                         if (selected.indexOf(subOption.value) > -1) {
                             subSelected.push(subOption);
                         }
@@ -177,7 +175,7 @@ class DualListBox extends React.Component {
                     if (subSelected.length > 0) {
                         complexSelected.push({
                             label: option.label,
-                            options: subSelected
+                            options: subSelected,
                         });
                     }
                 }
@@ -195,24 +193,19 @@ class DualListBox extends React.Component {
      */
     onActionClick({ direction, isMoveAll }) {
         const { options } = this.props;
-        const directionIsRight = direction === "right";
+        const directionIsRight = direction === 'right';
         const sourceListBox = directionIsRight ? this.available : this.selected;
 
         let selected = [];
 
-        if (["up", "down"].indexOf(direction) > -1) {
-            selected = this.rearrangeSelected(
-                this.getSelectedOptions(sourceListBox),
-                direction
-            );
+        if (['up', 'down'].indexOf(direction) > -1) {
+            selected = this.rearrangeSelected(this.getSelectedOptions(sourceListBox), direction);
         } else if (isMoveAll) {
-            selected = directionIsRight
-                ? this.makeOptionsSelected(options)
-                : [];
+            selected = directionIsRight ? this.makeOptionsSelected(options) : [];
         } else {
             selected = this.toggleSelected(
                 this.getSelectedOptions(sourceListBox),
-                directionIsRight ? "available" : "selected"
+                directionIsRight ? 'available' : 'selected',
             );
         }
 
@@ -245,7 +238,7 @@ class DualListBox extends React.Component {
         if (moveKeyCodes.indexOf(keyCode) > -1) {
             const selected = this.toggleSelected(
                 this.getSelectedOptions(currentTarget),
-                controlKey
+                controlKey,
             );
 
             this.onChange(selected);
@@ -263,7 +256,7 @@ class DualListBox extends React.Component {
 
         const newFilter = {
             ...filter,
-            [event.target.dataset.key]: event.target.value
+            [event.target.dataset.key]: event.target.value,
         };
 
         if (onFilterChange) {
@@ -286,13 +279,13 @@ class DualListBox extends React.Component {
         }
 
         const flattened = [];
-        options.forEach(option => {
+        options.forEach((option) => {
             if (option.value) {
                 // Flatten single-level options
                 flattened.push(option.value);
             } else {
                 // Flatten optgroup options
-                option.options.forEach(subOption => {
+                option.options.forEach((subOption) => {
                     flattened.push(subOption.value);
                 });
             }
@@ -311,7 +304,7 @@ class DualListBox extends React.Component {
     getLabelMap(options) {
         let labelMap = {};
 
-        options.forEach(option => {
+        options.forEach((option) => {
             if (option.options !== undefined) {
                 labelMap = { ...labelMap, ...this.getLabelMap(option.options) };
             } else {
@@ -338,7 +331,7 @@ class DualListBox extends React.Component {
             .filter(option => option.selected)
             .map(option => ({
                 index: parseInt(option.dataset.index, 10),
-                value: JSON.parse(option.dataset.realValue)
+                value: JSON.parse(option.dataset.realValue),
             }));
     }
 
@@ -354,43 +347,39 @@ class DualListBox extends React.Component {
         const { selected } = this.props;
 
         // Return a function to swap positions of the given indexes in an ordering
-        const swap = (index1, index2) => options => {
-            const newOptions = [...options];
+        const swap = (index1, index2) => (
+            (options) => {
+                const newOptions = [...options];
 
-            [newOptions[index1], newOptions[index2]] = [
-                newOptions[index2],
-                newOptions[index1]
-            ];
+                [newOptions[index1], newOptions[index2]] = [
+                    newOptions[index2],
+                    newOptions[index1],
+                ];
 
-            return newOptions;
-        };
+                return newOptions;
+            }
+        );
         let newOrder = [...selected];
 
         if (markedOptions.length === 0) {
             return newOrder;
         }
 
-        if (direction === "up") {
+        if (direction === 'up') {
             // If all of the marked options are already as high as they can get, ignore the
             // re-arrangement request because they will end of swapping their order amongst
             // themselves.
-            if (
-                markedOptions[markedOptions.length - 1].index >
-                markedOptions.length - 1
-            ) {
+            if (markedOptions[markedOptions.length - 1].index > markedOptions.length - 1) {
                 markedOptions.forEach(({ index }) => {
                     if (index > 0) {
                         newOrder = swap(index, index - 1)(newOrder);
                     }
                 });
             }
-        } else if (direction === "down") {
+        } else if (direction === 'down') {
             // Similar to the above, if all of the marked options are already as low as they can
             // get, ignore the re-arrangement request.
-            if (
-                markedOptions[0].index <
-                selected.length - markedOptions.length
-            ) {
+            if (markedOptions[0].index < selected.length - markedOptions.length) {
                 markedOptions.reverse().forEach(({ index }) => {
                     if (index < selected.length - 1) {
                         newOrder = swap(index, index + 1)(newOrder);
@@ -415,7 +404,7 @@ class DualListBox extends React.Component {
 
         return [
             ...this.getFlatOptions(previousSelected),
-            ...this.makeOptionsSelectedRecursive(availableOptions)
+            ...this.makeOptionsSelectedRecursive(availableOptions),
         ];
     }
 
@@ -429,11 +418,11 @@ class DualListBox extends React.Component {
     makeOptionsSelectedRecursive(options) {
         let newSelected = [];
 
-        options.forEach(option => {
+        options.forEach((option) => {
             if (option.options !== undefined) {
                 newSelected = [
                     ...newSelected,
-                    ...this.makeOptionsSelectedRecursive(option.options)
+                    ...this.makeOptionsSelectedRecursive(option.options),
                 ];
             } else {
                 newSelected.push(option.value);
@@ -460,10 +449,7 @@ class DualListBox extends React.Component {
         toggleItems.forEach(({ value, index }) => {
             const inSelectedOptions = selectedItems.indexOf(value) > -1;
 
-            if (
-                inSelectedOptions &&
-                (!allowDuplicates || controlKey === "selected")
-            ) {
+            if (inSelectedOptions && (!allowDuplicates || controlKey === 'selected')) {
                 // Toggled items that were previously selected are removed unless `allowDuplicates`
                 // is set to true or the option was sourced from the selected ListBox. We use an
                 // object mapping such that we can remove the exact index of the selected items
@@ -475,7 +461,7 @@ class DualListBox extends React.Component {
         });
 
         // Convert object mapping back to an array
-        if (controlKey === "selected") {
+        if (controlKey === 'selected') {
             return Object.keys(toggleItemsMap).map(key => toggleItemsMap[key]);
         }
 
@@ -495,19 +481,15 @@ class DualListBox extends React.Component {
         const { canFilter, filterCallback } = this.props;
         const filtered = [];
 
-        options.forEach(option => {
+        options.forEach((option) => {
             if (option.options !== undefined) {
                 // Recursively filter any children of parent optgroups
-                const children = this.filterOptions(
-                    option.options,
-                    filterer,
-                    filterInput
-                );
+                const children = this.filterOptions(option.options, filterer, filterInput);
 
                 if (children.length > 0) {
                     filtered.push({
                         label: option.label,
-                        options: children
+                        options: children,
                     });
                 }
             } else {
@@ -521,10 +503,10 @@ class DualListBox extends React.Component {
                     // This index is particularly relevant for duplicate selections, as we want to
                     // preserve the removal order properly when `preserveSelectOrder` is set to
                     // true, rather than simply removing the first value encountered.
-                    filterResult.forEach(index => {
+                    filterResult.forEach((index) => {
                         subFiltered.push({
                             ...option,
-                            selectedIndex: index
+                            selectedIndex: index,
                         });
                     });
                 } else if (filterResult) {
@@ -540,7 +522,7 @@ class DualListBox extends React.Component {
                         return;
                     }
 
-                    subFiltered.forEach(subItem => {
+                    subFiltered.forEach((subItem) => {
                         filtered.push(subItem);
                     });
                 }
@@ -559,22 +541,20 @@ class DualListBox extends React.Component {
      */
     filterAvailable(options) {
         const { allowDuplicates, available, selected } = this.props;
-        const {
-            filter: { available: availableFilter }
-        } = this.state;
+        const { filter: { available: availableFilter } } = this.state;
 
         // The default is to only show available options when they are not selected
-        let filterer = option =>
-            this.getFlatOptions(selected).indexOf(option.value) < 0;
+        let filterer = option => this.getFlatOptions(selected).indexOf(option.value) < 0;
 
         if (allowDuplicates) {
             // If we allow duplicates, all options will always be available
             filterer = () => true;
         } else if (available !== undefined) {
             // If the caller is restricting the available options, combine that with the default
-            filterer = option =>
+            filterer = option => (
                 this.getFlatOptions(available).indexOf(option.value) >= 0 &&
-                this.getFlatOptions(selected).indexOf(option.value) < 0;
+                this.getFlatOptions(selected).indexOf(option.value) < 0
+            );
         }
 
         return this.filterOptions(options, filterer, availableFilter);
@@ -589,9 +569,7 @@ class DualListBox extends React.Component {
      */
     filterSelected(options) {
         const { preserveSelectOrder, selected } = this.props;
-        const {
-            filter: { selected: selectedFilter }
-        } = this.state;
+        const { filter: { selected: selectedFilter } } = this.state;
 
         if (preserveSelectOrder) {
             return this.filterSelectedByOrder(options);
@@ -601,7 +579,7 @@ class DualListBox extends React.Component {
         return this.filterOptions(
             options,
             option => indexesOf(this.getFlatOptions(selected), option.value),
-            selectedFilter
+            selectedFilter,
         );
     }
 
@@ -614,28 +592,22 @@ class DualListBox extends React.Component {
      */
     filterSelectedByOrder(options) {
         const { canFilter, filterCallback, selected } = this.props;
-        const {
-            filter: { selected: selectedFilter }
-        } = this.state;
+        const { filter: { selected: selectedFilter } } = this.state;
         const labelMap = this.getLabelMap(options);
 
-        const selectedOptions = this.getFlatOptions(selected).map(
-            (value, index) => ({
-                value,
-                label: labelMap[value],
-                selectedIndex: index
-            })
-        );
+        const selectedOptions = this.getFlatOptions(selected).map((value, index) => ({
+            value,
+            label: labelMap[value],
+            selectedIndex: index,
+        }));
 
         if (canFilter) {
-            return selectedOptions
-                .filter(selectedOption =>
-                    filterCallback(selectedOption, selectedFilter)
-                )
-                .map((option, index) => ({
-                    ...option,
-                    selectedIndex: index
-                }));
+            return selectedOptions.filter(
+                selectedOption => filterCallback(selectedOption, selectedFilter),
+            ).map((option, index) => ({
+                ...option,
+                selectedIndex: index,
+            }));
         }
 
         return selectedOptions;
@@ -655,11 +627,7 @@ class DualListBox extends React.Component {
 
             if (option.options !== undefined) {
                 return (
-                    <optgroup
-                        key={key}
-                        id={`${id}-optgroup-${option.label}`}
-                        label={option.label}
-                    >
+                    <optgroup key={key} id={`${id}-optgroup-${option.label}`} label={option.label}>
                         {this.renderOptions(option.options)}
                     </optgroup>
                 );
@@ -667,9 +635,7 @@ class DualListBox extends React.Component {
 
             // If duplicates are allow, append the index to keep each entry unique such that the
             // controlled component can easily update its state.
-            const value = !allowDuplicates
-                ? option.value
-                : `${option.value}-${index}`;
+            const value = !allowDuplicates ? option.value : `${option.value}-${index}`;
 
             return (
                 <option
@@ -678,7 +644,7 @@ class DualListBox extends React.Component {
                     data-real-value={JSON.stringify(option.value)}
                     id={`${id}-option-${option.value}`}
                     value={value}
-                    title={option.label}
+					title={option.label}
                 >
                     {option.label}
                 </option>
@@ -702,12 +668,12 @@ class DualListBox extends React.Component {
             filterPlaceholder,
             lang,
             showHeaderLabels,
-            showNoOptionsText
+            showNoOptionsText,
         } = this.props;
         const { filter, id } = this.state;
 
         // Wrap event handlers with a controlKey reference
-        const wrapHandler = handler => event => handler(event, controlKey);
+        const wrapHandler = handler => (event => handler(event, controlKey));
 
         return (
             <ListBox
@@ -718,7 +684,7 @@ class DualListBox extends React.Component {
                 filterPlaceholder={filterPlaceholder}
                 filterValue={filter[controlKey]}
                 id={id}
-                inputRef={c => {
+                inputRef={(c) => {
                     this[controlKey] = c;
 
                     if (ref) {
@@ -754,15 +720,11 @@ class DualListBox extends React.Component {
             selected,
             selectedRef,
             showHeaderLabels,
-            showOrderButtons
+            showOrderButtons,
         } = this.props;
         const { id } = this.state;
-        const availableOptions = this.renderOptions(
-            this.filterAvailable(options)
-        );
-        const selectedOptions = this.renderOptions(
-            this.filterSelected(options)
-        );
+        const availableOptions = this.renderOptions(this.filterAvailable(options));
+        const selectedOptions = this.renderOptions(this.filterSelected(options));
         const makeAction = (direction, isMoveAll = false) => (
             <Action
                 direction={direction}
@@ -776,56 +738,41 @@ class DualListBox extends React.Component {
         );
         const actionsRight = (
             <div className="rdl-actions-right">
-                {makeAction("right", true)}
-                {makeAction("right")}
+                {makeAction('right', true)}
+                {makeAction('right')}
             </div>
         );
         const actionsLeft = (
             <div className="rdl-actions-left">
-                {makeAction("left")}
-                {makeAction("left", true)}
+                {makeAction('left')}
+                {makeAction('left', true)}
             </div>
         );
         const className = classNames({
-            "react-dual-listbox": true,
-            "rdl-has-filter": canFilter,
-            "rdl-has-header": showHeaderLabels,
-            "rdl-align-top": alignActions === ALIGNMENTS.TOP
+            'react-dual-listbox': true,
+            'rdl-has-filter': canFilter,
+            'rdl-has-header': showHeaderLabels,
+            'rdl-align-top': alignActions === ALIGNMENTS.TOP,
         });
-        const value = this.getFlatOptions(selected).join(",");
+        const value = this.getFlatOptions(selected).join(',');
 
         return (
             <div className={className} id={id}>
-                {this.renderListBox(
-                    "available",
-                    availableOptions,
-                    availableRef,
-                    actionsRight
-                )}
+                {this.renderListBox('available', availableOptions, availableRef, actionsRight)}
                 {alignActions === ALIGNMENTS.MIDDLE ? (
                     <div className="rdl-actions">
                         {actionsRight}
                         {actionsLeft}
                     </div>
                 ) : null}
-                {this.renderListBox(
-                    "selected",
-                    selectedOptions,
-                    selectedRef,
-                    actionsLeft
-                )}
+                {this.renderListBox('selected', selectedOptions, selectedRef, actionsLeft)}
                 {preserveSelectOrder && showOrderButtons ? (
                     <div className="rdl-actions">
-                        {makeAction("up")}
-                        {makeAction("down")}
+                        {makeAction('up')}
+                        {makeAction('down')}
                     </div>
                 ) : null}
-                <input
-                    disabled={disabled}
-                    name={name}
-                    type="hidden"
-                    value={value}
-                />
+                <input disabled={disabled} name={name} type="hidden" value={value} />
             </div>
         );
     }

@@ -51,8 +51,8 @@ class ListBox extends React.Component {
      */
     onChange(event) {
         const value = arrayFrom(event.target.options)
-            .filter(option => option.selected)
-            .map(option => option.value);
+            .filter((option) => option.selected)
+            .map((option) => option.value);
 
         this.setState({ value });
     }

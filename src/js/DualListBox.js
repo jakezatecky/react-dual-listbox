@@ -328,8 +328,8 @@ class DualListBox extends React.Component {
         }
 
         return arrayFrom(element.options)
-            .filter(option => option.selected)
-            .map(option => ({
+            .filter((option) => option.selected)
+            .map((option) => ({
                 index: parseInt(option.dataset.index, 10),
                 value: JSON.parse(option.dataset.realValue),
             }));
@@ -443,7 +443,7 @@ class DualListBox extends React.Component {
     toggleSelected(toggleItems, controlKey) {
         const { allowDuplicates, selected } = this.props;
         const selectedItems = this.getFlatOptions(selected).slice(0);
-        const toggleItemsMap = Object.assign({}, selectedItems);
+        const toggleItemsMap = { ...selectedItems };
 
         // Add/remove the individual items based on previous state
         toggleItems.forEach(({ value, index }) => {
@@ -462,7 +462,7 @@ class DualListBox extends React.Component {
 
         // Convert object mapping back to an array
         if (controlKey === 'selected') {
-            return Object.keys(toggleItemsMap).map(key => toggleItemsMap[key]);
+            return Object.keys(toggleItemsMap).map((key) => toggleItemsMap[key]);
         }
 
         return selectedItems;
@@ -544,14 +544,14 @@ class DualListBox extends React.Component {
         const { filter: { available: availableFilter } } = this.state;
 
         // The default is to only show available options when they are not selected
-        let filterer = option => this.getFlatOptions(selected).indexOf(option.value) < 0;
+        let filterer = (option) => this.getFlatOptions(selected).indexOf(option.value) < 0;
 
         if (allowDuplicates) {
             // If we allow duplicates, all options will always be available
             filterer = () => true;
         } else if (available !== undefined) {
             // If the caller is restricting the available options, combine that with the default
-            filterer = option => (
+            filterer = (option) => (
                 this.getFlatOptions(available).indexOf(option.value) >= 0 &&
                 this.getFlatOptions(selected).indexOf(option.value) < 0
             );
@@ -578,7 +578,7 @@ class DualListBox extends React.Component {
         // Order the selections by the default order
         return this.filterOptions(
             options,
-            option => indexesOf(this.getFlatOptions(selected), option.value),
+            (option) => indexesOf(this.getFlatOptions(selected), option.value),
             selectedFilter,
         );
     }
@@ -603,7 +603,7 @@ class DualListBox extends React.Component {
 
         if (canFilter) {
             return selectedOptions.filter(
-                selectedOption => filterCallback(selectedOption, selectedFilter),
+                (selectedOption) => filterCallback(selectedOption, selectedFilter),
             ).map((option, index) => ({
                 ...option,
                 selectedIndex: index,
@@ -672,7 +672,7 @@ class DualListBox extends React.Component {
         const { filter, id } = this.state;
 
         // Wrap event handlers with a controlKey reference
-        const wrapHandler = handler => (event => handler(event, controlKey));
+        const wrapHandler = (handler) => ((event) => handler(event, controlKey));
 
         return (
             <ListBox

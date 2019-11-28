@@ -959,6 +959,32 @@ describe('<DualListBox />', () => {
                 }],
             }], actual);
         });
+
+        it('should also impact those values highlighted by the user', () => {
+            let actualSelection = null;
+
+            const wrapper = mount((
+                <DualListBox
+                    options={[
+                        { label: 'Moon', value: 'luna' },
+                        { label: 'Phobos', value: 'phobos' },
+                    ]}
+                    selected={[]}
+                    simpleValue={false}
+                    onChange={(selected, selection) => {
+                        actualSelection = selection;
+                    }}
+                />
+            ));
+
+            wrapper.find('.rdl-available select').simulate('change', simulateChange(['luna', 'phobos']));
+            wrapper.find('.rdl-move-right').not('.rdl-move-all').simulate('click');
+
+            assert.deepEqual([
+                { label: 'Moon', value: 'luna' },
+                { label: 'Phobos', value: 'phobos' },
+            ], actualSelection);
+        });
     });
 
     describe('props.onChange', () => {
@@ -1025,6 +1051,31 @@ describe('<DualListBox />', () => {
             wrapper.find('.rdl-available select').simulate('dblclick');
 
             assert.deepEqual(['one', 2], actual);
+        });
+
+        it('should pass all the options the user highlighted before the change', () => {
+            let actualSelected = null;
+            let actualSelection = null;
+
+            const wrapper = mount((
+                <DualListBox
+                    options={[
+                        { label: 'Moon', value: 'luna' },
+                        { label: 'Phobos', value: 'phobos' },
+                    ]}
+                    selected={['luna', 'phobos']}
+                    onChange={(selected, selection) => {
+                        actualSelected = selected;
+                        actualSelection = selection;
+                    }}
+                />
+            ));
+
+            wrapper.find('.rdl-selected select').simulate('change', simulateChange(['luna', 'phobos']));
+            wrapper.find('.rdl-move-left').not('.rdl-move-all').simulate('click');
+
+            assert.deepEqual([], actualSelected);
+            assert.deepEqual(['luna', 'phobos'], actualSelection);
         });
     });
 

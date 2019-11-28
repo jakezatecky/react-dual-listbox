@@ -272,12 +272,29 @@ By default, **react-dual-listbox** uses Font Awesome for the various icons that 
 />
 ```
 
+### Extract Changed Values
+
+At times it may be useful to know _which_ options the user highlighted when the selected values change. In this case, the second parameter of the `onChange` handler may be used:
+
+``` jsx
+class Widget extends React.Component {
+    ...
+
+    onChange = (selected, selection) => {
+        console.log('The user highlighted these options', selection);
+        this.setState({ selected });
+    };
+    
+    ...
+}
+```
+
 ### All Properties
 
 | Property              | Type     | Description                                                                                                             | Default         |
 | --------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------- | --------------- |
 | `options`             | array    | **Required**. Specifies the list of options that may exist on either side of the dual list box.                         |                 |
-| `onChange`            | function | **Required**. The onChange handler called when an option is moved to either side: `function(selected) {}`.              |                 |
+| `onChange`            | function | **Required**. The handler called when options are moved to either side: `function(selected) {}`.                        |                 |
 | `alignActions`        | string   | A value specifying whether to align the action buttons to the `'top'` or `'middle'`.                                    | `middle`        |
 | `allowDuplicates`     | bool     | If true, duplicate options will be allowed in the selected list box.                                                    | `false`         |
 | `available`           | array    | A subset of the `options` array to optionally filter the available list box.                                            | `undefined`     |

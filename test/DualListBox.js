@@ -9,7 +9,7 @@ const testId = 'test-id';
 function simulateChange(values) {
     return {
         target: {
-            options: values.map(value => ({ value, selected: true })),
+            options: values.map((value) => ({ value, selected: true })),
         },
     };
 }

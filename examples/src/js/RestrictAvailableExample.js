@@ -50,7 +50,7 @@ class RestrictAvailableExample extends React.Component {
     renderPlanets() {
         const { planet: selectedPlanet } = this.state;
 
-        return Object.keys(planets).map(planet => (
+        return Object.keys(planets).map((planet) => (
             <label key={planet} htmlFor={planet}>
                 <input
                     checked={planet === selectedPlanet}

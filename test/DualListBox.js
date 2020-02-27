@@ -92,6 +92,7 @@ describe('<DualListBox />', () => {
             assert.deepEqual(['luna', 'phobos', 'phobos'], actual);
         });
 
+        // https://github.com/jakezatecky/react-dual-listbox/issues/103
         it('should work when simpleValue={false}', () => {
             let actual = null;
 

@@ -286,10 +286,10 @@ class DualListBox extends React.Component {
 
         const flattened = [];
         options.forEach((option) => {
-            if (option.value) {
+            if (option.value !== undefined) {
                 // Flatten single-level options
                 flattened.push(option.value);
-            } else {
+            } else if (option.options !== undefined) {
                 // Flatten optgroup options
                 option.options.forEach((subOption) => {
                     flattened.push(subOption.value);

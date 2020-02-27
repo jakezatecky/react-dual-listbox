@@ -166,16 +166,20 @@ class DualListBox extends React.Component {
                 Object.keys({ selected, userSelection }).forEach((key) => {
                     if (option.value) {
                         // Reconstruct selected single-level options
-                        if (selected.indexOf(option.value) > -1) {
-                            complexValues[key].push(option);
-                        }
+                        selected.forEach((selectedValue) => {
+                            if (option.value === selectedValue) {
+                                complexValues[key].push(option);
+                            }
+                        });
                     } else {
                         // Reconstruct optgroup options with those children selected
                         const subSelected = [];
                         option.options.forEach((subOption) => {
-                            if (selected.indexOf(subOption.value) > -1) {
-                                subSelected.push(subOption);
-                            }
+                            selected.forEach((selectedValue) => {
+                                if (subOption.value === selectedValue) {
+                                    subSelected.push(subOption);
+                                }
+                            });
                         });
 
                         if (subSelected.length > 0) {

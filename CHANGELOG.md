@@ -8,6 +8,10 @@
 * [#87]: Add `title` support for elements in the `options` property 
 * [#90]: Add `selection` argument to the `onChange` handler to track highlighted values
 
+### Bug Fixes
+
+* [#103]: Fix issue where `allowDuplicates` would fail to add extra items when `simpleValue={false}`
+
 ## [v2.0.0](https://github.com/jakezatecky/react-dual-listbox/compare/v1.4.2...v2.0.0) (2019-05-14)
 
 ### New Features

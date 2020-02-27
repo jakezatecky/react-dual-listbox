@@ -92,6 +92,33 @@ describe('<DualListBox />', () => {
             assert.deepEqual(['luna', 'phobos', 'phobos'], actual);
         });
 
+        it('should work when simpleValue={false}', () => {
+            let actual = null;
+
+            const wrapper = mount((
+                <DualListBox
+                    allowDuplicates
+                    options={[
+                        { label: 'Moon', value: 'luna' },
+                        { label: 'Phobos', value: 'phobos' },
+                    ]}
+                    selected={[{ label: 'Moon', value: 'luna' }]}
+                    simpleValue={false}
+                    onChange={(selected) => {
+                        actual = selected;
+                    }}
+                />
+            ));
+
+            wrapper.find('.rdl-available select').simulate('change', simulateChange(['luna-0']));
+            wrapper.find('.rdl-available select').simulate('dblclick');
+
+            assert.deepEqual([
+                { label: 'Moon', value: 'luna' },
+                { label: 'Moon', value: 'luna' },
+            ], actual);
+        });
+
         it('should NOT allow repeated selections of the same option when set to false', () => {
             let actual = null;
 

@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import escapeRegExp from 'lodash/escapeRegExp';
-import nanoid from 'nanoid';
+import { nanoid } from 'nanoid';
 import PropTypes from 'prop-types';
 import React from 'react';
 

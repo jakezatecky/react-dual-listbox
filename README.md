@@ -298,7 +298,7 @@ class Widget extends React.Component {
 | `alignActions`        | string   | A value specifying whether to align the action buttons to the `'top'` or `'middle'`.                                    | `middle`        |
 | `allowDuplicates`     | bool     | If true, duplicate options will be allowed in the selected list box.                                                    | `false`         |
 | `available`           | array    | A subset of the `options` array to optionally filter the available list box.                                            | `undefined`     |
-| `availableRef`        | function | A React [ref] to the "available" list box.                                                                              | `null`          |
+| `availableRef`        | function | A React function [ref] to the "available" list box.                                                                     | `null`          |
 | `canFilter`           | bool     | If true, search boxes will appear above both list boxes, allowing the user to filter the results.                       | `false`         |
 | `disabled`            | bool     | If true, both "available" and "selected" list boxes will be disabled.                                                   | `false`         |
 | `filterCallback`      | function | The filter function to run on a given option and input string: `function(option, filterInput) {}`. See **Filtering**.   | `() => { ... }` |
@@ -310,7 +310,7 @@ class Widget extends React.Component {
 | `name`                | string   | A value for the `name` attribute on the hidden `<input />` element. This is potentially useful for form submissions.    | `null`          |
 | `preserveSelectOrder` | bool     | If true, the order in which the available options are selected are preserved when the items are moved to the right.     | `false`         |
 | `selected`            | array    | A list of the selected options appearing in the rightmost list box.                                                     | `[]`            |
-| `selectedRef`         | function | A React [ref] to the "selected" list box.                                                                               | `null`          |
+| `selectedRef`         | function | A React function [ref] to the "selected" list box.                                                                      | `null`          |
 | `simpleValue`         | bool     | If true, the `selected` value passed in `onChange` is an array of string values. Otherwise, it is an array of options.  | `true`          |
 | `showHeaderLabels`    | bool     | If true, labels above both the available and selected list boxes will appear. These labels are derived from `1ang`.     | `false`         |
 | `showNoOptionsText`   | bool     | If true, text will appear in place of the available/selected list boxes when no options are present.                    | `false`         |

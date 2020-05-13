@@ -199,6 +199,28 @@ describe('<DualListBox />', () => {
                 <option value="phobos">Phobos</option>
             )));
         });
+
+        // https://github.com/jakezatecky/react-dual-listbox/issues/110
+        it('should apply even if we allow duplicates', () => {
+            const wrapper = shallow((
+                <DualListBox
+                    allowDuplicates
+                    available={['luna']}
+                    options={[
+                        { label: 'Moon', value: 'luna' },
+                        { label: 'Phobos', value: 'phobos' },
+                    ]}
+                    onChange={() => {}}
+                />
+            ));
+
+            assert.isTrue(wrapper.find('ListBox').at(0).containsMatchingElement((
+                <option value="luna-0">Moon</option>
+            )));
+            assert.isFalse(wrapper.find('ListBox').at(0).containsMatchingElement((
+                <option value="phobos-1">Phobos</option>
+            )));
+        });
     });
 
     describe('props.canFilter', () => {

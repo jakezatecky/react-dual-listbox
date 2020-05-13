@@ -553,19 +553,23 @@ class DualListBox extends React.Component {
         const { allowDuplicates, available, selected } = this.props;
         const { filter: { available: availableFilter } } = this.state;
 
-        // The default is to only show available options when they are not selected
-        let filterer = (option) => this.getFlatOptions(selected).indexOf(option.value) < 0;
+        const filters = [];
 
-        if (allowDuplicates) {
-            // If we allow duplicates, all options will always be available
-            filterer = () => true;
-        } else if (available !== undefined) {
-            // If the caller is restricting the available options, combine that with the default
-            filterer = (option) => (
-                this.getFlatOptions(available).indexOf(option.value) >= 0 &&
-                this.getFlatOptions(selected).indexOf(option.value) < 0
-            );
+        // Apply user-defined available restrictions, if any
+        if (available !== undefined) {
+            filters.push((option) => this.getFlatOptions(available).indexOf(option.value) >= 0);
         }
+
+        // If duplicates are not allowed, filter out selected options
+        if (!allowDuplicates) {
+            filters.push((option) => this.getFlatOptions(selected).indexOf(option.value) < 0);
+        }
+
+        // Apply each filter function on the option
+        const filterer = (option) => filters.reduce(
+            (previousValue, filter) => previousValue && filter(option),
+            true,
+        );
 
         return this.filterOptions(options, filterer, availableFilter);
     }

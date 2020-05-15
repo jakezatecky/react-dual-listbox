@@ -7,6 +7,7 @@
 * [#80]: Add `disabled` support for elements in the `options` property
 * [#87]: Add `title` support for elements in the `options` property 
 * [#90]: Add `selection` argument to the `onChange` handler to track highlighted values
+* [#104]: Add `className` property to allow specification of a custom class on the root node
 
 ### Bug Fixes
 

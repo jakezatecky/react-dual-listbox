@@ -264,6 +264,31 @@ describe('<DualListBox />', () => {
         });
     });
 
+    describe('props.className', () => {
+        it('should apply the class to the root node if set', () => {
+            const wrapper = shallow((
+                <DualListBox
+                    className="my-class"
+                    options={[{ label: 'Phobos', value: 'phobos' }]}
+                    onChange={() => {}}
+                />
+            ));
+
+            assert.isTrue(wrapper.find('.react-dual-listbox').hasClass('my-class'));
+        });
+
+        it('should not change the root classes if empty', () => {
+            const wrapper = shallow((
+                <DualListBox
+                    options={[{ label: 'Phobos', value: 'phobos' }]}
+                    onChange={() => {}}
+                />
+            ));
+
+            assert.deepEqual('react-dual-listbox', wrapper.find('.react-dual-listbox').prop('className'));
+        });
+    });
+
     describe('props.disabled', () => {
         it('should assign the disabled property to all inputs, selects, and buttons when true', () => {
             const wrapper = shallow((

@@ -54,6 +54,7 @@ class DualListBox extends React.Component {
         available: valueShape,
         availableRef: PropTypes.func,
         canFilter: PropTypes.bool,
+        className: PropTypes.string,
         disabled: PropTypes.bool,
         filter: PropTypes.shape({
             available: PropTypes.string.isRequired,
@@ -82,6 +83,7 @@ class DualListBox extends React.Component {
         available: undefined,
         availableRef: null,
         canFilter: false,
+        className: null,
         disabled: false,
         filter: null,
         filterPlaceholder: 'Search...',
@@ -208,7 +210,7 @@ class DualListBox extends React.Component {
         const sourceListBox = directionIsRight ? this.available : this.selected;
         const selection = this.getSelectedOptions(sourceListBox);
 
-        let selected = [];
+        let selected;
 
         if (['up', 'down'].indexOf(direction) > -1) {
             selected = this.rearrangeSelected(selection, direction);
@@ -732,6 +734,7 @@ class DualListBox extends React.Component {
             alignActions,
             availableRef,
             canFilter,
+            className,
             disabled,
             icons,
             lang,
@@ -769,16 +772,17 @@ class DualListBox extends React.Component {
                 {makeAction('left', true)}
             </div>
         );
-        const className = classNames({
+        const rootClassName = classNames({
             'react-dual-listbox': true,
             'rdl-has-filter': canFilter,
             'rdl-has-header': showHeaderLabels,
             'rdl-align-top': alignActions === ALIGNMENTS.TOP,
+            ...(className && { [className]: true }),
         });
         const value = this.getFlatOptions(selected).join(',');
 
         return (
-            <div className={className} id={id}>
+            <div className={rootClassName} id={id}>
                 {this.renderListBox('available', availableOptions, availableRef, actionsRight)}
                 {alignActions === ALIGNMENTS.MIDDLE ? (
                     <div className="rdl-actions">

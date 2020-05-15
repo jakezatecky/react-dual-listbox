@@ -300,6 +300,7 @@ class Widget extends React.Component {
 | `available`           | array    | A subset of the `options` array to optionally filter the available list box.                                            | `undefined`     |
 | `availableRef`        | function | A React function [ref] to the "available" list box.                                                                     | `null`          |
 | `canFilter`           | bool     | If true, search boxes will appear above both list boxes, allowing the user to filter the results.                       | `false`         |
+| `className`           | string   | An optional `className` to apply to the root node.                                                                      | `null`          |
 | `disabled`            | bool     | If true, both "available" and "selected" list boxes will be disabled.                                                   | `false`         |
 | `filterCallback`      | function | The filter function to run on a given option and input string: `function(option, filterInput) {}`. See **Filtering**.   | `() => { ... }` |
 | `filterPlaceholder`   | string   | The text placeholder used when the filter search boxes are empty.                                                       | `"Search..."`   |

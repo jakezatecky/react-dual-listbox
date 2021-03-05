@@ -7,7 +7,7 @@ export default PropTypes.arrayOf(
         PropTypes.string,
         optionShape,
         PropTypes.shape({
-            value: PropTypes.any,
+            value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
             options: PropTypes.arrayOf(optionShape),
         }),
     ]),

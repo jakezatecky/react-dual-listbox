@@ -3,14 +3,17 @@
 @rdl-input-border: #ccc;
 @rdl-input-color: #333;
 @rdl-btn-bg: @rdl-input-bg;
+@rdl-btn-bg-active: darken(@rdl-btn-bg, 10%);
 @rdl-btn-border: @rdl-input-border;
+@rdl-btn-border-active: darken(@rdl-btn-border, 25%);
+@rdl-btn-border-hover: darken(@rdl-btn-border, 12%);
 @rdl-btn-color: #333;
 @rdl-line-height: 1.42857;
 
 .react-dual-listbox {
+  box-sizing: border-box;
   display: flex;
   align-items: center;
-  box-sizing: border-box;
 
   * {
     box-sizing: border-box;
@@ -118,8 +121,8 @@
 
   &:active:not(:disabled),
   &:focus:not(:disabled) {
-    border-color: darken(@rdl-btn-border, 25%);
-    background: darken(@rdl-btn-bg, 10%);
+    border-color: @rdl-btn-border-active;
+    background: @rdl-btn-bg-active;
   }
 
   &:focus:not(:disabled) {
@@ -128,8 +131,8 @@
   }
 
   &:hover:not(:disabled) {
-    border-color: darken(@rdl-btn-border, 12%);
-    background: darken(@rdl-btn-bg, 10%);
+    border-color: @rdl-btn-border-hover;
+    background: @rdl-btn-bg-active;
   }
 
   &:disabled {

@@ -6,7 +6,7 @@ export default PropTypes.arrayOf(
     PropTypes.oneOfType([
         optionShape,
         PropTypes.shape({
-            label: PropTypes.any.isRequired,
+            label: PropTypes.node.isRequired,
             options: PropTypes.arrayOf(optionShape).isRequired,
 
             // Optional properties

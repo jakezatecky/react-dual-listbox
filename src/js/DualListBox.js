@@ -40,6 +40,8 @@ const defaultIcons = {
         <span key={0} className="fa fa-chevron-right" />,
         <span key={1} className="fa fa-chevron-right" />,
     ],
+    moveTop: <span className="fa fa-angle-double-up" />,
+    moveBottom: <span className="fa fa-angle-double-down" />,
     moveDown: <span className="fa fa-chevron-down" />,
     moveUp: <span className="fa fa-chevron-up" />,
 };
@@ -70,6 +72,7 @@ class DualListBox extends React.Component {
         selected: valueShape,
         selectedRef: PropTypes.func,
         showHeaderLabels: PropTypes.bool,
+        showMoveToTopAndBottomButtons: PropTypes.bool,
         showNoOptionsText: PropTypes.bool,
         showOrderButtons: PropTypes.bool,
         simpleValue: PropTypes.bool,
@@ -96,6 +99,7 @@ class DualListBox extends React.Component {
         selectedRef: null,
         simpleValue: true,
         showHeaderLabels: false,
+        showMoveToTopAndBottomButtons: false,
         showNoOptionsText: false,
         showOrderButtons: false,
         onFilterChange: null,
@@ -202,6 +206,16 @@ class DualListBox extends React.Component {
             selected = this.rearrangeSelected(this.getSelectedOptions(sourceListBox), direction);
         } else if (isMoveAll) {
             selected = directionIsRight ? this.makeOptionsSelected(options) : [];
+        } else if (direction === "top") {
+            selected = this.moveToExtremes(
+                this.getSelectedOptions(sourceListBox),
+                "top"
+            );
+        } else if (direction === "bottom") {
+            selected = this.moveToExtremes(
+                this.getSelectedOptions(sourceListBox),
+                "bottom"
+            );
         } else {
             selected = this.toggleSelected(
                 this.getSelectedOptions(sourceListBox),
@@ -389,6 +403,34 @@ class DualListBox extends React.Component {
         }
 
         return newOrder;
+    }
+
+    /**
+     * Move the marked options to the top or bottom
+     * of the selected options.
+     *
+     * @param {Array} markedOptions
+     * @param {string} direction "top" | "bottom"
+     *
+     * @returns {Array}
+     */
+    moveToExtremes(markedOptions, direction) {
+        const { selected } = this.props;
+        let unmarked = [...selected];
+        markedOptions.forEach(({ index }) => {
+            unmarked[index] = null;
+        });
+        unmarked = unmarked.filter((v) => {
+            return v !== null;
+        });
+        const marked = markedOptions.map(({ index }) => {
+            return selected[index];
+        });
+        if (direction === "top") {
+            return [...marked, ...unmarked];
+        } else if (direction === "bottom") {
+            return [...unmarked, ...marked];
+        }
     }
 
     /**
@@ -719,6 +761,7 @@ class DualListBox extends React.Component {
             selected,
             selectedRef,
             showHeaderLabels,
+            showMoveToTopAndBottomButtons,
             showOrderButtons,
         } = this.props;
         const { id } = this.state;
@@ -767,8 +810,14 @@ class DualListBox extends React.Component {
                 {this.renderListBox('selected', selectedOptions, selectedRef, actionsLeft)}
                 {preserveSelectOrder && showOrderButtons ? (
                     <div className="rdl-actions">
+                       {showMoveToTopAndBottomButtons
+                           ? makeAction("top")
+                           : null}
                         {makeAction('up')}
                         {makeAction('down')}
+                        {showMoveToTopAndBottomButtons
+                            ? makeAction("bottom")
+                            : null}
                     </div>
                 ) : null}
                 <input disabled={disabled} name={name} type="hidden" value={value} />

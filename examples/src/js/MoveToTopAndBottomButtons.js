@@ -18,7 +18,7 @@ const options = [
 ];
 
 class MoveToTopAndBottomButtons extends React.Component {
-    state = { selected: ['phobos', 'titan'] };
+    state = { selected: ['phobos', 'titan', 'deimos', 'callisto'] };
 
     constructor(props) {
         super(props);

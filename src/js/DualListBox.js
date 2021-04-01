@@ -206,15 +206,15 @@ class DualListBox extends React.Component {
             selected = this.rearrangeSelected(this.getSelectedOptions(sourceListBox), direction);
         } else if (isMoveAll) {
             selected = directionIsRight ? this.makeOptionsSelected(options) : [];
-        } else if (direction === "top") {
+        } else if (direction === 'top') {
             selected = this.moveToExtremes(
                 this.getSelectedOptions(sourceListBox),
-                "top"
+                'top',
             );
-        } else if (direction === "bottom") {
+        } else if (direction === 'bottom') {
             selected = this.moveToExtremes(
                 this.getSelectedOptions(sourceListBox),
-                "bottom"
+                'bottom',
             );
         } else {
             selected = this.toggleSelected(
@@ -410,7 +410,7 @@ class DualListBox extends React.Component {
      * of the selected options.
      *
      * @param {Array} markedOptions
-     * @param {string} direction "top" | "bottom"
+     * @param {string} direction 'top' | 'bottom'
      *
      * @returns {Array}
      */
@@ -420,17 +420,12 @@ class DualListBox extends React.Component {
         markedOptions.forEach(({ index }) => {
             unmarked[index] = null;
         });
-        unmarked = unmarked.filter((v) => {
-            return v !== null;
-        });
-        const marked = markedOptions.map(({ index }) => {
-            return selected[index];
-        });
-        if (direction === "top") {
+        unmarked = unmarked.filter((v) => v !== null);
+        const marked = markedOptions.map(({ index }) => selected[index]);
+        if (direction === 'top') {
             return [...marked, ...unmarked];
-        } else if (direction === "bottom") {
-            return [...unmarked, ...marked];
         }
+        return [...unmarked, ...marked];
     }
 
     /**
@@ -810,14 +805,14 @@ class DualListBox extends React.Component {
                 {this.renderListBox('selected', selectedOptions, selectedRef, actionsLeft)}
                 {preserveSelectOrder && showOrderButtons ? (
                     <div className="rdl-actions">
-                       {showMoveToTopAndBottomButtons
-                           ? makeAction("top")
-                           : null}
+                        {showMoveToTopAndBottomButtons ?
+                            makeAction('top') :
+                            null}
                         {makeAction('up')}
                         {makeAction('down')}
-                        {showMoveToTopAndBottomButtons
-                            ? makeAction("bottom")
-                            : null}
+                        {showMoveToTopAndBottomButtons ?
+                            makeAction('bottom') :
+                            null}
                     </div>
                 ) : null}
                 <input disabled={disabled} name={name} type="hidden" value={value} />

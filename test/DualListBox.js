@@ -836,6 +836,66 @@ describe('<DualListBox />', () => {
         });
     });
 
+    describe('props.showMoveToTopAndBottomButtons', () => {
+        it('should move selected items to top when top button is clicked', () => {
+            let actual = null;
+
+            const wrapper = mount((
+                <DualListBox
+                    options={[
+                        { value: 'luna', label: 'Moon' },
+                        { value: 'phobos', label: 'Phobos' },
+                        { value: 'deimos', label: 'Deimos' },
+                        { value: 'io', label: 'Io' },
+                    ]}
+                    preserveSelectOrder
+                    selected={['luna', 'phobos', 'deimos']}
+                    showHeaderLabels
+                    showMoveToTopAndBottomButtons
+                    showOrderButtons
+                    onChange={(selected) => {
+                        actual = selected;
+                    }}
+                />
+            ));
+
+            wrapper.find('.rdl-selected select').simulate('change', simulateChange(['deimos']));
+
+            wrapper.find('.rdl-move-top').simulate('click');
+
+            assert.deepEqual(['deimos', 'luna', 'phobos'], actual);
+        });
+
+        it('should move selected items to bottom when bottom button is clicked', () => {
+            let actual = null;
+
+            const wrapper = mount((
+                <DualListBox
+                    options={[
+                        { value: 'luna', label: 'Moon' },
+                        { value: 'phobos', label: 'Phobos' },
+                        { value: 'deimos', label: 'Deimos' },
+                        { value: 'io', label: 'Io' },
+                    ]}
+                    preserveSelectOrder
+                    selected={['luna', 'phobos', 'deimos']}
+                    showHeaderLabels
+                    showMoveToTopAndBottomButtons
+                    showOrderButtons
+                    onChange={(selected) => {
+                        actual = selected;
+                    }}
+                />
+            ));
+
+            wrapper.find('.rdl-selected select').simulate('change', simulateChange(['luna', 'phobos']));
+
+            wrapper.find('.rdl-move-bottom').simulate('click');
+
+            assert.deepEqual(['deimos', 'luna', 'phobos'], actual);
+        });
+    });
+
     describe('props.simpleValue', () => {
         it('should pass an array of values by default', () => {
             let actual = null;

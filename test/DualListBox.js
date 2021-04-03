@@ -979,7 +979,6 @@ describe('<DualListBox />', () => {
             ));
 
             wrapper.find('.rdl-selected select').simulate('change', simulateChange(['deimos']));
-
             wrapper.find('.rdl-move-top').simulate('click');
 
             assert.deepEqual(['deimos', 'luna', 'phobos'], actual);
@@ -1008,7 +1007,6 @@ describe('<DualListBox />', () => {
             ));
 
             wrapper.find('.rdl-selected select').simulate('change', simulateChange(['luna', 'phobos']));
-
             wrapper.find('.rdl-move-bottom').simulate('click');
 
             assert.deepEqual(['deimos', 'luna', 'phobos'], actual);

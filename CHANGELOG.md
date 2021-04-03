@@ -14,6 +14,7 @@
 
 * [#103]: Fix issue where `allowDuplicates` would fail to add extra items when `simpleValue={false}`
 * [#110]: Fix issue where `allowDuplicates` would cause the `available` property to be ignored
+* [#124]: Fix issue where the selection area would return to the top of the list after moving items with some properties
 
 ## [v2.0.0](https://github.com/jakezatecky/react-dual-listbox/compare/v1.4.2...v2.0.0) (2019-05-14)
 

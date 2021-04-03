@@ -671,7 +671,9 @@ class DualListBox extends React.Component {
         const { id } = this.state;
 
         return options.map((option, index) => {
-            const key = `${option.value}-${option.label}-${index}`;
+            const key = !allowDuplicates 
+                        ? `${option.value}-${option.label}` 
+                        : `${option.value}-${option.label}-${index}`;
 
             if (option.options !== undefined) {
                 return (

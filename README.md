@@ -271,7 +271,7 @@ By default, **react-dual-listbox** uses Font Awesome for the various icons that 
 
 ### Extract Changed Values
 
-At times it may be useful to know _which_ options the user highlighted when the selected values change. In this case, the second parameter of the `onChange` handler may be used:
+At times, it may be useful to know _which_ options the user highlighted when the selected values change. In this case, the second parameter of the `onChange` handler may be used:
 
 ``` jsx
 class Widget extends React.Component {

@@ -73,7 +73,6 @@ class DualListBox extends React.Component {
         selected: valueShape,
         selectedRef: PropTypes.func,
         showHeaderLabels: PropTypes.bool,
-        showMoveToTopAndBottomButtons: PropTypes.bool,
         showNoOptionsText: PropTypes.bool,
         showOrderButtons: PropTypes.bool,
         simpleValue: PropTypes.bool,
@@ -101,7 +100,6 @@ class DualListBox extends React.Component {
         selectedRef: null,
         simpleValue: true,
         showHeaderLabels: false,
-        showMoveToTopAndBottomButtons: false,
         showNoOptionsText: false,
         showOrderButtons: false,
         onFilterChange: null,
@@ -778,7 +776,6 @@ class DualListBox extends React.Component {
             selected,
             selectedRef,
             showHeaderLabels,
-            showMoveToTopAndBottomButtons,
             showOrderButtons,
         } = this.props;
         const { id } = this.state;
@@ -828,18 +825,10 @@ class DualListBox extends React.Component {
                 {this.renderListBox('selected', selectedOptions, selectedRef, actionsLeft)}
                 {preserveSelectOrder && showOrderButtons ? (
                     <div className="rdl-actions">
-                        {
-                            showMoveToTopAndBottomButtons ?
-                                makeAction('top') :
-                                null
-                        }
+                        {makeAction('top')}
                         {makeAction('up')}
                         {makeAction('down')}
-                        {
-                            showMoveToTopAndBottomButtons ?
-                                makeAction('bottom') :
-                                null
-                        }
+                        {makeAction('bottom')}
                     </div>
                 ) : null}
                 <input disabled={disabled} name={name} type="hidden" value={value} />

@@ -779,7 +779,7 @@ describe('<DualListBox />', () => {
     });
 
     describe('props.showOrderButtons', () => {
-        it('should render the up and down action buttons', () => {
+        it('should render the top, up, down, and bottom action buttons', () => {
             const wrapper = shallow((
                 <DualListBox
                     options={[
@@ -794,8 +794,10 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            assert.equal('up', wrapper.find('Action').at(4).prop('direction'));
-            assert.equal('down', wrapper.find('Action').at(5).prop('direction'));
+            assert.equal('top', wrapper.find('Action').at(4).prop('direction'));
+            assert.equal('up', wrapper.find('Action').at(5).prop('direction'));
+            assert.equal('down', wrapper.find('Action').at(6).prop('direction'));
+            assert.equal('bottom', wrapper.find('Action').at(7).prop('direction'));
         });
 
         it('should move a single item up or down when the respective button is clicked', () => {
@@ -953,9 +955,7 @@ describe('<DualListBox />', () => {
 
             wrapper.find('.rdl-move-up').simulate('click');
         });
-    });
 
-    describe('props.showMoveToTopAndBottomButtons', () => {
         it('should move selected items to top when top button is clicked', () => {
             let actual = null;
 

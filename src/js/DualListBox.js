@@ -29,6 +29,19 @@ const defaultFilter = (option, filterInput) => {
 
     return (new RegExp(escapeRegExp(filterInput), 'i')).test(option.label);
 };
+// Return a function to swap positions of the given indexes in an ordering
+const swap = (index1, index2) => (
+    (options) => {
+        const newOptions = [...options];
+
+        [newOptions[index1], newOptions[index2]] = [
+            newOptions[index2],
+            newOptions[index1],
+        ];
+
+        return newOptions;
+    }
+);
 const defaultIcons = {
     moveLeft: <span className="fa fa-chevron-left" />,
     moveAllLeft: [
@@ -361,20 +374,6 @@ class DualListBox extends React.Component {
     rearrangeSelected(markedOptions, direction) {
         const { selected } = this.props;
         const selectedItems = this.getFlatOptions(selected).slice(0);
-
-        // Return a function to swap positions of the given indexes in an ordering
-        const swap = (index1, index2) => (
-            (options) => {
-                const newOptions = [...options];
-
-                [newOptions[index1], newOptions[index2]] = [
-                    newOptions[index2],
-                    newOptions[index1],
-                ];
-
-                return newOptions;
-            }
-        );
         let newOrder = [...selectedItems];
 
         if (markedOptions.length === 0) {

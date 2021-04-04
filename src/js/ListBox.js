@@ -45,7 +45,7 @@ class ListBox extends React.Component {
     }
 
     /**
-     * @param {object} event
+     * @param {Object} event
      *
      * @returns {void}
      */
@@ -58,7 +58,7 @@ class ListBox extends React.Component {
     }
 
     /**
-     * @returns {React.Component}
+     * @returns {ReactElement}
      */
     renderFilter() {
         const {
@@ -90,7 +90,7 @@ class ListBox extends React.Component {
     }
 
     /**
-     * @returns {React.Component}
+     * @returns {ReactElement}
      */
     renderSelect() {
         const {

@@ -143,7 +143,7 @@ class DualListBox extends React.Component {
     /**
      * @param {Array} options
      * @param {Object} filter
-     * @param {string} id
+     * @param {string|null} id
      * @param {Object} prevState
      *
      * @returns {Object}
@@ -713,9 +713,9 @@ class DualListBox extends React.Component {
      * @param {string} controlKey
      * @param {Array} options
      * @param {function} ref
-     * @param {React.Component} actions
+     * @param {ReactElement} actions
      *
-     * @returns {React.Component}
+     * @returns {ReactElement}
      */
     renderListBox(controlKey, options, ref, actions) {
         const {
@@ -761,7 +761,7 @@ class DualListBox extends React.Component {
     }
 
     /**
-     * @returns {React.Component}
+     * @returns {ReactElement}
      */
     render() {
         const {

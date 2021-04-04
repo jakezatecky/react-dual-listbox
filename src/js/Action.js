@@ -23,10 +23,12 @@ class Action extends React.Component {
     };
 
     /**
+     * @param {Object} props
+     *
      * @returns {void}
      */
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.onClick = this.onClick.bind(this);
     }

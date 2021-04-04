@@ -163,36 +163,35 @@ class DualListBox extends React.Component {
             onChange(selected, userSelection);
         } else {
             const complexValues = { selected: [], userSelection: [] };
+            const sourceValues = { selected, userSelection };
 
-            // Note that complex values become expensive if there are several options
-            options.forEach((option) => {
-                // Reconstruct option objects for both the selected values and user selection
-                Object.keys({ selected, userSelection }).forEach((key) => {
-                    if (option.value) {
-                        // Reconstruct selected single-level options
-                        selected.forEach((selectedValue) => {
-                            if (option.value === selectedValue) {
+            // Reconstruct option objects for both the selected values and user selection
+            Object.keys(sourceValues).forEach((key) => {
+                // Reconstruct hierarchy from single-level options
+                // Note that complex values become expensive if there are several options
+                sourceValues[key].forEach((value) => {
+                    options.forEach((option) => {
+                        if (option.value) {
+                            if (option.value === value) {
                                 complexValues[key].push(option);
                             }
-                        });
-                    } else {
-                        // Reconstruct optgroup options with those children selected
-                        const subSelected = [];
-                        option.options.forEach((subOption) => {
-                            selected.forEach((selectedValue) => {
-                                if (subOption.value === selectedValue) {
+                        } else {
+                            // Reconstruct optgroup options with those children
+                            const subSelected = [];
+                            option.options.forEach((subOption) => {
+                                if (subOption.value === value) {
                                     subSelected.push(subOption);
                                 }
                             });
-                        });
 
-                        if (subSelected.length > 0) {
-                            complexValues[key].push({
-                                label: option.label,
-                                options: subSelected,
-                            });
+                            if (subSelected.length > 0) {
+                                complexValues[key].push({
+                                    label: option.label,
+                                    options: subSelected,
+                                });
+                            }
                         }
-                    }
+                    });
                 });
             });
 
@@ -216,10 +215,10 @@ class DualListBox extends React.Component {
 
         if (['up', 'down'].indexOf(direction) > -1) {
             selected = this.rearrangeSelected(selection, direction);
-        } else if (isMoveAll) {
-            selected = directionIsRight ? this.makeOptionsSelected(options) : [];
         } else if (['top', 'bottom'].indexOf(direction) > -1) {
             selected = this.moveToExtremes(selection, direction);
+        } else if (isMoveAll) {
+            selected = directionIsRight ? this.makeOptionsSelected(options) : [];
         } else {
             selected = this.toggleSelected(
                 selection,
@@ -361,6 +360,7 @@ class DualListBox extends React.Component {
      */
     rearrangeSelected(markedOptions, direction) {
         const { selected } = this.props;
+        const selectedItems = this.getFlatOptions(selected).slice(0);
 
         // Return a function to swap positions of the given indexes in an ordering
         const swap = (index1, index2) => (
@@ -375,7 +375,7 @@ class DualListBox extends React.Component {
                 return newOptions;
             }
         );
-        let newOrder = [...selected];
+        let newOrder = [...selectedItems];
 
         if (markedOptions.length === 0) {
             return newOrder;
@@ -395,9 +395,9 @@ class DualListBox extends React.Component {
         } else if (direction === 'down') {
             // Similar to the above, if all of the marked options are already as low as they can
             // get, ignore the re-arrangement request.
-            if (markedOptions[0].index < selected.length - markedOptions.length) {
+            if (markedOptions[0].index < selectedItems.length - markedOptions.length) {
                 markedOptions.reverse().forEach(({ index }) => {
-                    if (index < selected.length - 1) {
+                    if (index < selectedItems.length - 1) {
                         newOrder = swap(index, index + 1)(newOrder);
                     }
                 });
@@ -417,7 +417,8 @@ class DualListBox extends React.Component {
      */
     moveToExtremes(markedOptions, direction) {
         const { selected } = this.props;
-        let unmarked = [...selected];
+        const selectedItems = this.getFlatOptions(selected).slice(0);
+        let unmarked = [...selectedItems];
 
         // Filter out marked options
         markedOptions.forEach(({ index }) => {
@@ -426,7 +427,7 @@ class DualListBox extends React.Component {
         unmarked = unmarked.filter((v) => v !== null);
 
         // Condense marked options raw values
-        const marked = markedOptions.map(({ index }) => selected[index]);
+        const marked = markedOptions.map(({ index }) => selectedItems[index]);
 
         if (direction === 'top') {
             return [...marked, ...unmarked];

@@ -970,7 +970,6 @@ describe('<DualListBox />', () => {
                     preserveSelectOrder
                     selected={['luna', 'phobos', 'deimos']}
                     showHeaderLabels
-                    showMoveToTopAndBottomButtons
                     showOrderButtons
                     onChange={(selected) => {
                         actual = selected;
@@ -998,7 +997,6 @@ describe('<DualListBox />', () => {
                     preserveSelectOrder
                     selected={['luna', 'phobos', 'deimos']}
                     showHeaderLabels
-                    showMoveToTopAndBottomButtons
                     showOrderButtons
                     onChange={(selected) => {
                         actual = selected;
@@ -1010,6 +1008,42 @@ describe('<DualListBox />', () => {
             wrapper.find('.rdl-move-bottom').simulate('click');
 
             assert.deepEqual(['deimos', 'luna', 'phobos'], actual);
+        });
+
+        // https://github.com/jakezatecky/react-dual-listbox/issues/113
+        it('should play nicely with simpleValue={false}', () => {
+            let actual = null;
+
+            const wrapper = mount((
+                <DualListBox
+                    options={[
+                        { value: 'luna', label: 'Moon' },
+                        { value: 'phobos', label: 'Phobos' },
+                        { value: 'deimos', label: 'Deimos' },
+                        { value: 'io', label: 'Io' },
+                    ]}
+                    preserveSelectOrder
+                    selected={[
+                        { value: 'io', label: 'Io' },
+                        { value: 'deimos', label: 'Deimos' },
+                        { value: 'phobos', label: 'Phobos' },
+                    ]}
+                    showOrderButtons
+                    simpleValue={false}
+                    onChange={(selected) => {
+                        actual = selected;
+                    }}
+                />
+            ));
+
+            wrapper.find('.rdl-selected select').simulate('change', simulateChange(['io']));
+            wrapper.find('.rdl-move-down').simulate('click');
+
+            assert.deepEqual([
+                { value: 'deimos', label: 'Deimos' },
+                { value: 'io', label: 'Io' },
+                { value: 'phobos', label: 'Phobos' },
+            ], actual);
         });
     });
 
@@ -1110,11 +1144,10 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            wrapper.find('.rdl-available select').simulate('change', simulateChange(['luna', 'phobos']));
+            wrapper.find('.rdl-available select').simulate('change', simulateChange(['phobos']));
             wrapper.find('.rdl-move-right').not('.rdl-move-all').simulate('click');
 
             assert.deepEqual([
-                { label: 'Moon', value: 'luna' },
                 { label: 'Phobos', value: 'phobos' },
             ], actualSelection);
         });

@@ -518,17 +518,24 @@ class DualListBox extends React.Component {
      * @param {Array} options
      * @param {Function} filterer
      * @param {string} filterInput
+     * @param {boolean} forceAllow
      *
      * @returns {Array}
      */
-    filterOptions(options, filterer, filterInput) {
+    filterOptions(options, filterer, filterInput, forceAllow = false) {
         const { canFilter, filterCallback } = this.props;
         const filtered = [];
 
         options.forEach((option) => {
             if (option.options !== undefined) {
-                // Recursively filter any children of parent optgroups
-                const children = this.filterOptions(option.options, filterer, filterInput);
+                // Recursively filter any children
+                const children = this.filterOptions(
+                    option.options,
+                    filterer,
+                    filterInput,
+                    // If the optgroup passes the filter, pre-clear all available children
+                    filterCallback(option, filterInput),
+                );
 
                 if (children.length > 0) {
                     filtered.push({
@@ -538,7 +545,7 @@ class DualListBox extends React.Component {
                 }
             } else {
                 const subFiltered = [];
-                // Run the main filter function against the given item
+                // Run the main, non-search filter function against the given item
                 const filterResult = filterer(option);
 
                 if (Array.isArray(filterResult)) {
@@ -562,7 +569,7 @@ class DualListBox extends React.Component {
                 // these options to the filtered list. The text search filtering is applied AFTER
                 // the main filtering to prevent unnecessary calls to the filterCallback function.
                 if (subFiltered.length > 0) {
-                    if (canFilter && !filterCallback(option, filterInput)) {
+                    if (canFilter && !filterCallback(option, filterInput) && !forceAllow) {
                         return;
                     }
 

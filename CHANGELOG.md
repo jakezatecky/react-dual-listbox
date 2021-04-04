@@ -5,6 +5,7 @@
 ### Bug Fixes
 
 * [#113]: Fix issue with `simpleValue={false}` not playing nicely with `preserveSelectOrder`
+* [#116]: Fix issue where the `canFilter` would ignore optgroup labels
 
 ## [v2.1.0](https://github.com/jakezatecky/react-dual-listbox/compare/v2.0.0...v2.1.0) (2021-04-03)
 

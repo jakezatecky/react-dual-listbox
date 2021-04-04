@@ -262,6 +262,37 @@ describe('<DualListBox />', () => {
             assert.isTrue(wrapper.find('ListBox[controlKey="available"] option[value="luna"]').exists());
             assert.isFalse(wrapper.find('ListBox[controlKey="available"] option[value="phobos"]').exists());
         });
+
+        it('should allow all children of an optgroup that passes the filter', () => {
+            const wrapper = shallow((
+                <DualListBox
+                    canFilter
+                    options={[
+                        { label: 'Moon', value: 'luna' },
+                        { label: 'Phobos', value: 'phobos' },
+                        {
+                            label: 'Mars',
+                            options: [
+                                { value: 'phobos', label: 'Phobos' },
+                                { value: 'deimos', label: 'Deimos' },
+                            ],
+                        },
+                    ]}
+                    onChange={() => {}}
+                />
+            ));
+
+            wrapper.find('ListBox').at(0).simulate('filterChange', {
+                target: {
+                    dataset: { key: 'available' },
+                    value: 'mar',
+                },
+            });
+
+            assert.isFalse(wrapper.find('ListBox[controlKey="available"] option[value="luna"]').exists());
+            assert.isTrue(wrapper.find('ListBox[controlKey="available"] option[value="phobos"]').exists());
+            assert.isTrue(wrapper.find('ListBox[controlKey="available"] option[value="deimos"]').exists());
+        });
     });
 
     describe('props.className', () => {

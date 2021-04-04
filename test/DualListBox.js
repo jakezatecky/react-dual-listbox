@@ -969,7 +969,6 @@ describe('<DualListBox />', () => {
                     ]}
                     preserveSelectOrder
                     selected={['luna', 'phobos', 'deimos']}
-                    showHeaderLabels
                     showOrderButtons
                     onChange={(selected) => {
                         actual = selected;
@@ -996,7 +995,6 @@ describe('<DualListBox />', () => {
                     ]}
                     preserveSelectOrder
                     selected={['luna', 'phobos', 'deimos']}
-                    showHeaderLabels
                     showOrderButtons
                     onChange={(selected) => {
                         actual = selected;

@@ -310,7 +310,7 @@ class Widget extends React.Component {
 | `selected`            | array    | A list of the selected options appearing in the rightmost list box.                                                     | `[]`            |
 | `selectedRef`         | function | A React function [ref] to the "selected" list box.                                                                      | `null`          |
 | `simpleValue`         | bool     | If true, the `selected` value passed in `onChange` is an array of string values. Otherwise, it is an array of options.  | `true`          |
-| `showHeaderLabels`    | bool     | If true, labels above both the available and selected list boxes will appear. These labels are derived from `1ang`.     | `false`         |
+| `showHeaderLabels`    | bool     | If true, labels above both the available and selected list boxes will appear. These labels derive from `lang`.          | `false`         |
 | `showNoOptionsText`   | bool     | If true, text will appear in place of the available/selected list boxes when no options are present.                    | `false`         |
 | `showOrderButtons`    | bool     | If true, a set of up/down buttons will appear near the selected list box to allow the user to re-arrange the items.     | `false`         |
 

@@ -222,24 +222,24 @@ class DualListBox extends React.Component {
         const { options } = this.props;
         const directionIsRight = direction === 'right';
         const sourceListBox = directionIsRight ? this.available : this.selected;
-        const selection = this.getSelectedOptions(sourceListBox);
+        const marked = this.getMarkedOptions(sourceListBox);
 
         let selected;
 
         if (['up', 'down'].indexOf(direction) > -1) {
-            selected = this.rearrangeSelected(selection, direction);
+            selected = this.rearrangeSelected(marked, direction);
         } else if (['top', 'bottom'].indexOf(direction) > -1) {
-            selected = this.moveToExtremes(selection, direction);
+            selected = this.moveToExtremes(marked, direction);
         } else if (isMoveAll) {
             selected = directionIsRight ? this.makeOptionsSelected(options) : [];
         } else {
             selected = this.toggleSelected(
-                selection,
+                marked,
                 directionIsRight ? 'available' : 'selected',
             );
         }
 
-        this.onChange(selected, selection);
+        this.onChange(selected, marked);
     }
 
     /**
@@ -249,10 +249,10 @@ class DualListBox extends React.Component {
      * @returns {void}
      */
     onOptionDoubleClick(event, controlKey) {
-        const selection = this.getSelectedOptions(event.currentTarget);
-        const selected = this.toggleSelected(selection, controlKey);
+        const marked = this.getMarkedOptions(event.currentTarget);
+        const selected = this.toggleSelected(marked, controlKey);
 
-        this.onChange(selected, selection);
+        this.onChange(selected, marked);
     }
 
     /**
@@ -266,10 +266,10 @@ class DualListBox extends React.Component {
         const { moveKeyCodes } = this.props;
 
         if (moveKeyCodes.indexOf(keyCode) > -1) {
-            const selection = this.getSelectedOptions(currentTarget);
-            const selected = this.toggleSelected(selection, controlKey);
+            const marked = this.getMarkedOptions(currentTarget);
+            const selected = this.toggleSelected(marked, controlKey);
 
-            this.onChange(selected, selection);
+            this.onChange(selected, marked);
         }
     }
 
@@ -344,13 +344,13 @@ class DualListBox extends React.Component {
     }
 
     /**
-     * Returns the selected options from a given element.
+     * Returns the highlighted options from a given element.
      *
      * @param {Object} element
      *
      * @returns {Array}
      */
-    getSelectedOptions(element) {
+    getMarkedOptions(element) {
         if (element === null) {
             return [];
         }

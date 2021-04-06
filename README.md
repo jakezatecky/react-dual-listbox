@@ -265,6 +265,8 @@ By default, **react-dual-listbox** uses Font Awesome for the various icons that 
         ],
         moveDown: <span className="fa fa-chevron-down" />,
         moveUp: <span className="fa fa-chevron-up" />,
+        moveTop: <span className="fa fa-double-angle-up" />,
+        moveBottom: <span className="fa fa-double-angle-down" />,
     }}
 />
 ```

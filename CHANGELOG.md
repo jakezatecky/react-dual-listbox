@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## [v2.1.2](https://github.com/jakezatecky/react-dual-listbox/compare/v2.1.1...v2.1.2) (2021-05-20)
+
+### Other
+
+* [#147]: Update lodash to resolve security vulnerability
+
 ## [v2.1.1](https://github.com/jakezatecky/react-dual-listbox/compare/v2.1.0...v2.1.1) (2021-04-04)
 
 ### Bug Fixes

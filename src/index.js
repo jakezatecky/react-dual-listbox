@@ -1,2 +1,2 @@
 // Export default to provide support for non-ES6 solutions
-module.exports = require('./js/DualListBox.js').default;
+module.exports = require('./js/DualListBox').default;

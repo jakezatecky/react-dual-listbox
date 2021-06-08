@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## [v2.2.0](https://github.com/jakezatecky/react-dual-listbox/compare/v2.1.2...v2.2.0) (2021-06-08)
+
+### Other
+
+* [#136]: Add support for React 17
+
 ## [v2.1.2](https://github.com/jakezatecky/react-dual-listbox/compare/v2.1.1...v2.1.2) (2021-05-20)
 
 ### Other

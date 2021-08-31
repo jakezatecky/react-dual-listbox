@@ -1,8 +1,9 @@
 import classNames from 'classnames';
 import escapeRegExp from 'lodash/escapeRegExp';
-import {nanoid} from 'nanoid';
+import { nanoid } from 'nanoid';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { uniqBy } from 'lodash';
 import Action from './Action';
 import ListBox from './ListBox';
 import defaultLang from './lang/default';
@@ -12,7 +13,7 @@ import optionsShape from './shapes/optionsShape';
 import valueShape from './shapes/valueShape';
 import arrayFrom from './util/arrayFrom';
 import indexesOf from './util/indexesOf';
-import {uniqBy} from 'lodash';
+
 
 const KEY_CODES = {
     SPACEBAR: 32,

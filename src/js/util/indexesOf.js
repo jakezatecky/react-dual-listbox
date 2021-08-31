@@ -1,3 +1,4 @@
+import { isEqual } from 'lodash';
 /**
  * Return an array of indexes for all instances of the given value.
  *
@@ -10,7 +11,7 @@ export default function indexesOf(list, value) {
     const indexes = [];
 
     list.forEach((listItem, index) => {
-        if (listItem === value) {
+        if (isEqual(listItem, value)) {
             indexes.push(index);
         }
     });

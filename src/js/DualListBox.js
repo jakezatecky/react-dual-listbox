@@ -380,6 +380,8 @@ class DualListBox extends React.Component {
      * @returns {Array}
      */
     getMarkedOptions(element) {
+        const { options, selected } = this.props;
+        const labelMap = this.getLabelMap([...options, ...selected]);
         if (element === null) {
             return [];
         }
@@ -388,9 +390,8 @@ class DualListBox extends React.Component {
             .filter((option) => option.selected)
             .map((option) => (
                 {
-                    index: parseInt(option.dataset.index, 10),
                     value: JSON.parse(option.dataset.realValue),
-                    label: option.innerText,
+                    label: labelMap[JSON.parse(option.dataset.realValue)],
                 }
             ));
     }
@@ -686,7 +687,7 @@ class DualListBox extends React.Component {
         // Order the selections by the default order
         return this.filterOptions(
             options,
-            (option) => indexesOf(this.getFlatOptions(selected), option.value),
+            (option) => indexesOf(this.getFlatOptions(selected), option),
             selectedFilter,
         );
     }

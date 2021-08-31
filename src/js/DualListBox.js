@@ -63,7 +63,7 @@ class DualListBox extends React.Component {
     static propTypes = {
         options: optionsShape.isRequired,
         onChange: PropTypes.func.isRequired,
-		PromiseSearchOptions: PropTypes.bool,
+        PromiseSearchOptions: PropTypes.bool,
         alignActions: PropTypes.oneOf([ALIGNMENTS.MIDDLE, ALIGNMENTS.TOP]),
         allowDuplicates: PropTypes.bool,
         available: valueShape,
@@ -116,7 +116,7 @@ class DualListBox extends React.Component {
         showNoOptionsText: false,
         showOrderButtons: false,
         onFilterChange: null,
-		PromiseSearchOptions: false
+        PromiseSearchOptions: false,
     };
 
     /**
@@ -128,7 +128,7 @@ class DualListBox extends React.Component {
         super(props);
 
         this.state = {
-			marked: [],
+            marked: [],
             filter: props.filter ? props.filter : {
                 available: '',
                 selected: '',
@@ -220,8 +220,10 @@ class DualListBox extends React.Component {
      *
      * @returns {void}
      */
+    // eslint-disable-next-line consistent-return
     onActionClick({ direction, isMoveAll }) {
-        const {options, PromiseSearchOptions} = this.props;
+        const { options, PromiseSearchOptions, selected: selectedProps } = this.props;
+        const { marked: markedState } = this.state;
         const directionIsRight = direction === 'right';
         const sourceListBox = directionIsRight ? this.available : this.selected;
         const marked = this.getMarkedOptions(sourceListBox);
@@ -235,28 +237,26 @@ class DualListBox extends React.Component {
         } else if (isMoveAll) {
             if (!directionIsRight) {
                 this.setState({
-                    ...this.state,
-                    marked: [...this.props.selected]
+                    marked: [...selectedProps],
                 });
             }
-            selected = directionIsRight
-                ? this.makeOptionsSelected(
-                    PromiseSearchOptions
-                        ? uniqBy([...options, ...this.state.marked], 'value')
-                        : options
-                )
-                : [];
+            selected = directionIsRight ?
+                this.makeOptionsSelected(
+                    PromiseSearchOptions ?
+                        uniqBy([...options, ...selectedProps], 'value') :
+                        options,
+                ) :
+                [];
         } else {
-			if (marked.length === 0) {
+            if (marked.length === 0) {
                 return null;
             }
             if (!directionIsRight) {
                 this.setState({
-                    ...this.state,
                     marked: [
-                        ...this.state.marked,
-                        ...(marked.length > 0 ? marked : this.props.selected)
-                    ]
+                        ...markedState,
+                        ...(marked.length > 0 ? marked : selectedProps),
+                    ],
                 });
             }
             selected = this.toggleSelected(
@@ -305,7 +305,7 @@ class DualListBox extends React.Component {
      * @returns {void}
      */
     onFilterChange(event) {
-		const {onFilterChange, PromiseSearchOptions} = this.props;
+        const { onFilterChange, PromiseSearchOptions } = this.props;
         const { filter } = this.state;
 
         const newFilter = {
@@ -315,8 +315,8 @@ class DualListBox extends React.Component {
 
         if (onFilterChange) {
             onFilterChange(newFilter);
-			if (PromiseSearchOptions) {
-                this.setState({...this.state, marked: []});
+            if (PromiseSearchOptions) {
+                this.setState({ marked: [] });
             }
         } else {
             this.setState({ filter: newFilter });
@@ -386,13 +386,13 @@ class DualListBox extends React.Component {
 
         return arrayFrom(element.options)
             .filter((option) => option.selected)
-            .map((option) => {
-                return {
+            .map((option) => (
+                {
                     index: parseInt(option.dataset.index, 10),
                     value: JSON.parse(option.dataset.realValue),
-                    label: option.innerText
-                };
-            });
+                    label: option.innerText,
+                }
+            ));
     }
 
     /**
@@ -420,7 +420,7 @@ class DualListBox extends React.Component {
                 markedOptions[markedOptions.length - 1].index >
                 markedOptions.length - 1
             ) {
-                markedOptions.forEach(({index}) => {
+                markedOptions.forEach(({ index }) => {
                     if (index > 0) {
                         newOrder = swap(index, index - 1)(newOrder);
                     }
@@ -433,7 +433,7 @@ class DualListBox extends React.Component {
                 markedOptions[0].index <
                 selectedItems.length - markedOptions.length
             ) {
-                markedOptions.reverse().forEach(({index}) => {
+                markedOptions.reverse().forEach(({ index }) => {
                     if (index < selectedItems.length - 1) {
                         newOrder = swap(index, index + 1)(newOrder);
                     }
@@ -530,7 +530,7 @@ class DualListBox extends React.Component {
         // Add/remove the individual items based on previous state
         toggleItems.forEach((toggleItem) => {
             const inSelectedOptions = selectedItems.some(
-                (selectedItem) => selectedItem.value === toggleItem.value
+                (selectedItem) => selectedItem.value === toggleItem.value,
             );
 
             if (
@@ -542,7 +542,7 @@ class DualListBox extends React.Component {
                 // object mapping such that we can remove the exact index of the selected items
                 // without the array re-arranging itself.
                 toggleItemsFilter = selectedItems.filter(
-                    (itemFilter) => itemFilter.value !== toggleItem.value
+                    (itemFilter) => itemFilter.value !== toggleItem.value,
                 );
                 // delete toggleItemsMap[index];
             } else {
@@ -638,7 +638,9 @@ class DualListBox extends React.Component {
      * @returns {Array}
      */
     filterAvailable(options) {
-        const { allowDuplicates, available, selected,PromiseSearchOptions } = this.props;
+        const {
+            allowDuplicates, available, selected, PromiseSearchOptions,
+        } = this.props;
         const { filter: { available: availableFilter } } = this.state;
 
         const filters = [];
@@ -650,11 +652,9 @@ class DualListBox extends React.Component {
 
         // If duplicates are not allowed, filter out selected options
         if (!allowDuplicates) {
-            filters.push((option) =>
-                this.getFlatOptions(selected).every(
-                    (selectedOption) => selectedOption.value !== option.value
-                )
-            );
+            filters.push((option) => this.getFlatOptions(selected).every(
+                (selectedOption) => selectedOption.value !== option.value,
+            ));
         }
 
         // Apply each filter function on the option
@@ -662,7 +662,7 @@ class DualListBox extends React.Component {
             (previousValue, filter) => previousValue && filter(option),
             true,
         );
-		if (PromiseSearchOptions) {
+        if (PromiseSearchOptions) {
             return this.filterOptions(options, filterer, '');
         }
         return this.filterOptions(options, filterer, availableFilter);
@@ -704,9 +704,9 @@ class DualListBox extends React.Component {
         const labelMap = this.getLabelMap(options);
 
         const selectedOptions = this.getFlatOptions(selected).map((option, index) => ({
-			value: option.value,
-			label: option?.label ? option?.label : labelMap[option.value],
-			selectedIndex: index
+            value: option.value,
+            label: option?.label ? option?.label : labelMap[option.value],
+            selectedIndex: index,
         }));
 
         if (canFilter) {
@@ -839,16 +839,16 @@ class DualListBox extends React.Component {
             selectedRef,
             showHeaderLabels,
             showOrderButtons,
-			PromiseSearchOptions
-		} = this.props;
-        const { id } = this.state;
-        const availableOptions = PromiseSearchOptions
-            ? this.renderOptions(
+            PromiseSearchOptions,
+        } = this.props;
+        const { id, marked } = this.state;
+        const availableOptions = PromiseSearchOptions ?
+            this.renderOptions(
                 this.filterAvailable(
-                    uniqBy([...options, ...this.state.marked], 'value')
-                )
-            )
-            : this.renderOptions(this.filterAvailable(options));
+                    uniqBy([...options, ...marked], 'value'),
+                ),
+            ) :
+            this.renderOptions(this.filterAvailable(options));
         const selectedOptions = this.renderOptions(this.filterSelected(options));
         const makeAction = (direction, isMoveAll = false) => (
             <Action

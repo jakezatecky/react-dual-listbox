@@ -172,14 +172,14 @@ class DualListBox extends React.Component {
      */
     onChange(selected, selection) {
         const { options, simpleValue, onChange } = this.props;
-        const userSelection = selection.map(({ value }) => value);
+        const userSelection = selection.map(({ value, label }) => ({ value, label }));
         const userSelected = selected.map(({ value, label }) => ({ value, label }));
 
         if (simpleValue) {
             onChange(userSelected, selection);
         } else {
-            const complexValues = { selected: [], userSelection: [] };
-            const sourceValues = { selected, userSelection };
+            const complexValues = { userSelected: [], userSelection: [] };
+            const sourceValues = { userSelected, userSelection };
 
             // Reconstruct option objects for both the selected values and user selection
             Object.keys(sourceValues).forEach((key) => {
@@ -188,14 +188,14 @@ class DualListBox extends React.Component {
                 sourceValues[key].forEach((value) => {
                     options.forEach((option) => {
                         if (option.value) {
-                            if (option.value === value) {
+                            if (option.value === value.value) {
                                 complexValues[key].push(option);
                             }
                         } else {
                             // Reconstruct optgroup options with those children
                             const subSelected = [];
                             option.options.forEach((subOption) => {
-                                if (subOption.value === value) {
+                                if (subOption.value === value.value) {
                                     subSelected.push(subOption);
                                 }
                             });
@@ -211,7 +211,7 @@ class DualListBox extends React.Component {
                 });
             });
 
-            onChange(complexValues.selected, complexValues.userSelection);
+            onChange(complexValues.userSelected, complexValues.userSelection);
         }
     }
 
@@ -340,11 +340,11 @@ class DualListBox extends React.Component {
         options.forEach((option) => {
             if (option.value !== undefined) {
                 // Flatten single-level options
-                flattened.push(option.value);
+                flattened.push(option);
             } else if (option.options !== undefined) {
                 // Flatten optgroup options
                 option.options.forEach((subOption) => {
-                    flattened.push(subOption.value);
+                    flattened.push(subOption);
                 });
             }
         });

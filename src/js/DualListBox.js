@@ -173,9 +173,10 @@ class DualListBox extends React.Component {
     onChange(selected, selection) {
         const { options, simpleValue, onChange } = this.props;
         const userSelection = selection.map(({ value }) => value);
+        const userSelected = selected.map(({ value, label }) => ({ value, label }));
 
         if (simpleValue) {
-            onChange(selected, selection);
+            onChange(userSelected, selection);
         } else {
             const complexValues = { selected: [], userSelection: [] };
             const sourceValues = { selected, userSelection };
@@ -390,6 +391,7 @@ class DualListBox extends React.Component {
             .filter((option) => option.selected)
             .map((option) => (
                 {
+                    index: parseInt(option.dataset.index, 10),
                     value: JSON.parse(option.dataset.realValue),
                     label: labelMap[JSON.parse(option.dataset.realValue)],
                 }
@@ -526,7 +528,7 @@ class DualListBox extends React.Component {
     toggleSelected(toggleItems, controlKey) {
         const { allowDuplicates, selected } = this.props;
         const selectedItems = this.getFlatOptions(selected).slice(0);
-        let toggleItemsFilter = [];
+        let toggleItemsFilter = [...selectedItems];
 
         // Add/remove the individual items based on previous state
         toggleItems.forEach((toggleItem) => {
@@ -542,7 +544,7 @@ class DualListBox extends React.Component {
                 // is set to true or the option was sourced from the selected ListBox. We use an
                 // object mapping such that we can remove the exact index of the selected items
                 // without the array re-arranging itself.
-                toggleItemsFilter = selectedItems.filter(
+                toggleItemsFilter = toggleItemsFilter.filter(
                     (itemFilter) => itemFilter.value !== toggleItem.value,
                 );
                 // delete toggleItemsMap[index];

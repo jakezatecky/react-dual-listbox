@@ -69,68 +69,67 @@ describe('<DualListBox />', () => {
     });
 
     describe('props.allowDuplicates', () => {
-        // it('should allow repeated selections of the same option when set to true', () => {
-        //     let actual = null;
+        it('should allow repeated selections of the same option when set to true', () => {
+            let actual = null;
 
-        //     const wrapper = mount((
-        //         <DualListBox
-        //             allowDuplicates
-        //             options={[
-        //                 { label: 'Moon', value: 'luna' },
-        //                 { label: 'Phobos', value: 'phobos' },
-        //             ]}
-        //             selected={
-        //                 [
-        //                     { label: 'Moon', value: 'luna-1' },
-        //                     { label: 'Phobos', value: 'phobos-1' },
-        //                 ]
-        //             }
-        //             onChange={(selected) => {
-        //                 actual = selected;
-        //             }}
-        //         />
-        //     ));
+            const wrapper = mount((
+                <DualListBox
+                    allowDuplicates
+                    options={[
+                        { label: 'Moon', value: 'luna' },
+                        { label: 'Phobos', value: 'phobos' },
+                    ]}
+                    selected={
+                        [
+                            { label: 'Moon', value: 'luna' },
+                            { label: 'Phobos', value: 'phobos' },
+                        ]
+                    }
+                    onChange={(selected) => {
+                        actual = selected;
+                    }}
+                />
+            ));
 
-        // eslint-disable-next-line max-len
-        //     wrapper.find('.rdl-available select').simulate('change', simulateChange(['phobos-1']));
-        //     wrapper.find('.rdl-available select').simulate('dblclick');
+            wrapper.find('.rdl-available select').simulate('change', simulateChange(['phobos-1']));
+            wrapper.find('.rdl-available select').simulate('dblclick');
 
-        //     assert.deepEqual(
-        //         [
-        //             { label: 'Moon', value: 'luna' },
-        //             { label: 'Phobos', value: 'phobos' },
-        //             { label: 'Phobos', value: 'phobos' },
-        //         ], actual,
-        //     );
-        // });
+            assert.deepEqual(
+                [
+                    { label: 'Moon', value: 'luna' },
+                    { label: 'Phobos', value: 'phobos' },
+                    { label: 'Phobos', value: 'phobos' },
+                ], actual,
+            );
+        });
 
         // https://github.com/jakezatecky/react-dual-listbox/issues/103
-        // it('should work when simpleValue={false}', () => {
-        //     let actual = null;
+        it('should work when simpleValue={false}', () => {
+            let actual = null;
 
-        //     const wrapper = mount((
-        //         <DualListBox
-        //             allowDuplicates
-        //             options={[
-        //                 { label: 'Moon', value: 'luna' },
-        //                 { label: 'Phobos', value: 'phobos' },
-        //             ]}
-        //             selected={[{ label: 'Moon', value: 'luna' }]}
-        //             simpleValue={false}
-        //             onChange={(selected) => {
-        //                 actual = selected;
-        //             }}
-        //         />
-        //     ));
+            const wrapper = mount((
+                <DualListBox
+                    allowDuplicates
+                    options={[
+                        { label: 'Moon', value: 'luna' },
+                        { label: 'Phobos', value: 'phobos' },
+                    ]}
+                    selected={[{ label: 'Moon', value: 'luna' }]}
+                    simpleValue={false}
+                    onChange={(selected) => {
+                        actual = selected;
+                    }}
+                />
+            ));
 
-        //     wrapper.find('.rdl-available select').simulate('change', simulateChange(['luna-0']));
-        //     wrapper.find('.rdl-available select').simulate('dblclick');
+            wrapper.find('.rdl-available select').simulate('change', simulateChange(['luna-0']));
+            wrapper.find('.rdl-available select').simulate('dblclick');
 
-        //     assert.deepEqual([
-        //         { label: 'Moon', value: 'luna' },
-        //         { label: 'Moon', value: 'luna' },
-        //     ], actual);
-        // });
+            assert.deepEqual([
+                { label: 'Moon', value: 'luna' },
+                { label: 'Moon', value: 'luna' },
+            ], actual);
+        });
 
         it('should NOT allow repeated selections of the same option when set to false', () => {
             let actual = null;
@@ -860,53 +859,53 @@ describe('<DualListBox />', () => {
             assert.equal('bottom', wrapper.find('Action').at(7).prop('direction'));
         });
 
-        // it('should move a single item up or down when the respective button is clicked', () => {
-        //     let actual = null;
+        it('should move a single item up or down when the respective button is clicked', () => {
+            let actual = null;
 
-        //     const wrapper = mount((
-        //         <DualListBox
-        //             options={[
-        //                 { value: 'luna', label: 'Moon' },
-        //                 { value: 'phobos', label: 'Phobos' },
-        //                 { value: 'deimos', label: 'Deimos' },
-        //                 { value: 'io', label: 'Io' },
-        //             ]}
-        //             preserveSelectOrder
-        //             selected={[
-        //                 { value: 'luna', label: 'Moon' },
-        //                 { value: 'phobos', label: 'Phobos' },
-        //                 { value: 'deimos', label: 'Deimos' },
-        //                 { value: 'io', label: 'Io' },
-        //             ]}
-        //             showOrderButtons
-        //             onChange={(selected) => {
-        //                 actual = selected;
-        //             }}
-        //         />
-        //     ));
+            const wrapper = mount((
+                <DualListBox
+                    options={[
+                        { value: 'luna', label: 'Moon' },
+                        { value: 'phobos', label: 'Phobos' },
+                        { value: 'deimos', label: 'Deimos' },
+                        { value: 'io', label: 'Io' },
+                    ]}
+                    preserveSelectOrder
+                    selected={[
+                        { value: 'luna', label: 'Moon' },
+                        { value: 'phobos', label: 'Phobos' },
+                        { value: 'deimos', label: 'Deimos' },
+                        { value: 'io', label: 'Io' },
+                    ]}
+                    showOrderButtons
+                    onChange={(selected) => {
+                        actual = selected;
+                    }}
+                />
+            ));
 
-        //     wrapper.find('.rdl-selected select').simulate('change', simulateChange(['phobos']));
-        //     wrapper.find('.rdl-move-up').simulate('click');
+            wrapper.find('.rdl-selected select').simulate('change', simulateChange(['phobos']));
+            wrapper.find('.rdl-move-up').simulate('click');
 
-        //     assert.deepEqual([
-        //         { value: 'phobos', label: 'Phobos' },
-        //         { value: 'luna', label: 'Moon' },
-        //         { value: 'deimos', label: 'Deimos' },
-        //         { value: 'io', label: 'Io' },
-        //     ], actual);
+            assert.deepEqual([
+                { value: 'phobos', label: 'Phobos' },
+                { value: 'luna', label: 'Moon' },
+                { value: 'deimos', label: 'Deimos' },
+                { value: 'io', label: 'Io' },
+            ], actual);
 
-        //     wrapper.find('.rdl-selected select').simulate('change', simulateChange(['phobos']));
-        //     wrapper.find('.rdl-move-down').simulate('click');
+            wrapper.find('.rdl-selected select').simulate('change', simulateChange(['phobos']));
+            wrapper.find('.rdl-move-down').simulate('click');
 
-        //     // Since we actually did not change the selected order, the down action is applied on
-        //     // the original selected order
-        //     assert.deepEqual([
-        //         { value: 'luna', label: 'Moon' },
-        //         { value: 'phobos', label: 'Phobos' },
-        //         { value: 'deimos', label: 'Deimos' },
-        //         { value: 'io', label: 'Io' },
-        //     ], actual);
-        // });
+            // Since we actually did not change the selected order, the down action is applied on
+            // the original selected order
+            assert.deepEqual([
+                { value: 'luna', label: 'Moon' },
+                { value: 'deimos', label: 'Deimos' },
+                { value: 'phobos', label: 'Phobos' },
+                { value: 'io', label: 'Io' },
+            ], actual);
+        });
 
         it('should move non-adjacent marked items such that they maintain their separation', () => {
             let actual = null;
@@ -1304,30 +1303,30 @@ describe('<DualListBox />', () => {
             assert.deepEqual([{ label: 'Phobos', value: 'phobos' }], actual);
         });
 
-        // it('should preserve previous selections', () => {
-        //     let actual = null;
+        it('should preserve previous selections', () => {
+            let actual = null;
 
-        //     const wrapper = mount((
-        //         <DualListBox
-        //             options={[
-        //                 { label: 'Moon', value: 'luna' },
-        //                 { label: 'Phobos', value: 'phobos' },
-        //             ]}
-        //             selected={[{ label: 'Moon', value: 'luna' }]}
-        //             onChange={(selected) => {
-        //                 actual = selected;
-        //             }}
-        //         />
-        //     ));
+            const wrapper = mount((
+                <DualListBox
+                    options={[
+                        { label: 'Moon', value: 'luna' },
+                        { label: 'Phobos', value: 'phobos' },
+                    ]}
+                    selected={[{ label: 'Moon', value: 'luna' }]}
+                    onChange={(selected) => {
+                        actual = selected;
+                    }}
+                />
+            ));
 
-        //     wrapper.find('.rdl-available select').simulate('change', simulateChange(['Phobos']));
-        //     wrapper.find('.rdl-available select').simulate('dblclick');
+            wrapper.find('.rdl-available select').simulate('change', simulateChange(['phobos']));
+            wrapper.find('.rdl-available select').simulate('dblclick');
 
-        //     assert.deepEqual([
-        //         { label: 'Moon', value: 'luna' },
-        //         { label: 'Phobos', value: 'phobos' },
-        //     ], actual);
-        // });
+            assert.deepEqual([
+                { label: 'Moon', value: 'luna' },
+                { label: 'Phobos', value: 'phobos' },
+            ], actual);
+        });
 
         it('should handle numeric and string values', () => {
             let actual = null;
@@ -1354,39 +1353,36 @@ describe('<DualListBox />', () => {
             ], actual);
         });
 
-        // it('should pass all the options the user highlighted before the change', () => {
-        //     let actualSelected = null;
-        //     let actualSelection = null;
+        it('should pass all the options the user highlighted before the change', () => {
+            let actualSelected = null;
+            let actualSelection = null;
 
-        //     const wrapper = mount((
-        //         <DualListBox
-        //             options={[
-        //                 { label: 'Moon', value: 'luna' },
-        //                 { label: 'Phobos', value: 'phobos' },
-        //             ]}
-        //             selected={[
-        //                 { label: 'Moon', value: 'luna' },
-        //                 { label: 'Phobos', value: 'phobos' },
-        //             ]}
-        //             onChange={(selected, selection) => {
-        //                 actualSelected = selected;
-        //                 actualSelection = selection;
-        //             }}
-        //         />
-        //     ));
+            const wrapper = mount((
+                <DualListBox
+                    options={[
+                        { label: 'Moon', value: 'luna' },
+                        { label: 'Phobos', value: 'phobos' },
+                    ]}
+                    selected={[
+                        { label: 'Moon', value: 'luna' },
+                        { label: 'Phobos', value: 'phobos' },
+                    ]}
+                    onChange={(selected, selection) => {
+                        actualSelected = selected;
+                        actualSelection = selection;
+                    }}
+                />
+            ));
 
-        //     wrapper.find('.rdl-selected select').simulate('change', simulateChange([
-        //         { label: 'Moon', value: 'luna' },
-        //         { label: 'Phobos', value: 'phobos' },
-        //     ]));
-        //     wrapper.find('.rdl-move-left').not('.rdl-move-all').simulate('click');
+            wrapper.find('.rdl-selected select').simulate('change', simulateChange(['luna', 'phobos']));
+            wrapper.find('.rdl-move-left').not('.rdl-move-all').simulate('click');
 
-        //     assert.deepEqual([], actualSelected);
-        //     assert.deepEqual([
-        //         { label: 'Moon', value: 'luna' },
-        //         { label: 'Phobos', value: 'phobos' },
-        //     ], actualSelection);
-        // });
+            assert.deepEqual([], actualSelected);
+            assert.deepEqual([
+                { label: 'Moon', value: 'luna' },
+                { label: 'Phobos', value: 'phobos' },
+            ], actualSelection);
+        });
     });
 
     describe('props.onFilterChange', () => {

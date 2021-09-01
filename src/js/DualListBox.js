@@ -176,7 +176,7 @@ class DualListBox extends React.Component {
         const userSelected = selected.map(({ value, label }) => ({ value, label }));
 
         if (simpleValue) {
-            onChange(userSelected, selection);
+            onChange(userSelected, userSelection);
         } else {
             const complexValues = { userSelected: [], userSelection: [] };
             const sourceValues = { userSelected, userSelection };

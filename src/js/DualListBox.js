@@ -382,7 +382,12 @@ class DualListBox extends React.Component {
      */
     getMarkedOptions(element) {
         const { options, selected } = this.props;
-        const labelMap = this.getLabelMap([...options, ...selected]);
+        const labelMap = this.getLabelMap([
+            ...options,
+            ...selected,
+            ...arrayFrom(this.available),
+            ...arrayFrom(this.selected),
+        ]);
         if (element === null) {
             return [];
         }

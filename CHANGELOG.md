@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v2.3.0 (TBA)
+
+### Other
+
+* [#196]: Add React 18 to the peer dependency (**Note**: React 18 is not part of the automatic testing, but should work)
+
 ## [v2.2.0](https://github.com/jakezatecky/react-dual-listbox/compare/v2.1.2...v2.2.0) (2021-06-08)
 
 ### Other

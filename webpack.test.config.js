@@ -4,8 +4,10 @@ module.exports = {
     mode: 'development',
     output: {
         filename: 'index.js',
-        libraryTarget: 'umd',
-        library: 'ReactDualListBox',
+        library: {
+            name: 'ReactDualListBox',
+            type: 'umd',
+        },
     },
     resolve: {
         alias: {

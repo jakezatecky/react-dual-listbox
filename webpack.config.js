@@ -9,8 +9,11 @@ function makeConfig(target) {
         target,
         output: {
             filename: fileMap[target],
-            libraryTarget: 'umd',
-            library: 'ReactDualListBox',
+            library: {
+                name: 'ReactDualListbox',
+                type: 'umd',
+                umdNamedDefine: true,
+            },
         },
         externals: [
             {
@@ -27,7 +30,6 @@ function makeConfig(target) {
                     amd: 'react-dom',
                 },
             },
-
         ],
         module: {
             rules: [

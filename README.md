@@ -1,7 +1,7 @@
 # react-dual-listbox
 
 [![npm](https://img.shields.io/npm/v/react-dual-listbox.svg?style=flat-square)](https://www.npmjs.com/package/react-dual-listbox)
-[![Build Status](https://img.shields.io/travis/com/jakezatecky/react-dual-listbox/master.svg?style=flat-square)](https://app.travis-ci.com/github/jakezatecky/react-dual-listbox)
+[![Build Status](https://img.shields.io/github/workflow/status/jakezatecky/react-dual-listbox/Build?style=flat-square)](https://github.com/jakezatecky/react-dual-listbox/actions/workflows/main.yml)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://raw.githubusercontent.com/jakezatecky/react-dual-listbox/master/LICENSE.txt)
 
 > A feature-rich dual listbox for React.

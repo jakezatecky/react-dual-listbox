@@ -43,7 +43,7 @@
     "chai": "^4.0.1",
     "enzyme": "^3.3.0",
     "eslint": "^8.23.0",
-    "eslint-config-takiyon-react": "^1.0.0",
+    "eslint-config-takiyon-react": "^2.0.0",
     "eslint-import-resolver-webpack": "^0.13.0",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",

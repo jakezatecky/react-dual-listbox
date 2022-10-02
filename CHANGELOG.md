@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v2.4.0 (TBA)
+
+### New Features
+
+* [#203]: Add `controlKey` to the `onChange` function such that developers may identify which control triggered the change
+
 ## [v2.3.0](https://github.com/jakezatecky/react-dual-listbox/compare/v2.2.0...v2.3.0) (2022-09-06)
 
 ### Other

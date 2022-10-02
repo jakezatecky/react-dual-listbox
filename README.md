@@ -273,16 +273,17 @@ By default, **react-dual-listbox** uses Font Awesome for the various icons that 
 />
 ```
 
-### Extract Changed Values
+### Additional `onChange` Details
 
-At times, it may be useful to know _which_ options the user highlighted when the selected values change. In this case, the second parameter of the `onChange` handler may be used:
+At times, it may be useful to know which options the user highlighted before triggering a change or which control group was responsible for the change. In these cases, you can pass additional parameters to the `onChange` function:
 
 ``` jsx
 class Widget extends React.Component {
     ...
 
-    onChange = (selected, selection) => {
+    onChange = (selected, selection, controlKey) => {
         console.log('The user highlighted these options', selection);
+        console.log('The following control trigger these changes', controlKey);
         this.setState({ selected });
     };
     
@@ -295,7 +296,7 @@ class Widget extends React.Component {
 | Property              | Type     | Description                                                                                                             | Default         |
 | --------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------- | --------------- |
 | `options`             | array    | **Required**. Specifies the list of options that may exist on either side of the dual list box.                         |                 |
-| `onChange`            | function | **Required**. The handler called when options are moved to either side: `function(selected) {}`.                        |                 |
+| `onChange`            | function | **Required**. The handler called when options are moved to either side: `function(selected, selection, controlKey) {}`. |                 |
 | `alignActions`        | string   | A value specifying whether to align the action buttons to the `'top'` or `'middle'`.                                    | `middle`        |
 | `allowDuplicates`     | bool     | If true, duplicate options will be allowed in the selected list box.                                                    | `false`         |
 | `available`           | array    | A subset of the `options` array to optionally filter the available list box.                                            | `undefined`     |

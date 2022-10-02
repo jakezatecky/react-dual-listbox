@@ -1272,6 +1272,28 @@ describe('<DualListBox />', () => {
             assert.deepEqual([], actualSelected);
             assert.deepEqual(['luna', 'phobos'], actualSelection);
         });
+
+        it('should identify the control responsible for the changes', () => {
+            let actualControlKey = null;
+
+            const wrapper = mount((
+                <DualListBox
+                    options={[
+                        { label: 'Moon', value: 'luna' },
+                        { label: 'Phobos', value: 'phobos' },
+                    ]}
+                    selected={['luna', 'phobos']}
+                    onChange={(selected, selection, controlKey) => {
+                        actualControlKey = controlKey;
+                    }}
+                />
+            ));
+
+            wrapper.find('.rdl-selected select').simulate('change', simulateChange(['luna', 'phobos']));
+            wrapper.find('.rdl-move-left').not('.rdl-move-all').simulate('click');
+
+            assert.equal('selected', actualControlKey);
+        });
     });
 
     describe('props.onFilterChange', () => {

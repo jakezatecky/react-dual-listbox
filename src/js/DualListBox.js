@@ -165,15 +165,16 @@ class DualListBox extends React.Component {
     /**
      * @param {Array} selected The new selected values
      * @param {Array} selection The options the user highlighted (if any)
+     * @param {string} controlKey The key for the control that fired this event.
      *
      * @returns {void}
      */
-    onChange(selected, selection) {
+    onChange(selected, selection, controlKey) {
         const { options, simpleValue, onChange } = this.props;
         const userSelection = selection.map(({ value }) => value);
 
         if (simpleValue) {
-            onChange(selected, userSelection);
+            onChange(selected, userSelection, controlKey);
         } else {
             const complexValues = { selected: [], userSelection: [] };
             const sourceValues = { selected, userSelection };
@@ -208,7 +209,7 @@ class DualListBox extends React.Component {
                 });
             });
 
-            onChange(complexValues.selected, complexValues.userSelection);
+            onChange(complexValues.selected, complexValues.userSelection, controlKey);
         }
     }
 
@@ -239,7 +240,7 @@ class DualListBox extends React.Component {
             );
         }
 
-        this.onChange(selected, marked);
+        this.onChange(selected, marked, directionIsRight ? 'available' : 'selected');
     }
 
     /**
@@ -252,7 +253,7 @@ class DualListBox extends React.Component {
         const marked = this.getMarkedOptions(event.currentTarget);
         const selected = this.toggleSelected(marked, controlKey);
 
-        this.onChange(selected, marked);
+        this.onChange(selected, marked, controlKey);
     }
 
     /**
@@ -269,7 +270,7 @@ class DualListBox extends React.Component {
             const marked = this.getMarkedOptions(currentTarget);
             const selected = this.toggleSelected(marked, controlKey);
 
-            this.onChange(selected, marked);
+            this.onChange(selected, marked, controlKey);
         }
     }
 

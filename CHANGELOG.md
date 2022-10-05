@@ -6,6 +6,10 @@
 
 * [#203]: Add `controlKey` to the `onChange` function such that developers may identify which control triggered the change
 
+### Bug Fixes
+
+* [#142]: Fix issue where `preserveSelectOrder` could result in the improper removal of selected values when filtering
+
 ## [v2.3.0](https://github.com/jakezatecky/react-dual-listbox/compare/v2.2.0...v2.3.0) (2022-09-06)
 
 ### Other

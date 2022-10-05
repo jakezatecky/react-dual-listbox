@@ -293,6 +293,44 @@ describe('<DualListBox />', () => {
             assert.isTrue(wrapper.find('ListBox[controlKey="available"] option[value="phobos"]').exists());
             assert.isTrue(wrapper.find('ListBox[controlKey="available"] option[value="deimos"]').exists());
         });
+
+        // https://github.com/jakezatecky/react-dual-listbox/issues/142
+        it('should remove the proper highlighted option when `preserveSelectOrder` is set', () => {
+            let actualSelected = null;
+            const wrapper = mount((
+                <DualListBox
+                    canFilter
+                    options={[
+                        { label: 'Moon', value: 'luna' },
+                        { label: 'Phobos', value: 'phobos' },
+                        {
+                            label: 'Mars',
+                            options: [
+                                { value: 'phobos', label: 'Phobos' },
+                                { value: 'deimos', label: 'Deimos' },
+                            ],
+                        },
+                    ]}
+                    preserveSelectOrder
+                    selected={['luna', 'phobos', 'deimos']}
+                    onChange={(selected) => {
+                        actualSelected = selected;
+                    }}
+                />
+            ));
+
+            wrapper.find('.rdl-selected .rdl-filter').simulate('change', {
+                target: {
+                    dataset: { key: 'selected' },
+                    value: 'os',
+                },
+            });
+
+            wrapper.find('.rdl-selected select').simulate('change', simulateChange(['deimos']));
+            wrapper.find('.rdl-move-left').not('.rdl-move-all').simulate('click');
+
+            assert.deepEqual(['luna', 'phobos'], actualSelected);
+        });
     });
 
     describe('props.className', () => {

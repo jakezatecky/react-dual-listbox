@@ -660,10 +660,7 @@ class DualListBox extends React.Component {
         if (canFilter) {
             return selectedOptions.filter(
                 (selectedOption) => filterCallback(selectedOption, selectedFilter),
-            ).map((option, index) => ({
-                ...option,
-                selectedIndex: index,
-            }));
+            );
         }
 
         return selectedOptions;

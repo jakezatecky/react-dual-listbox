@@ -254,7 +254,7 @@ describe('<DualListBox />', () => {
 
             wrapper.find('ListBox').at(0).simulate('filterChange', {
                 target: {
-                    dataset: { key: 'available' },
+                    dataset: { controlKey: 'available' },
                     value: 'mo',
                 },
             });
@@ -284,7 +284,7 @@ describe('<DualListBox />', () => {
 
             wrapper.find('ListBox').at(0).simulate('filterChange', {
                 target: {
-                    dataset: { key: 'available' },
+                    dataset: { controlKey: 'available' },
                     value: 'mar',
                 },
             });
@@ -321,7 +321,7 @@ describe('<DualListBox />', () => {
 
             wrapper.find('.rdl-selected .rdl-filter').simulate('change', {
                 target: {
-                    dataset: { key: 'selected' },
+                    dataset: { controlKey: 'selected' },
                     value: 'os',
                 },
             });
@@ -449,7 +449,7 @@ describe('<DualListBox />', () => {
 
             wrapper.find('ListBox').at(0).simulate('filterChange', {
                 target: {
-                    dataset: { key: 'available' },
+                    dataset: { controlKey: 'available' },
                     value: 'moo',
                 },
             });
@@ -473,7 +473,7 @@ describe('<DualListBox />', () => {
 
             wrapper.find('ListBox').at(0).simulate('filterChange', {
                 target: {
-                    dataset: { key: 'available' },
+                    dataset: { controlKey: 'available' },
                     value: '(mars',
                 },
             });
@@ -508,7 +508,7 @@ describe('<DualListBox />', () => {
             available = [];
             wrapper.find('ListBox').at(0).simulate('filterChange', {
                 target: {
-                    dataset: { key: 'available' },
+                    dataset: { controlKey: 'available' },
                     value: 'mo',
                 },
             });
@@ -535,7 +535,7 @@ describe('<DualListBox />', () => {
 
             wrapper.find('ListBox').at(0).simulate('filterChange', {
                 target: {
-                    dataset: { key: 'available' },
+                    dataset: { controlKey: 'available' },
                     value: 'mo',
                 },
             });
@@ -1354,7 +1354,7 @@ describe('<DualListBox />', () => {
 
             wrapper.find('ListBox').at(0).simulate('filterChange', {
                 target: {
-                    dataset: { key: 'available' },
+                    dataset: { controlKey: 'available' },
                     value: 'pho',
                 },
             });

@@ -234,7 +234,7 @@ class DualListBox extends React.Component {
         } else if (isMoveAll) {
             selected = directionIsRight ? this.makeOptionsSelected(options) : [];
         } else {
-            selected = this.toggleSelected(
+            selected = this.toggleHighlighted(
                 marked,
                 directionIsRight ? 'available' : 'selected',
             );
@@ -251,7 +251,7 @@ class DualListBox extends React.Component {
      */
     onOptionDoubleClick(event, controlKey) {
         const marked = this.getMarkedOptions(event.currentTarget);
-        const selected = this.toggleSelected(marked, controlKey);
+        const selected = this.toggleHighlighted(marked, controlKey);
 
         this.onChange(selected, marked, controlKey);
     }
@@ -268,7 +268,7 @@ class DualListBox extends React.Component {
 
         if (moveKeyCodes.indexOf(keyCode) > -1) {
             const marked = this.getMarkedOptions(currentTarget);
-            const selected = this.toggleSelected(marked, controlKey);
+            const selected = this.toggleHighlighted(marked, controlKey);
 
             this.onChange(selected, marked, controlKey);
         }
@@ -285,7 +285,7 @@ class DualListBox extends React.Component {
 
         const newFilter = {
             ...filter,
-            [event.target.dataset.key]: event.target.value,
+            [event.target.dataset.controlKey]: event.target.value,
         };
 
         if (onFilterChange) {
@@ -478,14 +478,14 @@ class DualListBox extends React.Component {
     }
 
     /**
-     * Toggle a new set of selected elements.
+     * Toggle a set of highlighted elements.
      *
      * @param {Array} toggleItems
      * @param {string} controlKey
      *
      * @returns {Array}
      */
-    toggleSelected(toggleItems, controlKey) {
+    toggleHighlighted(toggleItems, controlKey) {
         const { allowDuplicates, selected } = this.props;
         const selectedItems = this.getFlatOptions(selected).slice(0);
         const toggleItemsMap = { ...selectedItems };

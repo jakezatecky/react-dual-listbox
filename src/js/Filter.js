@@ -32,7 +32,7 @@ class Filter extends React.PureComponent {
                 </label>
                 <input
                     className="rdl-filter"
-                    data-key={controlKey}
+                    data-control-key={controlKey}
                     disabled={disabled}
                     id={`${id}-filter-${controlKey}`}
                     placeholder={filterPlaceholder}

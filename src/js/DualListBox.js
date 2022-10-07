@@ -232,7 +232,9 @@ class DualListBox extends React.Component {
         } else if (['top', 'bottom'].indexOf(direction) > -1) {
             selected = this.rearrangeToExtremes(marked, direction);
         } else if (isMoveAll) {
-            selected = directionIsRight ? this.makeOptionsSelected(options) : [];
+            selected = directionIsRight ?
+                this.makeOptionsSelected(options) :
+                this.makeOptionsUnselected(options);
         } else {
             selected = this.toggleHighlighted(
                 marked,
@@ -464,12 +466,56 @@ class DualListBox extends React.Component {
         let newSelected = [];
 
         options.forEach((option) => {
+            // Skip disabled options
+            if (option.disabled) {
+                return;
+            }
+
             if (option.options !== undefined) {
                 newSelected = [
                     ...newSelected,
                     ...this.makeOptionsSelectedRecursive(option.options),
                 ];
             } else {
+                newSelected.push(option.value);
+            }
+        });
+
+        return newSelected;
+    }
+
+    /**
+     * Make all the given options unselected, except for those disabled.
+     *
+     * @param {Array} options
+     *
+     * @returns {Array}
+     */
+    makeOptionsUnselected(options) {
+        const selected = this.filterSelected(options, true);
+
+        return this.makeOptionsUnselectedRecursive(selected);
+    }
+
+    /**
+     * Recursively unselect the given options, except for those disabled.
+     *
+     * @param {Array} selectedOptions
+     *
+     * @returns {Array}
+     */
+    makeOptionsUnselectedRecursive(selectedOptions) {
+        let newSelected = [];
+
+        selectedOptions.forEach((option) => {
+            if (option.options !== undefined) {
+                // Traverse any parents for leaf options
+                newSelected = [
+                    ...newSelected,
+                    ...this.makeOptionsUnselectedRecursive(option.options),
+                ];
+            } else if (option.disabled) {
+                // Preserve only disabled options
                 newSelected.push(option.value);
             }
         });
@@ -535,7 +581,7 @@ class DualListBox extends React.Component {
                     filterer,
                     filterInput,
                     // If the optgroup passes the filter, pre-clear all available children
-                    filterCallback(option, filterInput),
+                    forceAllow || filterCallback(option, filterInput),
                 );
 
                 if (children.length > 0) {
@@ -588,10 +634,11 @@ class DualListBox extends React.Component {
      * Filter the available options.
      *
      * @param {Array} options
+     * @param {boolean} noSearchFilter Ignore the search filter.
      *
      * @returns {Array}
      */
-    filterAvailable(options) {
+    filterAvailable(options, noSearchFilter = false) {
         const { allowDuplicates, available, selected } = this.props;
         const { filter: { available: availableFilter } } = this.state;
 
@@ -613,17 +660,18 @@ class DualListBox extends React.Component {
             true,
         );
 
-        return this.filterOptions(options, filterer, availableFilter);
+        return this.filterOptions(options, filterer, availableFilter, noSearchFilter);
     }
 
     /**
      * Filter the selected options.
      *
      * @param {Array} options
+     * @param {boolean} noSearchFilter Ignore the search filter.
      *
      * @returns {Array}
      */
-    filterSelected(options) {
+    filterSelected(options, noSearchFilter = false) {
         const { preserveSelectOrder, selected } = this.props;
         const { filter: { selected: selectedFilter } } = this.state;
 
@@ -636,6 +684,7 @@ class DualListBox extends React.Component {
             options,
             (option) => indexesOf(this.getFlatOptions(selected), option.value),
             selectedFilter,
+            noSearchFilter,
         );
     }
 

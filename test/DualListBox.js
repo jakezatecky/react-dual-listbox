@@ -720,6 +720,53 @@ describe('<DualListBox />', () => {
             assert.equal(undefined, wrapper.find('ListBox[controlKey="available"] option').at(1).prop('disabled'));
         });
 
+        // https://github.com/jakezatecky/react-dual-listbox/issues/148
+        it('should prevent disabled options and optgroups from moving', () => {
+            let actual = [];
+
+            const wrapper = mount((
+                <DualListBox
+                    options={[
+                        {
+                            label: 'Earth',
+                            options: [
+                                { value: 'luna', label: 'Moon' },
+                            ],
+                        },
+                        {
+                            label: 'Mars',
+                            options: [
+                                { value: 'phobos', label: 'Phobos', disabled: true },
+                                { value: 'deimos', label: 'Deimos' },
+                            ],
+                        },
+                        {
+                            label: 'Jupiter',
+                            disabled: true,
+                            options: [
+                                { value: 'io', label: 'Io' },
+                                { value: 'europa', label: 'Europa' },
+                                { value: 'ganymede', label: 'Ganymede' },
+                                { value: 'callisto', label: 'Callisto' },
+                            ],
+                        },
+                    ]}
+                    selected={['luna', 'phobos']}
+                    onChange={(selected) => {
+                        actual = selected;
+                    }}
+                />
+            ));
+
+            // Everything but the Jovian moves should move to the right
+            wrapper.find('.rdl-move-all.rdl-move-right').simulate('click');
+            assert.deepEqual(['luna', 'phobos', 'deimos'], actual);
+
+            // The disabled Phobos should remain when moving everything left
+            wrapper.find('.rdl-move-all.rdl-move-left').simulate('click');
+            assert.deepEqual(['phobos'], actual);
+        });
+
         it('should add the `title` attribute to specified options', () => {
             const wrapper = shallow((
                 <DualListBox

@@ -9,6 +9,7 @@
 ### Bug Fixes
 
 * [#142]: Fix issue where `preserveSelectOrder` could result in the improper removal of selected values when filtering
+* [#148]: Fix issue where the "Move All" actions ignored individual `disabled` status
 
 ## [v2.3.0](https://github.com/jakezatecky/react-dual-listbox/compare/v2.2.0...v2.3.0) (2022-09-06)
 

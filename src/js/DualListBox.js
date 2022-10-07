@@ -616,7 +616,7 @@ class DualListBox extends React.Component {
                 // these options to the filtered list. The text search filtering is applied AFTER
                 // the main filtering to prevent unnecessary calls to the filterCallback function.
                 if (subFiltered.length > 0) {
-                    if (canFilter && !filterCallback(option, filterInput) && !forceAllow) {
+                    if (canFilter && !forceAllow && !filterCallback(option, filterInput)) {
                         return;
                     }
 

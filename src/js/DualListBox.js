@@ -230,7 +230,7 @@ class DualListBox extends React.Component {
         if (['up', 'down'].indexOf(direction) > -1) {
             selected = this.rearrangeSelected(marked, direction);
         } else if (['top', 'bottom'].indexOf(direction) > -1) {
-            selected = this.moveToExtremes(marked, direction);
+            selected = this.rearrangeToExtremes(marked, direction);
         } else if (isMoveAll) {
             selected = directionIsRight ? this.makeOptionsSelected(options) : [];
         } else {
@@ -415,7 +415,7 @@ class DualListBox extends React.Component {
      *
      * @returns {Array}
      */
-    moveToExtremes(markedOptions, direction) {
+    rearrangeToExtremes(markedOptions, direction) {
         const { selected } = this.props;
         const selectedItems = this.getFlatOptions(selected).slice(0);
         let unmarked = [...selectedItems];

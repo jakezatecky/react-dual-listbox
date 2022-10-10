@@ -63,7 +63,7 @@ $rdl-line-height: 1.42857 !default;
 }
 
 .rdl-control-label {
-  padding: 2px 4px;
+  padding: 0 4px 4px;
 
   &.rdl-sr-only {
     position: absolute;
@@ -91,11 +91,11 @@ $rdl-line-height: 1.42857 !default;
   }
 
   .rdl-has-filter & {
-    padding-top: 44px;
+    padding-top: 46px;
   }
 
   .rdl-has-header.rdl-has-filter & {
-    padding-top: 75px;
+    padding-top: 77px;
   }
 }
 

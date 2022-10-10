@@ -306,6 +306,7 @@ class Widget extends React.Component {
 | `disabled`            | bool     | If true, both "available" and "selected" list boxes will be disabled.                                                   | `false`         |
 | `filterCallback`      | function | The filter function to run on a given option and input string: `function(option, filterInput) {}`. See **Filtering**.   | `() => { ... }` |
 | `filterPlaceholder`   | string   | The text placeholder used when the filter search boxes are empty.                                                       | `"Search..."`   |
+| `filtersVisible`      | array    | The filters to show the user. Should be some combination of `'available'` and `'selected'`. Defaults to both.           | `[ ... ]`       |
 | `icons`               | object   | A key-value pairing of action icons and their React nodes. See **Changing the Default Icons** for further info.         | `{ ... }`       |
 | `id`                  | string   | An HTML ID prefix for the various sub elements.                                                                         | `null`          |
 | `lang`                | object   | A key-value pairing of localized text. See [`src/js/lang/default.js`][lang-file] for a list of keys.                    | `{ ... }`       |

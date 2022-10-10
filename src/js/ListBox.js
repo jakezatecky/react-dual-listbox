@@ -95,6 +95,8 @@ class ListBox extends React.Component {
     renderSelect() {
         const {
             actions,
+            canFilter,
+            canFilterOverall,
             children,
             disabled,
             controlKey,
@@ -106,6 +108,10 @@ class ListBox extends React.Component {
             onKeyUp,
         } = this.props;
         const { value } = this.state;
+        const containerClassName = classNames({
+            'rdl-control-container': true,
+            'rdl-control-container-no-filter': canFilterOverall && !canFilter,
+        });
 
         if (showNoOptionsText && React.Children.count(children) === 0) {
             return (
@@ -116,7 +122,7 @@ class ListBox extends React.Component {
         }
 
         return (
-            <div className="rdl-control-container">
+            <div className={containerClassName}>
                 {actions}
                 <select
                     className="rdl-control"

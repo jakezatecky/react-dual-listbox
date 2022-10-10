@@ -18,6 +18,10 @@ const KEY_CODES = {
     SPACEBAR: 32,
     ENTER: 13,
 };
+const CONTROLS = {
+    AVAILABLE: 'available',
+    SELECTED: 'selected',
+};
 const ALIGNMENTS = {
     MIDDLE: 'middle',
     TOP: 'top',
@@ -77,6 +81,9 @@ class DualListBox extends React.Component {
         }),
         filterCallback: PropTypes.func,
         filterPlaceholder: PropTypes.string,
+        filtersVisible: PropTypes.arrayOf(
+            PropTypes.oneOf([CONTROLS.AVAILABLE, CONTROLS.SELECTED]),
+        ),
         icons: iconsShape,
         id: PropTypes.string,
         lang: languageShape,
@@ -103,6 +110,7 @@ class DualListBox extends React.Component {
         filter: null,
         filterPlaceholder: 'Search...',
         filterCallback: defaultFilter,
+        filtersVisible: [CONTROLS.AVAILABLE, CONTROLS.SELECTED],
         icons: defaultIcons,
         id: null,
         lang: defaultLang,
@@ -222,6 +230,7 @@ class DualListBox extends React.Component {
     onActionClick({ direction, isMoveAll }) {
         const { options } = this.props;
         const directionIsRight = direction === 'right';
+        const controlKey = directionIsRight ? CONTROLS.AVAILABLE : CONTROLS.SELECTED;
         const sourceListBox = directionIsRight ? this.available : this.selected;
         const marked = this.getMarkedOptions(sourceListBox);
 
@@ -236,13 +245,10 @@ class DualListBox extends React.Component {
                 this.makeOptionsSelected(options) :
                 this.makeOptionsUnselected(options);
         } else {
-            selected = this.toggleHighlighted(
-                marked,
-                directionIsRight ? 'available' : 'selected',
-            );
+            selected = this.toggleHighlighted(marked, controlKey);
         }
 
-        this.onChange(selected, marked, directionIsRight ? 'available' : 'selected');
+        this.onChange(selected, marked, controlKey);
     }
 
     /**
@@ -777,11 +783,13 @@ class DualListBox extends React.Component {
             canFilter,
             disabled,
             filterPlaceholder,
+            filtersVisible,
             lang,
             showHeaderLabels,
             showNoOptionsText,
         } = this.props;
         const { filter, id } = this.state;
+        const boxCanFilter = canFilter && filtersVisible.includes(controlKey);
 
         // Wrap event handlers with a controlKey reference
         const wrapHandler = (handler) => ((event) => handler(event, controlKey));
@@ -789,7 +797,8 @@ class DualListBox extends React.Component {
         return (
             <ListBox
                 actions={alignActions === ALIGNMENTS.TOP ? actions : null}
-                canFilter={canFilter}
+                canFilter={boxCanFilter}
+                canFilterOverall={canFilter}
                 controlKey={controlKey}
                 disabled={disabled}
                 filterPlaceholder={filterPlaceholder}
@@ -871,14 +880,24 @@ class DualListBox extends React.Component {
 
         return (
             <div className={rootClassName} id={id}>
-                {this.renderListBox('available', availableOptions, availableRef, actionsRight)}
+                {this.renderListBox(
+                    CONTROLS.AVAILABLE,
+                    availableOptions,
+                    availableRef,
+                    actionsRight,
+                )}
                 {alignActions === ALIGNMENTS.MIDDLE ? (
                     <div className="rdl-actions">
                         {actionsRight}
                         {actionsLeft}
                     </div>
                 ) : null}
-                {this.renderListBox('selected', selectedOptions, selectedRef, actionsLeft)}
+                {this.renderListBox(
+                    CONTROLS.SELECTED,
+                    selectedOptions,
+                    selectedRef,
+                    actionsLeft,
+                )}
                 {preserveSelectOrder && showOrderButtons ? (
                     <div className="rdl-actions">
                         {makeAction('top')}

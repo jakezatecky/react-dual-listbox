@@ -60,6 +60,10 @@ $rdl-line-height: 1.42857 !default;
   display: flex;
   flex: 1 0 auto;
   flex-direction: column;
+
+  &.rdl-control-container-no-filter {
+    margin-top: 46px;
+  }
 }
 
 .rdl-control-label {
@@ -91,7 +95,7 @@ $rdl-line-height: 1.42857 !default;
   }
 
   .rdl-has-filter & {
-    padding-top: 44px;
+    padding-top: 46px;
   }
 
   .rdl-has-header.rdl-has-filter & {

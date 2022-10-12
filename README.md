@@ -307,6 +307,7 @@ class Widget extends React.Component {
 | `filterCallback`      | function | The filter function to run on a given option and input string: `function(option, filterInput) {}`. See **Filtering**.   | `() => { ... }` |
 | `filterPlaceholder`   | string   | The text placeholder used when the filter search boxes are empty.                                                       | `"Search..."`   |
 | `icons`               | object   | A key-value pairing of action icons and their React nodes. See **Changing the Default Icons** for further info.         | `{ ... }`       |
+| `iconsClass`          | string   | A value specifying which overarching icon class to use. Built-in support for `fa5`, `fa6`, and `native` icons.          | `'fa5'`         |
 | `id`                  | string   | An HTML ID prefix for the various sub elements.                                                                         | `null`          |
 | `lang`                | object   | A key-value pairing of localized text. See [`src/js/lang/default.js`][lang-file] for a list of keys.                    | `{ ... }`       |
 | `moveKeyCodes`        | array    | A list of key codes that will trigger a toggle of the selected options.                                                 | `[13, 32]`      |

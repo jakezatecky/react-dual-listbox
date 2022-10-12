@@ -9,10 +9,12 @@
 @rdl-btn-border-hover: darken(@rdl-btn-border, 12%);
 @rdl-btn-color: #333;
 @rdl-line-height: 1.42857;
+@rdl-desktop-min-width: 600px;
 
 .react-dual-listbox {
   box-sizing: border-box;
   display: flex;
+  flex-direction: column;
   align-items: center;
 
   * {
@@ -31,6 +33,10 @@
   select {
     line-height: @rdl-line-height;
     font-family: inherit;
+  }
+
+  @media (min-width: @rdl-desktop-min-width) {
+    flex-direction: row;
   }
 }
 
@@ -83,34 +89,44 @@
 .rdl-actions {
   display: flex;
   flex: 0 0 auto;
-  flex-direction: column;
-  margin: 0 10px;
+  margin: 10px 0;
 
-  .rdl-has-header & {
-    padding-top: 31px;
-  }
+  @media (min-width: @rdl-desktop-min-width) {
+    flex-direction: column;
+    margin: 0 10px;
+    width: auto;
 
-  .rdl-has-filter & {
-    padding-top: 46px;
-  }
+    .rdl-has-header & {
+      padding-top: 31px;
+    }
 
-  .rdl-has-header.rdl-has-filter & {
-    padding-top: 77px;
+    .rdl-has-filter & {
+      padding-top: 46px;
+    }
+
+    .rdl-has-header.rdl-has-filter & {
+      padding-top: 77px;
+    }
   }
 }
 
 .rdl-actions-right,
 .rdl-actions-left {
   display: flex;
-  flex-direction: column;
+
+  @media (min-width: @rdl-desktop-min-width) {
+    flex-direction: column;
+  }
 }
 
-.rdl-actions-right {
-  margin-bottom: 10px;
+@media (min-width: @rdl-desktop-min-width) {
+  .rdl-actions-right {
+    margin-bottom: 10px;
+  }
 }
 
 .rdl-move {
-  margin-bottom: 5px;
+  margin: 0 3px;
   border: 1px solid @rdl-btn-border;
   border-radius: 2px;
   background: @rdl-input-bg;
@@ -148,15 +164,15 @@
   i {
     margin: 0 -1px;
   }
+
+  @media (min-width: @rdl-desktop-min-width) {
+    margin: 0 0 5px;
+  }
 }
 
 .rdl-align-top {
   .rdl-available {
-    margin-right: 10px;
-  }
-
-  .rdl-selected {
-    margin-left: 10px;
+    margin-bottom: 10px;
   }
 
   .rdl-control {
@@ -172,6 +188,7 @@
 
   .rdl-list-box .rdl-move {
     flex: 0 1 50%;
+    margin: 0;
 
     &:first-child {
       margin-bottom: 0;
@@ -185,6 +202,17 @@
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
+    }
+  }
+
+
+  @media (min-width: @rdl-desktop-min-width) {
+    .rdl-available {
+      margin: 0 10px 0 0;
+    }
+
+    .rdl-selected {
+      margin-left: 10px;
     }
   }
 }

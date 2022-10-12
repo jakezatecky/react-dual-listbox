@@ -1,9 +1,10 @@
 # CHANGELOG
 
-## v2.4.0 (TBA)
+## v3.0.0 (TBA)
 
 ### New Features
 
+* [#209]: **(breaking)** Add `iconsClass`, make icons more semantic, and support Unicode icons
 * [#203]: Add `controlKey` to the `onChange` function such that developers may identify which control triggered the change
 
 ### Bug Fixes

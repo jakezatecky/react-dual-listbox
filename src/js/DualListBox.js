@@ -43,20 +43,14 @@ const swap = (index1, index2) => (
     }
 );
 const defaultIcons = {
-    moveLeft: <span className="fa fa-chevron-left" />,
-    moveAllLeft: [
-        <span key={0} className="fa fa-chevron-left" />,
-        <span key={1} className="fa fa-chevron-left" />,
-    ],
-    moveRight: <span className="fa fa-chevron-right" />,
-    moveAllRight: [
-        <span key={0} className="fa fa-chevron-right" />,
-        <span key={1} className="fa fa-chevron-right" />,
-    ],
-    moveTop: <span className="fa fa-angle-double-up" />,
-    moveBottom: <span className="fa fa-angle-double-down" />,
-    moveDown: <span className="fa fa-chevron-down" />,
-    moveUp: <span className="fa fa-chevron-up" />,
+    moveLeft: <span className="rdl-icon rdl-icon-move-left" />,
+    moveAllLeft: <span className="rdl-icon rdl-icon-move-all-left" />,
+    moveRight: <span className="rdl-icon rdl-icon-move-right" />,
+    moveAllRight: <span className="rdl-icon rdl-icon-move-all-right" />,
+    moveBottom: <span className="rdl-icon rdl-icon-move-bottom" />,
+    moveDown: <span className="rdl-icon rdl-icon-move-down" />,
+    moveUp: <span className="rdl-icon rdl-icon-move-up" />,
+    moveTop: <span className="rdl-icon rdl-icon-move-top" />,
 };
 
 class DualListBox extends React.Component {
@@ -78,6 +72,7 @@ class DualListBox extends React.Component {
         filterCallback: PropTypes.func,
         filterPlaceholder: PropTypes.string,
         icons: iconsShape,
+        iconsClass: PropTypes.string,
         id: PropTypes.string,
         lang: languageShape,
         moveKeyCodes: PropTypes.arrayOf(PropTypes.number),
@@ -104,6 +99,7 @@ class DualListBox extends React.Component {
         filterPlaceholder: 'Search...',
         filterCallback: defaultFilter,
         icons: defaultIcons,
+        iconsClass: 'fa5',
         id: null,
         lang: defaultLang,
         moveKeyCodes: [KEY_CODES.SPACEBAR, KEY_CODES.ENTER],
@@ -825,6 +821,7 @@ class DualListBox extends React.Component {
             className,
             disabled,
             icons,
+            iconsClass,
             lang,
             name,
             options,
@@ -862,6 +859,7 @@ class DualListBox extends React.Component {
         );
         const rootClassName = classNames({
             'react-dual-listbox': true,
+            [`rdl-icons-${iconsClass}`]: true,
             'rdl-has-filter': canFilter,
             'rdl-has-header': showHeaderLabels,
             'rdl-align-top': alignActions === ALIGNMENTS.TOP,

@@ -1,3 +1,5 @@
+$rdl-icon-font-family-fa5: "Font Awesome 5 Free", "FontAwesome", sans-serif;
+$rdl-icon-font-family-fa6: "Font Awesome 6 Free", "FontAwesome", sans-serif;
 $rdl-input-bg: #fff !default;
 $rdl-input-disabled-bg: #eee !default;
 $rdl-input-border: #ccc !default;
@@ -10,6 +12,12 @@ $rdl-btn-border-hover: darken($rdl-btn-border, 12%);
 $rdl-btn-color: #333 !default;
 $rdl-line-height: 1.42857 !default;
 $rdl-desktop-min-width: 600px !default;
+
+// Force ASCII output until Sass supports it
+// https://github.com/sass/dart-sass/issues/568
+@function unicode($str) {
+  @return unquote("\"") + unquote(str-insert($str, "\\", 1)) + unquote("\"");
+}
 
 .react-dual-listbox {
   box-sizing: border-box;
@@ -133,7 +141,7 @@ $rdl-desktop-min-width: 600px !default;
   cursor: pointer;
   padding: 5px 10px;
   color: $rdl-btn-color;
-  font-size: 12px;
+  font-size: 14px;
 
   &:active:not(:disabled),
   &:focus:not(:disabled) {
@@ -160,9 +168,13 @@ $rdl-desktop-min-width: 600px !default;
     margin-bottom: 0;
   }
 
-  // Decrease spacing between icons
-  i {
-    margin: 0 -1px;
+  .rdl-icon {
+    display: inline-block;
+    text-align: center;
+    text-rendering: auto;
+    font-size: 14px;
+    font-variant: normal;
+    font-style: normal;
   }
 
   @media (min-width: $rdl-desktop-min-width) {
@@ -213,5 +225,87 @@ $rdl-desktop-min-width: 600px !default;
     .rdl-selected {
       margin-left: 10px;
     }
+  }
+}
+
+// Font Awesome styles
+.rdl-icons-fa5,
+.rdl-icons-fa6 {
+  .rdl-icon {
+    font-weight: 900;
+  }
+
+  .rdl-icon-move-left::before {
+    content: unicode("f104");
+  }
+
+  .rdl-icon-move-all-left::before {
+    content: unicode("f100");
+  }
+
+  .rdl-icon-move-right::before {
+    content: unicode("f105");
+  }
+
+  .rdl-icon-move-all-right::before {
+    content: unicode("f101");
+  }
+
+  .rdl-icon-move-bottom::before {
+    content: unicode("f103");
+  }
+
+  .rdl-icon-move-down::before {
+    content: unicode("f107");
+  }
+
+  .rdl-icon-move-up::before {
+    content: unicode("f106");
+  }
+
+  .rdl-icon-move-top::before {
+    content: unicode("f102");
+  }
+}
+
+.rdl-icons-fa5 .rdl-icon {
+  font-family: $rdl-icon-font-family-fa5;
+}
+
+.rdl-icons-fa6 .rdl-icon {
+  font-family: $rdl-icon-font-family-fa6;
+}
+
+.rdl-icons-native {
+  .rdl-icon-move-left::before {
+    content: "⭠";
+  }
+
+  .rdl-icon-move-all-left::before {
+    content: "⮄";
+  }
+
+  .rdl-icon-move-right::before {
+    content: "⭢";
+  }
+
+  .rdl-icon-move-all-right::before {
+    content: "⮆";
+  }
+
+  .rdl-icon-move-bottom::before {
+    content: "⮇";
+  }
+
+  .rdl-icon-move-down::before {
+    content: "🠣";
+  }
+
+  .rdl-icon-move-up::before {
+    content: "🠡";
+  }
+
+  .rdl-icon-move-top::before {
+    content: "⮅";
   }
 }

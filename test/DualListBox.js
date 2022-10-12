@@ -354,7 +354,7 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            assert.deepEqual('react-dual-listbox', wrapper.find('.react-dual-listbox').prop('className'));
+            assert.deepEqual('react-dual-listbox rdl-icons-fa5', wrapper.find('.react-dual-listbox').prop('className'));
         });
     });
 
@@ -583,6 +583,20 @@ describe('<DualListBox />', () => {
             assert.isTrue(wrapper.find('.rdl-move-all').filter('.rdl-move-right').contains(
                 <span className="new-icon" />,
             ));
+        });
+    });
+
+    describe('props.iconsClass', () => {
+        it('should append the class name to parent name', () => {
+            const wrapper = shallow((
+                <DualListBox
+                    iconsClass="native"
+                    options={[{ label: 'Phobos', value: 'phobos' }]}
+                    onChange={() => {}}
+                />
+            ));
+
+            assert.deepEqual('react-dual-listbox rdl-icons-native', wrapper.find('.react-dual-listbox').prop('className'));
         });
     });
 

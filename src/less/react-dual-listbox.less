@@ -14,7 +14,7 @@
 @rdl-btn-border-hover: darken(@rdl-btn-border, 12%);
 @rdl-btn-color: #333;
 @rdl-line-height: 1.42857;
-@rdl-desktop-min-width: 600px;
+@rdl-desktop-min-width: 576px;
 
 .react-dual-listbox {
   box-sizing: border-box;
@@ -38,6 +38,11 @@
   select {
     line-height: @rdl-line-height;
     font-family: inherit;
+  }
+
+  // Set minimum height to prevent boxes from resizing on mobile
+  select {
+    min-height: 140px;
   }
 
   @media (min-width: @rdl-desktop-min-width) {
@@ -233,36 +238,43 @@
     font-weight: 900;
   }
 
-  .rdl-icon-move-left::before {
-    content: "\f104";
-  }
-
-  .rdl-icon-move-all-left::before {
-    content: "\f100";
-  }
-
-  .rdl-icon-move-right::before {
-    content: "\f105";
-  }
-
-  .rdl-icon-move-all-right::before {
-    content: "\f101";
-  }
-
+  .rdl-icon-move-all-right::before,
   .rdl-icon-move-bottom::before {
     content: "\f103";
   }
 
+  .rdl-icon-move-right::before,
   .rdl-icon-move-down::before {
     content: "\f107";
   }
 
+  .rdl-icon-move-left::before,
   .rdl-icon-move-up::before {
     content: "\f106";
   }
 
+  .rdl-icon-move-all-left::before,
   .rdl-icon-move-top::before {
     content: "\f102";
+  }
+
+  // Larger screens will arrange the boxes as columns, so "left" and "right" icons apply
+  @media (min-width: @rdl-desktop-min-width) {
+    .rdl-icon-move-left::before {
+      content: "\f104";
+    }
+
+    .rdl-icon-move-all-left::before {
+      content: "\f100";
+    }
+
+    .rdl-icon-move-right::before {
+      content: "\f105";
+    }
+
+    .rdl-icon-move-all-right::before {
+      content: "\f101";
+    }
   }
 }
 
@@ -275,35 +287,42 @@
 }
 
 .rdl-icons-native {
-  .rdl-icon-move-left::before {
-    content: "⭠";
-  }
-
-  .rdl-icon-move-all-left::before {
-    content: "⮄";
-  }
-
-  .rdl-icon-move-right::before {
-    content: "⭢";
-  }
-
-  .rdl-icon-move-all-right::before {
-    content: "⮆";
-  }
-
+  .rdl-icon-move-all-right::before,
   .rdl-icon-move-bottom::before {
     content: "⮇";
   }
 
+  .rdl-icon-move-right::before,
   .rdl-icon-move-down::before {
     content: "🠣";
   }
 
+  .rdl-icon-move-left::before,
   .rdl-icon-move-up::before {
     content: "🠡";
   }
 
+  .rdl-icon-move-all-left::before,
   .rdl-icon-move-top::before {
     content: "⮅";
+  }
+
+  // Larger screens will arrange the boxes as columns, so "left" and "right" icons apply
+  @media (min-width: @rdl-desktop-min-width) {
+    .rdl-icon-move-left::before {
+      content: "⭠";
+    }
+
+    .rdl-icon-move-all-left::before {
+      content: "⮄";
+    }
+
+    .rdl-icon-move-right::before {
+      content: "⭢";
+    }
+
+    .rdl-icon-move-all-right::before {
+      content: "⮆";
+    }
   }
 }

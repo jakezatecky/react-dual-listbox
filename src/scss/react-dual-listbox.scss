@@ -11,7 +11,7 @@ $rdl-btn-border-active: darken($rdl-btn-border, 25%);
 $rdl-btn-border-hover: darken($rdl-btn-border, 12%);
 $rdl-btn-color: #333 !default;
 $rdl-line-height: 1.42857 !default;
-$rdl-desktop-min-width: 600px !default;
+$rdl-desktop-min-width: 576px !default;
 
 // Force ASCII output until Sass supports it
 // https://github.com/sass/dart-sass/issues/568
@@ -41,6 +41,11 @@ $rdl-desktop-min-width: 600px !default;
   select {
     line-height: $rdl-line-height;
     font-family: inherit;
+  }
+
+  // Set minimum height to prevent boxes from resizing on mobile
+  select {
+    min-height: 140px;
   }
 
   @media (min-width: $rdl-desktop-min-width) {
@@ -235,36 +240,43 @@ $rdl-desktop-min-width: 600px !default;
     font-weight: 900;
   }
 
-  .rdl-icon-move-left::before {
-    content: unicode("f104");
-  }
-
-  .rdl-icon-move-all-left::before {
-    content: unicode("f100");
-  }
-
-  .rdl-icon-move-right::before {
-    content: unicode("f105");
-  }
-
-  .rdl-icon-move-all-right::before {
-    content: unicode("f101");
-  }
-
+  .rdl-icon-move-all-right::before,
   .rdl-icon-move-bottom::before {
     content: unicode("f103");
   }
 
+  .rdl-icon-move-right::before,
   .rdl-icon-move-down::before {
     content: unicode("f107");
   }
 
+  .rdl-icon-move-left::before,
   .rdl-icon-move-up::before {
     content: unicode("f106");
   }
 
+  .rdl-icon-move-all-left::before,
   .rdl-icon-move-top::before {
     content: unicode("f102");
+  }
+
+  // Larger screens will arrange the boxes as columns, so "left" and "right" icons apply
+  @media (min-width: $rdl-desktop-min-width) {
+    .rdl-icon-move-left::before {
+      content: unicode("f104");
+    }
+
+    .rdl-icon-move-all-left::before {
+      content: unicode("f100");
+    }
+
+    .rdl-icon-move-right::before {
+      content: unicode("f105");
+    }
+
+    .rdl-icon-move-all-right::before {
+      content: unicode("f101");
+    }
   }
 }
 
@@ -277,35 +289,42 @@ $rdl-desktop-min-width: 600px !default;
 }
 
 .rdl-icons-native {
-  .rdl-icon-move-left::before {
-    content: "⭠";
-  }
-
-  .rdl-icon-move-all-left::before {
-    content: "⮄";
-  }
-
-  .rdl-icon-move-right::before {
-    content: "⭢";
-  }
-
-  .rdl-icon-move-all-right::before {
-    content: "⮆";
-  }
-
+  .rdl-icon-move-all-right::before,
   .rdl-icon-move-bottom::before {
     content: "⮇";
   }
 
+  .rdl-icon-move-right::before,
   .rdl-icon-move-down::before {
     content: "🠣";
   }
 
+  .rdl-icon-move-left::before,
   .rdl-icon-move-up::before {
     content: "🠡";
   }
 
+  .rdl-icon-move-all-left::before,
   .rdl-icon-move-top::before {
     content: "⮅";
+  }
+
+  // Larger screens will arrange the boxes as columns, so "left" and "right" icons apply
+  @media (min-width: $rdl-desktop-min-width) {
+    .rdl-icon-move-left::before {
+      content: "⭠";
+    }
+
+    .rdl-icon-move-all-left::before {
+      content: "⮄";
+    }
+
+    .rdl-icon-move-right::before {
+      content: "⭢";
+    }
+
+    .rdl-icon-move-all-right::before {
+      content: "⮆";
+    }
   }
 }

@@ -206,27 +206,61 @@
 
     &:first-child {
       margin-bottom: 0;
-      border-right: 0;
-      border-top-right-radius: 0;
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
     }
 
     &:last-child {
-      border-top-left-radius: 0;
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
     }
   }
 
+  &[dir="ltr"] {
+    .rdl-list-box .rdl-move {
+      &:first-child {
+        border-right: 0;
+        border-top-right-radius: 0;
+      }
+
+      &:last-child {
+        border-top-right-radius: 0;
+      }
+    }
+  }
+
+  &[dir="rtl"] {
+    .rdl-list-box .rdl-move {
+      &:first-child {
+        border-left: 0;
+        border-top-left-radius: 0;
+      }
+
+      &:last-child {
+        border-top-left-radius: 0;
+      }
+    }
+  }
 
   @media (min-width: @rdl-desktop-min-width) {
-    .rdl-available {
-      margin: 0 10px 0 0;
+    &[dir="ltr"] {
+      .rdl-available {
+        margin: 0 10px 0 0;
+      }
+
+      .rdl-selected {
+        margin-left: 10px;
+      }
     }
 
-    .rdl-selected {
-      margin-left: 10px;
+    &[dir="rtl"] {
+      .rdl-available {
+        margin: 0 0 0 10px;
+      }
+
+      .rdl-selected {
+        margin-right: 10px;
+      }
     }
   }
 }
@@ -274,6 +308,25 @@
 
     .rdl-icon-move-all-right::before {
       content: "\f101";
+    }
+
+    // Change directions when right-to-left
+    &[dir="rtl"] {
+      .rdl-icon-move-left::before {
+        content: "\f105";
+      }
+
+      .rdl-icon-move-all-left::before {
+        content: "\f101";
+      }
+
+      .rdl-icon-move-right::before {
+        content: "\f104";
+      }
+
+      .rdl-icon-move-all-right::before {
+        content: "\f100";
+      }
     }
   }
 }
@@ -323,6 +376,25 @@
 
     .rdl-icon-move-all-right::before {
       content: "⮆";
+    }
+
+    // Change directions when right-to-left
+    &[dir="rtl"] {
+      .rdl-icon-move-left::before {
+        content: "⭢";
+      }
+
+      .rdl-icon-move-all-left::before {
+        content: "⮆";
+      }
+
+      .rdl-icon-move-right::before {
+        content: "⭠";
+      }
+
+      .rdl-icon-move-all-right::before {
+        content: "⮄";
+      }
     }
   }
 }

@@ -71,6 +71,7 @@ class DualListBox extends React.Component {
         }),
         filterCallback: PropTypes.func,
         filterPlaceholder: PropTypes.string,
+        htmlDir: PropTypes.string,
         icons: iconsShape,
         iconsClass: PropTypes.string,
         id: PropTypes.string,
@@ -98,6 +99,7 @@ class DualListBox extends React.Component {
         filter: null,
         filterPlaceholder: 'Search...',
         filterCallback: defaultFilter,
+        htmlDir: 'ltr',
         icons: defaultIcons,
         iconsClass: 'fa5',
         id: null,
@@ -820,6 +822,7 @@ class DualListBox extends React.Component {
             canFilter,
             className,
             disabled,
+            htmlDir,
             icons,
             iconsClass,
             lang,
@@ -868,7 +871,7 @@ class DualListBox extends React.Component {
         const value = this.getFlatOptions(selected).join(',');
 
         return (
-            <div className={rootClassName} id={id}>
+            <div className={rootClassName} dir={htmlDir} id={id}>
                 {this.renderListBox('available', availableOptions, availableRef, actionsRight)}
                 {alignActions === ALIGNMENTS.MIDDLE ? (
                     <div className="rdl-actions">

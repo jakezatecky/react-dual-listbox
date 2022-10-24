@@ -306,6 +306,7 @@ class Widget extends React.Component {
 | `disabled`            | bool     | If true, both "available" and "selected" list boxes will be disabled.                                                   | `false`         |
 | `filterCallback`      | function | The filter function to run on a given option and input string: `function(option, filterInput) {}`. See **Filtering**.   | `() => { ... }` |
 | `filterPlaceholder`   | string   | The text placeholder used when the filter search boxes are empty.                                                       | `"Search..."`   |
+| `htmlDir`             | string   | The [directionality][mdn-directionality] of the component's elements. Set to `'rtl'` if using a right-to-left language. | `'ltr'`         |
 | `icons`               | object   | A key-value pairing of action icons and their React nodes. See **Changing the Default Icons** for further info.         | `{ ... }`       |
 | `iconsClass`          | string   | A value specifying which overarching icon class to use. Built-in support for `fa5`, `fa6`, and `native` icons.          | `'fa5'`         |
 | `id`                  | string   | An HTML ID prefix for the various sub elements.                                                                         | `null`          |
@@ -331,4 +332,5 @@ class Widget extends React.Component {
 
 [controlled]: https://facebook.github.io/react/docs/forms.html#controlled-components
 [lang-file]: https://github.com/jakezatecky/react-dual-listbox/blob/master/src/js/lang/default.js
+[mdn-directionality]: https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/dir
 [ref]: https://reactjs.org/docs/refs-and-the-dom.html

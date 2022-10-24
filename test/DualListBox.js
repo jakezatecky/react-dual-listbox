@@ -562,6 +562,31 @@ describe('<DualListBox />', () => {
         });
     });
 
+    describe('props.htmlDir', () => {
+        it('should should default to LTR', () => {
+            const wrapper = shallow((
+                <DualListBox
+                    options={[{ label: 'Phobos', value: 'phobos' }]}
+                    onChange={() => {}}
+                />
+            ));
+
+            assert.deepEqual('ltr', wrapper.find('.react-dual-listbox').prop('dir'));
+        });
+
+        it('should set the HTML `dir` property to the assigned value', () => {
+            const wrapper = shallow((
+                <DualListBox
+                    htmlDir="rtl"
+                    options={[{ label: 'Phobos', value: 'phobos' }]}
+                    onChange={() => {}}
+                />
+            ));
+
+            assert.deepEqual('rtl', wrapper.find('.react-dual-listbox').prop('dir'));
+        });
+    });
+
     describe('props.icons', () => {
         it('should overwrite the default nodes for any given action', () => {
             const wrapper = mount((

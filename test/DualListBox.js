@@ -1418,6 +1418,33 @@ describe('<DualListBox />', () => {
 
             assert.equal('selected', actualControlKey);
         });
+
+        // https://github.com/jakezatecky/react-dual-listbox/issues/139
+        it('should not persist selections/highlights after moving options', () => {
+            const wrapper = mount((
+                <DualListBox
+                    options={[
+                        { label: 'Option 1', value: 'one' },
+                        { label: 'Option 2', value: 'two' },
+                        { label: 'Option 3', value: 'three' },
+                    ]}
+                    selected={['one']}
+                    onChange={() => {}}
+                />
+            ));
+
+            // Test clearing of available selections
+            wrapper.find('.rdl-available select').simulate('change', simulateChange(['two']));
+            wrapper.find('.rdl-move-right').not('.rdl-move-all').simulate('click');
+
+            assert.deepEqual([], wrapper.find('.rdl-available select').prop('value'));
+
+            // Test clearing of selected selections
+            wrapper.find('.rdl-selected select').simulate('change', simulateChange(['one']));
+            wrapper.find('.rdl-move-left').not('.rdl-move-all').simulate('click');
+
+            assert.deepEqual([], wrapper.find('.rdl-selected select').prop('value'));
+        });
     });
 
     describe('props.onFilterChange', () => {

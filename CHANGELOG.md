@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v3.1.0 (TBA)
+
+### Bug Fixes
+
+* [#139]: Fix issue where selections would persist after moving otpions
+
 ## [v3.0.0](https://github.com/jakezatecky/react-dual-listbox/compare/v2.3.0...v3.0.0) (2022-10-24)
 
 ### New Features

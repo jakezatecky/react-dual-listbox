@@ -4,7 +4,6 @@ import React from 'react';
 
 import Filter from './Filter';
 import languageShape from './shapes/languageShape';
-import arrayFrom from './util/arrayFrom';
 import capitalizeFirstLetter from './util/capitalizeFirstLetter';
 
 class ListBox extends React.Component {
@@ -18,11 +17,15 @@ class ListBox extends React.Component {
         id: PropTypes.string.isRequired,
         inputRef: PropTypes.func.isRequired,
         lang: languageShape.isRequired,
+        selections: PropTypes.arrayOf(
+            PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+        ).isRequired,
         showHeaderLabels: PropTypes.bool.isRequired,
         showNoOptionsText: PropTypes.bool.isRequired,
         onDoubleClick: PropTypes.func.isRequired,
         onFilterChange: PropTypes.func.isRequired,
         onKeyUp: PropTypes.func.isRequired,
+        onSelectionChange: PropTypes.func.isRequired,
 
         actions: PropTypes.node,
     };
@@ -30,32 +33,6 @@ class ListBox extends React.Component {
     static defaultProps = {
         actions: null,
     };
-
-    /**
-     * @returns {void}
-     */
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            value: [],
-        };
-
-        this.onChange = this.onChange.bind(this);
-    }
-
-    /**
-     * @param {Object} event
-     *
-     * @returns {void}
-     */
-    onChange(event) {
-        const value = arrayFrom(event.target.options)
-            .filter((option) => option.selected)
-            .map((option) => option.value);
-
-        this.setState({ value });
-    }
 
     /**
      * @returns {ReactElement}
@@ -101,11 +78,12 @@ class ListBox extends React.Component {
             id,
             inputRef,
             lang,
+            selections,
             showNoOptionsText,
             onDoubleClick,
             onKeyUp,
+            onSelectionChange,
         } = this.props;
-        const { value } = this.state;
 
         if (showNoOptionsText && React.Children.count(children) === 0) {
             return (
@@ -124,8 +102,8 @@ class ListBox extends React.Component {
                     id={`${id}-${controlKey}`}
                     multiple
                     ref={inputRef}
-                    value={value}
-                    onChange={this.onChange}
+                    value={selections}
+                    onChange={onSelectionChange}
                     onDoubleClick={onDoubleClick}
                     onKeyUp={onKeyUp}
                 >

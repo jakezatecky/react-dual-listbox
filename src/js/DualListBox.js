@@ -130,18 +130,21 @@ class DualListBox extends React.Component {
                 selected: '',
             },
             id: props.id || `rdl-${nanoid()}`,
+            selections: {
+                available: [],
+                selected: [],
+            },
         };
 
         this.onActionClick = this.onActionClick.bind(this);
         this.onOptionDoubleClick = this.onOptionDoubleClick.bind(this);
         this.onOptionKeyUp = this.onOptionKeyUp.bind(this);
         this.onFilterChange = this.onFilterChange.bind(this);
+        this.onSelectionChange = this.onSelectionChange.bind(this);
     }
 
     /**
-     * @param {Array} options
-     * @param {Object} filter
-     * @param {string|null} id
+     * @param {Object} props
      * @param {Object} prevState
      *
      * @returns {Object}
@@ -169,6 +172,7 @@ class DualListBox extends React.Component {
      */
     onChange(selected, selection, controlKey) {
         const { options, simpleValue, onChange } = this.props;
+        const { selections } = this.state;
         const userSelection = selection.map(({ value }) => value);
 
         if (simpleValue) {
@@ -209,6 +213,13 @@ class DualListBox extends React.Component {
 
             onChange(complexValues.selected, complexValues.userSelection, controlKey);
         }
+
+        this.setState({
+            selections: {
+                ...selections,
+                [controlKey]: [],
+            },
+        });
     }
 
     /**
@@ -272,6 +283,27 @@ class DualListBox extends React.Component {
 
             this.onChange(selected, marked, controlKey);
         }
+    }
+
+    /**
+     * @param {Object} event
+     * @param {string} controlKey
+     *
+     * @returns {void}
+     */
+    onSelectionChange(event, controlKey) {
+        const { selections } = this.state;
+
+        const value = arrayFrom(event.target.options)
+            .filter((option) => option.selected)
+            .map((option) => option.value);
+
+        this.setState({
+            selections: {
+                ...selections,
+                [controlKey]: value,
+            },
+        });
     }
 
     /**
@@ -779,7 +811,7 @@ class DualListBox extends React.Component {
             showHeaderLabels,
             showNoOptionsText,
         } = this.props;
-        const { filter, id } = this.state;
+        const { filter, id, selections } = this.state;
 
         // Wrap event handlers with a controlKey reference
         const wrapHandler = (handler) => ((event) => handler(event, controlKey));
@@ -801,11 +833,13 @@ class DualListBox extends React.Component {
                     }
                 }}
                 lang={lang}
+                selections={selections[controlKey]}
                 showHeaderLabels={showHeaderLabels}
                 showNoOptionsText={showNoOptionsText}
                 onDoubleClick={wrapHandler(this.onOptionDoubleClick)}
                 onFilterChange={wrapHandler(this.onFilterChange)}
                 onKeyUp={wrapHandler(this.onOptionKeyUp)}
+                onSelectionChange={wrapHandler(this.onSelectionChange)}
             >
                 {options}
             </ListBox>

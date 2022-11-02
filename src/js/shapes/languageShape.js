@@ -13,6 +13,7 @@ export default PropTypes.shape({
     moveUp: PropTypes.string,
     noAvailableOptions: PropTypes.string,
     noSelectedOptions: PropTypes.string,
+    requiredError: PropTypes.string,
     selectedFilterHeader: PropTypes.string,
     selectedHeader: PropTypes.string,
 });

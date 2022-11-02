@@ -21,9 +21,6 @@ $rdl-desktop-min-width: 576px !default;
 
 .react-dual-listbox {
   box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 
   * {
     box-sizing: border-box;
@@ -47,10 +44,23 @@ $rdl-desktop-min-width: 576px !default;
   select {
     min-height: 140px;
   }
+}
+
+.rdl-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
   @media (min-width: $rdl-desktop-min-width) {
     flex-direction: row;
   }
+}
+
+.rdl-hidden-input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
 }
 
 .rdl-list-box {
@@ -138,7 +148,7 @@ $rdl-desktop-min-width: 576px !default;
   }
 }
 
-.rdl-move {
+.rdl-btn {
   margin: 0 3px;
   border: 1px solid $rdl-btn-border;
   border-radius: 2px;

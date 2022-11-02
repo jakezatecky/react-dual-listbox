@@ -314,6 +314,7 @@ class Widget extends React.Component {
 | `moveKeyCodes`        | array    | A list of key codes that will trigger a toggle of the selected options.                                                 | `[13, 32]`      |
 | `name`                | string   | A value for the `name` attribute on the hidden `<input />` element. This is potentially useful for form submissions.    | `null`          |
 | `preserveSelectOrder` | bool     | If true, the order in which the available options are selected are preserved when the items are moved to the right.     | `false`         |
+| `required`            | bool     | If true, this component will require `selected` to be non-empty to pass a form validation                               | `false`         |
 | `selected`            | array    | A list of the selected options appearing in the rightmost list box.                                                     | `[]`            |
 | `selectedRef`         | function | A React function [ref] to the "selected" list box.                                                                      | `null`          |
 | `simpleValue`         | bool     | If true, the `selected` value passed in `onChange` is an array of string values. Otherwise, it is an array of options.  | `true`          |

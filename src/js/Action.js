@@ -93,6 +93,7 @@ class Action extends React.Component {
         const id = this.getId();
         const label = this.getLabel();
         const className = classNames({
+            'rdl-btn': true,
             'rdl-move': true,
             'rdl-move-all': isMoveAll,
             [`rdl-move-${direction}`]: true,

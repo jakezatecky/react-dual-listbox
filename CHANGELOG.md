@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v3.1.0 (TBA)
+
+### New Features
+
+* [#52]: Add `required` property
+
 ## [v3.0.1](https://github.com/jakezatecky/react-dual-listbox/compare/v3.0.0...v3.0.1) (2022-10-28)
 
 ### Bug Fixes

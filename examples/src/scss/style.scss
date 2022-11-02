@@ -5,6 +5,16 @@ $section-headings-color: #3498db;
 @import "../../../src/scss/react-dual-listbox";
 @import "cayman";
 
+form {
+  display: flex;
+  flex-direction: column;
+
+  .btn-submit {
+    align-self: flex-end;
+    margin-top: 5px;
+  }
+}
+
 .moons {
   margin-right: 5px;
   margin-bottom: 10px;

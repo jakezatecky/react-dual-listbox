@@ -11,6 +11,7 @@ export default {
     moveTop: 'Rearrange to top',
     noAvailableOptions: 'No available options',
     noSelectedOptions: 'No selected options',
+    requiredError: 'Please select at least one option.',
     selectedFilterHeader: 'Filter selected',
     selectedHeader: 'Selected',
 };

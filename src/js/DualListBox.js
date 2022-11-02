@@ -22,6 +22,7 @@ const ALIGNMENTS = {
     MIDDLE: 'middle',
     TOP: 'top',
 };
+const noop = () => {};
 const defaultFilter = (option, filterInput) => {
     if (filterInput === '') {
         return true;
@@ -79,6 +80,7 @@ class DualListBox extends React.Component {
         moveKeyCodes: PropTypes.arrayOf(PropTypes.number),
         name: PropTypes.string,
         preserveSelectOrder: PropTypes.bool,
+        required: PropTypes.bool,
         selected: valueShape,
         selectedRef: PropTypes.func,
         showHeaderLabels: PropTypes.bool,
@@ -107,6 +109,7 @@ class DualListBox extends React.Component {
         moveKeyCodes: [KEY_CODES.SPACEBAR, KEY_CODES.ENTER],
         name: null,
         preserveSelectOrder: null,
+        required: false,
         selected: [],
         selectedRef: null,
         simpleValue: true,
@@ -166,6 +169,7 @@ class DualListBox extends React.Component {
         this.onOptionKeyUp = this.onOptionKeyUp.bind(this);
         this.onFilterChange = this.onFilterChange.bind(this);
         this.onSelectionChange = this.onSelectionChange.bind(this);
+        this.onHiddenFocus = this.onHiddenFocus.bind(this);
     }
 
     /**
@@ -195,6 +199,20 @@ class DualListBox extends React.Component {
         }
 
         return newState;
+    }
+
+    /**
+     * @returns {void}
+     */
+    componentDidMount() {
+        this.setValidityMessage();
+    }
+
+    /**
+     * @returns {void}
+     */
+    componentDidUpdate() {
+        this.setValidityMessage();
     }
 
     /**
@@ -362,6 +380,15 @@ class DualListBox extends React.Component {
     }
 
     /**
+     * Focus the selected list-box whenever a form flags this component as invalid.
+     *
+     * @returns {void}
+     */
+    onHiddenFocus() {
+        this.available.focus();
+    }
+
+    /**
      * Converts a flat array to a key/value mapping.
      *
      * @param {Array} options
@@ -400,6 +427,27 @@ class DualListBox extends React.Component {
                 index: parseInt(option.dataset.index, 10),
                 value: JSON.parse(option.dataset.realValue),
             }));
+    }
+
+    /**
+     * Set the custom validity message when there is no selected option.
+     *
+     * @returns {void}
+     */
+    setValidityMessage() {
+        const { lang, required } = this.props;
+        const { selected } = this.state;
+
+        // Irrelevant if not the caller has not made this component required
+        if (!required) {
+            return;
+        }
+
+        if (selected.length === 0) {
+            this.hiddenInput.setCustomValidity(lang.requiredError);
+        } else {
+            this.hiddenInput.setCustomValidity('');
+        }
     }
 
     /**
@@ -871,6 +919,7 @@ class DualListBox extends React.Component {
             name,
             options,
             preserveSelectOrder,
+            required,
             selectedRef,
             showHeaderLabels,
             showOrderButtons,
@@ -913,23 +962,37 @@ class DualListBox extends React.Component {
 
         return (
             <div className={rootClassName} dir={htmlDir} id={id}>
-                {this.renderListBox('available', availableOptions, availableRef, actionsRight)}
-                {alignActions === ALIGNMENTS.MIDDLE ? (
-                    <div className="rdl-actions">
-                        {actionsRight}
-                        {actionsLeft}
-                    </div>
-                ) : null}
-                {this.renderListBox('selected', selectedOptions, selectedRef, actionsLeft)}
-                {preserveSelectOrder && showOrderButtons ? (
-                    <div className="rdl-actions">
-                        {makeAction('top')}
-                        {makeAction('up')}
-                        {makeAction('down')}
-                        {makeAction('bottom')}
-                    </div>
-                ) : null}
-                <input disabled={disabled} name={name} type="hidden" value={hiddenValue} />
+                <div className="rdl-controls">
+                    {this.renderListBox('available', availableOptions, availableRef, actionsRight)}
+                    {alignActions === ALIGNMENTS.MIDDLE ? (
+                        <div className="rdl-actions">
+                            {actionsRight}
+                            {actionsLeft}
+                        </div>
+                    ) : null}
+                    {this.renderListBox('selected', selectedOptions, selectedRef, actionsLeft)}
+                    {preserveSelectOrder && showOrderButtons ? (
+                        <div className="rdl-actions">
+                            {makeAction('top')}
+                            {makeAction('up')}
+                            {makeAction('down')}
+                            {makeAction('bottom')}
+                        </div>
+                    ) : null}
+                </div>
+                <input
+                    className="rdl-hidden-input"
+                    disabled={disabled}
+                    name={name}
+                    ref={(c) => {
+                        this.hiddenInput = c;
+                    }}
+                    required={required}
+                    type={required ? 'text' : 'hidden'}
+                    value={hiddenValue}
+                    onChange={noop}
+                    onFocus={this.onHiddenFocus}
+                />
             </div>
         );
     }

@@ -865,6 +865,75 @@ describe('<DualListBox />', () => {
         });
     });
 
+    describe('props.required', () => {
+        it('should render required text input', () => {
+            const wrapper = mount((
+                <DualListBox
+                    id={testId}
+                    options={[
+                        { label: 'Moon', value: 'luna' },
+                        { label: 'Phobos', value: 'phobos' },
+                    ]}
+                    required
+                    selected={[]}
+                    onChange={() => {}}
+                />
+            ));
+
+            assert.isTrue(wrapper.find('input[type="text"]').prop('required'));
+        });
+
+        it('should concatenate the selected options', () => {
+            const wrapper = mount((
+                <DualListBox
+                    id={testId}
+                    options={[
+                        { label: 'Moon', value: 'luna' },
+                        { label: 'Phobos', value: 'phobos' },
+                    ]}
+                    required
+                    selected={['luna', 'phobos']}
+                    onChange={() => {}}
+                />
+            ));
+
+            assert.equal('luna,phobos', wrapper.find('.rdl-hidden-input').prop('value'));
+        });
+
+        it('should use the value for `lang.requiredError` when triggering a validation message', () => {
+            let actualMessage = null;
+            let form = null;
+            const expectedMessage = 'My custom error message.';
+            mount((
+                <form
+                    ref={(c) => {
+                        form = c;
+                    }}
+                    onInvalid={(event) => {
+                        actualMessage = event.target.validationMessage;
+                    }}
+                >
+                    <DualListBox
+                        id={testId}
+                        lang={{
+                            requiredError: expectedMessage,
+                        }}
+                        options={[
+                            { label: 'Moon', value: 'luna' },
+                            { label: 'Phobos', value: 'phobos' },
+                        ]}
+                        required
+                        selected={[]}
+                        onChange={() => {}}
+                    />
+                </form>
+            ));
+
+            form.checkValidity();
+            assert.equal(expectedMessage, actualMessage);
+        });
+    });
+
     describe('props.selected', () => {
         it('should render selected options', () => {
             const wrapper = shallow((

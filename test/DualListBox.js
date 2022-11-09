@@ -916,6 +916,10 @@ describe('<DualListBox />', () => {
                     <DualListBox
                         id={testId}
                         lang={{
+                            moveLeft: '',
+                            moveAllLeft: '',
+                            moveRight: '',
+                            moveAllRight: '',
                             requiredError: expectedMessage,
                         }}
                         options={[

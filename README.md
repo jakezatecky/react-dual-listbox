@@ -115,7 +115,7 @@ render() {
 }
 ```
 
-### Disabling Component or Options
+### Disabling the Component or Options
 
 Pass in the `disabled` property to disable the entire component. Alternatively, individual options may be disabled on a per-item basis:
 
@@ -204,7 +204,7 @@ render() {
 
 ### Action/Button Alignment
 
-By default, the movement buttons are aligned to the center of the component. Another option is to align these actions to be above their respective lists:
+By default, the component arranges movement buttons to the center. Another option is to align these actions to be above their respective lists:
 
 ``` jsx
 render() {
@@ -234,7 +234,7 @@ To allow users to re-arrange their selections after moving items to the right, y
 
 ### Restrict Available Options
 
-Sometimes, it may be desirable to restrict what options are available for selection. For example, you may have a control above the dual listbox that allows a user to search for a planet in the solar system. Once a planet is selected, you want to restrict the available options to the moons of that planet. Use the `available` property in that case.
+Sometimes, it may be desirable to restrict what options are available for selection. For example, you may have a control above the dual listbox that allows a user to search for a planet in the solar system. After selecting a planet, you restrict the available options to the moons of that planet. Use the `available` property in that case.
 
 ``` jsx
 render() {

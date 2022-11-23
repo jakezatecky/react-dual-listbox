@@ -304,6 +304,7 @@ class Widget extends React.Component {
 | `canFilter`           | bool     | If true, search boxes will appear above both list boxes, allowing the user to filter the results.                       | `false`         |
 | `className`           | string   | An optional `className` to apply to the root node.                                                                      | `null`          |
 | `disabled`            | bool     | If true, both "available" and "selected" list boxes will be disabled.                                                   | `false`         |
+| `filter`              | object   | A key-value map of `{ available: [value], selected: [value] }` to control the filter values (defaults to uncontrolled). | `null`          |
 | `filterCallback`      | function | The filter function to run on a given option and input string: `function(option, filterInput) {}`. See **Filtering**.   | `() => { ... }` |
 | `filterPlaceholder`   | string   | The text placeholder used when the filter search boxes are empty.                                                       | `"Search..."`   |
 | `htmlDir`             | string   | The [directionality][mdn-directionality] of the component's elements. Set to `'rtl'` if using a right-to-left language. | `'ltr'`         |
@@ -313,6 +314,7 @@ class Widget extends React.Component {
 | `lang`                | object   | A key-value pairing of localized text. See [`src/js/lang/default.js`][lang-file] for a list of keys.                    | `{ ... }`       |
 | `moveKeyCodes`        | array    | A list of key codes that will trigger a toggle of the selected options.                                                 | `[13, 32]`      |
 | `name`                | string   | A value for the `name` attribute on the hidden `<input />` element. This is potentially useful for form submissions.    | `null`          |
+| `onFilterChange`      | function | A handler called when a filter input changes. Paired with `filter` when wanting to control the filter values.           | `null`          |
 | `preserveSelectOrder` | bool     | If true, the order in which the available options are selected are preserved when the items are moved to the right.     | `false`         |
 | `required`            | bool     | If true, this component will require `selected` to be non-empty to pass a form validation                               | `false`         |
 | `selected`            | array    | A list of the selected options appearing in the rightmost list box.                                                     | `[]`            |

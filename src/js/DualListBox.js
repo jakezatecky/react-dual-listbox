@@ -11,7 +11,6 @@ import iconsShape from './shapes/iconsShape';
 import languageShape from './shapes/languageShape';
 import optionsShape from './shapes/optionsShape';
 import valueShape from './shapes/valueShape';
-import arrayFrom from './util/arrayFrom';
 import indexesOf from './util/indexesOf';
 
 const KEY_CODES = {
@@ -346,7 +345,7 @@ class DualListBox extends React.Component {
     onSelectionChange(event, controlKey) {
         const { selections } = this.state;
 
-        const value = arrayFrom(event.target.options)
+        const value = Array.from(event.target.options)
             .filter((option) => option.selected)
             .map((option) => option.value);
 
@@ -421,7 +420,7 @@ class DualListBox extends React.Component {
             return [];
         }
 
-        return arrayFrom(element.options)
+        return Array.from(element.options)
             .filter((option) => option.selected)
             .map((option) => ({
                 index: parseInt(option.dataset.index, 10),

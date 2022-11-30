@@ -12,15 +12,9 @@ import languageShape from './shapes/languageShape';
 import optionsShape from './shapes/optionsShape';
 import valueShape from './shapes/valueShape';
 import indexesOf from './util/indexesOf';
+import swapOptions from './util/swapOptions';
+import { KEY_CODES, ALIGNMENTS } from './constants';
 
-const KEY_CODES = {
-    SPACEBAR: 32,
-    ENTER: 13,
-};
-const ALIGNMENTS = {
-    MIDDLE: 'middle',
-    TOP: 'top',
-};
 const noop = () => {};
 const defaultFilter = (option, filterInput) => {
     if (filterInput === '') {
@@ -29,19 +23,6 @@ const defaultFilter = (option, filterInput) => {
 
     return (new RegExp(escapeRegExp(filterInput), 'i')).test(option.label);
 };
-// Return a function to swap positions of the given indexes in an ordering
-const swap = (index1, index2) => (
-    (options) => {
-        const newOptions = [...options];
-
-        [newOptions[index1], newOptions[index2]] = [
-            newOptions[index2],
-            newOptions[index1],
-        ];
-
-        return newOptions;
-    }
-);
 const defaultIcons = {
     moveLeft: <span className="rdl-icon rdl-icon-move-left" />,
     moveAllLeft: <span className="rdl-icon rdl-icon-move-all-left" />,
@@ -472,7 +453,7 @@ class DualListBox extends React.Component {
             if (markedOptions[markedOptions.length - 1].index > markedOptions.length - 1) {
                 markedOptions.forEach(({ index }) => {
                     if (index > 0) {
-                        newOrder = swap(index, index - 1)(newOrder);
+                        newOrder = swapOptions(index, index - 1)(newOrder);
                     }
                 });
             }
@@ -482,7 +463,7 @@ class DualListBox extends React.Component {
             if (markedOptions[0].index < selected.length - markedOptions.length) {
                 markedOptions.reverse().forEach(({ index }) => {
                     if (index < selected.length - 1) {
-                        newOrder = swap(index, index + 1)(newOrder);
+                        newOrder = swapOptions(index, index + 1)(newOrder);
                     }
                 });
             }

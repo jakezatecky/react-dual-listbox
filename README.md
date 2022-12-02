@@ -26,8 +26,6 @@ npm install react-dual-listbox --save
 
 > **Note** &ndash; This library makes use of [Font Awesome](http://fontawesome.io/) styles and expects them to be loaded in the browser.
 
-> **Note** &ndash; Although **React 18** should work, our unit tests run against React 17 due to incompatibility with the unit testing tool (Enzyme).
-
 ### Include CSS
 
 For your convenience, the library's styles can be consumed utilizing one of the following files:

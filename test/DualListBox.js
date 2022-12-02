@@ -1,40 +1,39 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
 import { assert } from 'chai';
+import { render, screen } from '@testing-library/react';
+import { fireEvent, within } from '@testing-library/dom';
+import userEvent from '@testing-library/user-event';
 
 import DualListBox from '../src/js/DualListBox';
 
 const testId = 'test-id';
 
-function simulateChange(values) {
+function setup(jsx) {
     return {
-        target: {
-            options: values.map((value) => ({ value, selected: true })),
-        },
+        ...render(jsx),
+
+        // Delay must be null to prevent unusual timeout issues when there are many tests
+        user: userEvent.setup({ delay: null }),
     };
 }
 
-function getExpectedId(rest) {
-    return `${testId}-${rest}`;
-}
-
-describe('<DualListBox />', () => {
+describe('<DualListBox />', async () => {
     describe('component', () => {
         it('should render the react-dual-listbox container', () => {
-            const wrapper = shallow((
+            const { container } = render((
                 <DualListBox
                     options={[{ label: 'Phobos', value: 'phobos' }]}
                     onChange={() => {}}
                 />
             ));
 
-            assert.isTrue(wrapper.find('.react-dual-listbox').exists());
+            assert.isNotNull(container.querySelector('.react-dual-listbox'));
         });
     });
 
     describe('props.alignActions', () => {
         it('should align the actions in the middle by default', () => {
-            const wrapper = shallow((
+            const { container } = render((
                 <DualListBox
                     options={[
                         { label: 'Moon', value: 'luna' },
@@ -44,14 +43,12 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            assert.isTrue(wrapper.find('.rdl-actions > .rdl-actions-right > Action').exists());
-            assert.isTrue(wrapper.find('.rdl-actions > .rdl-actions-right > Action[isMoveAll]').exists());
-            assert.isTrue(wrapper.find('.rdl-actions > .rdl-actions-left > Action').exists());
-            assert.isTrue(wrapper.find('.rdl-actions > .rdl-actions-left > Action[isMoveAll]').exists());
+            const { children } = container.querySelector('.rdl-controls');
+            assert.isTrue(children[1].classList.contains('rdl-actions'));
         });
 
-        it('should put the actions in the listbox when set to \'top\'', () => {
-            const wrapper = shallow((
+        it('should put the actions in the listbox when set to "top"', () => {
+            const { container } = render((
                 <DualListBox
                     alignActions="top"
                     options={[
@@ -62,17 +59,18 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            assert.isFalse(wrapper.find('.rdl-actions').exists());
-            assert.isTrue(wrapper.find('ListBox').at(0).prop('actions') !== null);
-            assert.isTrue(wrapper.find('ListBox').at(1).prop('actions') !== null);
+            const controls = container.querySelectorAll('.rdl-control-container');
+            assert.isNull(container.querySelector('.rdl-actions'));
+            assert.isNotNull(controls[0].querySelector('.rdl-actions-right'));
+            assert.isNotNull(controls[1].querySelector('.rdl-actions-left'));
         });
     });
 
     describe('props.allowDuplicates', () => {
-        it('should allow repeated selections of the same option when set to true', () => {
+        it('should allow repeated selections of the same option when set to true', async () => {
             let actual = null;
 
-            const wrapper = mount((
+            const { user } = setup((
                 <DualListBox
                     allowDuplicates
                     options={[
@@ -86,17 +84,18 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            wrapper.find('.rdl-available select').simulate('change', simulateChange(['phobos-1']));
-            wrapper.find('.rdl-available select').simulate('dblclick');
+            const select = screen.getByLabelText('Available');
+            await user.selectOptions(select, ['Phobos']);
+            await user.dblClick(select);
 
-            assert.deepEqual(['luna', 'phobos', 'phobos'], actual);
+            assert.deepEqual(actual, ['luna', 'phobos', 'phobos']);
         });
 
         // https://github.com/jakezatecky/react-dual-listbox/issues/103
-        it('should work when simpleValue={false}', () => {
+        it('should work when simpleValue={false}', async () => {
             let actual = null;
 
-            const wrapper = mount((
+            const { user } = setup((
                 <DualListBox
                     allowDuplicates
                     options={[
@@ -111,41 +110,36 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            wrapper.find('.rdl-available select').simulate('change', simulateChange(['luna-0']));
-            wrapper.find('.rdl-available select').simulate('dblclick');
+            const select = screen.getByLabelText('Available');
+            await user.selectOptions(select, ['Moon']);
+            await user.dblClick(select);
 
-            assert.deepEqual([
+            assert.deepEqual(actual, [
                 { label: 'Moon', value: 'luna' },
                 { label: 'Moon', value: 'luna' },
-            ], actual);
+            ]);
         });
 
         it('should NOT allow repeated selections of the same option when set to false', () => {
-            let actual = null;
-
-            const wrapper = mount((
+            render((
                 <DualListBox
                     options={[
                         { label: 'Moon', value: 'luna' },
                         { label: 'Phobos', value: 'phobos' },
                     ]}
-                    selected={['luna', 'phobos']}
-                    onChange={(selected) => {
-                        actual = selected;
-                    }}
+                    selected={['phobos']}
+                    onChange={() => {}}
                 />
             ));
 
-            wrapper.find('.rdl-available select').simulate('change', simulateChange(['phobos-1']));
-            wrapper.find('.rdl-available select').simulate('dblclick');
-
-            assert.deepEqual(['luna', 'phobos'], actual);
+            const select = screen.getByLabelText('Available');
+            assert.isNull(within(select).queryByText('Phobos'));
         });
     });
 
     describe('props.available', () => {
         it('should include options in the array in the available list', () => {
-            const wrapper = shallow((
+            render((
                 <DualListBox
                     available={['luna']}
                     options={[
@@ -156,13 +150,12 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            assert.isTrue(wrapper.find('ListBox').at(0).containsMatchingElement((
-                <option value="luna">Moon</option>
-            )));
+            const select = screen.getByLabelText('Available');
+            assert.isNotNull(within(select).queryByText('Moon'));
         });
 
         it('should exclude options not in the array from the available list', () => {
-            const wrapper = shallow((
+            render((
                 <DualListBox
                     available={['luna']}
                     options={[
@@ -173,16 +166,14 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            assert.isFalse(wrapper.find('ListBox').at(0).contains((
-                <option value="phobos">Phobos</option>
-            )));
+            const select = screen.getByLabelText('Available');
+            assert.isNull(within(select).queryByText('Phobos'));
         });
 
         it('should not interfere with selected options', () => {
-            const wrapper = shallow((
+            render((
                 <DualListBox
                     available={['luna']}
-                    id={testId}
                     options={[
                         { label: 'Moon', value: 'luna' },
                         { label: 'Phobos', value: 'phobos' },
@@ -192,17 +183,14 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            assert.isTrue(wrapper.find('ListBox').at(1).containsMatchingElement((
-                <option value="luna">Moon</option>
-            )));
-            assert.isTrue(wrapper.find('ListBox').at(1).containsMatchingElement((
-                <option value="phobos">Phobos</option>
-            )));
+            const select = screen.getByLabelText('Selected');
+            assert.isNotNull(within(select).queryByText('Moon'));
+            assert.isNotNull(within(select).queryByText('Phobos'));
         });
 
         // https://github.com/jakezatecky/react-dual-listbox/issues/110
         it('should apply even if we allow duplicates', () => {
-            const wrapper = shallow((
+            render((
                 <DualListBox
                     allowDuplicates
                     available={['luna']}
@@ -214,18 +202,15 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            assert.isTrue(wrapper.find('ListBox').at(0).containsMatchingElement((
-                <option value="luna-0">Moon</option>
-            )));
-            assert.isFalse(wrapper.find('ListBox').at(0).containsMatchingElement((
-                <option value="phobos-1">Phobos</option>
-            )));
+            const select = screen.getByLabelText('Available');
+            assert.isNotNull(within(select).queryByText('Moon'));
+            assert.isNull(within(select).queryByText('Phobos'));
         });
     });
 
     describe('props.canFilter', () => {
         it('should render the available and selected filter inputs', () => {
-            const wrapper = shallow((
+            render((
                 <DualListBox
                     canFilter
                     options={[
@@ -236,12 +221,12 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            assert.isTrue(wrapper.find('ListBox').at(0).prop('canFilter'));
-            assert.isTrue(wrapper.find('ListBox').at(1).prop('canFilter'));
+            assert.isNotNull(screen.queryByLabelText('Filter available'));
+            assert.isNotNull(screen.queryByLabelText('Filter selected'));
         });
 
-        it('should filter available and selected options when non-empty', () => {
-            const wrapper = shallow((
+        it('should do a substring filter by default', async () => {
+            const { user } = setup((
                 <DualListBox
                     canFilter
                     options={[
@@ -252,29 +237,26 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            wrapper.find('ListBox').at(0).simulate('filterChange', {
-                target: {
-                    dataset: { controlKey: 'available' },
-                    value: 'mo',
-                },
-            });
+            const filter = screen.getByLabelText('Filter available');
+            const select = screen.getByLabelText('Available');
 
-            assert.isTrue(wrapper.find('ListBox[controlKey="available"] option[value="luna"]').exists());
-            assert.isFalse(wrapper.find('ListBox[controlKey="available"] option[value="phobos"]').exists());
+            await user.type(filter, 'mo');
+
+            assert.isNotNull(within(select).queryByText('Moon'));
+            assert.isNull(within(select).queryByText('Phobos'));
         });
 
-        it('should allow all children of an optgroup that passes the filter', () => {
-            const wrapper = shallow((
+        it('should show children of an optgroup that passes the filter by default', async () => {
+            const { user } = setup((
                 <DualListBox
                     canFilter
                     options={[
                         { label: 'Moon', value: 'luna' },
-                        { label: 'Phobos', value: 'phobos' },
                         {
                             label: 'Mars',
                             options: [
-                                { value: 'phobos', label: 'Phobos' },
-                                { value: 'deimos', label: 'Deimos' },
+                                { label: 'Phobos', value: 'phobos' },
+                                { label: 'Deimos', value: 'deimos' },
                             ],
                         },
                     ]}
@@ -282,27 +264,46 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            wrapper.find('ListBox').at(0).simulate('filterChange', {
-                target: {
-                    dataset: { controlKey: 'available' },
-                    value: 'mar',
-                },
-            });
+            const filter = screen.getByLabelText('Filter available');
+            const select = screen.getByLabelText('Available');
 
-            assert.isFalse(wrapper.find('ListBox[controlKey="available"] option[value="luna"]').exists());
-            assert.isTrue(wrapper.find('ListBox[controlKey="available"] option[value="phobos"]').exists());
-            assert.isTrue(wrapper.find('ListBox[controlKey="available"] option[value="deimos"]').exists());
+            await user.type(filter, 'mars');
+
+            assert.isNull(within(select).queryByText('Moon'));
+            assert.isNotNull(within(select).queryByText('Phobos'));
+            assert.isNotNull(within(select).queryByText('Deimos'));
         });
 
-        // https://github.com/jakezatecky/react-dual-listbox/issues/142
-        it('should remove the proper highlighted option when `preserveSelectOrder` is set', () => {
-            let actualSelected = null;
-            const wrapper = mount((
+        it('should not error on a substring filter that contains regex characters', async () => {
+            const { user } = setup((
                 <DualListBox
                     canFilter
                     options={[
                         { label: 'Moon', value: 'luna' },
-                        { label: 'Phobos', value: 'phobos' },
+                        { label: 'Phobos (Mars)', value: 'phobos' },
+                    ]}
+                    onChange={() => {}}
+                />
+            ));
+
+            const filter = screen.getByLabelText('Filter available');
+            const select = screen.getByLabelText('Available');
+
+            await user.type(filter, '(mars');
+
+            assert.isNull(within(select).queryByText('Moon'));
+            assert.isNotNull(within(select).queryByText('Phobos (Mars)'));
+        });
+
+        // https://github.com/jakezatecky/react-dual-listbox/issues/142
+        it('should remove the proper highlighted option when `preserveSelectOrder` is set', async () => {
+            let actualSelected = null;
+
+            const { user } = setup((
+                <DualListBox
+                    canFilter
+                    options={[
+                        { label: 'Moon', value: 'luna' },
                         {
                             label: 'Mars',
                             options: [
@@ -319,15 +320,13 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            wrapper.find('.rdl-selected .rdl-filter').simulate('change', {
-                target: {
-                    dataset: { controlKey: 'selected' },
-                    value: 'os',
-                },
-            });
+            const filter = screen.getByLabelText('Filter selected');
+            const select = screen.getByLabelText('Selected');
+            const moveLeft = screen.getByLabelText('Move to available');
 
-            wrapper.find('.rdl-selected select').simulate('change', simulateChange(['deimos']));
-            wrapper.find('.rdl-move-left').not('.rdl-move-all').simulate('click');
+            await user.type(filter, 'os');
+            await user.selectOptions(select, ['deimos']);
+            await user.click(moveLeft);
 
             assert.deepEqual(['luna', 'phobos'], actualSelected);
         });
@@ -335,7 +334,7 @@ describe('<DualListBox />', () => {
 
     describe('props.className', () => {
         it('should apply the class to the root node if set', () => {
-            const wrapper = shallow((
+            const { container } = render((
                 <DualListBox
                     className="my-class"
                     options={[{ label: 'Phobos', value: 'phobos' }]}
@@ -343,24 +342,26 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            assert.isTrue(wrapper.find('.react-dual-listbox').hasClass('my-class'));
+            const element = container.querySelector('.react-dual-listbox');
+            assert.isTrue(element.classList.contains('my-class'));
         });
 
         it('should not change the root classes if empty', () => {
-            const wrapper = shallow((
+            const { container } = render((
                 <DualListBox
                     options={[{ label: 'Phobos', value: 'phobos' }]}
                     onChange={() => {}}
                 />
             ));
 
-            assert.deepEqual('react-dual-listbox rdl-icons-fa5', wrapper.find('.react-dual-listbox').prop('className'));
+            const element = container.querySelector('.react-dual-listbox');
+            assert.equal(element.className, 'react-dual-listbox rdl-icons-fa5');
         });
     });
 
     describe('props.disabled', () => {
-        it('should assign the disabled property to all inputs, selects, and buttons when true', () => {
-            const wrapper = shallow((
+        it('should assign the disabled property to all inputs, selects, and buttons when true', async () => {
+            render((
                 <DualListBox
                     disabled
                     options={[{ label: 'Phobos', value: 'phobos' }]}
@@ -368,31 +369,34 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            assert.isTrue(wrapper.find('Action').at(0).prop('disabled'));
-            assert.isTrue(wrapper.find('Action').at(1).prop('disabled'));
-            assert.isTrue(wrapper.find('ListBox').at(0).prop('disabled'));
-            assert.isTrue(wrapper.find('ListBox').at(1).prop('disabled'));
+            const select = await screen.findByLabelText('Available');
+            const button = await screen.findByLabelText('Move to selected');
+
+            assert.isTrue(select.closest('select').disabled);
+            assert.isTrue(button.closest('button').disabled);
         });
 
-        it('should NOT assign the disabled property to all inputs, selects, and buttons when false', () => {
-            const wrapper = shallow((
+        it('should NOT assign the disabled property to all inputs, selects, and buttons when false', async () => {
+            render((
                 <DualListBox
                     options={[{ label: 'Phobos', value: 'phobos' }]}
                     onChange={() => {}}
                 />
             ));
 
-            assert.isFalse(wrapper.find('Action').at(0).prop('disabled'));
-            assert.isFalse(wrapper.find('Action').at(1).prop('disabled'));
-            assert.isFalse(wrapper.find('ListBox').at(0).prop('disabled'));
-            assert.isFalse(wrapper.find('ListBox').at(1).prop('disabled'));
+            const select = await screen.findByLabelText('Available');
+            const button = await screen.findByLabelText('Move to selected');
+
+            assert.isFalse(select.closest('select').disabled);
+            assert.isFalse(button.closest('button').disabled);
         });
     });
 
     describe('props.filter', () => {
-        it('should set the value of the filter text boxes', () => {
-            const wrapper = shallow((
+        it('should set the value of the filter text boxes', async () => {
+            render((
                 <DualListBox
+                    canFilter
                     filter={{
                         available: 'pho',
                         selected: 'europa',
@@ -405,89 +409,52 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            assert.equal('pho', wrapper.find('ListBox').at(0).prop('filterValue'));
-            assert.equal('europa', wrapper.find('ListBox').at(1).prop('filterValue'));
+            const availableFilter = await screen.findByLabelText('Filter available');
+            const selectedFilter = await screen.findByLabelText('Filter selected');
+
+            assert.equal(availableFilter.value, 'pho');
+            assert.equal(selectedFilter.value, 'europa');
         });
 
-        it('should update the filter value on subsequent property change', () => {
-            const wrapper = shallow((
+        it('should update the filter value on subsequent property change', async () => {
+            const options = [
+                { label: 'Phobos', value: 'phobos' },
+                { label: 'Europa', value: 'europa' },
+            ];
+            const { rerender } = render((
                 <DualListBox
+                    canFilter
                     filter={{
                         available: 'ganymede',
                         selected: '',
                     }}
-                    options={[
-                        { label: 'Phobos', value: 'phobos' },
-                        { label: 'Europa', value: 'europa' },
-                    ]}
+                    options={options}
                     onChange={() => {}}
                 />
             ));
 
-            wrapper.setProps({
-                filter: {
-                    available: 'europa',
-                    selected: '',
-                },
-            });
-
-            assert.equal('europa', wrapper.find('ListBox').at(0).prop('filterValue'));
-        });
-
-        it('should do a substring filter by default', () => {
-            const wrapper = shallow((
+            rerender((
                 <DualListBox
                     canFilter
-                    id={testId}
-                    options={[
-                        { label: 'Moon', value: 'luna' },
-                        { label: 'Phobos', value: 'phobos' },
-                    ]}
+                    filter={{
+                        available: 'europa',
+                        selected: '',
+                    }}
+                    options={options}
                     onChange={() => {}}
                 />
             ));
 
-            wrapper.find('ListBox').at(0).simulate('filterChange', {
-                target: {
-                    dataset: { controlKey: 'available' },
-                    value: 'moo',
-                },
-            });
-
-            assert.isTrue(wrapper.containsMatchingElement(<option value="luna">Moon</option>));
-            assert.isFalse(wrapper.containsMatchingElement(<option value="phobos">Phobos</option>));
-        });
-
-        it('should not error on a substring filter that contains regex characters', () => {
-            const wrapper = shallow((
-                <DualListBox
-                    canFilter
-                    id={testId}
-                    options={[
-                        { label: 'Moon', value: 'luna' },
-                        { label: 'Phobos (Mars)', value: 'phobos' },
-                    ]}
-                    onChange={() => {}}
-                />
-            ));
-
-            wrapper.find('ListBox').at(0).simulate('filterChange', {
-                target: {
-                    dataset: { controlKey: 'available' },
-                    value: '(mars',
-                },
-            });
-
-            assert.isFalse(wrapper.containsMatchingElement(<option value="luna">Moon</option>));
-            assert.isTrue(wrapper.containsMatchingElement(<option value="phobos">Phobos (Mars)</option>));
+            const availableFilter = await screen.findByLabelText('Filter available');
+            assert.equal(availableFilter.value, 'europa');
         });
     });
 
     describe('props.filterCallback', () => {
-        it('should invoke the filterCallback function with the available options', () => {
+        it('should invoke the filterCallback function with the available options', async () => {
             let available = [];
 
-            const wrapper = shallow((
+            const { user } = setup((
                 <DualListBox
                     canFilter
                     filterCallback={(option) => {
@@ -501,25 +468,22 @@ describe('<DualListBox />', () => {
                 />
             ));
 
+            const filter = screen.getByLabelText('Filter available');
+
             // Initial render
-            assert.deepEqual(['luna', 'phobos'], available);
+            assert.deepEqual(available, ['luna', 'phobos']);
 
             // Clear for subsequent re-render
             available = [];
-            wrapper.find('ListBox').at(0).simulate('filterChange', {
-                target: {
-                    dataset: { controlKey: 'available' },
-                    value: 'mo',
-                },
-            });
+            await user.type(filter, 'o');
 
-            assert.deepEqual(['luna', 'phobos'], available);
+            assert.deepEqual(available, ['luna', 'phobos']);
         });
 
-        it('should invoke the filterCallback function with the input string', () => {
+        it('should invoke the filterCallback function with the input string', async () => {
             let filterInput = '';
 
-            const wrapper = shallow((
+            const { user } = setup((
                 <DualListBox
                     canFilter
                     filterCallback={(option, input) => {
@@ -533,23 +497,19 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            wrapper.find('ListBox').at(0).simulate('filterChange', {
-                target: {
-                    dataset: { controlKey: 'available' },
-                    value: 'mo',
-                },
-            });
+            const filter = screen.getByLabelText('Filter available');
+            await user.type(filter, 'mo');
 
             assert.deepEqual('mo', filterInput);
         });
     });
 
     describe('props.filterPlaceholder', () => {
-        it('should set the placeholder text on the filter inputs', () => {
-            const wrapper = shallow((
+        it('should set the placeholder text on the filter inputs', async () => {
+            render((
                 <DualListBox
                     canFilter
-                    filterPlaceholder="Filter"
+                    filterPlaceholder="Filter me"
                     options={[
                         { label: 'Moon', value: 'luna' },
                         { label: 'Phobos', value: 'phobos' },
@@ -558,24 +518,25 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            assert.equal('Filter', wrapper.find('ListBox').at(0).prop('filterPlaceholder'));
+            const filter = await screen.queryByLabelText('Filter available');
+            assert.equal(filter.closest('input').placeholder, 'Filter me');
         });
     });
 
     describe('props.htmlDir', () => {
         it('should should default to LTR', () => {
-            const wrapper = shallow((
+            const { container } = render((
                 <DualListBox
                     options={[{ label: 'Phobos', value: 'phobos' }]}
                     onChange={() => {}}
                 />
             ));
 
-            assert.deepEqual('ltr', wrapper.find('.react-dual-listbox').prop('dir'));
+            assert.deepEqual(container.querySelector('.react-dual-listbox').dir, 'ltr');
         });
 
         it('should set the HTML `dir` property to the assigned value', () => {
-            const wrapper = shallow((
+            const { container } = render((
                 <DualListBox
                     htmlDir="rtl"
                     options={[{ label: 'Phobos', value: 'phobos' }]}
@@ -583,13 +544,13 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            assert.deepEqual('rtl', wrapper.find('.react-dual-listbox').prop('dir'));
+            assert.deepEqual(container.querySelector('.react-dual-listbox').dir, 'rtl');
         });
     });
 
     describe('props.icons', () => {
-        it('should overwrite the default nodes for any given action', () => {
-            const wrapper = mount((
+        it('should overwrite the default nodes for any given action', async () => {
+            render((
                 <DualListBox
                     icons={{
                         moveLeft: <span />,
@@ -605,15 +566,14 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            assert.isTrue(wrapper.find('.rdl-move-all').filter('.rdl-move-right').contains(
-                <span className="new-icon" />,
-            ));
+            const button = await screen.findByLabelText('Move all to selected');
+            assert.isNotNull(button.closest('button').querySelector('.new-icon'));
         });
     });
 
     describe('props.iconsClass', () => {
         it('should append the class name to parent name', () => {
-            const wrapper = shallow((
+            const { container } = render((
                 <DualListBox
                     iconsClass="native"
                     options={[{ label: 'Phobos', value: 'phobos' }]}
@@ -621,17 +581,16 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            assert.deepEqual('react-dual-listbox rdl-icons-native', wrapper.find('.react-dual-listbox').prop('className'));
+            const actual = container.querySelector('.react-dual-listbox').className;
+            assert.deepEqual(actual, 'react-dual-listbox rdl-icons-native');
         });
     });
 
     describe('props.id', () => {
         it('should pass the id for all elements', () => {
-            const id = 'test-id';
-
-            const wrapper = mount((
+            const { container } = render((
                 <DualListBox
-                    id={id}
+                    id={testId}
                     options={[
                         { label: 'Moon', value: 'luna' },
                         { label: 'Phobos', value: 'phobos' },
@@ -640,13 +599,13 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            assert.isTrue(wrapper.find(`#${id}-option-luna`).exists());
+            assert.isNotNull(container.querySelector(`#${testId}-option-luna`));
         });
     });
 
     describe('props.lang', () => {
-        it('should overwrite the default text when set', () => {
-            const wrapper = mount((
+        it('should overwrite the default text when set', async () => {
+            render((
                 <DualListBox
                     lang={{
                         moveLeft: '',
@@ -662,17 +621,21 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            assert.equal('MOVE.ALL.RIGHT', wrapper.find('.rdl-move-all').filter('.rdl-move-right').prop('title'));
+            const button = await screen.queryByLabelText('MOVE.ALL.RIGHT');
+
+            assert.isNotNull(button);
+            assert.isTrue(button.closest('button').classList.contains('rdl-move-all'));
         });
     });
 
+    // TODO: Replace with `user.type` once `keyCode` dropped in favor of `key` or `code`
     describe('props.moveKeyCodes', () => {
-        it('should pass an array of string values by default', () => {
+        it('should trigger `onChange` for the given key codes', async () => {
             let actual = null;
 
-            const wrapper = mount((
+            const { user } = setup((
                 <DualListBox
-                    moveKeyCodes={[31, 32]}
+                    moveKeyCodes={[16, 32]}
                     options={[
                         { label: 'Moon', value: 'luna' },
                         { label: 'Phobos', value: 'phobos' },
@@ -683,23 +646,24 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            wrapper.find('.rdl-available select').simulate('change', simulateChange(['phobos']));
-            wrapper.find('.rdl-available select').simulate('keyup', { keyCode: 32 });
+            const select = await screen.getByLabelText('Available');
 
-            assert.deepEqual(['phobos'], actual);
+            await user.selectOptions(select, ['phobos']);
+            await fireEvent.keyUp(select, { keyCode: 16 });
 
-            wrapper.find('.rdl-available select').simulate('change', simulateChange(['luna', 'phobos']));
-            wrapper.find('.rdl-available select').simulate('keyup', { keyCode: 31 });
+            assert.deepEqual(actual, ['phobos']);
 
-            assert.deepEqual(['luna', 'phobos'], actual);
+            await user.selectOptions(select, ['luna', 'phobos']);
+            await fireEvent.keyUp(select, { keyCode: 32 });
+
+            assert.deepEqual(actual, ['luna', 'phobos']);
         });
     });
 
     describe('props.options', () => {
         it('should render the supplied options', () => {
-            const wrapper = shallow((
+            render((
                 <DualListBox
-                    id={testId}
                     options={[
                         { label: 'Moon', value: 'luna' },
                         { label: 'Phobos', value: 'phobos' },
@@ -708,14 +672,13 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            assert.isTrue(wrapper.containsMatchingElement(<option value="luna">Moon</option>));
-            assert.isTrue(wrapper.containsMatchingElement(<option value="phobos">Phobos</option>));
+            assert.isNotNull(screen.getByText('Moon').closest('option'));
+            assert.isNotNull(screen.getByText('Phobos').closest('option'));
         });
 
         it('should render optgroups and their children', () => {
-            const wrapper = shallow((
+            const { container } = render((
                 <DualListBox
-                    id={testId}
                     options={[
                         {
                             label: 'Mars',
@@ -729,16 +692,15 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            assert.isTrue(wrapper.contains((
-                <optgroup id={getExpectedId('optgroup-Mars')} label="Mars">
-                    <option data-real-value={'"phobos"'} id={getExpectedId('option-phobos')} value="phobos">Phobos</option>
-                    <option data-real-value={'"deimos"'} id={getExpectedId('option-deimos')} value="deimos">Deimos</option>
-                </optgroup>
-            )));
+            const optgroup = container.querySelector('optgroup');
+
+            assert.equal(optgroup.label, 'Mars');
+            assert.isNotNull(within(optgroup).getByText('Phobos').closest('option'));
+            assert.isNotNull(within(optgroup).getByText('Deimos').closest('option'));
         });
 
         it('should disable marked options and optgroups', () => {
-            const wrapper = shallow((
+            const { container } = render((
                 <DualListBox
                     options={[
                         {
@@ -754,16 +716,18 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            assert.isTrue(wrapper.find('ListBox[controlKey="available"] optgroup').prop('disabled'));
-            assert.isTrue(wrapper.find('ListBox[controlKey="available"] option').at(0).prop('disabled'));
-            assert.equal(undefined, wrapper.find('ListBox[controlKey="available"] option').at(1).prop('disabled'));
+            const optgroup = container.querySelector('optgroup');
+
+            assert.isTrue(optgroup.disabled);
+            assert.isTrue(within(optgroup).getByText('Phobos').closest('option').disabled);
+            assert.isFalse(within(optgroup).getByText('Deimos').closest('option').disabled);
         });
 
         // https://github.com/jakezatecky/react-dual-listbox/issues/148
-        it('should prevent disabled options and optgroups from moving', () => {
+        it('should prevent disabled options and optgroups from moving', async () => {
             let actual = [];
 
-            const wrapper = mount((
+            const { user } = setup((
                 <DualListBox
                     options={[
                         {
@@ -798,16 +762,16 @@ describe('<DualListBox />', () => {
             ));
 
             // Everything but the Jovian moves should move to the right
-            wrapper.find('.rdl-move-all.rdl-move-right').simulate('click');
-            assert.deepEqual(['luna', 'phobos', 'deimos'], actual);
+            await user.click(screen.getByLabelText('Move all to selected'));
+            assert.deepEqual(actual, ['luna', 'phobos', 'deimos']);
 
             // The disabled Phobos should remain when moving everything left
-            wrapper.find('.rdl-move-all.rdl-move-left').simulate('click');
-            assert.deepEqual(['phobos'], actual);
+            await user.click(screen.getByLabelText('Move all to available'));
+            assert.deepEqual(actual, ['phobos']);
         });
 
         it('should add the `title` attribute to specified options', () => {
-            const wrapper = shallow((
+            const { container } = render((
                 <DualListBox
                     options={[
                         {
@@ -823,15 +787,17 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            assert.equal('That one planet we may someday colonize', wrapper.find('ListBox[controlKey="available"] optgroup').prop('title'));
-            assert.equal('The larger one', wrapper.find('ListBox[controlKey="available"] option').at(0).prop('title'));
-            assert.equal(undefined, wrapper.find('ListBox[controlKey="available"] option').at(1).prop('title'));
+            const optgroup = container.querySelector('optgroup');
+
+            assert.equal(optgroup.title, 'That one planet we may someday colonize');
+            assert.equal(within(optgroup).getByText('Phobos').title, 'The larger one');
+            assert.equal(within(optgroup).getByText('Deimos').title, '');
         });
     });
 
     describe('props.preserveSelectOrder', () => {
         it('should arrange the selected options by their original order when false', () => {
-            const wrapper = shallow((
+            const { container } = render((
                 <DualListBox
                     options={[
                         { label: 'Moon', value: 'luna' },
@@ -843,12 +809,14 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            assert.deepEqual('luna', wrapper.find('ListBox[controlKey="selected"] option').at(0).prop('value'));
-            assert.deepEqual('phobos', wrapper.find('ListBox[controlKey="selected"] option').at(1).prop('value'));
+            const options = container.querySelectorAll('.rdl-selected option');
+
+            assert.equal(options[0].value, 'luna');
+            assert.equal(options[1].value, 'phobos');
         });
 
         it('should arrange the selected options by their selection order when true', () => {
-            const wrapper = shallow((
+            const { container } = render((
                 <DualListBox
                     options={[
                         { label: 'Moon', value: 'luna' },
@@ -860,16 +828,17 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            assert.deepEqual('phobos', wrapper.find('ListBox[controlKey="selected"] option').at(0).prop('value'));
-            assert.deepEqual('luna', wrapper.find('ListBox[controlKey="selected"] option').at(1).prop('value'));
+            const options = container.querySelectorAll('.rdl-selected option');
+
+            assert.equal(options[0].value, 'phobos');
+            assert.equal(options[1].value, 'luna');
         });
     });
 
     describe('props.required', () => {
         it('should render required text input', () => {
-            const wrapper = mount((
+            const { container } = render((
                 <DualListBox
-                    id={testId}
                     options={[
                         { label: 'Moon', value: 'luna' },
                         { label: 'Phobos', value: 'phobos' },
@@ -880,13 +849,12 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            assert.isTrue(wrapper.find('input[type="text"]').prop('required'));
+            assert.isTrue(container.querySelector('input[type="text"]').required);
         });
 
         it('should concatenate the selected options', () => {
-            const wrapper = mount((
+            const { container } = render((
                 <DualListBox
-                    id={testId}
                     options={[
                         { label: 'Moon', value: 'luna' },
                         { label: 'Phobos', value: 'phobos' },
@@ -897,14 +865,14 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            assert.equal('luna,phobos', wrapper.find('.rdl-hidden-input').prop('value'));
+            assert.equal('luna,phobos', container.querySelector('.rdl-hidden-input').value);
         });
 
         it('should use the value for `lang.requiredError` when triggering a validation message', () => {
             let actualMessage = null;
             let form = null;
             const expectedMessage = 'My custom error message.';
-            mount((
+            render((
                 <form
                     ref={(c) => {
                         form = c;
@@ -914,7 +882,6 @@ describe('<DualListBox />', () => {
                     }}
                 >
                     <DualListBox
-                        id={testId}
                         lang={{
                             moveLeft: '',
                             moveAllLeft: '',
@@ -940,9 +907,8 @@ describe('<DualListBox />', () => {
 
     describe('props.selected', () => {
         it('should render selected options', () => {
-            const wrapper = shallow((
+            render((
                 <DualListBox
-                    id={testId}
                     options={[
                         { label: 'Moon', value: 'luna' },
                         { label: 'Phobos', value: 'phobos' },
@@ -952,15 +918,14 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            assert.isTrue(wrapper.find('ListBox').at(1).containsMatchingElement((
-                <option value="phobos">Phobos</option>
-            )));
+            const select = screen.findByLabelText('Selected');
+            assert.isNotNull(within(select).findByText('Phobos'));
         });
     });
 
     describe('props.showHeaderLabels', () => {
         it('should make the labels above the list boxes appear when set to true', () => {
-            const wrapper = mount((
+            render((
                 <DualListBox
                     options={[
                         { value: 'luna', label: 'Moon' },
@@ -970,12 +935,11 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            const controlLabel = wrapper.find('.rdl-control-label').at(0);
-            assert.isTrue(controlLabel.exists() && !controlLabel.hasClass('rdl-sr-only'));
+            assert.isFalse(screen.getByText('Available').closest('label').classList.contains('rdl-sr-only'));
         });
 
         it('should hide the labels above the list boxes when set to false', () => {
-            const wrapper = mount((
+            render((
                 <DualListBox
                     options={[
                         { value: 'luna', label: 'Moon' },
@@ -985,14 +949,13 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            const controlLabel = wrapper.find('.rdl-control-label').at(0);
-            assert.isTrue(controlLabel.exists() && controlLabel.hasClass('rdl-sr-only'));
+            assert.isTrue(screen.getByText('Available').closest('label').classList.contains('rdl-sr-only'));
         });
     });
 
     describe('props.showNoOptionsText', () => {
         it('should render text in place of available/selected list boxes when no options are present', () => {
-            const wrapper = mount((
+            const { container } = render((
                 <DualListBox
                     options={[
                         { value: 'luna', label: 'Moon' },
@@ -1002,13 +965,13 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            assert.isTrue(wrapper.find('.rdl-selected .rdl-no-options').exists());
+            assert.isNotNull(container.querySelector('.rdl-selected .rdl-no-options'));
         });
     });
 
     describe('props.showOrderButtons', () => {
         it('should render the top, up, down, and bottom action buttons', () => {
-            const wrapper = shallow((
+            render((
                 <DualListBox
                     options={[
                         { value: 'luna', label: 'Moon' },
@@ -1022,16 +985,16 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            assert.equal('top', wrapper.find('Action').at(4).prop('direction'));
-            assert.equal('up', wrapper.find('Action').at(5).prop('direction'));
-            assert.equal('down', wrapper.find('Action').at(6).prop('direction'));
-            assert.equal('bottom', wrapper.find('Action').at(7).prop('direction'));
+            assert.isNotNull(screen.findByLabelText('Rearrange to top'));
+            assert.isNotNull(screen.findByLabelText('Rearrange up'));
+            assert.isNotNull(screen.findByLabelText('Rearrange down'));
+            assert.isNotNull(screen.findByLabelText('Rearrange to bottom'));
         });
 
-        it('should move a single item up or down when the respective button is clicked', () => {
+        it('should move a single item up or down when the respective button is clicked', async () => {
             let actual = null;
 
-            const wrapper = mount((
+            const { user } = setup((
                 <DualListBox
                     options={[
                         { value: 'luna', label: 'Moon' },
@@ -1048,23 +1011,25 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            wrapper.find('.rdl-selected select').simulate('change', simulateChange(['phobos']));
-            wrapper.find('.rdl-move-up').simulate('click');
+            const select = await screen.getByLabelText('Selected');
 
-            assert.deepEqual(['phobos', 'luna', 'deimos', 'io'], actual);
+            await user.selectOptions(select, ['phobos']);
+            await user.click(await screen.getByLabelText('Rearrange up'));
 
-            wrapper.find('.rdl-selected select').simulate('change', simulateChange(['phobos']));
-            wrapper.find('.rdl-move-down').simulate('click');
+            assert.deepEqual(actual, ['phobos', 'luna', 'deimos', 'io']);
+
+            await user.selectOptions(select, ['phobos']);
+            await user.click(await screen.getByLabelText('Rearrange down'));
 
             // Since we actually did not change the selected order, the down action is applied on
             // the original selected order
-            assert.deepEqual(['luna', 'deimos', 'phobos', 'io'], actual);
+            assert.deepEqual(actual, ['luna', 'deimos', 'phobos', 'io']);
         });
 
-        it('should move non-adjacent marked items such that they maintain their separation', () => {
+        it('should move non-adjacent marked items such that they maintain their separation', async () => {
             let actual = null;
 
-            const wrapper = mount((
+            const { user } = setup((
                 <DualListBox
                     options={[
                         { value: 'luna', label: 'Moon' },
@@ -1081,16 +1046,18 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            wrapper.find('.rdl-selected select').simulate('change', simulateChange(['phobos', 'io']));
-            wrapper.find('.rdl-move-up').simulate('click');
+            const select = await screen.getByLabelText('Selected');
 
-            assert.deepEqual(['phobos', 'luna', 'io', 'deimos'], actual);
+            await user.selectOptions(select, ['phobos', 'io']);
+            await user.click(await screen.getByLabelText('Rearrange up'));
+
+            assert.deepEqual(actual, ['phobos', 'luna', 'io', 'deimos']);
         });
 
-        it('should move adjacent items together, pushing the next non-marked item up or down', () => {
+        it('should move adjacent items together, pushing the next non-marked item up or down', async () => {
             let actual = null;
 
-            const wrapper = mount((
+            const { user } = setup((
                 <DualListBox
                     options={[
                         { value: 'luna', label: 'Moon' },
@@ -1107,16 +1074,18 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            wrapper.find('.rdl-selected select').simulate('change', simulateChange(['phobos', 'deimos']));
-            wrapper.find('.rdl-move-up').simulate('click');
+            const select = await screen.getByLabelText('Selected');
 
-            assert.deepEqual(['phobos', 'deimos', 'luna', 'io'], actual);
+            await user.selectOptions(select, ['phobos', 'deimos']);
+            await user.click(await screen.getByLabelText('Rearrange up'));
+
+            assert.deepEqual(actual, ['phobos', 'deimos', 'luna', 'io']);
         });
 
-        it('should not change the order of items that are already at the top or bottom', () => {
+        it('should not change the order of items that are already at the top or bottom', async () => {
             let actual = null;
 
-            const wrapper = mount((
+            const { user } = setup((
                 <DualListBox
                     options={[
                         { value: 'luna', label: 'Moon' },
@@ -1133,16 +1102,18 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            wrapper.find('.rdl-selected select').simulate('change', simulateChange(['luna', 'phobos']));
-            wrapper.find('.rdl-move-up').simulate('click');
+            const select = await screen.getByLabelText('Selected');
 
-            assert.deepEqual(['luna', 'phobos', 'deimos', 'io'], actual);
+            await user.selectOptions(select, ['luna', 'phobos']);
+            await user.click(await screen.getByLabelText('Rearrange up'));
+
+            assert.deepEqual(actual, ['luna', 'phobos', 'deimos', 'io']);
         });
 
-        it('should preserve the order if nothing is marked', () => {
+        it('should preserve the order if nothing is marked', async () => {
             let actual = null;
 
-            const wrapper = mount((
+            const { user } = setup((
                 <DualListBox
                     options={[
                         { value: 'luna', label: 'Moon' },
@@ -1159,14 +1130,14 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            wrapper.find('.rdl-move-up').simulate('click');
+            await user.click(await screen.getByLabelText('Rearrange up'));
 
-            assert.deepEqual(['luna', 'phobos', 'deimos', 'io'], actual);
+            assert.deepEqual(actual, ['luna', 'phobos', 'deimos', 'io']);
         });
 
         // https://github.com/jakezatecky/react-dual-listbox/issues/57
-        it('should not error when nothing is in the selected list', () => {
-            const wrapper = mount((
+        it('should not error when nothing is in the selected list', async () => {
+            const { user } = setup((
                 <DualListBox
                     options={[
                         { value: 'luna', label: 'Moon' },
@@ -1181,13 +1152,13 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            wrapper.find('.rdl-move-up').simulate('click');
+            await user.click(await screen.getByLabelText('Rearrange up'));
         });
 
-        it('should move selected items to top when top button is clicked', () => {
+        it('should move selected items to top when top button is clicked', async () => {
             let actual = null;
 
-            const wrapper = mount((
+            const { user } = setup((
                 <DualListBox
                     options={[
                         { value: 'luna', label: 'Moon' },
@@ -1204,16 +1175,18 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            wrapper.find('.rdl-selected select').simulate('change', simulateChange(['deimos']));
-            wrapper.find('.rdl-move-top').simulate('click');
+            const select = await screen.getByLabelText('Selected');
 
-            assert.deepEqual(['deimos', 'luna', 'phobos'], actual);
+            await user.selectOptions(select, ['deimos']);
+            await user.click(await screen.getByLabelText('Rearrange to top'));
+
+            assert.deepEqual(actual, ['deimos', 'luna', 'phobos']);
         });
 
-        it('should move selected items to bottom when bottom button is clicked', () => {
+        it('should move selected items to bottom when bottom button is clicked', async () => {
             let actual = null;
 
-            const wrapper = mount((
+            const { user } = setup((
                 <DualListBox
                     options={[
                         { value: 'luna', label: 'Moon' },
@@ -1230,17 +1203,19 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            wrapper.find('.rdl-selected select').simulate('change', simulateChange(['luna', 'phobos']));
-            wrapper.find('.rdl-move-bottom').simulate('click');
+            const select = await screen.getByLabelText('Selected');
 
-            assert.deepEqual(['deimos', 'luna', 'phobos'], actual);
+            await user.selectOptions(select, ['luna', 'phobos']);
+            await user.click(await screen.getByLabelText('Rearrange to bottom'));
+
+            assert.deepEqual(actual, ['deimos', 'luna', 'phobos']);
         });
 
         // https://github.com/jakezatecky/react-dual-listbox/issues/113
-        it('should play nicely with simpleValue={false}', () => {
+        it('should play nicely with simpleValue={false}', async () => {
             let actual = null;
 
-            const wrapper = mount((
+            const { user } = setup((
                 <DualListBox
                     options={[
                         { value: 'luna', label: 'Moon' },
@@ -1262,22 +1237,24 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            wrapper.find('.rdl-selected select').simulate('change', simulateChange(['io']));
-            wrapper.find('.rdl-move-down').simulate('click');
+            const select = await screen.getByLabelText('Selected');
 
-            assert.deepEqual([
+            await user.selectOptions(select, ['io']);
+            await user.click(await screen.getByLabelText('Rearrange down'));
+
+            assert.deepEqual(actual, [
                 { value: 'deimos', label: 'Deimos' },
                 { value: 'io', label: 'Io' },
                 { value: 'phobos', label: 'Phobos' },
-            ], actual);
+            ]);
         });
     });
 
     describe('props.simpleValue', () => {
-        it('should pass an array of values by default', () => {
+        it('should pass an array of values by default', async () => {
             let actual = null;
 
-            const wrapper = mount((
+            const { user } = setup((
                 <DualListBox
                     options={[
                         { label: 'Moon', value: 'luna' },
@@ -1289,16 +1266,18 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            wrapper.find('.rdl-available select').simulate('change', simulateChange(['phobos']));
-            wrapper.find('.rdl-available select').simulate('dblclick');
+            const select = screen.getByLabelText('Available');
 
-            assert.deepEqual(['phobos'], actual);
+            await user.selectOptions(select, ['phobos']);
+            await user.dblClick(select);
+
+            assert.deepEqual(actual, ['phobos']);
         });
 
-        it('should pass an array of options when false', () => {
+        it('should pass an array of options when false', async () => {
             let actual = null;
 
-            const wrapper = mount((
+            const { user } = setup((
                 <DualListBox
                     options={[
                         { label: 'Moon', value: 'luna' },
@@ -1311,19 +1290,21 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            wrapper.find('.rdl-available select').simulate('change', simulateChange(['phobos']));
-            wrapper.find('.rdl-available select').simulate('dblclick');
+            const select = screen.getByLabelText('Available');
 
-            assert.deepEqual([{
+            await user.selectOptions(select, ['phobos']);
+            await user.dblClick(select);
+
+            assert.deepEqual(actual, [{
                 label: 'Phobos',
                 value: 'phobos',
-            }], actual);
+            }]);
         });
 
-        it('should also pass optgroups when false', () => {
+        it('should also pass optgroups when false', async () => {
             let actual = null;
 
-            const wrapper = mount((
+            const { user } = setup((
                 <DualListBox
                     options={[
                         {
@@ -1341,22 +1322,24 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            wrapper.find('.rdl-available select').simulate('change', simulateChange(['phobos']));
-            wrapper.find('.rdl-available select').simulate('dblclick');
+            const select = screen.getByLabelText('Available');
 
-            assert.deepEqual([{
+            await user.selectOptions(select, ['phobos']);
+            await user.dblClick(select);
+
+            assert.deepEqual(actual, [{
                 label: 'Mars',
                 options: [{
                     label: 'Phobos',
                     value: 'phobos',
                 }],
-            }], actual);
+            }]);
         });
 
-        it('should also impact those values highlighted by the user', () => {
+        it('should also impact those values highlighted by the user', async () => {
             let actualSelection = null;
 
-            const wrapper = mount((
+            const { user } = setup((
                 <DualListBox
                     options={[
                         { label: 'Moon', value: 'luna' },
@@ -1370,20 +1353,22 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            wrapper.find('.rdl-available select').simulate('change', simulateChange(['phobos']));
-            wrapper.find('.rdl-move-right').not('.rdl-move-all').simulate('click');
+            const select = screen.getByLabelText('Available');
 
-            assert.deepEqual([
+            await user.selectOptions(select, ['phobos']);
+            await user.click(screen.getByLabelText('Move to selected'));
+
+            assert.deepEqual(actualSelection, [
                 { label: 'Phobos', value: 'phobos' },
-            ], actualSelection);
+            ]);
         });
     });
 
     describe('props.onChange', () => {
-        it('should pass all options in the selected listbox after a change', () => {
+        it('should pass all options in the selected listbox after a change', async () => {
             let actual = null;
 
-            const wrapper = mount((
+            const { user } = setup((
                 <DualListBox
                     options={[
                         { label: 'Moon', value: 'luna' },
@@ -1395,16 +1380,18 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            wrapper.find('.rdl-available select').simulate('change', simulateChange(['phobos']));
-            wrapper.find('.rdl-available select').simulate('dblclick');
+            const select = screen.getByLabelText('Available');
 
-            assert.deepEqual(['phobos'], actual);
+            await user.selectOptions(select, ['phobos']);
+            await user.dblClick(select);
+
+            assert.deepEqual(actual, ['phobos']);
         });
 
-        it('should preserve previous selections', () => {
+        it('should preserve previous selections', async () => {
             let actual = null;
 
-            const wrapper = mount((
+            const { user } = setup((
                 <DualListBox
                     options={[
                         { label: 'Moon', value: 'luna' },
@@ -1417,16 +1404,18 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            wrapper.find('.rdl-available select').simulate('change', simulateChange(['phobos']));
-            wrapper.find('.rdl-available select').simulate('dblclick');
+            const select = screen.getByLabelText('Available');
 
-            assert.deepEqual(['luna', 'phobos'], actual);
+            await user.selectOptions(select, ['phobos']);
+            await user.dblClick(select);
+
+            assert.deepEqual(actual, ['luna', 'phobos']);
         });
 
-        it('should handle numeric and string values', () => {
+        it('should handle numeric and string values', async () => {
             let actual = null;
 
-            const wrapper = mount((
+            const { user } = setup((
                 <DualListBox
                     options={[
                         { label: 'Option 1', value: 'one' },
@@ -1439,17 +1428,19 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            wrapper.find('.rdl-available select').simulate('change', simulateChange([2]));
-            wrapper.find('.rdl-available select').simulate('dblclick');
+            const select = await screen.getByLabelText('Available');
 
-            assert.deepEqual(['one', 2], actual);
+            await user.selectOptions(select, ['2']);
+            await user.dblClick(select);
+
+            assert.deepEqual(actual, ['one', 2]);
         });
 
-        it('should pass all the options the user highlighted before the change', () => {
+        it('should pass all the options the user highlighted before the change', async () => {
             let actualSelected = null;
             let actualSelection = null;
 
-            const wrapper = mount((
+            const { user } = setup((
                 <DualListBox
                     options={[
                         { label: 'Moon', value: 'luna' },
@@ -1463,17 +1454,19 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            wrapper.find('.rdl-selected select').simulate('change', simulateChange(['luna', 'phobos']));
-            wrapper.find('.rdl-move-left').not('.rdl-move-all').simulate('click');
+            const select = screen.getByLabelText('Selected');
 
-            assert.deepEqual([], actualSelected);
-            assert.deepEqual(['luna', 'phobos'], actualSelection);
+            await user.selectOptions(select, ['luna', 'phobos']);
+            await user.click(screen.getByLabelText('Move to available'));
+
+            assert.deepEqual(actualSelected, []);
+            assert.deepEqual(actualSelection, ['luna', 'phobos']);
         });
 
-        it('should identify the control responsible for the changes', () => {
+        it('should identify the control responsible for the changes', async () => {
             let actualControlKey = null;
 
-            const wrapper = mount((
+            const { user } = setup((
                 <DualListBox
                     options={[
                         { label: 'Moon', value: 'luna' },
@@ -1486,15 +1479,17 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            wrapper.find('.rdl-selected select').simulate('change', simulateChange(['luna', 'phobos']));
-            wrapper.find('.rdl-move-left').not('.rdl-move-all').simulate('click');
+            const select = screen.getByLabelText('Selected');
 
-            assert.equal('selected', actualControlKey);
+            await user.selectOptions(select, ['luna', 'phobos']);
+            await user.click(screen.getByLabelText('Move to available'));
+
+            assert.equal(actualControlKey, 'selected');
         });
 
         // https://github.com/jakezatecky/react-dual-listbox/issues/139
-        it('should not persist selections/highlights after moving options', () => {
-            const wrapper = mount((
+        it('should not persist selections/highlights after moving options', async () => {
+            const { user } = setup((
                 <DualListBox
                     options={[
                         { label: 'Option 1', value: 'one' },
@@ -1506,29 +1501,33 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            // Test clearing of available selections
-            wrapper.find('.rdl-available select').simulate('change', simulateChange(['two']));
-            wrapper.find('.rdl-move-right').not('.rdl-move-all').simulate('click');
+            const available = screen.getByLabelText('Available');
+            const selected = screen.getByLabelText('Selected');
 
-            assert.deepEqual([], wrapper.find('.rdl-available select').prop('value'));
+            // Test clearing of available selections
+            await user.selectOptions(available, ['two']);
+            await user.click(screen.getByLabelText('Move to selected'));
+
+            assert.deepEqual(available.closest('select').value, '');
 
             // Test clearing of selected selections
-            wrapper.find('.rdl-selected select').simulate('change', simulateChange(['one']));
-            wrapper.find('.rdl-move-left').not('.rdl-move-all').simulate('click');
+            await user.selectOptions(selected, ['one']);
+            await user.click(screen.getByLabelText('Move to available'));
 
-            assert.deepEqual([], wrapper.find('.rdl-selected select').prop('value'));
+            assert.deepEqual(selected.closest('select').value, '');
         });
     });
 
     describe('props.onFilterChange', () => {
-        it('should be called with the updated filter value', () => {
+        it('should be called with the updated filter value', async () => {
             let filter = {
-                available: '',
+                available: 'ph',
                 selected: '',
             };
 
-            const wrapper = shallow((
+            const { user } = setup((
                 <DualListBox
+                    canFilter
                     filter={filter}
                     options={[{ label: 'Phobos', value: 'phobos' }]}
                     onChange={() => {}}
@@ -1538,25 +1537,21 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            wrapper.find('ListBox').at(0).simulate('filterChange', {
-                target: {
-                    dataset: { controlKey: 'available' },
-                    value: 'pho',
-                },
-            });
+            const input = screen.getByLabelText('Filter available');
+            await user.type(input, 'o');
 
-            assert.deepEqual({
+            assert.deepEqual(filter, {
                 available: 'pho',
                 selected: '',
-            }, filter);
+            });
         });
     });
 
     describe('moveRight', () => {
-        it('should call onChange with the newly-selected options', () => {
+        it('should call onChange with the newly-selected options', async () => {
             let actual = null;
 
-            const wrapper = mount((
+            const { user } = setup((
                 <DualListBox
                     options={[
                         { label: 'Moon', value: 'luna' },
@@ -1568,16 +1563,18 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            wrapper.find('.rdl-available select').simulate('change', simulateChange(['phobos']));
-            wrapper.find('.rdl-move-right').not('.rdl-move-all').simulate('click');
+            const available = screen.getByLabelText('Available');
 
-            assert.deepEqual(['phobos'], actual);
+            await user.selectOptions(available, ['phobos']);
+            await user.click(screen.getByLabelText('Move to selected'));
+
+            assert.deepEqual(actual, ['phobos']);
         });
 
-        it('should persist previously-selected values', () => {
+        it('should persist previously-selected values', async () => {
             let actual = null;
 
-            const wrapper = mount((
+            const { user } = setup((
                 <DualListBox
                     options={[
                         { label: 'Moon', value: 'luna' },
@@ -1591,18 +1588,20 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            wrapper.find('.rdl-available select').simulate('change', simulateChange(['phobos']));
-            wrapper.find('.rdl-move-right').not('.rdl-move-all').simulate('click');
+            const available = screen.getByLabelText('Available');
 
-            assert.deepEqual(['deimos', 'phobos'], actual);
+            await user.selectOptions(available, ['phobos']);
+            await user.click(screen.getByLabelText('Move to selected'));
+
+            assert.deepEqual(actual, ['deimos', 'phobos']);
         });
     });
 
     describe('moveAllRight', () => {
-        it('should call onChange with all available options selected', () => {
+        it('should call onChange with all available options selected', async () => {
             let actual = null;
 
-            const wrapper = mount((
+            const { user } = setup((
                 <DualListBox
                     options={[
                         { label: 'Moon', value: 'luna' },
@@ -1614,16 +1613,16 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            wrapper.find('.rdl-move-all.rdl-move-right').simulate('click');
+            await user.click(screen.getByLabelText('Move all to selected'));
 
-            assert.deepEqual(['luna', 'phobos'], actual);
+            assert.deepEqual(actual, ['luna', 'phobos']);
         });
 
         // https://github.com/jakezatecky/react-dual-listbox/issues/53
-        it('should not duplicate any existing selections', () => {
+        it('should not duplicate any existing selections', async () => {
             let actual = null;
 
-            const wrapper = mount((
+            const { user } = setup((
                 <DualListBox
                     options={[
                         {
@@ -1641,17 +1640,17 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            wrapper.find('.rdl-move-all.rdl-move-right').simulate('click');
+            await user.click(screen.getByLabelText('Move all to selected'));
 
-            assert.deepEqual(['phobos', 'deimos'], actual);
+            assert.deepEqual(actual, ['phobos', 'deimos']);
         });
     });
 
     describe('moveLeft', () => {
-        it('should call onChange with the newly-selected options removed', () => {
+        it('should call onChange with the newly-selected options removed', async () => {
             let actual = null;
 
-            const wrapper = mount((
+            const { user } = setup((
                 <DualListBox
                     options={[
                         { label: 'Moon', value: 'luna' },
@@ -1665,18 +1664,20 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            wrapper.find('.rdl-selected select').simulate('change', simulateChange(['phobos', 'deimos']));
-            wrapper.find('.rdl-move-left').not('.rdl-move-all').simulate('click');
+            const selected = screen.getByLabelText('Selected');
 
-            assert.deepEqual([], actual);
+            await user.selectOptions(selected, ['phobos', 'deimos']);
+            await user.click(screen.getByLabelText('Move to available'));
+
+            assert.deepEqual(actual, []);
         });
     });
 
     describe('moveAllLeft', () => {
-        it('should call onChange with no options selected', () => {
+        it('should call onChange with no options selected', async () => {
             let actual = null;
 
-            const wrapper = mount((
+            const { user } = setup((
                 <DualListBox
                     options={[
                         { label: 'Moon', value: 'luna' },
@@ -1689,9 +1690,9 @@ describe('<DualListBox />', () => {
                 />
             ));
 
-            wrapper.find('.rdl-move-all.rdl-move-left').simulate('click');
+            await user.click(screen.getByLabelText('Move all to available'));
 
-            assert.deepEqual([], actual);
+            assert.deepEqual(actual, []);
         });
     });
 });

@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 
 export default PropTypes.shape({
-    moveLeft: PropTypes.string.isRequired,
-    moveAllLeft: PropTypes.string.isRequired,
-    moveRight: PropTypes.string.isRequired,
-    moveAllRight: PropTypes.string.isRequired,
+    moveToAvailable: PropTypes.string.isRequired,
+    moveAllToAvailable: PropTypes.string.isRequired,
+    moveToSelected: PropTypes.string.isRequired,
+    moveAllToSelected: PropTypes.string.isRequired,
 
     // Optional properties
     availableFilterHeader: PropTypes.string,

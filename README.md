@@ -253,13 +253,13 @@ By default, **react-dual-listbox** uses Font Awesome for the various icons that 
 <DualListBox
     ...
     icons={{
-        moveLeft: <span className="fa fa-chevron-left" />,
-        moveAllLeft: [
+        moveToAvailable: <span className="fa fa-chevron-left" />,
+        moveAllToAvailable: [
             <span key={0} className="fa fa-chevron-left" />,
             <span key={1} className="fa fa-chevron-left" />,
         ],
-        moveRight: <span className="fa fa-chevron-right" />,
-        moveAllRight: [
+        moveToSelected: <span className="fa fa-chevron-right" />,
+        moveAllToSelected: [
             <span key={0} className="fa fa-chevron-right" />,
             <span key={1} className="fa fa-chevron-right" />,
         ],

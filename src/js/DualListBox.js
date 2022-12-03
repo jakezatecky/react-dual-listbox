@@ -24,10 +24,10 @@ const defaultFilter = (option, filterInput) => {
     return (new RegExp(escapeRegExp(filterInput), 'i')).test(option.label);
 };
 const defaultIcons = {
-    moveLeft: <span className="rdl-icon rdl-icon-move-left" />,
-    moveAllLeft: <span className="rdl-icon rdl-icon-move-all-left" />,
-    moveRight: <span className="rdl-icon rdl-icon-move-right" />,
-    moveAllRight: <span className="rdl-icon rdl-icon-move-all-right" />,
+    moveToAvailable: <span className="rdl-icon rdl-icon-move-left" />,
+    moveAllToAvailable: <span className="rdl-icon rdl-icon-move-all-left" />,
+    moveToSelected: <span className="rdl-icon rdl-icon-move-right" />,
+    moveAllToSelected: <span className="rdl-icon rdl-icon-move-all-right" />,
     moveBottom: <span className="rdl-icon rdl-icon-move-bottom" />,
     moveDown: <span className="rdl-icon rdl-icon-move-down" />,
     moveUp: <span className="rdl-icon rdl-icon-move-up" />,
@@ -262,8 +262,8 @@ class DualListBox extends React.Component {
      */
     onActionClick({ direction, isMoveAll }) {
         const { options } = this.props;
-        const directionIsRight = direction === 'right';
-        const sourceListBox = directionIsRight ? this.available : this.selected;
+        const isFromAvailable = direction === 'toSelected';
+        const sourceListBox = isFromAvailable ? this.available : this.selected;
         const marked = this.getMarkedOptions(sourceListBox);
 
         let selected;
@@ -273,17 +273,17 @@ class DualListBox extends React.Component {
         } else if (['top', 'bottom'].indexOf(direction) > -1) {
             selected = this.rearrangeToExtremes(marked, direction);
         } else if (isMoveAll) {
-            selected = directionIsRight ?
+            selected = isFromAvailable ?
                 this.makeOptionsSelected(options) :
                 this.makeOptionsUnselected(options);
         } else {
             selected = this.toggleHighlighted(
                 marked,
-                directionIsRight ? 'available' : 'selected',
+                isFromAvailable ? 'available' : 'selected',
             );
         }
 
-        this.onChange(selected, marked, directionIsRight ? 'available' : 'selected');
+        this.onChange(selected, marked, isFromAvailable ? 'available' : 'selected');
     }
 
     /**
@@ -883,7 +883,7 @@ class DualListBox extends React.Component {
     }
 
     /**
-     * @returns {ReactElement}
+     * @returns {ReactNode}
      */
     render() {
         const {
@@ -918,16 +918,16 @@ class DualListBox extends React.Component {
                 onClick={this.onActionClick}
             />
         );
-        const actionsRight = (
-            <div className="rdl-actions-right">
-                {makeAction('right', true)}
-                {makeAction('right')}
+        const actionsToSelected = (
+            <div className="rdl-actions-to-selected">
+                {makeAction('toSelected', true)}
+                {makeAction('toSelected')}
             </div>
         );
-        const actionsLeft = (
-            <div className="rdl-actions-left">
-                {makeAction('left')}
-                {makeAction('left', true)}
+        const actionsToAvailable = (
+            <div className="rdl-actions-to-available">
+                {makeAction('toAvailable')}
+                {makeAction('toAvailable', true)}
             </div>
         );
         const rootClassName = classNames({
@@ -943,14 +943,14 @@ class DualListBox extends React.Component {
         return (
             <div className={rootClassName} dir={htmlDir} id={id}>
                 <div className="rdl-controls">
-                    {this.renderListBox('available', availableOptions, availableRef, actionsRight)}
+                    {this.renderListBox('available', availableOptions, availableRef, actionsToSelected)}
                     {alignActions === ALIGNMENTS.MIDDLE ? (
                         <div className="rdl-actions">
-                            {actionsRight}
-                            {actionsLeft}
+                            {actionsToSelected}
+                            {actionsToAvailable}
                         </div>
                     ) : null}
-                    {this.renderListBox('selected', selectedOptions, selectedRef, actionsLeft)}
+                    {this.renderListBox('selected', selectedOptions, selectedRef, actionsToAvailable)}
                     {preserveSelectOrder && showOrderButtons ? (
                         <div className="rdl-actions">
                             {makeAction('top')}

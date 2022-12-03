@@ -7,6 +7,12 @@ import userEvent from '@testing-library/user-event';
 import DualListBox from '../src/js/DualListBox';
 
 const testId = 'test-id';
+const testLang = {
+    moveToAvailable: '',
+    moveAllToAvailable: '',
+    moveToSelected: '',
+    moveAllToSelected: '',
+};
 
 function setup(jsx) {
     return {
@@ -608,10 +614,8 @@ describe('<DualListBox />', async () => {
             render((
                 <DualListBox
                     lang={{
-                        moveLeft: '',
-                        moveAllLeft: '',
-                        moveRight: '',
-                        moveAllRight: 'MOVE.ALL.RIGHT',
+                        ...testLang,
+                        moveAllToSelected: 'MOVE.ALL.RIGHT',
                     }}
                     options={[
                         { label: 'Moon', value: 'luna' },
@@ -624,7 +628,7 @@ describe('<DualListBox />', async () => {
             const button = await screen.queryByLabelText('MOVE.ALL.RIGHT');
 
             assert.isNotNull(button);
-            assert.isTrue(button.closest('button').classList.contains('rdl-move-all'));
+            assert.isTrue(button.closest('button').classList.contains('rdl-move-all-to-selected'));
         });
     });
 
@@ -883,10 +887,7 @@ describe('<DualListBox />', async () => {
                 >
                     <DualListBox
                         lang={{
-                            moveLeft: '',
-                            moveAllLeft: '',
-                            moveRight: '',
-                            moveAllRight: '',
+                            ...testLang,
                             requiredError: expectedMessage,
                         }}
                         options={[

@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import kebabCase from 'lodash/kebabCase';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -8,7 +9,14 @@ import capitalizeFirstLetter from './util/capitalizeFirstLetter';
 
 class Action extends React.Component {
     static propTypes = {
-        direction: PropTypes.oneOf(['left', 'right', 'up', 'down', 'top', 'bottom']).isRequired,
+        direction: PropTypes.oneOf([
+            'toAvailable',
+            'toSelected',
+            'up',
+            'down',
+            'top',
+            'bottom',
+        ]).isRequired,
         disabled: PropTypes.bool.isRequired,
         icons: iconsShape.isRequired,
         id: PropTypes.string.isRequired,
@@ -48,15 +56,6 @@ class Action extends React.Component {
     /**
      * @returns {string}
      */
-    getId() {
-        const { id, direction, isMoveAll } = this.props;
-
-        return `${id}-move${isMoveAll ? '-all' : ''}-${direction}`;
-    }
-
-    /**
-     * @returns {string}
-     */
     getActionKey() {
         const { direction, isMoveAll } = this.props;
 
@@ -64,39 +63,56 @@ class Action extends React.Component {
     }
 
     /**
+     * @param {string} classKey
+     *
      * @returns {string}
      */
-    getLabel() {
+    getId(classKey) {
+        const { id, isMoveAll } = this.props;
+
+        return `${id}-move${isMoveAll ? '-all' : ''}-${classKey}`;
+    }
+
+    /**
+     * @param {string} actionKey
+     *
+     * @returns {string}
+     */
+    getLabel(actionKey) {
         const { lang } = this.props;
 
-        return lang[this.getActionKey()];
+        return lang[actionKey];
     }
 
     /**
-     * @returns {*}
+     * @param {string} actionKey
+     *
+     * @returns {ReactNode}
      */
-    renderIcons() {
+    renderIcons(actionKey) {
         const { icons } = this.props;
 
-        return icons[this.getActionKey()];
+        return icons[actionKey];
     }
 
     /**
-     * @returns {React.Component}
+     * @returns {ReactNode}
      */
     render() {
         const {
-            direction,
             disabled,
             isMoveAll,
         } = this.props;
-        const id = this.getId();
-        const label = this.getLabel();
+        const actionKey = this.getActionKey();
+        const classKey = kebabCase(actionKey);
+        const id = this.getId(classKey);
+        const label = this.getLabel(actionKey);
         const className = classNames({
             'rdl-btn': true,
             'rdl-move': true,
             'rdl-move-all': isMoveAll,
-            [`rdl-move-${direction}`]: true,
+            'rdl-move-some': !isMoveAll,
+            [`rdl-${classKey}`]: true,
         });
 
         return (
@@ -109,7 +125,7 @@ class Action extends React.Component {
                 type="button"
                 onClick={this.onClick}
             >
-                {this.renderIcons()}
+                {this.renderIcons(actionKey)}
             </button>
         );
     }

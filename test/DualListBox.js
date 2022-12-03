@@ -624,7 +624,7 @@ describe('<DualListBox />', async () => {
             const button = await screen.queryByLabelText('MOVE.ALL.RIGHT');
 
             assert.isNotNull(button);
-            assert.isTrue(button.closest('button').classList.contains('rdl-move-all'));
+            assert.isTrue(button.closest('button').classList.contains('rdl-move-all-right'));
         });
     });
 

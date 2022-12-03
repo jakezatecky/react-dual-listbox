@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import kebabCase from 'lodash/kebabCase';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -48,15 +49,6 @@ class Action extends React.Component {
     /**
      * @returns {string}
      */
-    getId() {
-        const { id, direction, isMoveAll } = this.props;
-
-        return `${id}-move${isMoveAll ? '-all' : ''}-${direction}`;
-    }
-
-    /**
-     * @returns {string}
-     */
     getActionKey() {
         const { direction, isMoveAll } = this.props;
 
@@ -66,37 +58,47 @@ class Action extends React.Component {
     /**
      * @returns {string}
      */
-    getLabel() {
+    getId(classKey) {
+        const { id } = this.props;
+
+        return `${id}-${classKey}`;
+    }
+
+    /**
+     * @param {string} actionKey
+     *
+     * @returns {string}
+     */
+    getLabel(actionKey) {
         const { lang } = this.props;
 
-        return lang[this.getActionKey()];
+        return lang[actionKey];
     }
 
     /**
+     * @param {string} actionKey
+     *
      * @returns {*}
      */
-    renderIcons() {
+    renderIcons(actionKey) {
         const { icons } = this.props;
 
-        return icons[this.getActionKey()];
+        return icons[actionKey];
     }
 
     /**
-     * @returns {React.Component}
+     * @returns {ReactNode}
      */
     render() {
-        const {
-            direction,
-            disabled,
-            isMoveAll,
-        } = this.props;
-        const id = this.getId();
-        const label = this.getLabel();
+        const { disabled } = this.props;
+        const actionKey = this.getActionKey();
+        const classKey = kebabCase(actionKey);
+        const id = this.getId(classKey);
+        const label = this.getLabel(actionKey);
         const className = classNames({
             'rdl-btn': true,
             'rdl-move': true,
-            'rdl-move-all': isMoveAll,
-            [`rdl-move-${direction}`]: true,
+            [`rdl-${classKey}`]: true,
         });
 
         return (
@@ -109,7 +111,7 @@ class Action extends React.Component {
                 type="button"
                 onClick={this.onClick}
             >
-                {this.renderIcons()}
+                {this.renderIcons(actionKey)}
             </button>
         );
     }

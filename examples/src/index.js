@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 import AlignTopExample from './js/AlignTopExample';
 import AllowDuplicatesExample from './js/AllowDuplicatesExample';
@@ -12,13 +12,13 @@ import RequiredExample from './js/RequiredExample';
 import RestrictAvailable from './js/RestrictAvailableExample';
 import RtlExample from './js/RtlExample';
 
-ReactDOM.render(<BasicExample />, document.getElementById('basic-example'));
-ReactDOM.render(<OptGroupExample />, document.getElementById('optgroup-example'));
-ReactDOM.render(<FilterExample />, document.getElementById('filter-example'));
-ReactDOM.render(<AlignTopExample />, document.getElementById('align-top-example'));
-ReactDOM.render(<DisabledExample />, document.getElementById('disabled-example'));
-ReactDOM.render(<PreserveSelectOrderExample />, document.getElementById('preserve-select-order-example'));
-ReactDOM.render(<AllowDuplicatesExample />, document.getElementById('allow-duplicates-example'));
-ReactDOM.render(<RequiredExample />, document.getElementById('required-example'));
-ReactDOM.render(<RtlExample />, document.getElementById('rtl-example'));
-ReactDOM.render(<RestrictAvailable />, document.getElementById('restrict-available-example'));
+createRoot(document.getElementById('basic-example')).render(<BasicExample />)
+createRoot(document.getElementById('optgroup-example')).render(<OptGroupExample />);
+createRoot(document.getElementById('filter-example')).render(<FilterExample />);
+createRoot(document.getElementById('align-top-example')).render(<AlignTopExample />);
+createRoot(document.getElementById('disabled-example')).render(<DisabledExample />);
+createRoot(document.getElementById('preserve-select-order-example')).render(<PreserveSelectOrderExample />);
+createRoot(document.getElementById('allow-duplicates-example')).render(<AllowDuplicatesExample />);
+createRoot(document.getElementById('required-example')).render(<RequiredExample />);
+createRoot(document.getElementById('rtl-example')).render(<RtlExample />);
+createRoot(document.getElementById('restrict-available-example')).render(<RestrictAvailable />);

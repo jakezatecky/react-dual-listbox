@@ -1,7 +1,7 @@
 import React from 'react';
 import { assert } from 'chai';
 import { render, screen } from '@testing-library/react';
-import { fireEvent, within } from '@testing-library/dom';
+import { within } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 
 import DualListBox from '../src/js/DualListBox';
@@ -628,14 +628,13 @@ describe('<DualListBox />', async () => {
         });
     });
 
-    // TODO: Replace with `user.type` once `keyCode` dropped in favor of `key` or `code`
     describe('props.moveKeyCodes', () => {
         it('should trigger `onChange` for the given key codes', async () => {
             let actual = null;
 
             const { user } = setup((
                 <DualListBox
-                    moveKeyCodes={[16, 32]}
+                    moveKeys={['Shift', 'Enter']}
                     options={[
                         { label: 'Moon', value: 'luna' },
                         { label: 'Phobos', value: 'phobos' },
@@ -649,12 +648,12 @@ describe('<DualListBox />', async () => {
             const select = await screen.getByLabelText('Available');
 
             await user.selectOptions(select, ['phobos']);
-            await fireEvent.keyUp(select, { keyCode: 16 });
+            await user.type(select, '{Shift}');
 
             assert.deepEqual(actual, ['phobos']);
 
             await user.selectOptions(select, ['luna', 'phobos']);
-            await fireEvent.keyUp(select, { keyCode: 32 });
+            await user.type(select, '{Enter}');
 
             assert.deepEqual(actual, ['luna', 'phobos']);
         });

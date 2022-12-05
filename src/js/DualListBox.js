@@ -13,7 +13,7 @@ import optionsShape from './shapes/optionsShape';
 import valueShape from './shapes/valueShape';
 import indexesOf from './util/indexesOf';
 import swapOptions from './util/swapOptions';
-import { KEY_CODES, ALIGNMENTS } from './constants';
+import { ALIGNMENTS, KEYS } from './constants';
 
 const noop = () => {};
 const defaultFilter = (option, filterInput) => {
@@ -57,7 +57,7 @@ class DualListBox extends React.Component {
         iconsClass: PropTypes.string,
         id: PropTypes.string,
         lang: languageShape,
-        moveKeyCodes: PropTypes.arrayOf(PropTypes.number),
+        moveKeys: PropTypes.arrayOf(PropTypes.string),
         name: PropTypes.string,
         preserveSelectOrder: PropTypes.bool,
         required: PropTypes.bool,
@@ -86,7 +86,7 @@ class DualListBox extends React.Component {
         iconsClass: 'fa5',
         id: null,
         lang: defaultLang,
-        moveKeyCodes: [KEY_CODES.SPACEBAR, KEY_CODES.ENTER],
+        moveKeys: [KEYS.SPACEBAR, KEYS.ENTER],
         name: null,
         preserveSelectOrder: null,
         required: false,
@@ -306,10 +306,10 @@ class DualListBox extends React.Component {
      * @returns {void}
      */
     onOptionKeyUp(event, controlKey) {
-        const { currentTarget, keyCode } = event;
-        const { moveKeyCodes } = this.props;
+        const { currentTarget, key } = event;
+        const { moveKeys } = this.props;
 
-        if (moveKeyCodes.indexOf(keyCode) > -1) {
+        if (moveKeys.indexOf(key) > -1) {
             const marked = this.getMarkedOptions(currentTarget);
             const selected = this.toggleHighlighted(marked, controlKey);
 

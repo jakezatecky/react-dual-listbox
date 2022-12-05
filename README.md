@@ -291,36 +291,36 @@ class Widget extends React.Component {
 
 ### All Properties
 
-| Property              | Type     | Description                                                                                                             | Default         |
-| --------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------- | --------------- |
-| `options`             | array    | **Required**. Specifies the list of options that may exist on either side of the dual list box.                         |                 |
-| `onChange`            | function | **Required**. The handler called when options are moved to either side: `function(selected, selection, controlKey) {}`. |                 |
-| `alignActions`        | string   | A value specifying whether to align the action buttons to the `'top'` or `'middle'`.                                    | `middle`        |
-| `allowDuplicates`     | bool     | If true, duplicate options will be allowed in the selected list box.                                                    | `false`         |
-| `available`           | array    | A subset of the `options` array to optionally filter the available list box.                                            | `undefined`     |
-| `availableRef`        | function | A React function [ref] to the "available" list box.                                                                     | `null`          |
-| `canFilter`           | bool     | If true, search boxes will appear above both list boxes, allowing the user to filter the results.                       | `false`         |
-| `className`           | string   | An optional `className` to apply to the root node.                                                                      | `null`          |
-| `disabled`            | bool     | If true, both "available" and "selected" list boxes will be disabled.                                                   | `false`         |
-| `filter`              | object   | A key-value map of `{ available: [value], selected: [value] }` to control the filter values (defaults to uncontrolled). | `null`          |
-| `filterCallback`      | function | The filter function to run on a given option and input string: `function(option, filterInput) {}`. See **Filtering**.   | `() => { ... }` |
-| `filterPlaceholder`   | string   | The text placeholder used when the filter search boxes are empty.                                                       | `"Search..."`   |
-| `htmlDir`             | string   | The [directionality][mdn-directionality] of the component's elements. Set to `'rtl'` if using a right-to-left language. | `'ltr'`         |
-| `icons`               | object   | A key-value pairing of action icons and their React nodes. See **Changing the Default Icons** for further info.         | `{ ... }`       |
-| `iconsClass`          | string   | A value specifying which overarching icon class to use. Built-in support for `fa5`, `fa6`, and `native` icons.          | `'fa5'`         |
-| `id`                  | string   | An HTML ID prefix for the various sub elements.                                                                         | `null`          |
-| `lang`                | object   | A key-value pairing of localized text. See [`src/js/lang/default.js`][lang-file] for a list of keys.                    | `{ ... }`       |
-| `moveKeyCodes`        | array    | A list of key codes that will trigger a toggle of the selected options.                                                 | `[13, 32]`      |
-| `name`                | string   | A value for the `name` attribute on the hidden `<input />` element. This is potentially useful for form submissions.    | `null`          |
-| `onFilterChange`      | function | A handler called when a filter input changes. Paired with `filter` when wanting to control the filter values.           | `null`          |
-| `preserveSelectOrder` | bool     | If true, the order in which the available options are selected are preserved when the items are moved to the right.     | `false`         |
-| `required`            | bool     | If true, this component will require `selected` to be non-empty to pass a form validation                               | `false`         |
-| `selected`            | array    | A list of the selected options appearing in the rightmost list box.                                                     | `[]`            |
-| `selectedRef`         | function | A React function [ref] to the "selected" list box.                                                                      | `null`          |
-| `simpleValue`         | bool     | If true, the `selected` value passed in `onChange` is an array of string values. Otherwise, it is an array of options.  | `true`          |
-| `showHeaderLabels`    | bool     | If true, labels above both the available and selected list boxes will appear. These labels derive from `lang`.          | `false`         |
-| `showNoOptionsText`   | bool     | If true, text will appear in place of the available/selected list boxes when no options are present.                    | `false`         |
-| `showOrderButtons`    | bool     | If true, a set of up/down buttons will appear near the selected list box to allow the user to re-arrange the items.     | `false`         |
+| Property              | Type     | Description                                                                                                             | Default          |
+| --------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------- | ---------------- |
+| `options`             | array    | **Required**. Specifies the list of options that may exist on either side of the dual list box.                         |                  |
+| `onChange`            | function | **Required**. The handler called when options are moved to either side: `function(selected, selection, controlKey) {}`. |                  |
+| `alignActions`        | string   | A value specifying whether to align the action buttons to the `'top'` or `'middle'`.                                    | `middle`         |
+| `allowDuplicates`     | bool     | If true, duplicate options will be allowed in the selected list box.                                                    | `false`          |
+| `available`           | array    | A subset of the `options` array to optionally filter the available list box.                                            | `undefined`      |
+| `availableRef`        | function | A React function [ref] to the "available" list box.                                                                     | `null`           |
+| `canFilter`           | bool     | If true, search boxes will appear above both list boxes, allowing the user to filter the results.                       | `false`          |
+| `className`           | string   | An optional `className` to apply to the root node.                                                                      | `null`           |
+| `disabled`            | bool     | If true, both "available" and "selected" list boxes will be disabled.                                                   | `false`          |
+| `filter`              | object   | A key-value map of `{ available: [value], selected: [value] }` to control the filter values (defaults to uncontrolled). | `null`           |
+| `filterCallback`      | function | The filter function to run on a given option and input string: `function(option, filterInput) {}`. See **Filtering**.   | `() => { ... }`  |
+| `filterPlaceholder`   | string   | The text placeholder used when the filter search boxes are empty.                                                       | `"Search..."`    |
+| `htmlDir`             | string   | The [directionality][mdn-directionality] of the component's elements. Set to `'rtl'` if using a right-to-left language. | `'ltr'`          |
+| `icons`               | object   | A key-value pairing of action icons and their React nodes. See **Changing the Default Icons** for further info.         | `{ ... }`        |
+| `iconsClass`          | string   | A value specifying which overarching icon class to use. Built-in support for `fa5`, `fa6`, and `native` icons.          | `'fa5'`          |
+| `id`                  | string   | An HTML ID prefix for the various sub elements.                                                                         | `null`           |
+| `lang`                | object   | A key-value pairing of localized text. See [`src/js/lang/default.js`][lang-file] for a list of keys.                    | `{ ... }`        |
+| `moveKeys`            | array    | A list of [keyboard keys][mdn-key] that will trigger a toggle of the highlighted options.                               | `[' ', 'Enter']` |
+| `name`                | string   | A value for the `name` attribute on the hidden `<input />` element. This is potentially useful for form submissions.    | `null`           |
+| `onFilterChange`      | function | A handler called when a filter input changes. Paired with `filter` when wanting to control the filter values.           | `null`           |
+| `preserveSelectOrder` | bool     | If true, the order in which the available options are selected are preserved when the items are moved to the right.     | `false`          |
+| `required`            | bool     | If true, this component will require `selected` to be non-empty to pass a form validation                               | `false`          |
+| `selected`            | array    | A list of the selected options appearing in the rightmost list box.                                                     | `[]`             |
+| `selectedRef`         | function | A React function [ref] to the "selected" list box.                                                                      | `null`           |
+| `simpleValue`         | bool     | If true, the `selected` value passed in `onChange` is an array of string values. Otherwise, it is an array of options.  | `true`           |
+| `showHeaderLabels`    | bool     | If true, labels above both the available and selected list boxes will appear. These labels derive from `lang`.          | `false`          |
+| `showNoOptionsText`   | bool     | If true, text will appear in place of the available/selected list boxes when no options are present.                    | `false`          |
+| `showOrderButtons`    | bool     | If true, a set of up/down buttons will appear near the selected list box to allow the user to re-arrange the items.     | `false`          |
 
 #### Option Properties
 
@@ -334,4 +334,5 @@ class Widget extends React.Component {
 [controlled]: https://facebook.github.io/react/docs/forms.html#controlled-components
 [lang-file]: https://github.com/jakezatecky/react-dual-listbox/blob/master/src/js/lang/default.js
 [mdn-directionality]: https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/dir
+[mdn-key]: https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key
 [ref]: https://reactjs.org/docs/refs-and-the-dom.html

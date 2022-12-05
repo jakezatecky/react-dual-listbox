@@ -1,6 +1,6 @@
-const KEY_CODES = {
-    SPACEBAR: 32,
-    ENTER: 13,
+const KEYS = {
+    SPACEBAR: ' ',
+    ENTER: 'Enter',
 };
 
 const ALIGNMENTS = {
@@ -8,4 +8,4 @@ const ALIGNMENTS = {
     TOP: 'top',
 };
 
-export { KEY_CODES, ALIGNMENTS };
+export { KEYS, ALIGNMENTS };

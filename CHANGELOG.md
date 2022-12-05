@@ -2,13 +2,14 @@
 
 ## v4.0.0 (TBA)
 
+### Breaking Changes
+
+* Replace `moveKeyCode` property with `moveKeys` (use [keyboard keys](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key) instead)
+* Drop `arrayFrom` ["ponyfill"](https://github.com/sindresorhus/ponyfill) and rely on `array.from` (causes problems with IE11, which is [end-of-life](https://blogs.windows.com/windowsexperience/2022/06/15/internet-explorer-11-has-retired-and-is-officially-out-of-support-what-you-need-to-know/))
+
 ### New Features
 
 * [#52]: Add `required` property
-
-### Other
-
-* **(breaking)** Drop `arrayFrom` ["ponyfill"](https://github.com/sindresorhus/ponyfill) and rely on `array.from` (causes problems with IE11, which is [end-of-life](https://blogs.windows.com/windowsexperience/2022/06/15/internet-explorer-11-has-retired-and-is-officially-out-of-support-what-you-need-to-know/))
 
 ## [v3.0.1](https://github.com/jakezatecky/react-dual-listbox/compare/v3.0.0...v3.0.1) (2022-10-28)
 

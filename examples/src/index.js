@@ -12,7 +12,7 @@ import RequiredExample from './js/RequiredExample';
 import RestrictAvailable from './js/RestrictAvailableExample';
 import RtlExample from './js/RtlExample';
 
-createRoot(document.getElementById('basic-example')).render(<BasicExample />)
+createRoot(document.getElementById('basic-example')).render(<BasicExample />);
 createRoot(document.getElementById('optgroup-example')).render(<OptGroupExample />);
 createRoot(document.getElementById('filter-example')).render(<FilterExample />);
 createRoot(document.getElementById('align-top-example')).render(<AlignTopExample />);

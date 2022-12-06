@@ -12,7 +12,6 @@ class ListBox extends React.Component {
         children: PropTypes.node.isRequired,
         controlKey: PropTypes.string.isRequired,
         disabled: PropTypes.bool.isRequired,
-        filterPlaceholder: PropTypes.string.isRequired,
         filterValue: PropTypes.string.isRequired,
         id: PropTypes.string.isRequired,
         inputRef: PropTypes.func.isRequired,
@@ -42,7 +41,6 @@ class ListBox extends React.Component {
             canFilter,
             controlKey,
             disabled,
-            filterPlaceholder,
             filterValue,
             id,
             lang,
@@ -57,7 +55,6 @@ class ListBox extends React.Component {
             <Filter
                 controlKey={controlKey}
                 disabled={disabled}
-                filterPlaceholder={filterPlaceholder}
                 filterValue={filterValue}
                 id={id}
                 lang={lang}

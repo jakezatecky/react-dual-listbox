@@ -7,7 +7,6 @@ class Filter extends React.PureComponent {
     static propTypes = {
         controlKey: PropTypes.string.isRequired,
         disabled: PropTypes.bool.isRequired,
-        filterPlaceholder: PropTypes.string.isRequired,
         filterValue: PropTypes.string.isRequired,
         id: PropTypes.string.isRequired,
         lang: languageShape.isRequired,
@@ -18,7 +17,6 @@ class Filter extends React.PureComponent {
         const {
             controlKey,
             disabled,
-            filterPlaceholder,
             filterValue,
             id,
             lang,
@@ -35,7 +33,7 @@ class Filter extends React.PureComponent {
                     data-control-key={controlKey}
                     disabled={disabled}
                     id={`${id}-filter-${controlKey}`}
-                    placeholder={filterPlaceholder}
+                    placeholder={lang.filterPlaceholder}
                     type="text"
                     value={filterValue}
                     onChange={onFilterChange}

@@ -504,25 +504,6 @@ describe('<DualListBox />', async () => {
         });
     });
 
-    describe('props.filterPlaceholder', () => {
-        it('should set the placeholder text on the filter inputs', async () => {
-            render((
-                <DualListBox
-                    canFilter
-                    filterPlaceholder="Filter me"
-                    options={[
-                        { label: 'Moon', value: 'luna' },
-                        { label: 'Phobos', value: 'phobos' },
-                    ]}
-                    onChange={() => {}}
-                />
-            ));
-
-            const filter = await screen.queryByLabelText('Filter available');
-            assert.equal(filter.closest('input').placeholder, 'Filter me');
-        });
-    });
-
     describe('props.htmlDir', () => {
         it('should should default to LTR', () => {
             const { container } = render((

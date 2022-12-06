@@ -5,6 +5,7 @@
 ### Breaking Changes
 
 * Replace `moveKeyCode` property with `moveKeys` (use [keyboard keys](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key) instead)
+* Merge `filterPlaceholder` property into `lang` property (see [`src/lang/default.js`](https://github.com/jakezatecky/react-dual-listbox/blob/master/src/js/lang/default.js))
 * Drop `arrayFrom` ["ponyfill"](https://github.com/sindresorhus/ponyfill) and rely on `array.from` (causes problems with IE11, which is [end-of-life](https://blogs.windows.com/windowsexperience/2022/06/15/internet-explorer-11-has-retired-and-is-officially-out-of-support-what-you-need-to-know/))
 
 ### New Features

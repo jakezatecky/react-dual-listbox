@@ -51,7 +51,6 @@ class DualListBox extends React.Component {
             selected: PropTypes.string.isRequired,
         }),
         filterCallback: PropTypes.func,
-        filterPlaceholder: PropTypes.string,
         htmlDir: PropTypes.string,
         icons: iconsShape,
         iconsClass: PropTypes.string,
@@ -79,7 +78,6 @@ class DualListBox extends React.Component {
         className: null,
         disabled: false,
         filter: null,
-        filterPlaceholder: 'Search...',
         filterCallback: defaultFilter,
         htmlDir: 'ltr',
         icons: defaultIcons,
@@ -842,7 +840,6 @@ class DualListBox extends React.Component {
             alignActions,
             canFilter,
             disabled,
-            filterPlaceholder,
             lang,
             showHeaderLabels,
             showNoOptionsText,
@@ -858,7 +855,6 @@ class DualListBox extends React.Component {
                 canFilter={canFilter}
                 controlKey={controlKey}
                 disabled={disabled}
-                filterPlaceholder={filterPlaceholder}
                 filterValue={filter[controlKey]}
                 id={id}
                 inputRef={(c) => {

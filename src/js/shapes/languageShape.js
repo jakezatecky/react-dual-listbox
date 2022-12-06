@@ -9,6 +9,7 @@ export default PropTypes.shape({
     // Optional properties
     availableFilterHeader: PropTypes.string,
     availableHeader: PropTypes.string,
+    filterPlaceholder: PropTypes.string,
     moveDown: PropTypes.string,
     moveUp: PropTypes.string,
     noAvailableOptions: PropTypes.string,

@@ -1,6 +1,7 @@
 export default {
     availableFilterHeader: 'Filter available',
     availableHeader: 'Available',
+    filterPlaceholder: 'Search...',
     moveAllLeft: 'Move all to available',
     moveAllRight: 'Move all to selected',
     moveLeft: 'Move to available',

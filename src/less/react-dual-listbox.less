@@ -80,6 +80,10 @@
 
 .rdl-filter {
   margin-bottom: 10px;
+
+  &:focus:not(:disabled) {
+    border-color: transparent;
+  }
 }
 
 .rdl-control-container {
@@ -99,6 +103,10 @@
 
 .rdl-control {
   flex: 1 0 auto;
+
+  &:focus:not(:disabled) {
+    border-color: transparent;
+  }
 
   optgroup {
     font: inherit;
@@ -234,7 +242,7 @@
       }
 
       &:last-child {
-        border-top-right-radius: 0;
+        border-top-left-radius: 0;
       }
     }
   }
@@ -247,7 +255,7 @@
       }
 
       &:last-child {
-        border-top-left-radius: 0;
+        border-top-right-radius: 0;
       }
     }
   }

@@ -12,6 +12,11 @@
 
 * [#52]: Add `required` property
 
+### Bug Fixes
+
+* Fix small border radius issues when `alignActions="top"`
+* Force Firefox to make input borders transparent when focus received (like Chrome)
+
 ## [v3.0.1](https://github.com/jakezatecky/react-dual-listbox/compare/v3.0.0...v3.0.1) (2022-10-28)
 
 ### Bug Fixes

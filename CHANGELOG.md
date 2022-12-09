@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## v4.0.0 (TBA)
+## [v4.0.0](https://github.com/jakezatecky/react-dual-listbox/compare/v3.0.1...v4.0.0) (2022-12-08)
 
 ### Breaking Changes
 

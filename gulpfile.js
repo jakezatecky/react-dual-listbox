@@ -8,7 +8,7 @@ const header = require('gulp-header');
 const less = require('gulp-less');
 const mocha = require('gulp-mocha');
 const sass = require('gulp-dart-sass');
-const styleLint = require('gulp-stylelint');
+const styleLint = require('@ronilaukkarinen/gulp-stylelint');
 const webpack = require('webpack');
 const webpackStream = require('webpack-stream');
 

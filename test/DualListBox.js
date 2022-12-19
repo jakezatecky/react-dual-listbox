@@ -626,7 +626,7 @@ describe('<DualListBox />', async () => {
                 />
             ));
 
-            const select = await screen.getByLabelText('Available');
+            const select = screen.getByLabelText('Available');
 
             await user.selectOptions(select, ['phobos']);
             await user.type(select, '{Shift}');
@@ -991,15 +991,15 @@ describe('<DualListBox />', async () => {
                 />
             ));
 
-            const select = await screen.getByLabelText('Selected');
+            const select = screen.getByLabelText('Selected');
 
             await user.selectOptions(select, ['phobos']);
-            await user.click(await screen.getByLabelText('Rearrange up'));
+            await user.click(screen.getByLabelText('Rearrange up'));
 
             assert.deepEqual(actual, ['phobos', 'luna', 'deimos', 'io']);
 
             await user.selectOptions(select, ['phobos']);
-            await user.click(await screen.getByLabelText('Rearrange down'));
+            await user.click(screen.getByLabelText('Rearrange down'));
 
             // Since we actually did not change the selected order, the down action is applied on
             // the original selected order
@@ -1026,10 +1026,10 @@ describe('<DualListBox />', async () => {
                 />
             ));
 
-            const select = await screen.getByLabelText('Selected');
+            const select = screen.getByLabelText('Selected');
 
             await user.selectOptions(select, ['phobos', 'io']);
-            await user.click(await screen.getByLabelText('Rearrange up'));
+            await user.click(screen.getByLabelText('Rearrange up'));
 
             assert.deepEqual(actual, ['phobos', 'luna', 'io', 'deimos']);
         });
@@ -1054,10 +1054,10 @@ describe('<DualListBox />', async () => {
                 />
             ));
 
-            const select = await screen.getByLabelText('Selected');
+            const select = screen.getByLabelText('Selected');
 
             await user.selectOptions(select, ['phobos', 'deimos']);
-            await user.click(await screen.getByLabelText('Rearrange up'));
+            await user.click(screen.getByLabelText('Rearrange up'));
 
             assert.deepEqual(actual, ['phobos', 'deimos', 'luna', 'io']);
         });
@@ -1082,10 +1082,10 @@ describe('<DualListBox />', async () => {
                 />
             ));
 
-            const select = await screen.getByLabelText('Selected');
+            const select = screen.getByLabelText('Selected');
 
             await user.selectOptions(select, ['luna', 'phobos']);
-            await user.click(await screen.getByLabelText('Rearrange up'));
+            await user.click(screen.getByLabelText('Rearrange up'));
 
             assert.deepEqual(actual, ['luna', 'phobos', 'deimos', 'io']);
         });
@@ -1110,7 +1110,7 @@ describe('<DualListBox />', async () => {
                 />
             ));
 
-            await user.click(await screen.getByLabelText('Rearrange up'));
+            await user.click(screen.getByLabelText('Rearrange up'));
 
             assert.deepEqual(actual, ['luna', 'phobos', 'deimos', 'io']);
         });
@@ -1132,7 +1132,7 @@ describe('<DualListBox />', async () => {
                 />
             ));
 
-            await user.click(await screen.getByLabelText('Rearrange up'));
+            await user.click(screen.getByLabelText('Rearrange up'));
         });
 
         it('should move selected items to top when top button is clicked', async () => {
@@ -1155,10 +1155,10 @@ describe('<DualListBox />', async () => {
                 />
             ));
 
-            const select = await screen.getByLabelText('Selected');
+            const select = screen.getByLabelText('Selected');
 
             await user.selectOptions(select, ['deimos']);
-            await user.click(await screen.getByLabelText('Rearrange to top'));
+            await user.click(screen.getByLabelText('Rearrange to top'));
 
             assert.deepEqual(actual, ['deimos', 'luna', 'phobos']);
         });
@@ -1183,10 +1183,10 @@ describe('<DualListBox />', async () => {
                 />
             ));
 
-            const select = await screen.getByLabelText('Selected');
+            const select = screen.getByLabelText('Selected');
 
             await user.selectOptions(select, ['luna', 'phobos']);
-            await user.click(await screen.getByLabelText('Rearrange to bottom'));
+            await user.click(screen.getByLabelText('Rearrange to bottom'));
 
             assert.deepEqual(actual, ['deimos', 'luna', 'phobos']);
         });
@@ -1217,10 +1217,10 @@ describe('<DualListBox />', async () => {
                 />
             ));
 
-            const select = await screen.getByLabelText('Selected');
+            const select = screen.getByLabelText('Selected');
 
             await user.selectOptions(select, ['io']);
-            await user.click(await screen.getByLabelText('Rearrange down'));
+            await user.click(screen.getByLabelText('Rearrange down'));
 
             assert.deepEqual(actual, [
                 { value: 'deimos', label: 'Deimos' },
@@ -1408,7 +1408,7 @@ describe('<DualListBox />', async () => {
                 />
             ));
 
-            const select = await screen.getByLabelText('Available');
+            const select = screen.getByLabelText('Available');
 
             await user.selectOptions(select, ['2']);
             await user.dblClick(select);

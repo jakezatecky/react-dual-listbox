@@ -39,7 +39,6 @@ gulp.task('test-script-mocha', () => (
                 'global-jsdom/register',
             ],
             exit: true,
-            timeout: 10000,
         }))
 ));
 

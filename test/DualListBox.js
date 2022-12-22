@@ -1,19 +1,22 @@
 import React from 'react';
 import { assert } from 'chai';
 import { render, screen } from '@testing-library/react';
-import { within } from '@testing-library/dom';
+import { configure, within } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 
 import DualListBox from '../src/js/DualListBox';
 
 const testId = 'test-id';
 
+// Increase waitFor timeout to prevent unusual issues when there are many tests
+configure({
+    asyncUtilTimeout: 10000,
+});
+
 function setup(jsx) {
     return {
         ...render(jsx),
-
-        // Delay must be null to prevent unusual timeout issues when there are many tests
-        user: userEvent.setup({ delay: null }),
+        user: userEvent.setup(),
     };
 }
 

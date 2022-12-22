@@ -50,6 +50,7 @@ $rdl-desktop-min-width: 576px !default;
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 100%;
 
   @media (min-width: $rdl-desktop-min-width) {
     flex-direction: row;

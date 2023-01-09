@@ -60,7 +60,7 @@
     "gulp-header": "^2.0.5",
     "gulp-less": "^5.0.0",
     "gulp-mocha": "^8.0.0",
-    "jsdom": "^20.0.0",
+    "jsdom": "^21.0.0",
     "mocha": "^10.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

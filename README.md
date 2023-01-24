@@ -24,7 +24,7 @@ Using npm:
 npm install react-dual-listbox --save
 ```
 
-> **Note** &ndash; This library makes use of [Font Awesome](http://fontawesome.io/) styles and expects them to be loaded in the browser.
+> **Note** &ndash; This library makes use of [Font Awesome][font-awesome] styles and expects them to be loaded in the browser.
 
 ### Include CSS
 
@@ -47,7 +47,7 @@ The `DualListBox` is a [controlled] component, so you have to update the `select
 Here is a minimal rendering of the component:
 
 ``` jsx
-import React from 'react';
+import React, { useState } from 'react';
 import DualListBox from 'react-dual-listbox';
 
 const options = [
@@ -55,26 +55,16 @@ const options = [
     { value: 'two', label: 'Option Two' },
 ];
 
-class Widget extends React.Component {
-    state = {
-        selected: ['one'],
-    };
+function Widget {
+    const [selected, setSelected] = useState([]);
 
-    onChange = (selected) => {
-        this.setState({ selected });
-    };
-
-    render() {
-        const { selected } = this.state;
-
-        return (
-            <DualListBox
-                options={options}
-                selected={selected}
-                onChange={this.onChange}
-            />
-        );
-    }
+    return (
+        <DualListBox
+            options={options}
+            selected={selected}
+            onChange={(selected) => setSelected(selected)}
+        />
+    );
 }
 ```
 
@@ -83,34 +73,32 @@ class Widget extends React.Component {
 Traditional `<optgroup>`'s are also supported:
 
 ``` jsx
-render() {
-    const options = [
-        {
-            label: 'Earth',
-            options: [
-                { value: 'luna', label: 'Moon' },
-            ],
-        },
-        {
-            label: 'Mars',
-            options: [
-                { value: 'phobos', label: 'Phobos' },
-                { value: 'deimos', label: 'Deimos' },
-            ],
-        },
-        {
-            label: 'Jupiter',
-            options: [
-                { value: 'io', label: 'Io' },
-                { value: 'europa', label: 'Europa' },
-                { value: 'ganymede', label: 'Ganymede' },
-                { value: 'callisto', label: 'Callisto' },
-            ],
-        },
-    ];
+const options = [
+    {
+        label: 'Earth',
+        options: [
+            { value: 'luna', label: 'Moon' },
+        ],
+    },
+    {
+        label: 'Mars',
+        options: [
+            { value: 'phobos', label: 'Phobos' },
+            { value: 'deimos', label: 'Deimos' },
+        ],
+    },
+    {
+        label: 'Jupiter',
+        options: [
+            { value: 'io', label: 'Io' },
+            { value: 'europa', label: 'Europa' },
+            { value: 'ganymede', label: 'Ganymede' },
+            { value: 'callisto', label: 'Callisto' },
+        ],
+    },
+];
 
-    return <DualListBox options={options} />;
-}
+return <DualListBox options={options} />;
 ```
 
 ### Disabling the Component or Options
@@ -118,29 +106,27 @@ render() {
 Pass in the `disabled` property to disable the entire component. Alternatively, individual options may be disabled on a per-item basis:
 
 ``` jsx
-render() {
-    const options = [
-        {
-            label: 'Mars',
-            disabled: true,
-            options: [
-                { value: 'phobos', label: 'Phobos' },
-                { value: 'deimos', label: 'Deimos' },
-            ],
-        },
-        {
-            label: 'Jupiter',
-            options: [
-                { value: 'io', label: 'Io' },
-                { value: 'europa', label: 'Europa', disabled: true },
-                { value: 'ganymede', label: 'Ganymede' },
-                { value: 'callisto', label: 'Callisto' },
-            ],
-        },
-    ];
+const options = [
+    {
+        label: 'Mars',
+        disabled: true,
+        options: [
+            { value: 'phobos', label: 'Phobos' },
+            { value: 'deimos', label: 'Deimos' },
+        ],
+    },
+    {
+        label: 'Jupiter',
+        options: [
+            { value: 'io', label: 'Io' },
+            { value: 'europa', label: 'Europa', disabled: true },
+            { value: 'ganymede', label: 'Ganymede' },
+            { value: 'callisto', label: 'Callisto' },
+        ],
+    },
+];
 
-    return <DualListBox options={options} />;
-}
+return <DualListBox options={options} />;
 ```
 
 ### Filtering
@@ -148,55 +134,39 @@ render() {
 You can enable filtering of available and selected options by merely passing in the `canFilter` property:
 
 ``` jsx
-render() {
-    ...
-
-    return <DualListBox canFilter options={options} />;
-}
+<DualListBox canFilter options={options} />
 ```
 
 Optionally, you can also override the default filter placeholder text and the filtering function:
 
 ``` jsx
-render() {
-    ...
+<DualListBox
+    canFilter
+    filterCallback={(option, filterInput) => {
+        if (filterInput === '') {
+            return true;
+        }
 
-    return (
-        <DualListBox
-            canFilter
-            filterCallback={(option, filterInput) => {
-                if (filterInput === '') {
-                    return true;
-                }
-
-                return (new RegExp(filterInput, 'i')).test(option.label);
-            }}
-            options={options}
-        />
-    );
-}
+        return (new RegExp(filterInput, 'i')).test(option.label);
+    }}
+    options={options}
+/>
 ```
 
 In addition, you can control the filter search text, rather than leaving it up to the component:
 
 ``` jsx
-render() {
-    ...
-
-    return (
-        <DualListBox
-            canFilter
-            filter={{
-                available: 'europa',
-                selected: '',
-            }}
-            options={options}
-            onFilterChange={(filter) => {
-                console.log(filter;
-            }}
-        />
-    );
-}
+<DualListBox
+    canFilter
+    filter={{
+        available: 'europa',
+        selected: '',
+    }}
+    options={options}
+    onFilterChange={(filter) => {
+        console.log(filter;
+    }}
+/>
 ```
 
 ### Action/Button Alignment
@@ -204,13 +174,7 @@ render() {
 By default, the component arranges movement buttons to the center. Another option is to align these actions to be above their respective lists:
 
 ``` jsx
-render() {
-    ...
-
-    return (
-        <DualListBox alignActions="top" options={options} />
-    );
-}
+<DualListBox alignActions="top" options={options} />;
 ```
 
 ### Preserve Select Ordering
@@ -220,11 +184,7 @@ By default, `react-dual-listbox` will order any selected items according to the 
 > **Note** &ndash; Any `<optgroup>`'s supplied will not be surfaced when preserving the selection order.
 
 ``` jsx
-render() {
-    ...
-
-    return <DualListBox options={options} preserveSelectOrder />;
-}
+<DualListBox options={options} preserveSelectOrder />;
 ```
 
 To allow users to re-arrange their selections after moving items to the right, you may also pass in the `showOrderButtons` property.
@@ -234,19 +194,15 @@ To allow users to re-arrange their selections after moving items to the right, y
 Sometimes, it may be desirable to restrict what options are available for selection. For example, you may have a control above the dual listbox that allows a user to search for a planet in the solar system. After selecting a planet, you restrict the available options to the moons of that planet. Use the `available` property in that case.
 
 ``` jsx
-render() {
-    ...
-    
-    // Let's restrict ourselves to the Jovian moons
-    const available = ['io', 'europa', 'ganymede', 'callisto'];
-    
-    return <DualListBox options={options} available={available} />;
-}
+// Let's restrict ourselves to the Jovian moons
+const available = ['io', 'europa', 'ganymede', 'callisto'];
+
+return <DualListBox options={options} available={available} />;
 ```
 
 ### Changing the Default Icons
 
-By default, **react-dual-listbox** uses Font Awesome for the various icons that appear in the component. To change the defaults, simply pass in the `icons` property and override the defaults:
+By default, **react-dual-listbox** uses [Font Awesome][font-awesome] for the various icons that appear in the component. To change the defaults, simply pass in the `icons` property to override the defaults:
 
 ``` jsx
 <DualListBox
@@ -270,22 +226,17 @@ By default, **react-dual-listbox** uses Font Awesome for the various icons that 
 />
 ```
 
+Alternatively, set the `iconsClass` property and define the icons in CSS.
+
 ### Additional `onChange` Details
 
 At times, it may be useful to know which options the user highlighted before triggering a change or which control group was responsible for the change. In these cases, you can pass additional parameters to the `onChange` function:
 
 ``` jsx
-class Widget extends React.Component {
-    ...
-
-    onChange = (selected, selection, controlKey) => {
-        console.log('The user highlighted these options', selection);
-        console.log('The following control trigger these changes', controlKey);
-        this.setState({ selected });
-    };
-    
-    ...
-}
+const onChange = (selected, selection, controlKey) => {
+    console.log('The user highlighted these options', selection);
+    console.log('The following control triggered these changes', controlKey);
+};
 ```
 
 ### All Properties
@@ -330,6 +281,7 @@ class Widget extends React.Component {
 | `title`    | string | Adds the HTML `title` attribute to the option.                |
 
 [controlled]: https://facebook.github.io/react/docs/forms.html#controlled-components
+[font-awesome]: https://fontawesome.com
 [lang-file]: https://github.com/jakezatecky/react-dual-listbox/blob/master/src/js/lang/default.js
 [mdn-directionality]: https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/dir
 [mdn-key]: https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key

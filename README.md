@@ -174,7 +174,7 @@ In addition, you can control the filter search text, rather than leaving it up t
 By default, the component arranges movement buttons to the center. Another option is to align these actions to be above their respective lists:
 
 ``` jsx
-<DualListBox alignActions="top" options={options} />;
+<DualListBox alignActions="top" options={options} />
 ```
 
 ### Preserve Select Ordering
@@ -184,7 +184,7 @@ By default, `react-dual-listbox` will order any selected items according to the 
 > **Note** &ndash; Any `<optgroup>`'s supplied will not be surfaced when preserving the selection order.
 
 ``` jsx
-<DualListBox options={options} preserveSelectOrder />;
+<DualListBox options={options} preserveSelectOrder />
 ```
 
 To allow users to re-arrange their selections after moving items to the right, you may also pass in the `showOrderButtons` property.

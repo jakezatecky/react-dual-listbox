@@ -1,10 +1,18 @@
 # CHANGELOG
 
-### v4.0.1 (TBA)
+## [v5.0.0](https://github.com/jakezatecky/react-dual-listbox/compare/v4.0.0...v5.0.0) (2023-01-26)
+
+### Breaking Changes
+
+* No longer minify bundled JavaScript (up to users to do so)
 
 ### Bug Fixes
 
 * [#215]: Fix issue where the control height would not scale with parent
+
+### Other
+
+* Expose source files through `exports` property in `package.json`
 
 ## [v4.0.0](https://github.com/jakezatecky/react-dual-listbox/compare/v3.0.1...v4.0.0) (2022-12-08)
 

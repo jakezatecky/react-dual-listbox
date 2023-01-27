@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## [v5.0.0](https://github.com/jakezatecky/react-dual-listbox/compare/v5.0.0...v5.0.1) (2023-01-26)
+
+### Bug Fixes
+
+* Fix issues with loading stylesheets due to `exports` conflicts
+* Fix default imports (you can still import `./src/index.js` provided you have a Babel loader)
+
 ## [v5.0.0](https://github.com/jakezatecky/react-dual-listbox/compare/v4.0.0...v5.0.0) (2023-01-26)
 
 ### Breaking Changes
@@ -9,10 +16,6 @@
 ### Bug Fixes
 
 * [#215]: Fix issue where the control height would not scale with parent
-
-### Other
-
-* Expose source files through `exports` property in `package.json`
 
 ## [v4.0.0](https://github.com/jakezatecky/react-dual-listbox/compare/v3.0.1...v4.0.0) (2022-12-08)
 

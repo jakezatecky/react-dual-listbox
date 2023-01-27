@@ -19,11 +19,7 @@
   },
   "bugs": "https://github.com/jakezatecky/react-dual-listbox/issues",
   "main": "lib/index.js",
-  "exports": {
-    "import": "./src/index.js",
-    "require": "./lib/index.js",
-    "browser": "./lib/index.browser.js"
-  },
+  "browser": "lib/index.browser.js",
   "scripts": {
     "build": "gulp build",
     "examples": "gulp examples",

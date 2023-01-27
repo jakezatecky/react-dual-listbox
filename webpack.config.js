@@ -5,7 +5,7 @@ function makeConfig(target) {
     };
 
     return {
-        mode: 'production',
+        mode: 'none',
         target,
         output: {
             filename: fileMap[target],

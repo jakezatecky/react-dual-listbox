@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v5.0.2 (TBA)
+
+### Bug Fixes
+
+* [#217]: Fix issue where re-arrangement of an element would cause it to lose its selection status
+
 ## [v5.0.1](https://github.com/jakezatecky/react-dual-listbox/compare/v5.0.0...v5.0.1) (2023-01-26)
 
 ### Bug Fixes

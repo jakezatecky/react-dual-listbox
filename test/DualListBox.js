@@ -1231,6 +1231,48 @@ describe('<DualListBox />', async () => {
                 { value: 'phobos', label: 'Phobos' },
             ]);
         });
+
+        // https://github.com/jakezatecky/react-dual-listbox/issues/217
+        it('should not clear out selections after moving', async () => {
+            const options = [
+                { value: 'luna', label: 'Moon' },
+                { value: 'phobos', label: 'Phobos' },
+                { value: 'deimos', label: 'Deimos' },
+                { value: 'io', label: 'Io' },
+            ];
+            let selected = ['io', 'deimos', 'phobos'];
+
+            const { rerender, user } = setup((
+                <DualListBox
+                    options={options}
+                    preserveSelectOrder
+                    selected={selected}
+                    showOrderButtons
+                    onChange={(newSelected) => {
+                        selected = newSelected;
+                    }}
+                />
+            ));
+
+            const select = screen.getByLabelText('Selected');
+            const io = screen.getByRole('option', { name: 'Io' });
+
+            await user.selectOptions(select, ['io']);
+            await user.click(screen.getByLabelText('Rearrange down'));
+
+            // Apply re-arrangement changes
+            rerender((
+                <DualListBox
+                    options={options}
+                    preserveSelectOrder
+                    selected={selected}
+                    showOrderButtons
+                    onChange={() => {}}
+                />
+            ));
+
+            assert.isTrue(io.selected);
+        });
     });
 
     describe('props.simpleValue', () => {

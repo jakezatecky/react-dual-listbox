@@ -106,6 +106,7 @@ class DualListBox extends React.Component {
      */
     static flattenOptions(options) {
         const flattened = [];
+
         options.forEach((option) => {
             if (option.value !== undefined) {
                 // Flatten single-level options
@@ -197,10 +198,11 @@ class DualListBox extends React.Component {
      * @param {Array} selected The new selected values
      * @param {Array} selection The options the user highlighted (if any)
      * @param {string} controlKey The key for the control that fired this event.
+     * @param {boolean} isRearrange Whether the change is a result of re-arrangement.
      *
      * @returns {void}
      */
-    onChange(selected, selection, controlKey) {
+    onChange(selected, selection, controlKey, isRearrange = false) {
         const { options, simpleValue, onChange } = this.props;
         const { selections } = this.state;
         const userSelection = selection.map(({ value }) => value);
@@ -244,12 +246,16 @@ class DualListBox extends React.Component {
             onChange(complexValues.selected, complexValues.userSelection, controlKey);
         }
 
-        this.setState({
-            selections: {
-                ...selections,
-                [controlKey]: [],
-            },
-        });
+        // Reset selections after moving items for cleaner experience and to remove invalid values
+        // Note that this should not occur for re-arrangement operations
+        if (!isRearrange) {
+            this.setState({
+                selections: {
+                    ...selections,
+                    [controlKey]: [],
+                },
+            });
+        }
     }
 
     /**
@@ -263,13 +269,16 @@ class DualListBox extends React.Component {
         const directionIsRight = direction === 'right';
         const sourceListBox = directionIsRight ? this.available : this.selected;
         const marked = this.getMarkedOptions(sourceListBox);
+        let isRearrangement = false;
 
         let selected;
 
         if (['up', 'down'].indexOf(direction) > -1) {
             selected = this.rearrangeSelected(marked, direction);
+            isRearrangement = true;
         } else if (['top', 'bottom'].indexOf(direction) > -1) {
             selected = this.rearrangeToExtremes(marked, direction);
+            isRearrangement = true;
         } else if (isMoveAll) {
             selected = directionIsRight ?
                 this.makeOptionsSelected(options) :
@@ -281,7 +290,7 @@ class DualListBox extends React.Component {
             );
         }
 
-        this.onChange(selected, marked, directionIsRight ? 'available' : 'selected');
+        this.onChange(selected, marked, directionIsRight ? 'available' : 'selected', isRearrangement);
     }
 
     /**

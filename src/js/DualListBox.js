@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import escapeRegExp from 'lodash/escapeRegExp';
 import { nanoid } from 'nanoid';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { Component } from 'react';
 
 import Action from './Action';
 import ListBox from './ListBox';
@@ -34,7 +34,7 @@ const defaultIcons = {
     moveTop: <span className="rdl-icon rdl-icon-move-top" />,
 };
 
-class DualListBox extends React.Component {
+class DualListBox extends Component {
     static propTypes = {
         options: optionsShape.isRequired,
         onChange: PropTypes.func.isRequired,

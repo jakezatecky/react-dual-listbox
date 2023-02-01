@@ -7,40 +7,31 @@ import iconsShape from './shapes/iconsShape';
 import languageShape from './shapes/languageShape';
 import capitalizeFirstLetter from './util/capitalizeFirstLetter';
 
-class Action extends React.Component {
-    static propTypes = {
-        direction: PropTypes.oneOf(['left', 'right', 'up', 'down', 'top', 'bottom']).isRequired,
-        disabled: PropTypes.bool.isRequired,
-        icons: iconsShape.isRequired,
-        id: PropTypes.string.isRequired,
-        lang: languageShape.isRequired,
-        onClick: PropTypes.func.isRequired,
+const propTypes = {
+    direction: PropTypes.oneOf(['left', 'right', 'up', 'down', 'top', 'bottom']).isRequired,
+    disabled: PropTypes.bool.isRequired,
+    icons: iconsShape.isRequired,
+    id: PropTypes.string.isRequired,
+    lang: languageShape.isRequired,
+    onClick: PropTypes.func.isRequired,
 
-        isMoveAll: PropTypes.bool,
-    };
+    isMoveAll: PropTypes.bool,
+};
+const defaultProps = {
+    isMoveAll: false,
+};
 
-    static defaultProps = {
-        isMoveAll: false,
-    };
-
-    /**
-     * @param {Object} props
-     *
-     * @returns {void}
-     */
-    constructor(props) {
-        super(props);
-
-        this.onClick = this.onClick.bind(this);
-    }
-
+/**
+ * @returns {ReactNode}
+ */
+function Action(props) {
     /**
      * @returns {void}
      */
-    onClick() {
-        const { direction, isMoveAll, onClick } = this.props;
+    function onClick() {
+        const { direction, isMoveAll, onClick: parentOnClick } = props;
 
-        onClick({
+        parentOnClick({
             direction,
             isMoveAll,
         });
@@ -49,8 +40,8 @@ class Action extends React.Component {
     /**
      * @returns {string}
      */
-    getActionKey() {
-        const { direction, isMoveAll } = this.props;
+    function getActionKey() {
+        const { direction, isMoveAll } = props;
 
         return `move${isMoveAll ? 'All' : ''}${capitalizeFirstLetter(direction)}`;
     }
@@ -58,8 +49,8 @@ class Action extends React.Component {
     /**
      * @returns {string}
      */
-    getId(classKey) {
-        const { id } = this.props;
+    function getId(classKey) {
+        const { id } = props;
 
         return `${id}-${classKey}`;
     }
@@ -69,8 +60,8 @@ class Action extends React.Component {
      *
      * @returns {string}
      */
-    getLabel(actionKey) {
-        const { lang } = this.props;
+    function getLabel(actionKey) {
+        const { lang } = props;
 
         return lang[actionKey];
     }
@@ -80,41 +71,39 @@ class Action extends React.Component {
      *
      * @returns {*}
      */
-    renderIcons(actionKey) {
-        const { icons } = this.props;
+    function renderIcons(actionKey) {
+        const { icons } = props;
 
         return icons[actionKey];
     }
 
-    /**
-     * @returns {ReactNode}
-     */
-    render() {
-        const { disabled } = this.props;
-        const actionKey = this.getActionKey();
-        const classKey = kebabCase(actionKey);
-        const id = this.getId(classKey);
-        const label = this.getLabel(actionKey);
-        const className = classNames({
-            'rdl-btn': true,
-            'rdl-move': true,
-            [`rdl-${classKey}`]: true,
-        });
+    const { disabled } = props;
+    const actionKey = getActionKey();
+    const classKey = kebabCase(actionKey);
+    const id = getId(classKey);
+    const label = getLabel(actionKey);
+    const className = classNames({
+        'rdl-btn': true,
+        'rdl-move': true,
+        [`rdl-${classKey}`]: true,
+    });
 
-        return (
-            <button
-                aria-label={label}
-                className={className}
-                disabled={disabled}
-                id={id}
-                title={label}
-                type="button"
-                onClick={this.onClick}
-            >
-                {this.renderIcons(actionKey)}
-            </button>
-        );
-    }
+    return (
+        <button
+            aria-label={label}
+            className={className}
+            disabled={disabled}
+            id={id}
+            title={label}
+            type="button"
+            onClick={onClick}
+        >
+            {renderIcons(actionKey)}
+        </button>
+    );
 }
+
+Action.propTypes = propTypes;
+Action.defaultProps = defaultProps;
 
 export default Action;

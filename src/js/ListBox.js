@@ -1,12 +1,12 @@
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { Component } from 'react';
 
 import Filter from './Filter';
 import languageShape from './shapes/languageShape';
 import capitalizeFirstLetter from './util/capitalizeFirstLetter';
 
-class ListBox extends React.Component {
+class ListBox extends Component {
     static propTypes = {
         canFilter: PropTypes.bool.isRequired,
         children: PropTypes.node.isRequired,

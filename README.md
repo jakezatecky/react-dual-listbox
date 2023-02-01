@@ -62,7 +62,7 @@ function Widget {
         <DualListBox
             options={options}
             selected={selected}
-            onChange={(selected) => setSelected(selected)}
+            onChange={(value) => setSelected(value)}
         />
     );
 }

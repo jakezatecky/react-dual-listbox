@@ -1,21 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import DualListBox from 'react-dual-listbox';
 
-const options = [
-    { value: 'luna', label: 'Moon' },
-    { value: 'phobos', label: 'Phobos' },
-    { value: 'deimos', label: 'Deimos' },
-    { value: 'io', label: 'Io' },
-    { value: 'europa', label: 'Europa' },
-    { value: 'ganymede', label: 'Ganymede' },
-    { value: 'callisto', label: 'Callisto' },
-    { value: 'mimas', label: 'Mimas' },
-    { value: 'enceladus', label: 'Enceladus' },
-    { value: 'tethys', label: 'Tethys' },
-    { value: 'rhea', label: 'Rhea' },
-    { value: 'titan', label: 'Titan' },
-    { value: 'iapetus', label: 'Iapetus' },
-];
+import { moons as options } from './options';
 
 const planets = {
     earth: { name: 'Earth', moons: ['luna'] },
@@ -24,64 +10,47 @@ const planets = {
     saturn: { name: 'Saturn', moons: ['mimas', 'enceladus', 'tethys', 'rhea', 'titan', 'iapetus'] },
 };
 
-class RestrictAvailableExample extends React.Component {
-    state = {
-        planet: 'earth',
-        selected: ['phobos', 'titan'],
+function RestrictAvailableExample() {
+    const [planet, setPlanet] = useState('earth');
+    const [selected, setSelected] = useState(['phobos', 'titan']);
+
+    const onPlanetChange = (event) => {
+        setPlanet(event.currentTarget.value);
     };
 
-    constructor(props) {
-        super(props);
+    const onChange = (value) => {
+        setSelected(value);
+    };
 
-        this.onChange = this.onChange.bind(this);
-        this.onPlanetChange = this.onPlanetChange.bind(this);
-    }
-
-    onChange(selected) {
-        this.setState({ selected });
-    }
-
-    onPlanetChange(event) {
-        const planet = event.currentTarget.value;
-
-        this.setState({ planet });
-    }
-
-    renderPlanets() {
-        const { planet: selectedPlanet } = this.state;
-
-        return Object.keys(planets).map((planet) => (
-            <label key={planet} htmlFor={planet}>
+    function renderPlanets() {
+        return Object.keys(planets).map((planetKey) => (
+            <label key={planetKey} htmlFor={planetKey}>
                 <input
-                    checked={planet === selectedPlanet}
-                    id={planet}
+                    checked={planetKey === planet}
+                    id={planetKey}
                     name="planets"
                     type="radio"
-                    value={planet}
-                    onChange={this.onPlanetChange}
+                    value={planetKey}
+                    onChange={onPlanetChange}
                 />
-                {planets[planet].name}
+                {planets[planetKey].name}
             </label>
         ));
     }
 
-    render() {
-        const { selected, planet } = this.state;
-
-        return (
-            <div className="restrict-available-container">
-                <div className="moons">
-                    {this.renderPlanets()}
-                </div>
-                <DualListBox
-                    available={planets[planet].moons}
-                    options={options}
-                    selected={selected}
-                    onChange={this.onChange}
-                />
+    return (
+        <div className="restrict-available-container">
+            <div className="moons">
+                {renderPlanets()}
             </div>
-        );
-    }
+            <DualListBox
+                available={planets[planet].moons}
+                options={options}
+                selected={selected}
+                onChange={onChange}
+            />
+        </div>
+    );
 }
 
 export default RestrictAvailableExample;

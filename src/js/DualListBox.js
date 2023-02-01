@@ -169,10 +169,12 @@ class DualListBox extends React.Component {
         const newSelected = simpleValue ? selected : DualListBox.flattenOptions(selected);
         const newState = { ...prevState, selected: newSelected };
 
+        // Allow user to control filter, if so desired
         if (filter !== null) {
             newState.filter = filter;
         }
 
+        // Allow user to control ID, if so desired
         if (id !== null) {
             newState.id = id;
         }
@@ -888,7 +890,7 @@ class DualListBox extends React.Component {
     }
 
     /**
-     * @returns {ReactElement}
+     * @returns {ReactNode}
      */
     render() {
         const {

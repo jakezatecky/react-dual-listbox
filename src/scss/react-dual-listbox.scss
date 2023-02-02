@@ -3,12 +3,14 @@ $rdl-icon-font-family-fa6: "Font Awesome 6 Free", "FontAwesome", sans-serif;
 $rdl-input-bg: #fff !default;
 $rdl-input-disabled-bg: #eee !default;
 $rdl-input-border: #ccc !default;
+$rdl-input-border-active: darken($rdl-input-border, 25%) !default;
+$rdl-input-border-hover: darken($rdl-input-border, 12%) !default;
 $rdl-input-color: #333 !default;
 $rdl-btn-bg: $rdl-input-bg !default;
-$rdl-btn-bg-active: darken($rdl-btn-bg, 10%);
+$rdl-btn-bg-active: darken($rdl-btn-bg, 10%) !default;
 $rdl-btn-border: $rdl-input-border !default;
-$rdl-btn-border-active: darken($rdl-btn-border, 25%);
-$rdl-btn-border-hover: darken($rdl-btn-border, 12%);
+$rdl-btn-border-active: $rdl-input-border-active !default;
+$rdl-btn-border-hover: $rdl-input-border-hover !default;
 $rdl-btn-color: #333 !default;
 $rdl-line-height: 1.42857 !default;
 $rdl-desktop-min-width: 576px !default;
@@ -86,7 +88,8 @@ $rdl-desktop-min-width: 576px !default;
   margin-bottom: 10px;
 
   &:focus:not(:disabled) {
-    border-color: transparent;
+    outline: 0;
+    border-color: $rdl-input-border-active;
   }
 }
 
@@ -109,7 +112,8 @@ $rdl-desktop-min-width: 576px !default;
   flex: 1 0 auto;
 
   &:focus:not(:disabled) {
-    border-color: transparent;
+    outline: 0;
+    border-color: $rdl-input-border-active;
   }
 
   optgroup {

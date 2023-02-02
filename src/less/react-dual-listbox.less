@@ -6,12 +6,14 @@
 @rdl-input-bg: #fff;
 @rdl-input-disabled-bg: #eee;
 @rdl-input-border: #ccc;
+@rdl-input-border-active: darken(@rdl-input-border, 25%);
+@rdl-input-border-hover: darken(@rdl-input-border, 12%);
 @rdl-input-color: #333;
 @rdl-btn-bg: @rdl-input-bg;
 @rdl-btn-bg-active: darken(@rdl-btn-bg, 10%);
 @rdl-btn-border: @rdl-input-border;
-@rdl-btn-border-active: darken(@rdl-btn-border, 25%);
-@rdl-btn-border-hover: darken(@rdl-btn-border, 12%);
+@rdl-btn-border-active: @rdl-input-border-active;
+@rdl-btn-border-hover: @rdl-input-border-hover;
 @rdl-btn-color: #333;
 @rdl-line-height: 1.42857;
 @rdl-desktop-min-width: 576px;
@@ -83,7 +85,8 @@
   margin-bottom: 10px;
 
   &:focus:not(:disabled) {
-    border-color: transparent;
+    outline: 0;
+    border-color: @rdl-input-border-active;
   }
 }
 
@@ -106,7 +109,8 @@
   flex: 1 0 auto;
 
   &:focus:not(:disabled) {
-    border-color: transparent;
+    outline: 0;
+    border-color: @rdl-input-border-active;
   }
 
   optgroup {

@@ -10,6 +10,7 @@ module.exports = {
         },
     },
     resolve: {
+        extensions: ['.js', '.jsx'],
         alias: {
             'react-dual-listbox': path.resolve(__dirname, 'src/js/DualListBox'),
         },
@@ -17,7 +18,7 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.js?$/,
+                test: /\.jsx?$/,
                 exclude: /(node_modules)/,
                 loader: 'babel-loader',
             },

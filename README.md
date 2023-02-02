@@ -55,7 +55,7 @@ const options = [
     { value: 'two', label: 'Option Two' },
 ];
 
-function Widget {
+function Widget() {
     const [selected, setSelected] = useState([]);
 
     return (

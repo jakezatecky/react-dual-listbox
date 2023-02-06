@@ -1,13 +1,20 @@
-function makeConfig(target) {
-    const fileMap = {
-        node: 'index.js',
-        web: 'index.browser.js',
-    };
+const path = require('node:path');
+const webpack = require('webpack');
+const pkg = require('./package.json');
 
+const banner = `${pkg.name} - v${pkg.version} | ${(new Date()).getFullYear()}`;
+const fileMap = {
+    node: 'index.js',
+    web: 'index.browser.js',
+};
+
+function makeConfig({ target }) {
     return {
         mode: 'none',
         target,
+        entry: path.join(__dirname, 'src/index.js'),
         output: {
+            path: path.join(__dirname, '/lib'),
             filename: fileMap[target],
             library: {
                 name: 'ReactDualListbox',
@@ -43,6 +50,9 @@ function makeConfig(target) {
                 },
             ],
         },
+        plugins: [
+            new webpack.BannerPlugin(banner),
+        ],
     };
 }
 

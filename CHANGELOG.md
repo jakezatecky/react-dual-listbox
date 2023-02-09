@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## v5.0.2 (TBA)
+## [v5.0.2]((https://github.com/jakezatecky/react-dual-listbox/compare/v5.0.1...v5.0.2)) (2023-02-08)
 
 ### Bug Fixes
 

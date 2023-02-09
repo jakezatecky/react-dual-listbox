@@ -50,7 +50,6 @@
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
     "@babel/register": "^7.0.0",
-    "@ronilaukkarinen/gulp-stylelint": "^14.0.9",
     "@testing-library/dom": "^8.19.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^14.4.3",

@@ -612,7 +612,7 @@ describe('<DualListBox />', async () => {
         });
     });
 
-    describe('props.moveKeyCodes', () => {
+    describe('props.moveKey', () => {
         it('should trigger `onChange` for the given key codes', async () => {
             let actual = null;
 

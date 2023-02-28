@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import languageShape from './shapes/languageShape';
+import languageShape from '../shapes/languageShape';
 
 const propTypes = {
     controlKey: PropTypes.string.isRequired,

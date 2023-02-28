@@ -3,9 +3,9 @@ import kebabCase from 'lodash/kebabCase';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import iconsShape from './shapes/iconsShape';
-import languageShape from './shapes/languageShape';
-import capitalizeFirstLetter from './util/capitalizeFirstLetter';
+import iconsShape from '../shapes/iconsShape';
+import languageShape from '../shapes/languageShape';
+import capitalizeFirstLetter from '../util/capitalizeFirstLetter';
 
 const propTypes = {
     direction: PropTypes.oneOf(['left', 'right', 'up', 'down', 'top', 'bottom']).isRequired,

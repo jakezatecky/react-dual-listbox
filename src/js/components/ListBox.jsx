@@ -2,9 +2,9 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
+import languageShape from '../shapes/languageShape';
+import capitalizeFirstLetter from '../util/capitalizeFirstLetter';
 import Filter from './Filter';
-import languageShape from './shapes/languageShape';
-import capitalizeFirstLetter from './util/capitalizeFirstLetter';
 
 class ListBox extends Component {
     static propTypes = {

@@ -4,8 +4,8 @@ import { nanoid } from 'nanoid';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
-import Action from './Action';
-import ListBox from './ListBox';
+import Action from './components/Action';
+import ListBox from './components/ListBox';
 import defaultLang from './lang/default';
 import iconsShape from './shapes/iconsShape';
 import languageShape from './shapes/languageShape';

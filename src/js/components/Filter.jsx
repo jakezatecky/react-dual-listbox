@@ -1,14 +1,13 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useContext } from 'react';
 
-import languageShape from '../shapes/languageShape';
+import { LanguageContext } from '../contexts';
 
 const propTypes = {
     controlKey: PropTypes.string.isRequired,
     disabled: PropTypes.bool.isRequired,
     filterValue: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
-    lang: languageShape.isRequired,
     onFilterChange: PropTypes.func.isRequired,
 };
 
@@ -18,21 +17,24 @@ function Filter(props) {
         disabled,
         filterValue,
         id,
-        lang,
         onFilterChange,
     } = props;
+    const {
+        filterPlaceholder,
+        [`${controlKey}FilterHeader`]: filterHeader,
+    } = useContext(LanguageContext);
 
     return (
         <div className="rdl-filter-container">
             <label className="rdl-control-label rdl-sr-only" htmlFor={`${id}-filter-${controlKey}`}>
-                {lang[`${controlKey}FilterHeader`]}
+                {filterHeader}
             </label>
             <input
                 className="rdl-filter"
                 data-control-key={controlKey}
                 disabled={disabled}
                 id={`${id}-filter-${controlKey}`}
-                placeholder={lang.filterPlaceholder}
+                placeholder={filterPlaceholder}
                 type="text"
                 value={filterValue}
                 onChange={onFilterChange}

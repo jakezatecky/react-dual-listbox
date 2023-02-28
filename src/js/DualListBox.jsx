@@ -14,8 +14,9 @@ import valueShape from './shapes/valueShape';
 import indexesOf from './util/indexesOf';
 import swapOptions from './util/swapOptions';
 import { ALIGNMENTS, KEYS } from './constants';
+import { IconContext, LanguageContext } from './contexts';
+import HiddenInput from './components/HiddenInput';
 
-const noop = () => {};
 const defaultFilter = (option, filterInput) => {
     if (filterInput === '') {
         return true;
@@ -180,20 +181,6 @@ class DualListBox extends Component {
         }
 
         return newState;
-    }
-
-    /**
-     * @returns {void}
-     */
-    componentDidMount() {
-        this.setValidityMessage();
-    }
-
-    /**
-     * @returns {void}
-     */
-    componentDidUpdate() {
-        this.setValidityMessage();
     }
 
     /**
@@ -416,27 +403,6 @@ class DualListBox extends Component {
                 index: parseInt(option.dataset.index, 10),
                 value: JSON.parse(option.dataset.realValue),
             }));
-    }
-
-    /**
-     * Set the custom validity message when there is no selected option.
-     *
-     * @returns {void}
-     */
-    setValidityMessage() {
-        const { lang, required } = this.props;
-        const { selected } = this.state;
-
-        // Irrelevant if not the caller has not made this component required
-        if (!required) {
-            return;
-        }
-
-        if (selected.length === 0) {
-            this.hiddenInput.setCustomValidity(lang.requiredError);
-        } else {
-            this.hiddenInput.setCustomValidity('');
-        }
     }
 
     /**
@@ -918,10 +884,8 @@ class DualListBox extends Component {
             <Action
                 direction={direction}
                 disabled={disabled}
-                icons={icons}
                 id={id}
                 isMoveAll={isMoveAll}
-                lang={lang}
                 onClick={this.onActionClick}
             />
         );
@@ -945,41 +909,38 @@ class DualListBox extends Component {
             'rdl-align-top': alignActions === ALIGNMENTS.TOP,
             ...(className && { [className]: true }),
         });
-        const hiddenValue = selected.join(',');
 
         return (
             <div className={rootClassName} dir={htmlDir} id={id}>
-                <div className="rdl-controls">
-                    {this.renderListBox('available', availableOptions, availableRef, actionsRight)}
-                    {alignActions === ALIGNMENTS.MIDDLE ? (
-                        <div className="rdl-actions">
-                            {actionsRight}
-                            {actionsLeft}
+                <LanguageContext.Provider value={lang}>
+                    <IconContext.Provider value={icons}>
+                        <div className="rdl-controls">
+                            {this.renderListBox('available', availableOptions, availableRef, actionsRight)}
+                            {alignActions === ALIGNMENTS.MIDDLE ? (
+                                <div className="rdl-actions">
+                                    {actionsRight}
+                                    {actionsLeft}
+                                </div>
+                            ) : null}
+                            {this.renderListBox('selected', selectedOptions, selectedRef, actionsLeft)}
+                            {preserveSelectOrder && showOrderButtons ? (
+                                <div className="rdl-actions">
+                                    {makeAction('top')}
+                                    {makeAction('up')}
+                                    {makeAction('down')}
+                                    {makeAction('bottom')}
+                                </div>
+                            ) : null}
                         </div>
-                    ) : null}
-                    {this.renderListBox('selected', selectedOptions, selectedRef, actionsLeft)}
-                    {preserveSelectOrder && showOrderButtons ? (
-                        <div className="rdl-actions">
-                            {makeAction('top')}
-                            {makeAction('up')}
-                            {makeAction('down')}
-                            {makeAction('bottom')}
-                        </div>
-                    ) : null}
-                </div>
-                <input
-                    className="rdl-hidden-input"
-                    disabled={disabled}
-                    name={name}
-                    ref={(c) => {
-                        this.hiddenInput = c;
-                    }}
-                    required={required}
-                    type={required ? 'text' : 'hidden'}
-                    value={hiddenValue}
-                    onChange={noop}
-                    onFocus={this.onHiddenFocus}
-                />
+                        <HiddenInput
+                            disabled={disabled}
+                            name={name}
+                            required={required}
+                            selected={selected}
+                            onFocus={this.onHiddenFocus}
+                        />
+                    </IconContext.Provider>
+                </LanguageContext.Provider>
             </div>
         );
     }

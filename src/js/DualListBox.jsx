@@ -320,16 +320,17 @@ class DualListBox extends Component {
      * @returns {void}
      */
     onSelectionChange(event, controlKey) {
-        const { selections } = this.state;
+        const { selections: oldSelections } = this.state;
+        const { target: { options } } = event;
 
-        const value = Array.from(event.target.options)
-            .filter((option) => option.selected)
-            .map((option) => option.value);
+        const selections = Array.from(options)
+            .filter(({ selected }) => selected)
+            .map(({ value }) => value);
 
         this.setState({
             selections: {
-                ...selections,
-                [controlKey]: value,
+                ...oldSelections,
+                [controlKey]: selections,
             },
         });
     }
@@ -342,11 +343,9 @@ class DualListBox extends Component {
     onFilterChange(event) {
         const { onFilterChange } = this.props;
         const { filter } = this.state;
+        const { target: { value, dataset: { controlKey } } } = event;
 
-        const newFilter = {
-            ...filter,
-            [event.target.dataset.controlKey]: event.target.value,
-        };
+        const newFilter = { ...filter, [controlKey]: value };
 
         if (onFilterChange) {
             onFilterChange(newFilter);
@@ -374,11 +373,11 @@ class DualListBox extends Component {
     getLabelMap(options) {
         let labelMap = {};
 
-        options.forEach((option) => {
-            if (option.options !== undefined) {
-                labelMap = { ...labelMap, ...this.getLabelMap(option.options) };
+        options.forEach(({ value, label, options: children }) => {
+            if (children !== undefined) {
+                labelMap = { ...labelMap, ...this.getLabelMap(children) };
             } else {
-                labelMap[option.value] = option.label;
+                labelMap[value] = label;
             }
         });
 
@@ -398,10 +397,10 @@ class DualListBox extends Component {
         }
 
         return Array.from(element.options)
-            .filter((option) => option.selected)
-            .map((option) => ({
-                index: parseInt(option.dataset.index, 10),
-                value: JSON.parse(option.dataset.realValue),
+            .filter(({ selected }) => selected)
+            .map(({ dataset: { index, realValue } }) => ({
+                index: parseInt(index, 10),
+                value: JSON.parse(realValue),
             }));
     }
 

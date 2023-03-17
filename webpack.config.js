@@ -2,7 +2,11 @@ const path = require('node:path');
 const webpack = require('webpack');
 const pkg = require('./package.json');
 
-const banner = `${pkg.name} - v${pkg.version} | ${(new Date()).getFullYear()}`;
+const banner = `
+${pkg.name} - v${pkg.version}
+Copyright (c) ${pkg.author}
+Licensed under the ${pkg.license} License.
+`;
 const fileMap = {
     node: 'index.js',
     web: 'index.browser.js',
@@ -51,7 +55,7 @@ function makeConfig({ target }) {
             ],
         },
         plugins: [
-            new webpack.BannerPlugin(banner),
+            new webpack.BannerPlugin(banner.trim()),
         ],
     };
 }

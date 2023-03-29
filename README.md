@@ -282,9 +282,9 @@ const onChange = (selected, selection, controlKey) => {
 | `disabled` | bool   | If true, disables the option from selection.                  |
 | `title`    | string | Adds the HTML `title` attribute to the option.                |
 
-[controlled]: https://facebook.github.io/react/docs/forms.html#controlled-components
+[controlled]: https://react.dev/learn/sharing-state-between-components#controlled-and-uncontrolled-components
 [font-awesome]: https://fontawesome.com
 [lang-file]: https://github.com/jakezatecky/react-dual-listbox/blob/master/src/js/lang/default.js
 [mdn-directionality]: https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/dir
 [mdn-key]: https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key
-[ref]: https://reactjs.org/docs/refs-and-the-dom.html
+[ref]: https://react.dev/learn/manipulating-the-dom-with-refs

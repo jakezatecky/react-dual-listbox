@@ -507,6 +507,44 @@ describe('<DualListBox />', async () => {
         });
     });
 
+    describe('props.getOptionLabel', () => {
+        it('should allow users to specify how to fetch the label', () => {
+            render((
+                <DualListBox
+                    getOptionLabel={({ name }) => name}
+                    options={[
+                        { name: 'Moon', value: 'luna' },
+                        { name: 'Phobos', value: 'phobos' },
+                    ]}
+                    onChange={() => {}}
+                />
+            ));
+
+            assert.isNotNull(screen.getByText('Moon'));
+        });
+    });
+
+    describe('props.getOptionValue', () => {
+        it('should allow users to specify how to fetch the value', async () => {
+            let actual = null;
+            const { user } = setup((
+                <DualListBox
+                    getOptionValue={({ id }) => id}
+                    options={[
+                        { name: 'Moon', id: 'luna' },
+                        { name: 'Phobos', id: 'phobos' },
+                    ]}
+                    onChange={(selected) => {
+                        actual = selected;
+                    }}
+                />
+            ));
+
+            await user.click(screen.getByLabelText('Move all to selected'));
+            assert.deepEqual(actual, ['luna', 'phobos']);
+        });
+    });
+
     describe('props.htmlDir', () => {
         it('should should default to LTR', () => {
             const { container } = render((

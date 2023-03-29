@@ -254,6 +254,8 @@ const onChange = (selected, selection, controlKey) => {
 | `disabled`            | bool     | If true, both "available" and "selected" list boxes will be disabled.                                                   | `false`          |
 | `filter`              | object   | A key-value map of `{ available: [value], selected: [value] }` to control the filter values (defaults to uncontrolled). | `null`           |
 | `filterCallback`      | function | The filter function to run on a given option and input string: `function(option, filterInput) {}`. See **Filtering**.   | `() => { ... }`  |
+| `getOptionLabel`      | function | The function to resolve the **label** from an option. Defaults to `option => option.label`.                             | `() => { ... }`  |
+| `getOptionValue`      | function | The function to resolve the **value** from an option. Defaults to `option => option.value`.                             | `() => { ... }`  |
 | `htmlDir`             | string   | The [directionality][mdn-directionality] of the component's elements. Set to `'rtl'` if using a right-to-left language. | `'ltr'`          |
 | `icons`               | object   | A key-value pairing of action icons and their React nodes. See **Changing the Default Icons** for further info.         | `{ ... }`        |
 | `iconsClass`          | string   | A value specifying which overarching icon class to use. Built-in support for `fa5`, `fa6`, and `native` icons.          | `'fa5'`          |

@@ -4,8 +4,18 @@
 
 ### Breaking changes
 
+#### Properties
+
+* `id`: no longer defaults to a random UUID when null
+* `options`: no longer has PropTypes validation for `label` and `value`
+
+#### Styling
+
 * Drop support for Less.js styles
-* `id`: no longer defaults to a random UUID
+
+### New Features
+
+* Add `getOptionLabel` and `getOptionValue` properties to allow for custom option keys beyond `label` and `value` (#208)
 
 ## [v5.0.2](https://github.com/jakezatecky/react-dual-listbox/compare/v5.0.1...v5.0.2) (2023-02-08)
 

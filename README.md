@@ -275,12 +275,12 @@ const onChange = (selected, selection, controlKey) => {
 
 #### Option Properties
 
-| Property   | Type   | Description                                                   |
-| ---------- | ------ | ------------------------------------------------------------- |
-| `label`    | string | **Required**. The text label for the given option.            |
-| `value`    | mixed  | **Required**. The text or numeric value for the given option. |
-| `disabled` | bool   | If true, disables the option from selection.                  |
-| `title`    | string | Adds the HTML `title` attribute to the option.                |
+| Property   | Type   | Description                                                                                                |
+| ---------- | ------ | ---------------------------------------------------------------------------------------------------------- |
+| `label`    | string | **Required**. The text label for the given option. Use `getOptionLabel` to set a different key.            |
+| `value`    | mixed  | **Required**. The text or numeric value for the given option. Use `getOptionValue` to set a different key. |
+| `disabled` | bool   | If true, disables the option from selection.                                                               |
+| `title`    | string | Adds the HTML `title` attribute to the option.                                                             |
 
 [controlled]: https://react.dev/learn/sharing-state-between-components#controlled-and-uncontrolled-components
 [font-awesome]: https://fontawesome.com

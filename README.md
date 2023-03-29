@@ -28,10 +28,9 @@ npm install react-dual-listbox --save
 
 ### Include CSS
 
-For your convenience, the library's styles can be consumed utilizing one of the following files:
+The library's styles are available through one of the following files:
 
 * `node_modules/react-dual-listbox/lib/react-dual-listbox.css`
-* `node_modules/react-dual-listbox/src/less/react-dual-listbox.less`
 * `node_modules/react-dual-listbox/src/scss/react-dual-listbox.scss`
 
 Either include one of these files in your stylesheets or utilize a CSS loader:
@@ -49,6 +48,7 @@ Here is a minimal rendering of the component:
 ``` jsx
 import React, { useState } from 'react';
 import DualListBox from 'react-dual-listbox';
+import 'react-dual-listbox/lib/react-dual-listbox.css';
 
 const options = [
     { value: 'one', label: 'Option One' },

@@ -1,10 +1,10 @@
 import classNames from 'classnames';
 import escapeRegExp from 'lodash/escapeRegExp';
-import { nanoid } from 'nanoid';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
 import Action from './components/Action';
+import HiddenInput from './components/HiddenInput';
 import ListBox from './components/ListBox';
 import defaultLang from './lang/default';
 import iconsShape from './shapes/iconsShape';
@@ -15,7 +15,6 @@ import indexesOf from './util/indexesOf';
 import swapOptions from './util/swapOptions';
 import { ALIGNMENTS, KEYS } from './constants';
 import { IconContext, LanguageContext } from './contexts';
-import HiddenInput from './components/HiddenInput';
 
 const defaultFilter = (option, filterInput) => {
     if (filterInput === '') {
@@ -83,7 +82,7 @@ class DualListBox extends Component {
         htmlDir: 'ltr',
         icons: defaultIcons,
         iconsClass: 'fa5',
-        id: null,
+        id: 'rdl',
         lang: defaultLang,
         moveKeys: [KEYS.SPACEBAR, KEYS.ENTER],
         name: null,
@@ -136,7 +135,6 @@ class DualListBox extends Component {
                 available: '',
                 selected: '',
             },
-            id: props.id || `rdl-${nanoid()}`,
             selected: [],
             selections: {
                 available: [],
@@ -158,26 +156,13 @@ class DualListBox extends Component {
      *
      * @returns {Object}
      */
-    static getDerivedStateFromProps(
-        {
-            filter,
-            id,
-            selected,
-            simpleValue,
-        },
-        prevState,
-    ) {
+    static getDerivedStateFromProps({ filter, selected, simpleValue }, prevState) {
         const newSelected = simpleValue ? selected : DualListBox.flattenOptions(selected);
         const newState = { ...prevState, selected: newSelected };
 
         // Allow user to control filter, if so desired
         if (filter !== null) {
             newState.filter = filter;
-        }
-
-        // Allow user to control ID, if so desired
-        if (id !== null) {
-            newState.id = id;
         }
 
         return newState;
@@ -762,7 +747,6 @@ class DualListBox extends Component {
      */
     renderOptions(options) {
         const { allowDuplicates } = this.props;
-        const { id } = this.state;
 
         return options.map((option, index) => {
             const key = !allowDuplicates ?
@@ -774,7 +758,6 @@ class DualListBox extends Component {
                     <optgroup
                         key={key}
                         disabled={option.disabled}
-                        id={`${id}-optgroup-${option.label}`}
                         label={option.label}
                         title={option.title}
                     >
@@ -793,7 +776,6 @@ class DualListBox extends Component {
                     data-index={option.selectedIndex}
                     data-real-value={JSON.stringify(option.value)}
                     disabled={option.disabled}
-                    id={`${id}-option-${option.value}`}
                     title={option.title}
                     value={value}
                 >
@@ -807,20 +789,21 @@ class DualListBox extends Component {
      * @param {string} controlKey
      * @param {Array} options
      * @param {function} ref
-     * @param {ReactElement} actions
+     * @param {JSX.Element} actions
      *
-     * @returns {ReactElement}
+     * @returns {JSX.Element}
      */
     renderListBox(controlKey, options, ref, actions) {
         const {
             alignActions,
             canFilter,
             disabled,
+            id,
             lang,
             showHeaderLabels,
             showNoOptionsText,
         } = this.props;
-        const { filter, id, selections } = this.state;
+        const { filter, selections } = this.state;
 
         // Wrap event handlers with a controlKey reference
         const wrapHandler = (handler) => ((event) => handler(event, controlKey));
@@ -867,6 +850,7 @@ class DualListBox extends Component {
             htmlDir,
             icons,
             iconsClass,
+            id,
             lang,
             name,
             options,
@@ -876,14 +860,13 @@ class DualListBox extends Component {
             showHeaderLabels,
             showOrderButtons,
         } = this.props;
-        const { id, selected } = this.state;
+        const { selected } = this.state;
         const availableOptions = this.renderOptions(this.filterAvailable(options));
         const selectedOptions = this.renderOptions(this.filterSelected(options));
         const makeAction = (direction, isMoveAll = false) => (
             <Action
                 direction={direction}
                 disabled={disabled}
-                id={id}
                 isMoveAll={isMoveAll}
                 onClick={this.onActionClick}
             />

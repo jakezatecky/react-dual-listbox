@@ -18,6 +18,7 @@ function RequiredExample() {
     return (
         <form onSubmit={onSubmit}>
             <DualListBox
+                id="required"
                 options={options}
                 required
                 selected={selected}

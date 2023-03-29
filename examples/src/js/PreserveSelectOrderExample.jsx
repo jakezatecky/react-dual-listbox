@@ -12,6 +12,7 @@ function PreserveSelectOrderExample() {
 
     return (
         <DualListBox
+            id="preserve-order"
             options={options}
             preserveSelectOrder
             selected={selected}

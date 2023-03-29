@@ -13,6 +13,7 @@ function FilterExample() {
     return (
         <DualListBox
             canFilter
+            id="filter"
             options={options}
             selected={selected}
             onChange={onChange}

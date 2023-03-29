@@ -13,6 +13,7 @@ function RtlExample() {
     return (
         <DualListBox
             htmlDir="rtl"
+            id="rtl"
             options={options}
             selected={selected}
             onChange={onChange}

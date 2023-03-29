@@ -13,6 +13,7 @@ function AllowDuplicatesExample() {
     return (
         <DualListBox
             allowDuplicates
+            id="allow-duplicates"
             options={options}
             preserveSelectOrder
             selected={selected}

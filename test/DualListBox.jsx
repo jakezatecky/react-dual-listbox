@@ -571,7 +571,7 @@ describe('<DualListBox />', async () => {
     });
 
     describe('props.id', () => {
-        it('should pass the id for all elements', () => {
+        it('should pass the id to child elements', () => {
             const { container } = render((
                 <DualListBox
                     id={testId}
@@ -583,7 +583,7 @@ describe('<DualListBox />', async () => {
                 />
             ));
 
-            assert.isNotNull(container.querySelector(`#${testId}-option-luna`));
+            assert.isNotNull(container.querySelector(`#${testId}-available`));
         });
     });
 

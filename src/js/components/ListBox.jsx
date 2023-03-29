@@ -12,7 +12,6 @@ const propTypes = {
     controlKey: PropTypes.string.isRequired,
     disabled: PropTypes.bool.isRequired,
     filterValue: PropTypes.string.isRequired,
-    id: PropTypes.string.isRequired,
     inputRef: PropTypes.func.isRequired,
     selections: PropTypes.arrayOf(
         PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -25,9 +24,11 @@ const propTypes = {
     onSelectionChange: PropTypes.func.isRequired,
 
     actions: PropTypes.node,
+    id: PropTypes.string,
 };
 const defaultProps = {
     actions: null,
+    id: null,
 };
 
 function ListBox(props) {
@@ -40,6 +41,7 @@ function ListBox(props) {
         [`${controlKey}Header`]: header,
         [`no${capitalizeFirstLetter(controlKey)}Options`]: noOptionsText,
     } = useContext(LanguageContext);
+    const inputId = id ? `${id}-${controlKey}` : null;
 
     function renderFilter() {
         const {
@@ -58,7 +60,6 @@ function ListBox(props) {
                 controlKey={controlKey}
                 disabled={disabled}
                 filterValue={filterValue}
-                id={id}
                 onFilterChange={onFilterChange}
             />
         );
@@ -91,7 +92,7 @@ function ListBox(props) {
                 <select
                     className="rdl-control"
                     disabled={disabled}
-                    id={`${id}-${controlKey}`}
+                    id={`${inputId}`}
                     multiple
                     ref={inputRef}
                     value={selections}
@@ -112,7 +113,7 @@ function ListBox(props) {
 
     return (
         <div className={`rdl-list-box rdl-${controlKey}`}>
-            <label className={labelClassName} htmlFor={`${id}-${controlKey}`}>
+            <label className={labelClassName} htmlFor={inputId}>
                 {header}
             </label>
             {renderFilter()}

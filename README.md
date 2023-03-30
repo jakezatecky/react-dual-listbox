@@ -41,7 +41,7 @@ import 'react-dual-listbox/lib/react-dual-listbox.css';
 
 ### Render Component
 
-The `DualListBox` is a [controlled] component, so you have to update the `selected` property in conjunction with the `onChange` handler if you want the selected values to change.
+The `DualListBox` is a [controlled][react-controlled] component, so you have to update the `selected` property in conjunction with the `onChange` handler if you want the selected values to change.
 
 Here is a minimal rendering of the component:
 
@@ -248,7 +248,7 @@ const onChange = (selected, selection, controlKey) => {
 | `alignActions`        | string   | A value specifying whether to align the action buttons to the `'top'` or `'middle'`.                                    | `middle`         |
 | `allowDuplicates`     | bool     | If true, duplicate options will be allowed in the selected list box.                                                    | `false`          |
 | `available`           | array    | A subset of the `options` array to optionally filter the available list box.                                            | `undefined`      |
-| `availableRef`        | function | A React function [ref] to the "available" list box.                                                                     | `null`           |
+| `availableRef`        | function | A React function [ref][react-ref] to the "available" list box.                                                          | `null`           |
 | `canFilter`           | bool     | If true, search boxes will appear above both list boxes, allowing the user to filter the results.                       | `false`          |
 | `className`           | string   | An optional `className` to apply to the root node.                                                                      | `null`           |
 | `disabled`            | bool     | If true, both "available" and "selected" list boxes will be disabled.                                                   | `false`          |
@@ -267,7 +267,7 @@ const onChange = (selected, selection, controlKey) => {
 | `preserveSelectOrder` | bool     | If true, the order in which the available options are selected are preserved when the items are moved to the right.     | `false`          |
 | `required`            | bool     | If true, this component will require `selected` to be non-empty to pass a form validation                               | `false`          |
 | `selected`            | array    | A list of the selected options appearing in the rightmost list box.                                                     | `[]`             |
-| `selectedRef`         | function | A React function [ref] to the "selected" list box.                                                                      | `null`           |
+| `selectedRef`         | function | A React function [ref][react-ref] to the "selected" list box.                                                           | `null`           |
 | `simpleValue`         | bool     | If true, the `selected` value passed in `onChange` is an array of string values. Otherwise, it is an array of options.  | `true`           |
 | `showHeaderLabels`    | bool     | If true, labels above both the available and selected list boxes will appear. These labels derive from `lang`.          | `false`          |
 | `showNoOptionsText`   | bool     | If true, text will appear in place of the available/selected list boxes when no options are present.                    | `false`          |
@@ -282,9 +282,9 @@ const onChange = (selected, selection, controlKey) => {
 | `disabled` | bool   | If true, disables the option from selection.                                                               |
 | `title`    | string | Adds the HTML `title` attribute to the option.                                                             |
 
-[controlled]: https://react.dev/learn/sharing-state-between-components#controlled-and-uncontrolled-components
+[react-controlled]: https://react.dev/learn/sharing-state-between-components#controlled-and-uncontrolled-components
+[react-ref]: https://react.dev/learn/manipulating-the-dom-with-refs
 [font-awesome]: https://fontawesome.com
 [lang-file]: https://github.com/jakezatecky/react-dual-listbox/blob/master/src/js/lang/default.js
 [mdn-directionality]: https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/dir
 [mdn-key]: https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key
-[ref]: https://react.dev/learn/manipulating-the-dom-with-refs

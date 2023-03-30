@@ -101,6 +101,23 @@ const options = [
 return <DualListBox options={options} />;
 ```
 
+### `ObjectValueWrapper`
+
+By default, the component expects `selected` to be an array of string values. To utilize an array of options/object values, import the `ObjectValueWrapper` instead:
+
+``` jsx
+import { ObjectValueWrapper as DualListBox } from 'react-dual-listbox';
+
+const options = [
+    { value: 'one', label: 'Option One' },
+    { value: 'two', label: 'Option Two' },
+];
+const selected = [{ value: 'one', label: 'Option One' }];
+
+return <DualListBox options={options} selected={selected} />;
+```
+
+
 ### Disabling the Component or Options
 
 Pass in the `disabled` property to disable the entire component. Alternatively, individual options may be disabled on a per-item basis:
@@ -268,7 +285,6 @@ const onChange = (selected, selection, controlKey) => {
 | `required`            | bool     | If true, this component will require `selected` to be non-empty to pass a form validation                               | `false`          |
 | `selected`            | array    | A list of the selected options appearing in the rightmost list box.                                                     | `[]`             |
 | `selectedRef`         | function | A React function [ref][react-ref] to the "selected" list box.                                                           | `null`           |
-| `simpleValue`         | bool     | If true, the `selected` value passed in `onChange` is an array of string values. Otherwise, it is an array of options.  | `true`           |
 | `showHeaderLabels`    | bool     | If true, labels above both the available and selected list boxes will appear. These labels derive from `lang`.          | `false`          |
 | `showNoOptionsText`   | bool     | If true, text will appear in place of the available/selected list boxes when no options are present.                    | `false`          |
 | `showOrderButtons`    | bool     | If true, a set of up/down buttons will appear near the selected list box to allow the user to re-arrange the items.     | `false`          |

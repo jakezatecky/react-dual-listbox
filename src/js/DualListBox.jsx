@@ -67,7 +67,6 @@ class DualListBox extends Component {
         showHeaderLabels: PropTypes.bool,
         showNoOptionsText: PropTypes.bool,
         showOrderButtons: PropTypes.bool,
-        simpleValue: PropTypes.bool,
         onFilterChange: PropTypes.func,
     };
 
@@ -94,40 +93,11 @@ class DualListBox extends Component {
         required: false,
         selected: [],
         selectedRef: null,
-        simpleValue: true,
         showHeaderLabels: false,
         showNoOptionsText: false,
         showOrderButtons: false,
         onFilterChange: null,
     };
-
-    /**
-     * Flatten an array of options to a simple list of values.
-     *
-     * @param {Array} options
-     * @param {function} getOptionValue
-     *
-     * @returns {Array}
-     */
-    static flattenOptions(options, getOptionValue) {
-        const flattened = [];
-
-        options.forEach((option) => {
-            const value = getOptionValue(option);
-
-            if (value !== undefined) {
-                // Flatten single-level options
-                flattened.push(value);
-            } else if (option.options !== undefined) {
-                // Flatten optgroup options
-                option.options.forEach((subOption) => {
-                    flattened.push(getOptionValue(subOption));
-                });
-            }
-        });
-
-        return flattened;
-    }
 
     /**
      * @param {Object} props
@@ -163,16 +133,8 @@ class DualListBox extends Component {
      *
      * @returns {Object}
      */
-    static getDerivedStateFromProps({
-        filter,
-        getOptionValue,
-        selected,
-        simpleValue,
-    }, prevState) {
-        const newSelected = simpleValue ?
-            selected :
-            DualListBox.flattenOptions(selected, getOptionValue);
-        const newState = { ...prevState, selected: newSelected };
+    static getDerivedStateFromProps({ filter, selected }, prevState) {
+        const newState = { ...prevState, selected };
 
         // Allow user to control filter, if so desired
         if (filter !== null) {
@@ -191,55 +153,11 @@ class DualListBox extends Component {
      * @returns {void}
      */
     onChange(selected, selection, controlKey, isRearrange = false) {
-        const {
-            getOptionValue,
-            options,
-            simpleValue,
-            onChange,
-        } = this.props;
+        const { onChange } = this.props;
         const { selections } = this.state;
         const userSelection = selection.map(({ value }) => value);
 
-        if (simpleValue) {
-            onChange(selected, userSelection, controlKey);
-        } else {
-            const complexValues = { selected: [], userSelection: [] };
-            const sourceValues = { selected, userSelection };
-
-            // Reconstruct option objects for both the selected values and user selection
-            Object.keys(sourceValues).forEach((key) => {
-                // Note that complex values become expensive if there are several options
-                sourceValues[key].forEach((value) => {
-                    options.forEach((option) => {
-                        const optionValue = getOptionValue(option);
-
-                        if (optionValue) {
-                            // Reconstruct single-level option
-                            if (optionValue === value) {
-                                complexValues[key].push(option);
-                            }
-                        } else {
-                            // Reconstruct optgroup options with those children
-                            const subSelected = [];
-                            option.options.forEach((subOption) => {
-                                if (getOptionValue(subOption) === value) {
-                                    subSelected.push(subOption);
-                                }
-                            });
-
-                            if (subSelected.length > 0) {
-                                complexValues[key].push({
-                                    ...option,
-                                    options: subSelected,
-                                });
-                            }
-                        }
-                    });
-                });
-            });
-
-            onChange(complexValues.selected, complexValues.userSelection, controlKey);
-        }
+        onChange(selected, userSelection, controlKey);
 
         // Reset selections after moving items for cleaner experience and to remove invalid values
         // Note that this should not occur for re-arrangement operations
@@ -688,22 +606,14 @@ class DualListBox extends Component {
      * @returns {Array}
      */
     filterAvailable(options, noSearchFilter = false) {
-        const {
-            allowDuplicates,
-            available,
-            getOptionValue,
-            simpleValue,
-        } = this.props;
+        const { allowDuplicates, available, getOptionValue } = this.props;
         const { filter: { available: availableFilter }, selected } = this.state;
 
         const filters = [];
 
         // Apply user-defined available restrictions, if any
         if (available !== undefined) {
-            const availableOptions = simpleValue ?
-                available :
-                DualListBox.flattenOptions(available, getOptionValue);
-            filters.push((option) => availableOptions.indexOf(getOptionValue(option)) >= 0);
+            filters.push((option) => available.indexOf(getOptionValue(option)) >= 0);
         }
 
         // If duplicates are not allowed, filter out selected options
@@ -800,7 +710,7 @@ class DualListBox extends Component {
             }
 
             // If we allow duplicates, append the index to keep each entry unique such that the
-            // controlled component can easily update its state.
+            // controlled component can easily update its state
             const optionValue = !allowDuplicates ? value : `${value}-${index}`;
 
             return (
@@ -832,7 +742,6 @@ class DualListBox extends Component {
             canFilter,
             disabled,
             id,
-            lang,
             showHeaderLabels,
             showNoOptionsText,
         } = this.props;
@@ -856,7 +765,6 @@ class DualListBox extends Component {
                         ref(c);
                     }
                 }}
-                lang={lang}
                 selections={selections[controlKey]}
                 showHeaderLabels={showHeaderLabels}
                 showNoOptionsText={showNoOptionsText}
@@ -926,9 +834,9 @@ class DualListBox extends Component {
         });
 
         return (
-            <div className={rootClassName} dir={htmlDir} id={id}>
-                <LanguageContext.Provider value={lang}>
-                    <IconContext.Provider value={icons}>
+            <LanguageContext.Provider value={lang}>
+                <IconContext.Provider value={icons}>
+                    <div className={rootClassName} dir={htmlDir} id={id}>
                         <div className="rdl-controls">
                             {this.renderListBox('available', availableOptions, availableRef, actionsRight)}
                             {alignActions === ALIGNMENTS.MIDDLE ? (
@@ -954,9 +862,9 @@ class DualListBox extends Component {
                             selected={selected}
                             onFocus={this.onHiddenFocus}
                         />
-                    </IconContext.Provider>
-                </LanguageContext.Provider>
-            </div>
+                    </div>
+                </IconContext.Provider>
+            </LanguageContext.Provider>
         );
     }
 }

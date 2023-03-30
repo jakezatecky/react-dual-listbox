@@ -8,6 +8,13 @@
 
 * `id`: no longer defaults to a random UUID when null and no longer used for some child components
 * `options`: no longer has PropTypes validation for `label` and `value`
+* `simpleValue`: no longer available; use `ObjectValueWrapper` instead and pass in your regular properties:
+
+```jsx
+import { ObjectValueWrapper as DualListBox } from 'react-dual-listbox';
+
+return <DualListBox {...props} />
+```
 
 #### Styling
 

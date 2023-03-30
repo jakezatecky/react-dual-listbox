@@ -546,9 +546,6 @@ describe('<DualListBox />', async () => {
             render((
                 <DualListBox
                     icons={{
-                        moveLeft: <span />,
-                        moveAllLeft: <span />,
-                        moveRight: <span />,
                         moveAllRight: <span className="new-icon" />,
                     }}
                     options={[
@@ -561,6 +558,24 @@ describe('<DualListBox />', async () => {
 
             const button = await screen.findByLabelText('Move all to selected');
             assert.isNotNull(button.closest('button').querySelector('.new-icon'));
+        });
+
+        it('should use the defaults when a key is missing', async () => {
+            render((
+                <DualListBox
+                    icons={{
+                        moveAllRight: <span className="new-icon" />,
+                    }}
+                    options={[
+                        { label: 'Moon', value: 'luna' },
+                        { label: 'Phobos', value: 'phobos' },
+                    ]}
+                    onChange={() => {}}
+                />
+            ));
+
+            const button = await screen.findByLabelText('Move all to available');
+            assert.isNotNull(button.closest('button').querySelector('.rdl-icon-move-all-left'));
         });
     });
 
@@ -601,9 +616,6 @@ describe('<DualListBox />', async () => {
             render((
                 <DualListBox
                     lang={{
-                        moveLeft: '',
-                        moveAllLeft: '',
-                        moveRight: '',
                         moveAllRight: 'MOVE.ALL.RIGHT',
                     }}
                     options={[
@@ -618,6 +630,26 @@ describe('<DualListBox />', async () => {
 
             assert.isNotNull(button);
             assert.isTrue(button.closest('button').classList.contains('rdl-move-all-right'));
+        });
+
+        it('should use the defaults when a key is missing', async () => {
+            render((
+                <DualListBox
+                    lang={{
+                        moveAllRight: 'MOVE.ALL.RIGHT',
+                    }}
+                    options={[
+                        { label: 'Moon', value: 'luna' },
+                        { label: 'Phobos', value: 'phobos' },
+                    ]}
+                    onChange={() => {}}
+                />
+            ));
+
+            const button = await screen.queryByLabelText('Move all to available');
+
+            assert.isNotNull(button);
+            assert.isTrue(button.closest('button').classList.contains('rdl-move-all-left'));
         });
     });
 

@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import escapeRegExp from 'lodash/escapeRegExp';
+import memoize from 'lodash/memoize';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
@@ -33,6 +34,7 @@ const defaultIcons = {
     moveUp: <span className="rdl-icon rdl-icon-move-up" />,
     moveTop: <span className="rdl-icon rdl-icon-move-top" />,
 };
+const combineMemoized = memoize((newValue, defaultValue) => ({ ...defaultValue, ...newValue }));
 
 class DualListBox extends Component {
     static propTypes = {
@@ -806,6 +808,8 @@ class DualListBox extends Component {
             showOrderButtons,
         } = this.props;
         const { selected } = this.state;
+        const mergedLang = combineMemoized(lang, defaultLang);
+        const mergedIcons = combineMemoized(icons, defaultIcons);
         const availableOptions = this.renderOptions(this.filterAvailable(options));
         const selectedOptions = this.renderOptions(this.filterSelected(options));
         const makeAction = (direction, isMoveAll = false) => (
@@ -838,8 +842,8 @@ class DualListBox extends Component {
         });
 
         return (
-            <LanguageContext.Provider value={lang}>
-                <IconContext.Provider value={icons}>
+            <LanguageContext.Provider value={mergedLang}>
+                <IconContext.Provider value={mergedIcons}>
                     <div className={rootClassName} dir={htmlDir} id={id}>
                         <div className="rdl-controls">
                             {this.renderListBox('available', availableOptions, availableRef, actionsRight)}

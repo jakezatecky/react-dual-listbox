@@ -6,7 +6,7 @@
 
 #### Properties
 
-* `id`: no longer defaults to a random UUID when null
+* `id`: no longer defaults to a random UUID when null and no longer used for some child components
 * `options`: no longer has PropTypes validation for `label` and `value`
 
 #### Styling

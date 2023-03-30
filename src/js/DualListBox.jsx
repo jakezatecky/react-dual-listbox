@@ -187,11 +187,11 @@ class DualListBox extends Component {
         let selected;
 
         if (['up', 'down'].indexOf(direction) > -1) {
+            isRearrangement = true;
             selected = this.rearrangeSelected(marked, direction);
-            isRearrangement = true;
         } else if (['top', 'bottom'].indexOf(direction) > -1) {
-            selected = this.rearrangeToExtremes(marked, direction);
             isRearrangement = true;
+            selected = this.rearrangeToExtremes(marked, direction);
         } else if (isMoveAll) {
             selected = directionIsRight ?
                 this.makeOptionsSelected(options) :

@@ -1,7 +1,7 @@
 export default {
     availableFilterHeader: 'Filter available',
+    availableFilterPlaceholder: 'Search...',
     availableHeader: 'Available',
-    filterPlaceholder: 'Search...',
     moveAllLeft: 'Move all to available',
     moveAllRight: 'Move all to selected',
     moveLeft: 'Move to available',
@@ -14,5 +14,6 @@ export default {
     noSelectedOptions: 'No selected options',
     requiredError: 'Please select at least one option.',
     selectedFilterHeader: 'Filter selected',
+    selectedFilterPlaceholder: 'Search...',
     selectedHeader: 'Selected',
 };

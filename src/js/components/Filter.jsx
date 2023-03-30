@@ -18,7 +18,7 @@ function Filter(props) {
         onFilterChange,
     } = props;
     const {
-        filterPlaceholder,
+        [`${controlKey}FilterPlaceholder`]: filterPlaceholder,
         [`${controlKey}FilterHeader`]: filterHeader,
     } = useContext(LanguageContext);
 

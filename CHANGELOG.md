@@ -8,7 +8,9 @@
 
 * `icons`: supplied value will now merge missing keys with the default
 * `id`: no longer defaults to a random UUID when null and no longer used for some child components
-* `lang`: supplied value will now merge missing keys with the default
+* `lang`:
+  * Supplied value will now merge missing keys with the default
+  * `filterPlaceholder` has been split into `availableFilterPlaceholder` and `selectedFilterPlaceholder`
 * `options`: no longer has PropTypes validation for `label` and `value`
 * `simpleValue`: no longer available; use `ObjectValueWrapper` instead and pass in your regular properties:
 

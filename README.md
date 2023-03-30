@@ -159,12 +159,12 @@ Optionally, you can also override the default filter placeholder text and the fi
 ``` jsx
 <DualListBox
     canFilter
-    filterCallback={(option, filterInput) => {
+    filterCallback={(option, filterInput, { getOptionLabel }) => {
         if (filterInput === '') {
             return true;
         }
 
-        return (new RegExp(filterInput, 'i')).test(option.label);
+        return (new RegExp(filterInput, 'i')).test(getOptionLabel(option));
     }}
     options={options}
 />

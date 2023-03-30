@@ -16,12 +16,12 @@ import swapOptions from './util/swapOptions';
 import { ALIGNMENTS, KEYS } from './constants';
 import { IconContext, LanguageContext } from './contexts';
 
-const defaultFilter = (option, filterInput) => {
+const defaultFilter = (option, filterInput, { getOptionLabel }) => {
     if (filterInput === '') {
         return true;
     }
 
-    return (new RegExp(escapeRegExp(filterInput), 'i')).test(option.label);
+    return (new RegExp(escapeRegExp(filterInput), 'i')).test(getOptionLabel(option));
 };
 const defaultIcons = {
     moveLeft: <span className="rdl-icon rdl-icon-move-left" />,
@@ -548,7 +548,7 @@ class DualListBox extends Component {
                     filterer,
                     filterInput,
                     // If the optgroup passes the filter, pre-clear all available children
-                    forceAllow || filterCallback(option, filterInput),
+                    forceAllow || filterCallback(option, filterInput, this.props),
                 );
 
                 if (children.length > 0) {
@@ -583,7 +583,11 @@ class DualListBox extends Component {
                 // these options to the filtered list. The text search filtering is applied AFTER
                 // the main filtering to prevent unnecessary calls to the filterCallback function.
                 if (subFiltered.length > 0) {
-                    if (canFilter && !forceAllow && !filterCallback(option, filterInput)) {
+                    if (
+                        canFilter &&
+                        !forceAllow &&
+                        !filterCallback(option, filterInput, this.props)
+                    ) {
                         return;
                     }
 
@@ -674,7 +678,7 @@ class DualListBox extends Component {
 
         if (canFilter) {
             return selectedOptions.filter(
-                (selectedOption) => filterCallback(selectedOption, selectedFilter),
+                (selectedOption) => filterCallback(selectedOption, selectedFilter, this.props),
             );
         }
 

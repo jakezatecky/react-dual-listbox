@@ -2,7 +2,12 @@ import classNames from 'classnames';
 import escapeRegExp from 'lodash/escapeRegExp';
 import memoize from 'lodash/memoize';
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React, {
+    useCallback,
+    useEffect,
+    useRef,
+    useState,
+} from 'react';
 
 import Action from './components/Action';
 import HiddenInput from './components/HiddenInput';
@@ -17,6 +22,10 @@ import swapOptions from './util/swapOptions';
 import { ALIGNMENTS, KEYS } from './constants';
 import { IconContext, LanguageContext } from './contexts';
 
+const refShape = PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
+]);
 const defaultFilter = (option, filterInput, { getOptionLabel }) => {
     if (filterInput === '') {
         return true;
@@ -36,257 +45,87 @@ const defaultIcons = {
 };
 const combineMemoized = memoize((newValue, defaultValue) => ({ ...defaultValue, ...newValue }));
 
-class DualListBox extends Component {
-    static propTypes = {
-        options: optionsShape.isRequired,
-        onChange: PropTypes.func.isRequired,
+const propTypes = {
+    options: optionsShape.isRequired,
+    onChange: PropTypes.func.isRequired,
 
-        alignActions: PropTypes.oneOf([ALIGNMENTS.MIDDLE, ALIGNMENTS.TOP]),
-        allowDuplicates: PropTypes.bool,
-        available: valueShape,
-        availableRef: PropTypes.func,
-        canFilter: PropTypes.bool,
-        className: PropTypes.string,
-        disabled: PropTypes.bool,
-        filter: PropTypes.shape({
-            available: PropTypes.string.isRequired,
-            selected: PropTypes.string.isRequired,
-        }),
-        filterCallback: PropTypes.func,
-        getOptionLabel: PropTypes.func,
-        getOptionValue: PropTypes.func,
-        htmlDir: PropTypes.string,
-        icons: iconsShape,
-        iconsClass: PropTypes.string,
-        id: PropTypes.string,
-        lang: languageShape,
-        moveKeys: PropTypes.arrayOf(PropTypes.string),
-        name: PropTypes.string,
-        preserveSelectOrder: PropTypes.bool,
-        required: PropTypes.bool,
-        selected: valueShape,
-        selectedRef: PropTypes.func,
-        showHeaderLabels: PropTypes.bool,
-        showNoOptionsText: PropTypes.bool,
-        showOrderButtons: PropTypes.bool,
-        onFilterChange: PropTypes.func,
-    };
+    alignActions: PropTypes.oneOf([ALIGNMENTS.MIDDLE, ALIGNMENTS.TOP]),
+    allowDuplicates: PropTypes.bool,
+    available: valueShape,
+    availableRef: refShape,
+    canFilter: PropTypes.bool,
+    className: PropTypes.string,
+    disabled: PropTypes.bool,
+    filter: PropTypes.shape({
+        available: PropTypes.string.isRequired,
+        selected: PropTypes.string.isRequired,
+    }),
+    filterCallback: PropTypes.func,
+    getOptionLabel: PropTypes.func,
+    getOptionValue: PropTypes.func,
+    htmlDir: PropTypes.string,
+    icons: iconsShape,
+    iconsClass: PropTypes.string,
+    id: PropTypes.string,
+    lang: languageShape,
+    moveKeys: PropTypes.arrayOf(PropTypes.string),
+    name: PropTypes.string,
+    preserveSelectOrder: PropTypes.bool,
+    required: PropTypes.bool,
+    selected: valueShape,
+    selectedRef: refShape,
+    showHeaderLabels: PropTypes.bool,
+    showNoOptionsText: PropTypes.bool,
+    showOrderButtons: PropTypes.bool,
+    onFilterChange: PropTypes.func,
+};
+const defaultProps = {
+    alignActions: ALIGNMENTS.MIDDLE,
+    allowDuplicates: false,
+    available: undefined,
+    availableRef: null,
+    canFilter: false,
+    className: null,
+    disabled: false,
+    filter: null,
+    filterCallback: defaultFilter,
+    getOptionLabel: ({ label }) => label,
+    getOptionValue: ({ value }) => value,
+    htmlDir: 'ltr',
+    icons: defaultIcons,
+    iconsClass: 'fa5',
+    id: 'rdl',
+    lang: defaultLang,
+    moveKeys: [KEYS.SPACEBAR, KEYS.ENTER],
+    name: null,
+    preserveSelectOrder: null,
+    required: false,
+    selected: [],
+    selectedRef: null,
+    showHeaderLabels: false,
+    showNoOptionsText: false,
+    showOrderButtons: false,
+    onFilterChange: null,
+};
 
-    static defaultProps = {
-        alignActions: ALIGNMENTS.MIDDLE,
-        allowDuplicates: false,
-        available: undefined,
-        availableRef: null,
-        canFilter: false,
-        className: null,
-        disabled: false,
-        filter: null,
-        filterCallback: defaultFilter,
-        getOptionLabel: ({ label }) => label,
-        getOptionValue: ({ value }) => value,
-        htmlDir: 'ltr',
-        icons: defaultIcons,
-        iconsClass: 'fa5',
-        id: 'rdl',
-        lang: defaultLang,
-        moveKeys: [KEYS.SPACEBAR, KEYS.ENTER],
-        name: null,
-        preserveSelectOrder: null,
-        required: false,
+function DualListBox(props) {
+    const { selected, filter: filterProp } = props;
+    const availableRef = useRef(null);
+    const selectedRef = useRef(null);
+    const [filter, setFilter] = useState(filterProp !== null ? filterProp : {
+        available: '',
+        selected: '',
+    });
+    const [selections, setSelections] = useState({
+        available: [],
         selected: [],
-        selectedRef: null,
-        showHeaderLabels: false,
-        showNoOptionsText: false,
-        showOrderButtons: false,
-        onFilterChange: null,
-    };
+    });
 
-    /**
-     * @param {Object} props
-     *
-     * @returns {void}
-     */
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            filter: props.filter ? props.filter : {
-                available: '',
-                selected: '',
-            },
-            selections: {
-                available: [],
-                selected: [],
-            },
-        };
-
-        this.onActionClick = this.onActionClick.bind(this);
-        this.onOptionDoubleClick = this.onOptionDoubleClick.bind(this);
-        this.onOptionKeyUp = this.onOptionKeyUp.bind(this);
-        this.onFilterChange = this.onFilterChange.bind(this);
-        this.onSelectionChange = this.onSelectionChange.bind(this);
-        this.onHiddenFocus = this.onHiddenFocus.bind(this);
-    }
-
-    /**
-     * @param {Object} props
-     * @param {Object} prevState
-     *
-     * @returns {Object}
-     */
-    static getDerivedStateFromProps({ filter }, prevState) {
-        const newState = { ...prevState };
-
-        // Allow user to control filter, if so desired
-        if (filter !== null) {
-            newState.filter = filter;
+    useEffect(() => {
+        if (filterProp !== null) {
+            setFilter(filterProp);
         }
-
-        return newState;
-    }
-
-    /**
-     * @param {Array} selected The new selected values
-     * @param {Array} selection The options the user highlighted (if any)
-     * @param {string} controlKey The key for the control that fired this event.
-     * @param {boolean} isRearrange Whether the change is a result of re-arrangement.
-     *
-     * @returns {void}
-     */
-    onChange(selected, selection, controlKey, isRearrange = false) {
-        const { onChange } = this.props;
-        const { selections } = this.state;
-        const userSelection = selection.map(({ value }) => value);
-
-        onChange(selected, userSelection, controlKey);
-
-        // Reset selections after moving items for cleaner experience and to remove invalid values
-        // Note that this should not occur for re-arrangement operations
-        if (!isRearrange) {
-            this.setState({
-                selections: {
-                    ...selections,
-                    [controlKey]: [],
-                },
-            });
-        }
-    }
-
-    /**
-     * @param {string} direction
-     * @param {boolean} isMoveAll
-     *
-     * @returns {void}
-     */
-    onActionClick({ direction, isMoveAll }) {
-        const { options } = this.props;
-        const directionIsRight = direction === 'right';
-        const sourceListBox = directionIsRight ? this.available : this.selected;
-        const marked = this.getMarkedOptions(sourceListBox);
-        let isRearrangement = false;
-
-        let selected;
-
-        if (['up', 'down'].indexOf(direction) > -1) {
-            isRearrangement = true;
-            selected = this.rearrangeSelected(marked, direction);
-        } else if (['top', 'bottom'].indexOf(direction) > -1) {
-            isRearrangement = true;
-            selected = this.rearrangeToExtremes(marked, direction);
-        } else if (isMoveAll) {
-            selected = directionIsRight ?
-                this.makeOptionsSelected(options) :
-                this.makeOptionsUnselected(options);
-        } else {
-            selected = this.toggleHighlighted(
-                marked,
-                directionIsRight ? 'available' : 'selected',
-            );
-        }
-
-        this.onChange(selected, marked, directionIsRight ? 'available' : 'selected', isRearrangement);
-    }
-
-    /**
-     * @param {Object} event
-     * @param {string} controlKey
-     *
-     * @returns {void}
-     */
-    onOptionDoubleClick(event, controlKey) {
-        const marked = this.getMarkedOptions(event.currentTarget);
-        const selected = this.toggleHighlighted(marked, controlKey);
-
-        this.onChange(selected, marked, controlKey);
-    }
-
-    /**
-     * @param {Event} event
-     * @param {string} controlKey
-     *
-     * @returns {void}
-     */
-    onOptionKeyUp(event, controlKey) {
-        const { currentTarget, key } = event;
-        const { moveKeys } = this.props;
-
-        if (moveKeys.indexOf(key) > -1) {
-            const marked = this.getMarkedOptions(currentTarget);
-            const selected = this.toggleHighlighted(marked, controlKey);
-
-            this.onChange(selected, marked, controlKey);
-        }
-    }
-
-    /**
-     * @param {Object} event
-     * @param {string} controlKey
-     *
-     * @returns {void}
-     */
-    onSelectionChange(event, controlKey) {
-        const { selections: oldSelections } = this.state;
-        const { target: { options } } = event;
-
-        const selections = Array.from(options)
-            .filter(({ selected }) => selected)
-            .map(({ value }) => value);
-
-        this.setState({
-            selections: {
-                ...oldSelections,
-                [controlKey]: selections,
-            },
-        });
-    }
-
-    /**
-     * @param {Event} event
-     *
-     * @returns {void}
-     */
-    onFilterChange(event) {
-        const { onFilterChange } = this.props;
-        const { filter } = this.state;
-        const { target: { value, dataset: { controlKey } } } = event;
-
-        const newFilter = { ...filter, [controlKey]: value };
-
-        if (onFilterChange) {
-            onFilterChange(newFilter);
-        } else {
-            this.setState({ filter: newFilter });
-        }
-    }
-
-    /**
-     * Focus the selected list-box whenever a form flags this component as invalid.
-     *
-     * @returns {void}
-     */
-    onHiddenFocus() {
-        this.available.focus();
-    }
+    }, [filterProp]);
 
     /**
      * Converts a flat array to a key/value mapping for duplicated value reference.
@@ -295,8 +134,8 @@ class DualListBox extends Component {
      *
      * @returns {Object}
      */
-    getValueMap(options) {
-        const { getOptionValue } = this.props;
+    function getValueMap(options) {
+        const { getOptionValue } = props;
         let labelMap = {};
 
         options.forEach((option) => {
@@ -304,7 +143,7 @@ class DualListBox extends Component {
             const { options: children } = option;
 
             if (children !== undefined) {
-                labelMap = { ...labelMap, ...this.getValueMap(children) };
+                labelMap = { ...labelMap, ...getValueMap(children) };
             } else {
                 labelMap[value] = option;
             }
@@ -320,17 +159,176 @@ class DualListBox extends Component {
      *
      * @returns {Array}
      */
-    getMarkedOptions(element) {
+    function getMarkedOptions(element) {
         if (element === null) {
             return [];
         }
 
         return Array.from(element.options)
-            .filter(({ selected }) => selected)
+            .filter(({ selected: isSelected }) => isSelected)
             .map(({ dataset: { index, realValue } }) => ({
                 index: parseInt(index, 10),
                 value: JSON.parse(realValue),
             }));
+    }
+
+    /**
+     * Filter the given options by a ListBox filtering function and the user search string.
+     *
+     * @param {Array} options
+     * @param {Function} filterer
+     * @param {string} filterInput
+     * @param {boolean} forceAllow
+     *
+     * @returns {Array}
+     */
+    function filterOptions(options, filterer, filterInput, forceAllow = false) {
+        const { canFilter, filterCallback } = props;
+        const filtered = [];
+
+        options.forEach((option) => {
+            if (option.options !== undefined) {
+                // Recursively filter any children
+                const children = filterOptions(
+                    option.options,
+                    filterer,
+                    filterInput,
+                    // If the optgroup passes the filter, pre-clear all available children
+                    forceAllow || filterCallback(option, filterInput, props),
+                );
+
+                if (children.length > 0) {
+                    filtered.push({
+                        ...option,
+                        options: children,
+                    });
+                }
+            } else {
+                const subFiltered = [];
+                // Run the main, non-search filter function against the given item
+                const filterResult = filterer(option);
+
+                if (Array.isArray(filterResult)) {
+                    // The selected list box will be filtered by whether the given options have a
+                    // selected index. This index will later be used when removing user selections.
+                    // This index is particularly relevant for duplicate selections, as we want to
+                    // preserve the removal order properly when `preserveSelectOrder` is set to
+                    // true, rather than simply removing the first value encountered.
+                    filterResult.forEach((index) => {
+                        subFiltered.push({
+                            ...option,
+                            selectedIndex: index,
+                        });
+                    });
+                } else if (filterResult) {
+                    // Available options are much simpler and are merely filtered by a boolean
+                    subFiltered.push(option);
+                }
+
+                // If any matched options go through, optionally apply user filtering and then add
+                // these options to the filtered list. The text search filtering is applied AFTER
+                // the main filtering to prevent unnecessary calls to the filterCallback function.
+                if (subFiltered.length > 0) {
+                    if (
+                        canFilter &&
+                        !forceAllow &&
+                        !filterCallback(option, filterInput, props)
+                    ) {
+                        return;
+                    }
+
+                    subFiltered.forEach((subItem) => {
+                        filtered.push(subItem);
+                    });
+                }
+            }
+        });
+
+        return filtered;
+    }
+
+    /**
+     * Filter the available options.
+     *
+     * @param {Array} options
+     * @param {boolean} noSearchFilter Ignore the search filter.
+     *
+     * @returns {Array}
+     */
+    function filterAvailable(options, noSearchFilter = false) {
+        const { allowDuplicates, available, getOptionValue } = props;
+        const { available: availableFilter } = filter;
+
+        const filters = [];
+
+        // Apply user-defined available restrictions, if any
+        if (available !== undefined) {
+            filters.push((option) => available.indexOf(getOptionValue(option)) >= 0);
+        }
+
+        // If duplicates are not allowed, filter out selected options
+        if (!allowDuplicates) {
+            filters.push((option) => selected.indexOf(getOptionValue(option)) < 0);
+        }
+
+        // Apply each filter function on the option
+        const filterer = (option) => filters.reduce(
+            (previousValue, filterFunction) => previousValue && filterFunction(option),
+            true,
+        );
+
+        return filterOptions(options, filterer, availableFilter, noSearchFilter);
+    }
+
+    /**
+     * Preserve the selection order. This drops the opt-group associations.
+     *
+     * @param {Array} options
+     *
+     * @returns {Array}
+     */
+    function filterSelectedByOrder(options) {
+        const { canFilter, filterCallback } = props;
+        const { selected: selectedFilter } = filter;
+        const valueMap = getValueMap(options);
+
+        const selectedOptions = selected.map((value, index) => ({
+            ...valueMap[value],
+            selectedIndex: index,
+        }));
+
+        if (canFilter) {
+            return selectedOptions.filter(
+                (selectedOption) => filterCallback(selectedOption, selectedFilter, props),
+            );
+        }
+
+        return selectedOptions;
+    }
+
+    /**
+     * Filter the selected options.
+     *
+     * @param {Array} options
+     * @param {boolean} noSearchFilter Ignore the search filter.
+     *
+     * @returns {Array}
+     */
+    function filterSelected(options, noSearchFilter = false) {
+        const { getOptionValue, preserveSelectOrder } = props;
+        const { selected: selectedFilter } = filter;
+
+        if (preserveSelectOrder) {
+            return filterSelectedByOrder(options);
+        }
+
+        // Order the selections by the default order
+        return filterOptions(
+            options,
+            (option) => indexesOf(selected, getOptionValue(option)),
+            selectedFilter,
+            noSearchFilter,
+        );
     }
 
     /**
@@ -341,8 +339,7 @@ class DualListBox extends Component {
      *
      * @returns {Array}
      */
-    rearrangeSelected(markedOptions, direction) {
-        const { selected } = this.props;
+    function rearrangeSelected(markedOptions, direction) {
         let newOrder = [...selected];
 
         if (markedOptions.length === 0) {
@@ -383,9 +380,8 @@ class DualListBox extends Component {
      *
      * @returns {Array}
      */
-    rearrangeToExtremes(markedOptions, direction) {
-        const { selected: selectedItems } = this.props;
-        let unmarked = [...selectedItems];
+    function rearrangeToExtremes(markedOptions, direction) {
+        let unmarked = [...selected];
 
         // Filter out marked options
         markedOptions.forEach(({ index }) => {
@@ -394,7 +390,7 @@ class DualListBox extends Component {
         unmarked = unmarked.filter((v) => v !== null);
 
         // Condense marked options raw values
-        const marked = markedOptions.map(({ index }) => selectedItems[index]);
+        const marked = markedOptions.map(({ index }) => selected[index]);
 
         if (direction === 'top') {
             return [...marked, ...unmarked];
@@ -404,31 +400,14 @@ class DualListBox extends Component {
     }
 
     /**
-     * Make all the given options selected, appending them after the existing selections.
-     *
-     * @param {Array} options
-     *
-     * @returns {Array}
-     */
-    makeOptionsSelected(options) {
-        const { selected } = this.props;
-        const availableOptions = this.filterAvailable(options);
-
-        return [
-            ...selected,
-            ...this.makeOptionsSelectedRecursive(availableOptions),
-        ];
-    }
-
-    /**
      * Recursively make the given set of options selected.
      *
      * @param {Array} options
      *
      * @returns {Array}
      */
-    makeOptionsSelectedRecursive(options) {
-        const { getOptionValue } = this.props;
+    function makeOptionsSelectedRecursive(options) {
+        const { getOptionValue } = props;
         let newSelected = [];
 
         options.forEach((option) => {
@@ -440,9 +419,52 @@ class DualListBox extends Component {
             if (option.options !== undefined) {
                 newSelected = [
                     ...newSelected,
-                    ...this.makeOptionsSelectedRecursive(option.options),
+                    ...makeOptionsSelectedRecursive(option.options),
                 ];
             } else {
+                newSelected.push(getOptionValue(option));
+            }
+        });
+
+        return newSelected;
+    }
+
+    /**
+     * Make all the given options selected, appending them after the existing selections.
+     *
+     * @param {Array} options
+     *
+     * @returns {Array}
+     */
+    function makeOptionsSelected(options) {
+        const availableOptions = filterAvailable(options);
+
+        return [
+            ...selected,
+            ...makeOptionsSelectedRecursive(availableOptions),
+        ];
+    }
+
+    /**
+     * Recursively unselect the given options, except for those disabled.
+     *
+     * @param {Array} selectedOptions
+     *
+     * @returns {Array}
+     */
+    function makeOptionsUnselectedRecursive(selectedOptions) {
+        const { getOptionValue } = props;
+        let newSelected = [];
+
+        selectedOptions.forEach((option) => {
+            if (option.options !== undefined) {
+                // Traverse any parents for leaf options
+                newSelected = [
+                    ...newSelected,
+                    ...makeOptionsUnselectedRecursive(option.options),
+                ];
+            } else if (option.disabled) {
+                // Preserve only disabled options
                 newSelected.push(getOptionValue(option));
             }
         });
@@ -457,37 +479,8 @@ class DualListBox extends Component {
      *
      * @returns {Array}
      */
-    makeOptionsUnselected(options) {
-        const selected = this.filterSelected(options, true);
-
-        return this.makeOptionsUnselectedRecursive(selected);
-    }
-
-    /**
-     * Recursively unselect the given options, except for those disabled.
-     *
-     * @param {Array} selectedOptions
-     *
-     * @returns {Array}
-     */
-    makeOptionsUnselectedRecursive(selectedOptions) {
-        const { getOptionValue } = this.props;
-        let newSelected = [];
-
-        selectedOptions.forEach((option) => {
-            if (option.options !== undefined) {
-                // Traverse any parents for leaf options
-                newSelected = [
-                    ...newSelected,
-                    ...this.makeOptionsUnselectedRecursive(option.options),
-                ];
-            } else if (option.disabled) {
-                // Preserve only disabled options
-                newSelected.push(getOptionValue(option));
-            }
-        });
-
-        return newSelected;
+    function makeOptionsUnselected(options) {
+        return makeOptionsUnselectedRecursive(filterSelected(options, true));
     }
 
     /**
@@ -498,8 +491,8 @@ class DualListBox extends Component {
      *
      * @returns {Array}
      */
-    toggleHighlighted(toggleItems, controlKey) {
-        const { allowDuplicates, selected } = this.props;
+    function toggleHighlighted(toggleItems, controlKey) {
+        const { allowDuplicates } = props;
         const selectedItems = selected.slice(0);
         const toggleItemsMap = { ...selectedItems };
 
@@ -527,176 +520,148 @@ class DualListBox extends Component {
     }
 
     /**
-     * Filter the given options by a ListBox filtering function and the user search string.
+     * @param {Array} newSelected The new selected values
+     * @param {Array} selection The options the user highlighted (if any)
+     * @param {string} controlKey The key for the control that fired this event.
+     * @param {boolean} isRearrange Whether the change is a result of re-arrangement.
      *
-     * @param {Array} options
-     * @param {Function} filterer
-     * @param {string} filterInput
-     * @param {boolean} forceAllow
-     *
-     * @returns {Array}
+     * @returns {void}
      */
-    filterOptions(options, filterer, filterInput, forceAllow = false) {
-        const { canFilter, filterCallback } = this.props;
-        const filtered = [];
+    function onChange(newSelected, selection, controlKey, isRearrange = false) {
+        const { onChange: onChangeProp } = props;
+        const userSelection = selection.map(({ value }) => value);
 
-        options.forEach((option) => {
-            if (option.options !== undefined) {
-                // Recursively filter any children
-                const children = this.filterOptions(
-                    option.options,
-                    filterer,
-                    filterInput,
-                    // If the optgroup passes the filter, pre-clear all available children
-                    forceAllow || filterCallback(option, filterInput, this.props),
-                );
+        onChangeProp(newSelected, userSelection, controlKey);
 
-                if (children.length > 0) {
-                    filtered.push({
-                        ...option,
-                        options: children,
-                    });
-                }
-            } else {
-                const subFiltered = [];
-                // Run the main, non-search filter function against the given item
-                const filterResult = filterer(option);
-
-                if (Array.isArray(filterResult)) {
-                    // The selected list box will be filtered by whether the given options have a
-                    // selected index. This index will later be used when removing user selections.
-                    // This index is particularly relevant for duplicate selections, as we want to
-                    // preserve the removal order properly when `preserveSelectOrder` is set to
-                    // true, rather than simply removing the first value encountered.
-                    filterResult.forEach((index) => {
-                        subFiltered.push({
-                            ...option,
-                            selectedIndex: index,
-                        });
-                    });
-                } else if (filterResult) {
-                    // Available options are much simpler and are merely filtered by a boolean
-                    subFiltered.push(option);
-                }
-
-                // If any matched options go through, optionally apply user filtering and then add
-                // these options to the filtered list. The text search filtering is applied AFTER
-                // the main filtering to prevent unnecessary calls to the filterCallback function.
-                if (subFiltered.length > 0) {
-                    if (
-                        canFilter &&
-                        !forceAllow &&
-                        !filterCallback(option, filterInput, this.props)
-                    ) {
-                        return;
-                    }
-
-                    subFiltered.forEach((subItem) => {
-                        filtered.push(subItem);
-                    });
-                }
-            }
-        });
-
-        return filtered;
+        // Reset selections after moving items for cleaner experience and to remove invalid values
+        // Note that this should not occur for re-arrangement operations
+        if (!isRearrange) {
+            setSelections({
+                ...selections,
+                [controlKey]: [],
+            });
+        }
     }
 
     /**
-     * Filter the available options.
+     * @param {string} direction
+     * @param {boolean} isMoveAll
      *
-     * @param {Array} options
-     * @param {boolean} noSearchFilter Ignore the search filter.
-     *
-     * @returns {Array}
+     * @returns {void}
      */
-    filterAvailable(options, noSearchFilter = false) {
-        const {
-            allowDuplicates,
-            available,
-            getOptionValue,
-            selected,
-        } = this.props;
-        const { filter: { available: availableFilter } } = this.state;
+    const onActionClick = useCallback(({ direction, isMoveAll }) => {
+        const { options } = props;
+        const directionIsRight = direction === 'right';
+        const sourceListBox = directionIsRight ? availableRef : selectedRef;
+        const marked = getMarkedOptions(sourceListBox.current);
+        let isRearrangement = false;
 
-        const filters = [];
+        let newSelected;
 
-        // Apply user-defined available restrictions, if any
-        if (available !== undefined) {
-            filters.push((option) => available.indexOf(getOptionValue(option)) >= 0);
-        }
-
-        // If duplicates are not allowed, filter out selected options
-        if (!allowDuplicates) {
-            filters.push((option) => selected.indexOf(getOptionValue(option)) < 0);
-        }
-
-        // Apply each filter function on the option
-        const filterer = (option) => filters.reduce(
-            (previousValue, filter) => previousValue && filter(option),
-            true,
-        );
-
-        return this.filterOptions(options, filterer, availableFilter, noSearchFilter);
-    }
-
-    /**
-     * Filter the selected options.
-     *
-     * @param {Array} options
-     * @param {boolean} noSearchFilter Ignore the search filter.
-     *
-     * @returns {Array}
-     */
-    filterSelected(options, noSearchFilter = false) {
-        const { getOptionValue, preserveSelectOrder, selected } = this.props;
-        const { filter: { selected: selectedFilter } } = this.state;
-
-        if (preserveSelectOrder) {
-            return this.filterSelectedByOrder(options);
-        }
-
-        // Order the selections by the default order
-        return this.filterOptions(
-            options,
-            (option) => indexesOf(selected, getOptionValue(option)),
-            selectedFilter,
-            noSearchFilter,
-        );
-    }
-
-    /**
-     * Preserve the selection order. This drops the opt-group associations.
-     *
-     * @param {Array} options
-     *
-     * @returns {Array}
-     */
-    filterSelectedByOrder(options) {
-        const { canFilter, filterCallback, selected } = this.props;
-        const { filter: { selected: selectedFilter } } = this.state;
-        const valueMap = this.getValueMap(options);
-
-        const selectedOptions = selected.map((value, index) => ({
-            ...valueMap[value],
-            selectedIndex: index,
-        }));
-
-        if (canFilter) {
-            return selectedOptions.filter(
-                (selectedOption) => filterCallback(selectedOption, selectedFilter, this.props),
+        if (['up', 'down'].indexOf(direction) > -1) {
+            isRearrangement = true;
+            newSelected = rearrangeSelected(marked, direction);
+        } else if (['top', 'bottom'].indexOf(direction) > -1) {
+            isRearrangement = true;
+            newSelected = rearrangeToExtremes(marked, direction);
+        } else if (isMoveAll) {
+            newSelected = directionIsRight ?
+                makeOptionsSelected(options) :
+                makeOptionsUnselected(options);
+        } else {
+            newSelected = toggleHighlighted(
+                marked,
+                directionIsRight ? 'available' : 'selected',
             );
         }
 
-        return selectedOptions;
-    }
+        onChange(newSelected, marked, directionIsRight ? 'available' : 'selected', isRearrangement);
+    }, [selected]);
+
+    /**
+     * @param {Object} event
+     * @param {string} controlKey
+     *
+     * @returns {void}
+     */
+    const onOptionDoubleClick = useCallback((event, controlKey) => {
+        const marked = getMarkedOptions(event.currentTarget);
+        const newSelected = toggleHighlighted(marked, controlKey);
+
+        onChange(newSelected, marked, controlKey);
+    }, [selected]);
+
+    /**
+     * @param {Event} event
+     * @param {string} controlKey
+     *
+     * @returns {void}
+     */
+    const onOptionKeyUp = useCallback((event, controlKey) => {
+        const { currentTarget, key } = event;
+        const { moveKeys } = props;
+
+        if (moveKeys.indexOf(key) > -1) {
+            const marked = getMarkedOptions(currentTarget);
+            const newSelected = toggleHighlighted(marked, controlKey);
+
+            onChange(newSelected, marked, controlKey);
+        }
+    }, [selected]);
+
+    /**
+     * @param {Event} event
+     * @param {string} controlKey
+     *
+     * @returns {void}
+     */
+    const onSelectionChange = useCallback((event, controlKey) => {
+        const { target: { options } } = event;
+
+        const newSelections = Array.from(options)
+            .filter(({ selected: isSelected }) => isSelected)
+            .map(({ value }) => value);
+
+        setSelections({
+            ...selections,
+            [controlKey]: newSelections,
+        });
+    }, [selections]);
+
+    /**
+     * @param {Event} event
+     *
+     * @returns {void}
+     */
+    const onFilterChangeCallback = useCallback((event) => {
+        const { onFilterChange } = props;
+        const { target: { value, dataset: { controlKey } } } = event;
+
+        const newFilter = { ...filter, [controlKey]: value };
+
+        if (onFilterChange) {
+            onFilterChange(newFilter);
+        } else {
+            setFilter(newFilter);
+        }
+    }, [filter]);
+
+    /**
+     * Focus the selected list-box whenever a form flags this component as invalid.
+     *
+     * @returns {void}
+     */
+    const onHiddenFocus = useCallback(() => {
+        availableRef.current.focus();
+    }, []);
 
     /**
      * @param {Array} options
      *
      * @returns {Array}
      */
-    renderOptions(options) {
-        const { allowDuplicates, getOptionLabel, getOptionValue } = this.props;
+    function renderOptions(options) {
+        const { allowDuplicates, getOptionLabel, getOptionValue } = props;
 
         return options.map((option, index) => {
             const label = getOptionLabel(option);
@@ -713,7 +678,7 @@ class DualListBox extends Component {
                         label={label}
                         title={option.title}
                     >
-                        {this.renderOptions(option.options)}
+                        {renderOptions(option.options)}
                     </optgroup>
                 );
             }
@@ -740,24 +705,39 @@ class DualListBox extends Component {
     /**
      * @param {string} controlKey
      * @param {Array} options
-     * @param {function} ref
+     * @param {React.MutableRefObject} ref
      * @param {JSX.Element} actions
      *
      * @returns {JSX.Element}
      */
-    renderListBox(controlKey, options, ref, actions) {
+    function renderListBox(controlKey, options, ref, actions) {
         const {
             alignActions,
             canFilter,
+            [`${controlKey}Ref`]: refProp,
             disabled,
             id,
             showHeaderLabels,
             showNoOptionsText,
-        } = this.props;
-        const { filter, selections } = this.state;
+        } = props;
 
         // Wrap event handlers with a controlKey reference
         const wrapHandler = (handler) => ((event) => handler(event, controlKey));
+
+        // Set both internal ref and property ref
+        /* eslint-disable no-param-reassign */
+        const makeRef = (c) => {
+            ref.current = c;
+
+            if (refProp !== null) {
+                if (typeof refProp === 'function') {
+                    refProp(c);
+                } else {
+                    refProp.current = c;
+                }
+            }
+        };
+        /* eslint-enable no-param-reassign */
 
         return (
             <ListBox
@@ -767,117 +747,107 @@ class DualListBox extends Component {
                 disabled={disabled}
                 filterValue={filter[controlKey]}
                 id={id}
-                inputRef={(c) => {
-                    this[controlKey] = c;
-
-                    if (ref) {
-                        ref(c);
-                    }
-                }}
+                inputRef={makeRef}
                 selections={selections[controlKey]}
                 showHeaderLabels={showHeaderLabels}
                 showNoOptionsText={showNoOptionsText}
-                onDoubleClick={wrapHandler(this.onOptionDoubleClick)}
-                onFilterChange={wrapHandler(this.onFilterChange)}
-                onKeyUp={wrapHandler(this.onOptionKeyUp)}
-                onSelectionChange={wrapHandler(this.onSelectionChange)}
+                onDoubleClick={wrapHandler(onOptionDoubleClick)}
+                onFilterChange={wrapHandler(onFilterChangeCallback)}
+                onKeyUp={wrapHandler(onOptionKeyUp)}
+                onSelectionChange={wrapHandler(onSelectionChange)}
             >
                 {options}
             </ListBox>
         );
     }
 
-    /**
-     * @returns {ReactNode}
-     */
-    render() {
-        const {
-            alignActions,
-            availableRef,
-            canFilter,
-            className,
-            disabled,
-            htmlDir,
-            icons,
-            iconsClass,
-            id,
-            lang,
-            name,
-            options,
-            preserveSelectOrder,
-            required,
-            selected,
-            selectedRef,
-            showHeaderLabels,
-            showOrderButtons,
-        } = this.props;
-        const mergedLang = combineMemoized(lang, defaultLang);
-        const mergedIcons = combineMemoized(icons, defaultIcons);
-        const availableOptions = this.renderOptions(this.filterAvailable(options));
-        const selectedOptions = this.renderOptions(this.filterSelected(options));
-        const makeAction = (direction, isMoveAll = false) => (
-            <Action
-                direction={direction}
-                disabled={disabled}
-                isMoveAll={isMoveAll}
-                onClick={this.onActionClick}
-            />
-        );
-        const actionsRight = (
-            <div className="rdl-actions-right">
-                {makeAction('right', true)}
-                {makeAction('right')}
-            </div>
-        );
-        const actionsLeft = (
-            <div className="rdl-actions-left">
-                {makeAction('left')}
-                {makeAction('left', true)}
-            </div>
-        );
-        const rootClassName = classNames({
-            'react-dual-listbox': true,
-            [`rdl-icons-${iconsClass}`]: true,
-            'rdl-has-filter': canFilter,
-            'rdl-has-header': showHeaderLabels,
-            'rdl-align-top': alignActions === ALIGNMENTS.TOP,
-            ...(className && { [className]: true }),
-        });
+    const {
+        alignActions,
+        canFilter,
+        className,
+        disabled,
+        htmlDir,
+        icons,
+        iconsClass,
+        id,
+        lang,
+        name,
+        options,
+        preserveSelectOrder,
+        required,
+        showHeaderLabels,
+        showOrderButtons,
+    } = props;
+    const mergedLang = combineMemoized(lang, defaultLang);
+    const mergedIcons = combineMemoized(icons, defaultIcons);
+    const availableOptions = renderOptions(filterAvailable(options));
+    const selectedOptions = renderOptions(filterSelected(options));
+    const makeAction = (direction, isMoveAll = false) => (
+        <Action
+            direction={direction}
+            disabled={disabled}
+            isMoveAll={isMoveAll}
+            onClick={onActionClick}
+        />
+    );
+    const actionsRight = (
+        <div className="rdl-actions-right">
+            {makeAction('right', true)}
+            {makeAction('right')}
+        </div>
+    );
+    const actionsLeft = (
+        <div className="rdl-actions-left">
+            {makeAction('left')}
+            {makeAction('left', true)}
+        </div>
+    );
+    const rootClassName = classNames({
+        'react-dual-listbox': true,
+        [`rdl-icons-${iconsClass}`]: true,
+        'rdl-has-filter': canFilter,
+        'rdl-has-header': showHeaderLabels,
+        'rdl-align-top': alignActions === ALIGNMENTS.TOP,
+        ...(className && { [className]: true }),
+    });
 
-        return (
-            <LanguageContext.Provider value={mergedLang}>
-                <IconContext.Provider value={mergedIcons}>
-                    <div className={rootClassName} dir={htmlDir} id={id}>
-                        <div className="rdl-controls">
-                            {this.renderListBox('available', availableOptions, availableRef, actionsRight)}
-                            {alignActions === ALIGNMENTS.MIDDLE ? (
-                                <div className="rdl-actions">
-                                    {actionsRight}
-                                    {actionsLeft}
-                                </div>
-                            ) : null}
-                            {this.renderListBox('selected', selectedOptions, selectedRef, actionsLeft)}
-                            {preserveSelectOrder && showOrderButtons ? (
-                                <div className="rdl-actions">
-                                    {makeAction('top')}
-                                    {makeAction('up')}
-                                    {makeAction('down')}
-                                    {makeAction('bottom')}
-                                </div>
-                            ) : null}
-                        </div>
-                        <HiddenInput
-                            disabled={disabled}
-                            name={name}
-                            required={required}
-                            selected={selected}
-                            onFocus={this.onHiddenFocus}
-                        />
+    return (
+        <LanguageContext.Provider value={mergedLang}>
+            <IconContext.Provider value={mergedIcons}>
+                <div className={rootClassName} dir={htmlDir} id={id}>
+                    <div className="rdl-controls">
+                        {renderListBox('available', availableOptions, availableRef, actionsRight)}
+                        {alignActions === ALIGNMENTS.MIDDLE ? (
+                            <div className="rdl-actions">
+                                {actionsRight}
+                                {actionsLeft}
+                            </div>
+                        ) : null}
+                        {renderListBox('selected', selectedOptions, selectedRef, actionsLeft)}
+                        {preserveSelectOrder && showOrderButtons ? (
+                            <div className="rdl-actions">
+                                {makeAction('top')}
+                                {makeAction('up')}
+                                {makeAction('down')}
+                                {makeAction('bottom')}
+                            </div>
+                        ) : null}
                     </div>
-                </IconContext.Provider>
-            </LanguageContext.Provider>
-        );
-    }
+                    <HiddenInput
+                        disabled={disabled}
+                        name={name}
+                        required={required}
+                        selected={selected}
+                        onFocus={onHiddenFocus}
+                    />
+                </div>
+            </IconContext.Provider>
+        </LanguageContext.Provider>
+    );
 }
 
+DualListBox.propTypes = propTypes;
+DualListBox.defaultProps = defaultProps;
+
+export { propTypes, defaultProps };
 export default DualListBox;

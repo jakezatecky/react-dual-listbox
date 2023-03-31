@@ -114,7 +114,6 @@ class DualListBox extends Component {
                 available: '',
                 selected: '',
             },
-            selected: [],
             selections: {
                 available: [],
                 selected: [],
@@ -135,8 +134,8 @@ class DualListBox extends Component {
      *
      * @returns {Object}
      */
-    static getDerivedStateFromProps({ filter, selected }, prevState) {
-        const newState = { ...prevState, selected };
+    static getDerivedStateFromProps({ filter }, prevState) {
+        const newState = { ...prevState };
 
         // Allow user to control filter, if so desired
         if (filter !== null) {
@@ -343,7 +342,7 @@ class DualListBox extends Component {
      * @returns {Array}
      */
     rearrangeSelected(markedOptions, direction) {
-        const { selected } = this.state;
+        const { selected } = this.props;
         let newOrder = [...selected];
 
         if (markedOptions.length === 0) {
@@ -385,7 +384,7 @@ class DualListBox extends Component {
      * @returns {Array}
      */
     rearrangeToExtremes(markedOptions, direction) {
-        const { selected: selectedItems } = this.state;
+        const { selected: selectedItems } = this.props;
         let unmarked = [...selectedItems];
 
         // Filter out marked options
@@ -412,7 +411,7 @@ class DualListBox extends Component {
      * @returns {Array}
      */
     makeOptionsSelected(options) {
-        const { selected } = this.state;
+        const { selected } = this.props;
         const availableOptions = this.filterAvailable(options);
 
         return [
@@ -500,8 +499,7 @@ class DualListBox extends Component {
      * @returns {Array}
      */
     toggleHighlighted(toggleItems, controlKey) {
-        const { allowDuplicates } = this.props;
-        const { selected } = this.state;
+        const { allowDuplicates, selected } = this.props;
         const selectedItems = selected.slice(0);
         const toggleItemsMap = { ...selectedItems };
 
@@ -612,8 +610,13 @@ class DualListBox extends Component {
      * @returns {Array}
      */
     filterAvailable(options, noSearchFilter = false) {
-        const { allowDuplicates, available, getOptionValue } = this.props;
-        const { filter: { available: availableFilter }, selected } = this.state;
+        const {
+            allowDuplicates,
+            available,
+            getOptionValue,
+            selected,
+        } = this.props;
+        const { filter: { available: availableFilter } } = this.state;
 
         const filters = [];
 
@@ -645,8 +648,8 @@ class DualListBox extends Component {
      * @returns {Array}
      */
     filterSelected(options, noSearchFilter = false) {
-        const { getOptionValue, preserveSelectOrder } = this.props;
-        const { filter: { selected: selectedFilter }, selected } = this.state;
+        const { getOptionValue, preserveSelectOrder, selected } = this.props;
+        const { filter: { selected: selectedFilter } } = this.state;
 
         if (preserveSelectOrder) {
             return this.filterSelectedByOrder(options);
@@ -669,8 +672,8 @@ class DualListBox extends Component {
      * @returns {Array}
      */
     filterSelectedByOrder(options) {
-        const { canFilter, filterCallback } = this.props;
-        const { filter: { selected: selectedFilter }, selected } = this.state;
+        const { canFilter, filterCallback, selected } = this.props;
+        const { filter: { selected: selectedFilter } } = this.state;
         const valueMap = this.getValueMap(options);
 
         const selectedOptions = selected.map((value, index) => ({
@@ -803,11 +806,11 @@ class DualListBox extends Component {
             options,
             preserveSelectOrder,
             required,
+            selected,
             selectedRef,
             showHeaderLabels,
             showOrderButtons,
         } = this.props;
-        const { selected } = this.state;
         const mergedLang = combineMemoized(lang, defaultLang);
         const mergedIcons = combineMemoized(icons, defaultIcons);
         const availableOptions = this.renderOptions(this.filterAvailable(options));

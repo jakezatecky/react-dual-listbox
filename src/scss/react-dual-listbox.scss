@@ -210,6 +210,11 @@ $rdl-desktop-min-width: 576px !default;
   }
 }
 
+.rdl-no-options {
+  height: 100%;
+  padding: 4px 6px;
+}
+
 .rdl-align-top {
   .rdl-available {
     margin-bottom: 10px;

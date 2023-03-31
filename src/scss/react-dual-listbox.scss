@@ -146,8 +146,8 @@ $rdl-desktop-min-width: 576px !default;
   }
 }
 
-.rdl-actions-right,
-.rdl-actions-left {
+.rdl-actions-to-selected,
+.rdl-actions-to-available {
   display: flex;
 
   @media (min-width: $rdl-desktop-min-width) {
@@ -156,7 +156,7 @@ $rdl-desktop-min-width: 576px !default;
 }
 
 @media (min-width: $rdl-desktop-min-width) {
-  .rdl-actions-right {
+  .rdl-actions-to-selected {
     margin-bottom: 10px;
   }
 }
@@ -225,8 +225,8 @@ $rdl-desktop-min-width: 576px !default;
     border-top-right-radius: 0;
   }
 
-  .rdl-actions-left,
-  .rdl-actions-right {
+  .rdl-actions-to-available,
+  .rdl-actions-to-selected {
     flex-direction: row;
     margin: 0;
   }
@@ -303,59 +303,59 @@ $rdl-desktop-min-width: 576px !default;
     font-weight: 900;
   }
 
-  .rdl-icon-move-all-right::before,
+  .rdl-icon-move-all-to-selected::before,
   .rdl-icon-move-bottom::before {
     content: unicode("f103");
   }
 
-  .rdl-icon-move-right::before,
+  .rdl-icon-move-to-selected::before,
   .rdl-icon-move-down::before {
     content: unicode("f107");
   }
 
-  .rdl-icon-move-left::before,
+  .rdl-icon-move-to-available::before,
   .rdl-icon-move-up::before {
     content: unicode("f106");
   }
 
-  .rdl-icon-move-all-left::before,
+  .rdl-icon-move-all-to-available::before,
   .rdl-icon-move-top::before {
     content: unicode("f102");
   }
 
   // Larger screens will arrange the boxes as columns, so "left" and "right" icons apply
   @media (min-width: $rdl-desktop-min-width) {
-    .rdl-icon-move-left::before {
+    .rdl-icon-move-to-available::before {
       content: unicode("f104");
     }
 
-    .rdl-icon-move-all-left::before {
+    .rdl-icon-move-all-to-available::before {
       content: unicode("f100");
     }
 
-    .rdl-icon-move-right::before {
+    .rdl-icon-move-to-selected::before {
       content: unicode("f105");
     }
 
-    .rdl-icon-move-all-right::before {
+    .rdl-icon-move-all-to-selected::before {
       content: unicode("f101");
     }
 
     // Change directions when right-to-left
     &[dir="rtl"] {
-      .rdl-icon-move-left::before {
+      .rdl-icon-move-to-available::before {
         content: unicode("f105");
       }
 
-      .rdl-icon-move-all-left::before {
+      .rdl-icon-move-all-to-available::before {
         content: unicode("f101");
       }
 
-      .rdl-icon-move-right::before {
+      .rdl-icon-move-to-selected::before {
         content: unicode("f104");
       }
 
-      .rdl-icon-move-all-right::before {
+      .rdl-icon-move-all-to-selected::before {
         content: unicode("f100");
       }
     }
@@ -371,59 +371,59 @@ $rdl-desktop-min-width: 576px !default;
 }
 
 .rdl-icons-native {
-  .rdl-icon-move-all-right::before,
+  .rdl-icon-move-all-to-selected::before,
   .rdl-icon-move-bottom::before {
     content: "⮇";
   }
 
-  .rdl-icon-move-right::before,
+  .rdl-icon-move-to-selected::before,
   .rdl-icon-move-down::before {
     content: "🠣";
   }
 
-  .rdl-icon-move-left::before,
+  .rdl-icon-move-to-available::before,
   .rdl-icon-move-up::before {
     content: "🠡";
   }
 
-  .rdl-icon-move-all-left::before,
+  .rdl-icon-move-all-to-available::before,
   .rdl-icon-move-top::before {
     content: "⮅";
   }
 
   // Larger screens will arrange the boxes as columns, so "left" and "right" icons apply
   @media (min-width: $rdl-desktop-min-width) {
-    .rdl-icon-move-left::before {
+    .rdl-icon-move-to-available::before {
       content: "⭠";
     }
 
-    .rdl-icon-move-all-left::before {
+    .rdl-icon-move-all-to-available::before {
       content: "⮄";
     }
 
-    .rdl-icon-move-right::before {
+    .rdl-icon-move-to-selected::before {
       content: "⭢";
     }
 
-    .rdl-icon-move-all-right::before {
+    .rdl-icon-move-all-to-selected::before {
       content: "⮆";
     }
 
     // Change directions when right-to-left
     &[dir="rtl"] {
-      .rdl-icon-move-left::before {
+      .rdl-icon-move-to-available::before {
         content: "⭢";
       }
 
-      .rdl-icon-move-all-left::before {
+      .rdl-icon-move-all-to-available::before {
         content: "⮆";
       }
 
-      .rdl-icon-move-right::before {
+      .rdl-icon-move-to-selected::before {
         content: "⭠";
       }
 
-      .rdl-icon-move-all-right::before {
+      .rdl-icon-move-all-to-selected::before {
         content: "⮄";
       }
     }

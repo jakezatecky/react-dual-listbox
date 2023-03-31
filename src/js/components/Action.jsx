@@ -7,7 +7,14 @@ import { IconContext, LanguageContext } from '../contexts';
 import capitalizeFirstLetter from '../util/capitalizeFirstLetter';
 
 const propTypes = {
-    direction: PropTypes.oneOf(['left', 'right', 'up', 'down', 'top', 'bottom']).isRequired,
+    direction: PropTypes.oneOf([
+        'toAvailable',
+        'toSelected',
+        'up',
+        'down',
+        'top',
+        'bottom',
+    ]).isRequired,
     disabled: PropTypes.bool.isRequired,
     onClick: PropTypes.func.isRequired,
 

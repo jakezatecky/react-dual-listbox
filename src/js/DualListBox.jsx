@@ -34,10 +34,10 @@ const defaultFilter = (option, filterInput, { getOptionLabel }) => {
     return (new RegExp(escapeRegExp(filterInput), 'i')).test(getOptionLabel(option));
 };
 const defaultIcons = {
-    moveLeft: <span className="rdl-icon rdl-icon-move-left" />,
-    moveAllLeft: <span className="rdl-icon rdl-icon-move-all-left" />,
-    moveRight: <span className="rdl-icon rdl-icon-move-right" />,
-    moveAllRight: <span className="rdl-icon rdl-icon-move-all-right" />,
+    moveToAvailable: <span className="rdl-icon rdl-icon-move-to-available" />,
+    moveAllToAvailable: <span className="rdl-icon rdl-icon-move-all-to-available" />,
+    moveToSelected: <span className="rdl-icon rdl-icon-move-to-selected" />,
+    moveAllToSelected: <span className="rdl-icon rdl-icon-move-all-to-selected" />,
     moveBottom: <span className="rdl-icon rdl-icon-move-bottom" />,
     moveDown: <span className="rdl-icon rdl-icon-move-down" />,
     moveUp: <span className="rdl-icon rdl-icon-move-up" />,
@@ -551,8 +551,8 @@ function DualListBox(props) {
      */
     const onActionClick = useCallback(({ direction, isMoveAll }) => {
         const { options } = props;
-        const directionIsRight = direction === 'right';
-        const sourceListBox = directionIsRight ? availableRef : selectedRef;
+        const isToSelected = direction === 'toSelected';
+        const sourceListBox = isToSelected ? availableRef : selectedRef;
         const marked = getMarkedOptions(sourceListBox.current);
         let isRearrangement = false;
 
@@ -565,17 +565,17 @@ function DualListBox(props) {
             isRearrangement = true;
             newSelected = rearrangeToExtremes(marked, direction);
         } else if (isMoveAll) {
-            newSelected = directionIsRight ?
+            newSelected = isToSelected ?
                 makeOptionsSelected(options) :
                 makeOptionsUnselected(options);
         } else {
             newSelected = toggleHighlighted(
                 marked,
-                directionIsRight ? 'available' : 'selected',
+                isToSelected ? 'available' : 'selected',
             );
         }
 
-        onChange(newSelected, marked, directionIsRight ? 'available' : 'selected', isRearrangement);
+        onChange(newSelected, marked, isToSelected ? 'available' : 'selected', isRearrangement);
     }, [selected]);
 
     /**
@@ -790,16 +790,16 @@ function DualListBox(props) {
             onClick={onActionClick}
         />
     );
-    const actionsRight = (
-        <div className="rdl-actions-right">
-            {makeAction('right', true)}
-            {makeAction('right')}
+    const actionsToSelected = (
+        <div className="rdl-actions-to-selected">
+            {makeAction('toSelected', true)}
+            {makeAction('toSelected')}
         </div>
     );
-    const actionsLeft = (
-        <div className="rdl-actions-left">
-            {makeAction('left')}
-            {makeAction('left', true)}
+    const actionsToAvailable = (
+        <div className="rdl-actions-to-available">
+            {makeAction('toAvailable')}
+            {makeAction('toAvailable', true)}
         </div>
     );
     const rootClassName = classNames({
@@ -816,14 +816,14 @@ function DualListBox(props) {
             <IconContext.Provider value={mergedIcons}>
                 <div className={rootClassName} dir={htmlDir} id={id}>
                     <div className="rdl-controls">
-                        {renderListBox('available', availableOptions, availableRef, actionsRight)}
+                        {renderListBox('available', availableOptions, availableRef, actionsToSelected)}
                         {alignActions === ALIGNMENTS.MIDDLE ? (
                             <div className="rdl-actions">
-                                {actionsRight}
-                                {actionsLeft}
+                                {actionsToSelected}
+                                {actionsToAvailable}
                             </div>
                         ) : null}
-                        {renderListBox('selected', selectedOptions, selectedRef, actionsLeft)}
+                        {renderListBox('selected', selectedOptions, selectedRef, actionsToAvailable)}
                         {preserveSelectOrder && showOrderButtons ? (
                             <div className="rdl-actions">
                                 {makeAction('top')}

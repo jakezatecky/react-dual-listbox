@@ -6,10 +6,13 @@
 
 #### Properties
 
-* `icons`: supplied value will now merge missing keys with the default
+* `icons`:
+  * Supplied value will now merge missing keys with the default
+  * `moveLeft`, `moveAllLeft`, `moveRight`, and `moveAllRight` are now `moveToAvailable`, `moveAllToAvailable`, `moveToSelected`, and `moveAllToSelected`
 * `id`: no longer defaults to a random UUID when null and no longer used for some child components
 * `lang`:
   * Supplied value will now merge missing keys with the default
+  * `moveLeft`, `moveAllLeft`, `moveRight`, and `moveAllRight` are now `moveToAvailable`, `moveAllToAvailable`, `moveToSelected`, and `moveAllToSelected`
   * `filterPlaceholder` has been split into `availableFilterPlaceholder` and `selectedFilterPlaceholder`
 * `options`: no longer has PropTypes validation for `label` and `value`
 * `simpleValue`: no longer available; use `ObjectValueWrapper` instead and pass in your regular properties:
@@ -23,10 +26,15 @@ return <DualListBox {...props} />
 #### Styling
 
 * Drop support for Less.js styles
+* The `-right` and `-left` classes are now `-to-selected` and `-to-available`
 
 ### New Features
 
 * Add `getOptionLabel` and `getOptionValue` properties to allow for custom option keys beyond `label` and `value` (#208)
+
+### New Examples
+
+* Add `LazyFilterExample.jsx` to show lazy loading of the `options` property by user search
 
 ## [v5.0.2](https://github.com/jakezatecky/react-dual-listbox/compare/v5.0.1...v5.0.2) (2023-02-08)
 

@@ -64,8 +64,8 @@ describe('<DualListBox />', async () => {
 
             const controls = container.querySelectorAll('.rdl-control-container');
             assert.isNull(container.querySelector('.rdl-actions'));
-            assert.isNotNull(controls[0].querySelector('.rdl-actions-right'));
-            assert.isNotNull(controls[1].querySelector('.rdl-actions-left'));
+            assert.isNotNull(controls[0].querySelector('.rdl-actions-to-selected'));
+            assert.isNotNull(controls[1].querySelector('.rdl-actions-to-available'));
         });
     });
 
@@ -546,7 +546,7 @@ describe('<DualListBox />', async () => {
             render((
                 <DualListBox
                     icons={{
-                        moveAllRight: <span className="new-icon" />,
+                        moveAllToSelected: <span className="new-icon" />,
                     }}
                     options={[
                         { label: 'Moon', value: 'luna' },
@@ -557,14 +557,16 @@ describe('<DualListBox />', async () => {
             ));
 
             const button = await screen.findByLabelText('Move all to selected');
-            assert.isNotNull(button.closest('button').querySelector('.new-icon'));
+            assert.isNotNull(
+                button.closest('button').querySelector('.new-icon'),
+            );
         });
 
         it('should use the defaults when a key is missing', async () => {
             render((
                 <DualListBox
                     icons={{
-                        moveAllRight: <span className="new-icon" />,
+                        moveAllToSelected: <span className="new-icon" />,
                     }}
                     options={[
                         { label: 'Moon', value: 'luna' },
@@ -575,7 +577,9 @@ describe('<DualListBox />', async () => {
             ));
 
             const button = await screen.findByLabelText('Move all to available');
-            assert.isNotNull(button.closest('button').querySelector('.rdl-icon-move-all-left'));
+            assert.isNotNull(
+                button.closest('button').querySelector('.rdl-icon-move-all-to-available'),
+            );
         });
     });
 
@@ -616,7 +620,7 @@ describe('<DualListBox />', async () => {
             render((
                 <DualListBox
                     lang={{
-                        moveAllRight: 'MOVE.ALL.RIGHT',
+                        moveAllToSelected: 'MOVE.ALL.RIGHT',
                     }}
                     options={[
                         { label: 'Moon', value: 'luna' },
@@ -629,14 +633,16 @@ describe('<DualListBox />', async () => {
             const button = await screen.queryByLabelText('MOVE.ALL.RIGHT');
 
             assert.isNotNull(button);
-            assert.isTrue(button.closest('button').classList.contains('rdl-move-all-right'));
+            assert.isTrue(
+                button.closest('button').classList.contains('rdl-move-all-to-selected'),
+            );
         });
 
         it('should use the defaults when a key is missing', async () => {
             render((
                 <DualListBox
                     lang={{
-                        moveAllRight: 'MOVE.ALL.RIGHT',
+                        moveAllToSelected: 'MOVE.ALL.RIGHT',
                     }}
                     options={[
                         { label: 'Moon', value: 'luna' },
@@ -649,7 +655,9 @@ describe('<DualListBox />', async () => {
             const button = await screen.queryByLabelText('Move all to available');
 
             assert.isNotNull(button);
-            assert.isTrue(button.closest('button').classList.contains('rdl-move-all-left'));
+            assert.isTrue(
+                button.closest('button').classList.contains('rdl-move-all-to-available'),
+            );
         });
     });
 

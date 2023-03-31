@@ -12,7 +12,9 @@ function mockApiRequest(filterText) {
             } else {
                 // Return options that contain the search string
                 resolve(
-                    moons.filter(({ value }) => value.includes(filterText)),
+                    moons.filter(({ label }) => (
+                        label.toLowerCase().includes(filterText.toLowerCase())
+                    )),
                 );
             }
         }, 500);
@@ -20,9 +22,6 @@ function mockApiRequest(filterText) {
 }
 
 function LazyFilterExample() {
-    // We need to control the filter state when doing lazy filters
-    const [filter, setFilter] = useState({ available: '', selected: '' });
-
     // The initial options must have data for any selected values
     const [options, setOptions] = useState([
         { value: 'luna', label: 'Moon' },
@@ -31,7 +30,10 @@ function LazyFilterExample() {
     // In this case, luna is our single initial selected value
     const [selected, setSelected] = useState(['luna']);
 
-    // Standard onChange function
+    // We need to control the filter state when doing lazy filters
+    const [filter, setFilter] = useState({ available: '', selected: '' });
+
+    // Standard `onChange` function
     const onChange = useCallback((value) => {
         setSelected(value);
     }, []);
@@ -41,14 +43,15 @@ function LazyFilterExample() {
         setFilter(newFilter);
 
         mockApiRequest(newFilter.available).then((newOptions) => {
-            // Append the new options to the existing options
+            // Append the new options to the existing option state
+            // Function callback using `prevState` prevents race conditions
             // `uniqBy` will discard any duplicates
-            setOptions(
+            setOptions((prevState) => (
                 uniqBy([
-                    ...options,
+                    ...prevState,
                     ...newOptions,
-                ], 'value'),
-            );
+                ], 'value')
+            ));
         });
     }, [options]);
 

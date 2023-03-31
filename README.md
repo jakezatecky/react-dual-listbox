@@ -117,7 +117,6 @@ const selected = [{ value: 'one', label: 'Option One' }];
 return <DualListBox options={options} selected={selected} />;
 ```
 
-
 ### Disabling the Component or Options
 
 Pass in the `disabled` property to disable the entire component. Alternatively, individual options may be disabled on a per-item basis:

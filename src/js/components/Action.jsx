@@ -24,23 +24,20 @@ const defaultProps = {
     isMoveAll: false,
 };
 
-function Action(props) {
+function Action({
+    direction,
+    disabled,
+    isMoveAll,
+    onClick: parentOnClick,
+}) {
     function onClick() {
-        const { direction, isMoveAll, onClick: parentOnClick } = props;
-
-        parentOnClick({
-            direction,
-            isMoveAll,
-        });
+        parentOnClick({ direction, isMoveAll });
     }
 
     function getActionKey() {
-        const { direction, isMoveAll } = props;
-
         return `move${isMoveAll ? 'All' : ''}${capitalizeFirstLetter(direction)}`;
     }
 
-    const { disabled } = props;
     const actionKey = getActionKey();
     const { [actionKey]: icon } = useContext(IconContext);
     const { [actionKey]: label } = useContext(LanguageContext);

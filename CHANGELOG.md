@@ -2,7 +2,34 @@
 
 ## v6.0.0 (TBA)
 
-### Breaking changes
+### Migration Guide
+
+#### `simpleValue={false}` to `ObjectValueWrapper`
+
+If you have previously relied on `simpleValue={false}`, you must now use the `ObjectValueWrapper` instead. Pass along all of your previous properties:
+
+```jsx
+import { ObjectValueWrapper as DualListBox } from 'react-dual-listbox';
+
+return <DualListBox {...props} />
+```
+
+#### `icons` and `lang` Key Renames
+
+The keys `moveLeft`, `moveAllLeft`, `moveRight`, and `moveAllRight` are now `moveToAvailable`, `moveAllToAvailable`, `moveToSelected`, and `moveAllToSelected` in all instances. Refer to the table below to rename any affected `icons` or `lang` keys:
+
+| Old Key Name   | New Key Name         |
+| -------------- | -------------------- |
+| `moveLeft`     | `moveToAvailable`    |
+| `moveAllLeft`  | `moveAllToAvailable` |
+| `moveRight`    | `moveToSelected`     |
+| `moveAllRight` | `moveAllToSelected`  |
+
+#### Other
+
+Refer to the **Breaking Changes** for any other changes that may affect your usage.
+
+### Breaking Changes
 
 #### Properties
 
@@ -15,13 +42,7 @@
   * `moveLeft`, `moveAllLeft`, `moveRight`, and `moveAllRight` are now `moveToAvailable`, `moveAllToAvailable`, `moveToSelected`, and `moveAllToSelected`
   * `filterPlaceholder` has been split into `availableFilterPlaceholder` and `selectedFilterPlaceholder`
 * `options`: no longer has PropTypes validation for `label` and `value`
-* `simpleValue`: no longer available; use `ObjectValueWrapper` instead and pass in your regular properties:
-
-```jsx
-import { ObjectValueWrapper as DualListBox } from 'react-dual-listbox';
-
-return <DualListBox {...props} />
-```
+* `simpleValue`: no longer available; use `ObjectValueWrapper` component instead and drop `simpleValue={false}`
 
 #### Styling
 

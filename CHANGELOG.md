@@ -57,6 +57,10 @@ Refer to the **Breaking Changes** for any other changes that may affect your usa
 
 * Add `LazyFilterExample.jsx` to show lazy loading of the `options` property by user search
 
+### Bug Fixes
+
+* Fix positioning of action buttons relative to the list boxes
+
 ## [v5.0.2](https://github.com/jakezatecky/react-dual-listbox/compare/v5.0.1...v5.0.2) (2023-02-08)
 
 ### Bug Fixes

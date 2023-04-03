@@ -48,6 +48,7 @@ Refer to the **Breaking Changes** for any other changes that may affect your usa
 
 * Drop support for Less.js styles
 * The `-right` and `-left` classes are now `-to-selected` and `-to-available`
+* Remove `rdl-sr-only` class
 
 ### New Features
 

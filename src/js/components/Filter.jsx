@@ -23,18 +23,16 @@ function Filter(props) {
     } = useContext(LanguageContext);
 
     return (
-        <div className="rdl-filter-container">
-            <input
-                aria-label={filterHeader}
-                className="rdl-filter"
-                data-control-key={controlKey}
-                disabled={disabled}
-                placeholder={filterPlaceholder}
-                type="text"
-                value={filterValue}
-                onChange={onFilterChange}
-            />
-        </div>
+        <input
+            aria-label={filterHeader}
+            className="rdl-filter"
+            data-control-key={controlKey}
+            disabled={disabled}
+            placeholder={filterPlaceholder}
+            type="text"
+            value={filterValue}
+            onChange={onFilterChange}
+        />
     );
 }
 

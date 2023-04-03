@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React, { Children, useContext } from 'react';
 
@@ -16,7 +15,6 @@ const propTypes = {
     selections: PropTypes.arrayOf(
         PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     ).isRequired,
-    showHeaderLabels: PropTypes.bool.isRequired,
     showNoOptionsText: PropTypes.bool.isRequired,
     onDoubleClick: PropTypes.func.isRequired,
     onFilterChange: PropTypes.func.isRequired,
@@ -32,11 +30,7 @@ const defaultProps = {
 };
 
 function ListBox(props) {
-    const {
-        controlKey,
-        id,
-        showHeaderLabels,
-    } = props;
+    const { controlKey, id } = props;
     const {
         [`${controlKey}Header`]: header,
         [`no${capitalizeFirstLetter(controlKey)}Options`]: noOptionsText,
@@ -106,14 +100,9 @@ function ListBox(props) {
         );
     }
 
-    const labelClassName = classNames({
-        'rdl-control-label': true,
-        'rdl-sr-only': !showHeaderLabels,
-    });
-
     return (
         <div className={`rdl-list-box rdl-${controlKey}`}>
-            <label className={labelClassName} htmlFor={inputId}>
+            <label className="rdl-control-label" htmlFor={inputId}>
                 {header}
             </label>
             {renderFilter()}

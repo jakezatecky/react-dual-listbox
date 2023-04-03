@@ -957,7 +957,7 @@ describe('<DualListBox />', async () => {
 
     describe('props.showHeaderLabels', () => {
         it('should make the labels above the list boxes appear when set to true', () => {
-            render((
+            const { container } = render((
                 <DualListBox
                     options={[
                         { value: 'luna', label: 'Moon' },
@@ -967,11 +967,11 @@ describe('<DualListBox />', async () => {
                 />
             ));
 
-            assert.isFalse(screen.getByText('Available').closest('label').classList.contains('rdl-sr-only'));
+            assert.isNotNull(container.querySelector('.rdl-has-header'));
         });
 
         it('should hide the labels above the list boxes when set to false', () => {
-            render((
+            const { container } = render((
                 <DualListBox
                     options={[
                         { value: 'luna', label: 'Moon' },
@@ -981,7 +981,7 @@ describe('<DualListBox />', async () => {
                 />
             ));
 
-            assert.isTrue(screen.getByText('Available').closest('label').classList.contains('rdl-sr-only'));
+            assert.isNull(container.querySelector('.rdl-has-header'));
         });
     });
 

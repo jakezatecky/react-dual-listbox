@@ -100,11 +100,13 @@ $rdl-desktop-min-width: 576px !default;
 }
 
 .rdl-control-label {
+  position: absolute;
   padding: 0 4px 4px;
+  clip: rect(0 0 0 0);
 
-  &.rdl-sr-only {
-    position: absolute;
-    clip: rect(0 0 0 0);
+  .rdl-has-header & {
+    position: static;
+    clip: auto;
   }
 }
 

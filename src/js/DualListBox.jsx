@@ -717,7 +717,6 @@ function DualListBox(props) {
             [`${controlKey}Ref`]: refProp,
             disabled,
             id,
-            showHeaderLabels,
             showNoOptionsText,
         } = props;
 
@@ -749,7 +748,6 @@ function DualListBox(props) {
                 id={id}
                 inputRef={makeRef}
                 selections={selections[controlKey]}
-                showHeaderLabels={showHeaderLabels}
                 showNoOptionsText={showNoOptionsText}
                 onDoubleClick={wrapHandler(onOptionDoubleClick)}
                 onFilterChange={wrapHandler(onFilterChangeCallback)}

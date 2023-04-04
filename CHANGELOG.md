@@ -34,11 +34,11 @@ Refer to the **Breaking Changes** for any other changes that may affect your usa
 #### Properties
 
 * `icons`:
-  * Supplied value will now merge missing keys with the default
+  * Will now merge any missing keys with the default icons
   * `moveLeft`, `moveAllLeft`, `moveRight`, and `moveAllRight` are now `moveToAvailable`, `moveAllToAvailable`, `moveToSelected`, and `moveAllToSelected`
 * `id`: no longer defaults to a random UUID when null and no longer used for some child components
 * `lang`:
-  * Supplied value will now merge missing keys with the default
+  * Will now merge any missing keys with the default language
   * `moveLeft`, `moveAllLeft`, `moveRight`, and `moveAllRight` are now `moveToAvailable`, `moveAllToAvailable`, `moveToSelected`, and `moveAllToSelected`
   * `filterPlaceholder` has been split into `availableFilterPlaceholder` and `selectedFilterPlaceholder`
 * `options`: no longer has PropTypes validation for `label` and `value`

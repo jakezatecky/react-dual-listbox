@@ -65,6 +65,7 @@ Refer to the **Breaking Changes** for any other changes that may affect your usa
 ### Bug Fixes
 
 * Fix positioning of action buttons relative to the list boxes
+* Prevent situation where double-clicking an `optgroup` moved any selected options under it
 
 ## [v5.0.2](https://github.com/jakezatecky/react-dual-listbox/compare/v5.0.1...v5.0.2) (2023-02-08)
 

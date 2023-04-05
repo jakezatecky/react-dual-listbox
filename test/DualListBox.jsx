@@ -904,6 +904,7 @@ describe('<DualListBox />', async () => {
             let actualMessage = null;
             let form = null;
             const expectedMessage = 'My custom error message.';
+
             render((
                 <form
                     ref={(c) => {
@@ -1437,6 +1438,60 @@ describe('<DualListBox />', async () => {
             await user.click(screen.getByLabelText('Move to available'));
 
             assert.deepEqual(selected.closest('select').value, '');
+        });
+
+        it('should trigger on double-clicking an option', async () => {
+            let actual = null;
+
+            const { user } = setup((
+                <DualListBox
+                    options={[
+                        { label: 'Option 1', value: 'one' },
+                        { label: 'Option 2', value: 'two' },
+                    ]}
+                    selected={['one']}
+                    onChange={(selected) => {
+                        actual = selected;
+                    }}
+                />
+            ));
+
+            const select = screen.getByLabelText('Selected');
+
+            await user.selectOptions(select, ['one']);
+            await user.dblClick(select);
+
+            assert.deepEqual(actual, []);
+        });
+
+        it('should not trigger when double-clicking a parent', async () => {
+            let actual = null;
+
+            const { container, user } = setup((
+                <DualListBox
+                    options={[
+                        {
+                            label: 'Parent',
+                            options: [
+                                { label: 'Option 1', value: 'one' },
+                                { label: 'Option 2', value: 'two' },
+                            ],
+                        },
+                    ]}
+                    selected={[]}
+                    onChange={(selected) => {
+                        actual = selected;
+                    }}
+                />
+            ));
+
+            const select = screen.getByLabelText('Available');
+            const optgroup = container.querySelector('optgroup');
+
+            await user.selectOptions(select, ['one']);
+            await user.dblClick(optgroup);
+
+            assert.deepEqual(actual, null);
         });
     });
 

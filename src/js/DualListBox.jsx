@@ -585,6 +585,11 @@ function DualListBox(props) {
      * @returns {void}
      */
     const onOptionDoubleClick = useCallback((event, controlKey) => {
+        // Prevent double click from parent triggering a selected option
+        if (event.target.tagName === 'OPTGROUP') {
+            return;
+        }
+
         const marked = getMarkedOptions(event.currentTarget);
         const newSelected = toggleHighlighted(marked, controlKey);
 

@@ -50,6 +50,10 @@ Refer to the **Breaking Changes** for any other changes that may affect your usa
 * The `-right` and `-left` classes are now `-to-selected` and `-to-available`
 * Remove `rdl-sr-only` class
 
+#### Other
+
+* Drop support for React before v16.8
+
 ### New Features
 
 * Add `getOptionLabel` and `getOptionValue` properties to allow for custom option keys beyond `label` and `value` (#208)

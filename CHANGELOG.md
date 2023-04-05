@@ -29,6 +29,19 @@ The keys `moveLeft`, `moveAllLeft`, `moveRight`, and `moveAllRight` are now `mov
 
 Refer to the **Breaking Changes** for any other changes that may affect your usage.
 
+### New Features
+
+* Add `getOptionLabel` and `getOptionValue` properties to allow for custom option keys beyond `label` and `value` (#208)
+
+### New Examples
+
+* Add `LazyFilterExample.jsx` to show lazy loading of the `options` property by user search
+
+### Bug Fixes
+
+* Fix positioning of action buttons relative to the list boxes
+* Prevent situation where double-clicking an `optgroup` moved any selected options under it
+
 ### Breaking Changes
 
 #### Properties
@@ -53,19 +66,6 @@ Refer to the **Breaking Changes** for any other changes that may affect your usa
 #### Other
 
 * Drop support for React before v16.8
-
-### New Features
-
-* Add `getOptionLabel` and `getOptionValue` properties to allow for custom option keys beyond `label` and `value` (#208)
-
-### New Examples
-
-* Add `LazyFilterExample.jsx` to show lazy loading of the `options` property by user search
-
-### Bug Fixes
-
-* Fix positioning of action buttons relative to the list boxes
-* Prevent situation where double-clicking an `optgroup` moved any selected options under it
 
 ## [v5.0.2](https://github.com/jakezatecky/react-dual-listbox/compare/v5.0.1...v5.0.2) (2023-02-08)
 

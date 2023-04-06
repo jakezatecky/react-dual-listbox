@@ -15,12 +15,6 @@ $rdl-btn-color: #333 !default;
 $rdl-line-height: 1.42857 !default;
 $rdl-desktop-min-width: 576px !default;
 
-// Force ASCII output until Sass supports it
-// https://github.com/sass/dart-sass/issues/568
-@function unicode($str) {
-  @return unquote('"') + unquote(str-insert($str, "\\", 1)) + unquote('"');
-}
-
 .react-dual-listbox {
   box-sizing: border-box;
 
@@ -296,58 +290,58 @@ $rdl-desktop-min-width: 576px !default;
 
   .rdl-icon-move-all-to-selected::before,
   .rdl-icon-move-bottom::before {
-    content: unicode("f103");
+    content: "\f103";
   }
 
   .rdl-icon-move-to-selected::before,
   .rdl-icon-move-down::before {
-    content: unicode("f107");
+    content: "\f107";
   }
 
   .rdl-icon-move-to-available::before,
   .rdl-icon-move-up::before {
-    content: unicode("f106");
+    content: "\f106";
   }
 
   .rdl-icon-move-all-to-available::before,
   .rdl-icon-move-top::before {
-    content: unicode("f102");
+    content: "\f102";
   }
 
   // Larger screens will arrange the boxes as columns, so "left" and "right" icons apply
   @media (min-width: $rdl-desktop-min-width) {
     .rdl-icon-move-to-available::before {
-      content: unicode("f104");
+      content: "\f104";
     }
 
     .rdl-icon-move-all-to-available::before {
-      content: unicode("f100");
+      content: "\f100";
     }
 
     .rdl-icon-move-to-selected::before {
-      content: unicode("f105");
+      content: "\f105";
     }
 
     .rdl-icon-move-all-to-selected::before {
-      content: unicode("f101");
+      content: "\f101";
     }
 
     // Change directions when right-to-left
     &[dir="rtl"] {
       .rdl-icon-move-to-available::before {
-        content: unicode("f105");
+        content: "\f105";
       }
 
       .rdl-icon-move-all-to-available::before {
-        content: unicode("f101");
+        content: "\f101";
       }
 
       .rdl-icon-move-to-selected::before {
-        content: unicode("f104");
+        content: "\f104";
       }
 
       .rdl-icon-move-all-to-selected::before {
-        content: unicode("f100");
+        content: "\f100";
       }
     }
   }

@@ -274,7 +274,7 @@ const onChange = (selected, selection, controlKey) => {
 | `getOptionValue`      | function | The function to resolve the **value** from an option. Defaults to `option => option.value`.                             | `() => { ... }`  |
 | `htmlDir`             | string   | The [directionality][mdn-directionality] of the component's elements. Set to `'rtl'` if using a right-to-left language. | `'ltr'`          |
 | `icons`               | object   | A key-value pairing of action icons and their React nodes. See **Changing the Default Icons** for further info.         | `{ ... }`        |
-| `iconsClass`          | string   | A value specifying which overarching icon class to use. Built-in support for `fa5`, `fa6`, and `native` icons.          | `'fa5'`          |
+| `iconsClass`          | string   | A value specifying which overarching icon class to use. Built-in support for `fa5`, `fa6`, and `native` icons.          | `'fa6'`          |
 | `id`                  | string   | An HTML ID prefix for the various sub elements.                                                                         | `null`           |
 | `lang`                | object   | A key-value pairing of localized text. See [`src/js/lang/default.js`][lang-file] for a list of keys.                    | `{ ... }`        |
 | `moveKeys`            | array    | A list of [keyboard keys][mdn-key] that will trigger a toggle of the highlighted options.                               | `[' ', 'Enter']` |

@@ -1,5 +1,5 @@
-$rdl-icon-font-family-fa5: "Font Awesome 5 Free", "FontAwesome", sans-serif;
-$rdl-icon-font-family-fa6: "Font Awesome 6 Free", "FontAwesome", sans-serif;
+$rdl-icon-font-family: "Font Awesome 6 Free", "Font Awesome 5 Free",
+  "FontAwesome", sans-serif;
 $rdl-input-bg: #fff !default;
 $rdl-input-disabled-bg: #eee !default;
 $rdl-input-border: #ccc !default;
@@ -285,6 +285,7 @@ $rdl-desktop-min-width: 576px !default;
 .rdl-icons-fa5,
 .rdl-icons-fa6 {
   .rdl-icon {
+    font-family: $rdl-icon-font-family;
     font-weight: 900;
   }
 
@@ -345,14 +346,6 @@ $rdl-desktop-min-width: 576px !default;
       }
     }
   }
-}
-
-.rdl-icons-fa5 .rdl-icon {
-  font-family: $rdl-icon-font-family-fa5;
-}
-
-.rdl-icons-fa6 .rdl-icon {
-  font-family: $rdl-icon-font-family-fa6;
 }
 
 .rdl-icons-native {

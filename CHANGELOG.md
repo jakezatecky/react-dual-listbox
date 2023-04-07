@@ -49,6 +49,7 @@ Refer to the **Breaking Changes** for any other changes that may affect your usa
 * `icons`:
   * Will now merge any missing keys with the default icons
   * `moveLeft`, `moveAllLeft`, `moveRight`, and `moveAllRight` are now `moveToAvailable`, `moveAllToAvailable`, `moveToSelected`, and `moveAllToSelected`
+* `iconsClass`: now defaults to `'fa6'`
 * `id`: no longer defaults to a random UUID when null and no longer used for some child components
 * `lang`:
   * Will now merge any missing keys with the default language

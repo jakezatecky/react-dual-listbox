@@ -329,7 +329,7 @@ describe('<DualListBox />', async () => {
             ));
 
             const element = container.querySelector('.react-dual-listbox');
-            assert.equal(element.className, 'react-dual-listbox rdl-icons-fa5');
+            assert.equal(element.className, 'react-dual-listbox rdl-icons-fa6');
         });
     });
 

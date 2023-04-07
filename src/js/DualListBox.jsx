@@ -93,7 +93,7 @@ const defaultProps = {
     getOptionValue: ({ value }) => value,
     htmlDir: 'ltr',
     icons: defaultIcons,
-    iconsClass: 'fa5',
+    iconsClass: 'fa6',
     id: 'rdl',
     lang: defaultLang,
     moveKeys: [KEYS.SPACEBAR, KEYS.ENTER],

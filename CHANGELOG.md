@@ -16,7 +16,6 @@
   * `moveLeft`, `moveAllLeft`, `moveRight`, and `moveAllRight` are now `moveToAvailable`, `moveAllToAvailable`, `moveToSelected`, and `moveAllToSelected`
   * `filterPlaceholder` has been split into `availableFilterPlaceholder` and `selectedFilterPlaceholder`
 * `options`: no longer has PropTypes validation for `label` and `value`
-* `simpleValue`: no longer available; use `ObjectValueWrapper` component instead and drop `simpleValue={false}`
 
 #### Styling
 
@@ -29,16 +28,6 @@
 * Drop support for React before v16.8
 
 ### Migration Guide
-
-#### `simpleValue={false}` to `ObjectValueWrapper`
-
-If you have previously relied on `simpleValue={false}`, you must now use the `ObjectValueWrapper` instead. Pass along all of your previous properties:
-
-```jsx
-import { ObjectValueWrapper as DualListBox } from 'react-dual-listbox';
-
-return <DualListBox {...props} />
-```
 
 #### `icons` and `lang` Key Renames
 
@@ -64,6 +53,12 @@ The keys `moveLeft`, `moveAllLeft`, `moveRight`, and `moveAllRight` are now `mov
 
 * Fix positioning of action buttons relative to the list boxes
 * Prevent situation where double-clicking an `optgroup` moved any selected options under it
+
+### Other
+
+* (#248) Drop usage of deprecated `defaultProps`
+
+### Other 
 
 ## [v5.0.2](https://github.com/jakezatecky/react-dual-listbox/compare/v5.0.1...v5.0.2) (2023-02-08)
 

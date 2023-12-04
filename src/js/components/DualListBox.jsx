@@ -1,6 +1,5 @@
 import classNames from 'classnames';
 import escapeRegExp from 'lodash/escapeRegExp';
-import memoize from 'lodash/memoize';
 import PropTypes from 'prop-types';
 import React, {
     useCallback,
@@ -9,42 +8,19 @@ import React, {
     useState,
 } from 'react';
 
-import Action from './components/Action';
-import HiddenInput from './components/HiddenInput';
-import ListBox from './components/ListBox';
-import defaultLang from './lang/default';
-import iconsShape from './shapes/iconsShape';
-import languageShape from './shapes/languageShape';
-import optionsShape from './shapes/optionsShape';
-import valueShape from './shapes/valueShape';
-import indexesOf from './util/indexesOf';
-import swapOptions from './util/swapOptions';
-import { ALIGNMENTS, KEYS } from './constants';
-import { IconContext, LanguageContext } from './contexts';
+import optionsShape from '../shapes/optionsShape';
+import valueShape from '../shapes/valueShape';
+import indexesOf from '../util/indexesOf';
+import swapOptions from '../util/swapOptions';
+import { ALIGNMENTS, KEYS } from '../constants';
+import Action from './Action';
+import HiddenInput from './HiddenInput';
+import ListBox from './ListBox';
 
 const refShape = PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
 ]);
-const defaultFilter = (option, filterInput, { getOptionLabel }) => {
-    if (filterInput === '') {
-        return true;
-    }
-
-    return (new RegExp(escapeRegExp(filterInput), 'i')).test(getOptionLabel(option));
-};
-const defaultIcons = {
-    moveToAvailable: <span className="rdl-icon rdl-icon-move-to-available" />,
-    moveAllToAvailable: <span className="rdl-icon rdl-icon-move-all-to-available" />,
-    moveToSelected: <span className="rdl-icon rdl-icon-move-to-selected" />,
-    moveAllToSelected: <span className="rdl-icon rdl-icon-move-all-to-selected" />,
-    moveBottom: <span className="rdl-icon rdl-icon-move-bottom" />,
-    moveDown: <span className="rdl-icon rdl-icon-move-down" />,
-    moveUp: <span className="rdl-icon rdl-icon-move-up" />,
-    moveTop: <span className="rdl-icon rdl-icon-move-top" />,
-};
-const combineMemoized = memoize((newValue, defaultValue) => ({ ...defaultValue, ...newValue }));
-
 const propTypes = {
     options: optionsShape.isRequired,
     onChange: PropTypes.func.isRequired,
@@ -64,10 +40,8 @@ const propTypes = {
     getOptionLabel: PropTypes.func,
     getOptionValue: PropTypes.func,
     htmlDir: PropTypes.string,
-    icons: iconsShape,
     iconsClass: PropTypes.string,
     id: PropTypes.string,
-    lang: languageShape,
     moveKeys: PropTypes.arrayOf(PropTypes.string),
     name: PropTypes.string,
     preserveSelectOrder: PropTypes.bool,
@@ -78,6 +52,14 @@ const propTypes = {
     showNoOptionsText: PropTypes.bool,
     showOrderButtons: PropTypes.bool,
     onFilterChange: PropTypes.func,
+};
+
+const defaultFilter = (option, filterInput, { getOptionLabel }) => {
+    if (filterInput === '') {
+        return true;
+    }
+
+    return (new RegExp(escapeRegExp(filterInput), 'i')).test(getOptionLabel(option));
 };
 const defaultProps = {
     alignActions: ALIGNMENTS.MIDDLE,
@@ -92,10 +74,8 @@ const defaultProps = {
     getOptionLabel: ({ label }) => label,
     getOptionValue: ({ value }) => value,
     htmlDir: 'ltr',
-    icons: defaultIcons,
     iconsClass: 'fa6',
     id: 'rdl',
-    lang: defaultLang,
     moveKeys: [KEYS.SPACEBAR, KEYS.ENTER],
     name: null,
     preserveSelectOrder: null,
@@ -108,6 +88,7 @@ const defaultProps = {
     onFilterChange: null,
 };
 
+/* eslint-disable react/require-default-props */
 function DualListBox(props) {
     const { selected, filter: filterProp } = props;
     const availableRef = useRef(null);
@@ -770,10 +751,8 @@ function DualListBox(props) {
         className,
         disabled,
         htmlDir,
-        icons,
         iconsClass,
         id,
-        lang,
         name,
         options,
         preserveSelectOrder,
@@ -781,8 +760,6 @@ function DualListBox(props) {
         showHeaderLabels,
         showOrderButtons,
     } = props;
-    const mergedLang = combineMemoized(lang, defaultLang);
-    const mergedIcons = combineMemoized(icons, defaultIcons);
     const availableOptions = renderOptions(filterAvailable(options));
     const selectedOptions = renderOptions(filterSelected(options));
     const makeAction = (direction, isMoveAll = false) => (
@@ -815,42 +792,37 @@ function DualListBox(props) {
     });
 
     return (
-        <LanguageContext.Provider value={mergedLang}>
-            <IconContext.Provider value={mergedIcons}>
-                <div className={rootClassName} dir={htmlDir} id={id}>
-                    <div className="rdl-controls">
-                        {renderListBox('available', availableOptions, availableRef, actionsToSelected)}
-                        {alignActions === ALIGNMENTS.MIDDLE ? (
-                            <div className="rdl-actions">
-                                {actionsToSelected}
-                                {actionsToAvailable}
-                            </div>
-                        ) : null}
-                        {renderListBox('selected', selectedOptions, selectedRef, actionsToAvailable)}
-                        {preserveSelectOrder && showOrderButtons ? (
-                            <div className="rdl-actions">
-                                {makeAction('top')}
-                                {makeAction('up')}
-                                {makeAction('down')}
-                                {makeAction('bottom')}
-                            </div>
-                        ) : null}
+        <div className={rootClassName} dir={htmlDir} id={id}>
+            <div className="rdl-controls">
+                {renderListBox('available', availableOptions, availableRef, actionsToSelected)}
+                {alignActions === ALIGNMENTS.MIDDLE ? (
+                    <div className="rdl-actions">
+                        {actionsToSelected}
+                        {actionsToAvailable}
                     </div>
-                    <HiddenInput
-                        disabled={disabled}
-                        name={name}
-                        required={required}
-                        selected={selected}
-                        onFocus={onHiddenFocus}
-                    />
-                </div>
-            </IconContext.Provider>
-        </LanguageContext.Provider>
+                ) : null}
+                {renderListBox('selected', selectedOptions, selectedRef, actionsToAvailable)}
+                {preserveSelectOrder && showOrderButtons ? (
+                    <div className="rdl-actions">
+                        {makeAction('top')}
+                        {makeAction('up')}
+                        {makeAction('down')}
+                        {makeAction('bottom')}
+                    </div>
+                ) : null}
+            </div>
+            <HiddenInput
+                disabled={disabled}
+                name={name}
+                required={required}
+                selected={selected}
+                onFocus={onHiddenFocus}
+            />
+        </div>
     );
 }
 
 DualListBox.propTypes = propTypes;
-DualListBox.defaultProps = defaultProps;
 
 export { propTypes, defaultProps };
 export default DualListBox;

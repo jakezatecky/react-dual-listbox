@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 
-import DualListBox, { propTypes, defaultProps } from '../DualListBox';
+import DualListBox, { propTypes } from './DualListBox';
 
 /**
  * Flatten an array of options to a simple list of values.
@@ -94,6 +94,5 @@ function ObjectValueWrapper(props) {
 }
 
 ObjectValueWrapper.propTypes = propTypes;
-ObjectValueWrapper.defaultProps = defaultProps;
 
 export default ObjectValueWrapper;

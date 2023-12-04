@@ -1,5 +1,3 @@
-import ObjectValueWrapper from './js/components/ObjectValueWrapper';
-import DualListBox from './js/DualListBox';
+import DualListBoxWrapper from './js/DualListBoxWrapper';
 
-export { ObjectValueWrapper };
-export default DualListBox;
+export default DualListBoxWrapper;

@@ -20,15 +20,12 @@ const propTypes = {
 
     isMoveAll: PropTypes.bool,
 };
-const defaultProps = {
-    isMoveAll: false,
-};
 
 function Action({
     direction,
     disabled,
-    isMoveAll,
     onClick: parentOnClick,
+    isMoveAll = false,
 }) {
     function onClick() {
         parentOnClick({ direction, isMoveAll });
@@ -63,6 +60,5 @@ function Action({
 }
 
 Action.propTypes = propTypes;
-Action.defaultProps = defaultProps;
 
 export default Action;

@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React, { useContext, useEffect, useRef } from 'react';
 
-import { LanguageContext } from '../contexts';
 import valueShape from '../shapes/valueShape';
+import { LanguageContext } from '../contexts';
 
 const noop = () => {};
 const propTypes = {
@@ -13,16 +13,13 @@ const propTypes = {
 
     name: PropTypes.string,
 };
-const defaultProps = {
-    name: null,
-};
 
 function HiddenInput({
     disabled,
-    name,
     required,
     selected,
     onFocus,
+    name = null,
 }) {
     const { requiredError } = useContext(LanguageContext);
     const input = useRef(null);
@@ -55,6 +52,5 @@ function HiddenInput({
 }
 
 HiddenInput.propTypes = propTypes;
-HiddenInput.defaultProps = defaultProps;
 
 export default HiddenInput;

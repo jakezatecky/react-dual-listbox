@@ -24,27 +24,33 @@ const propTypes = {
     actions: PropTypes.node,
     id: PropTypes.string,
 };
-const defaultProps = {
-    actions: null,
-    id: null,
-};
 
-function ListBox(props) {
-    const { controlKey, id } = props;
+function ListBox({
+    canFilter,
+    children,
+    controlKey,
+    disabled,
+    filterValue,
+    inputRef,
+    selections,
+    showNoOptionsText,
+    onDoubleClick,
+    onFilterChange,
+    onKeyUp,
+    onSelectionChange,
+    actions = null,
+    id = null,
+}) {
+    // Grab language-specific text
     const {
         [`${controlKey}Header`]: header,
         [`no${capitalizeFirstLetter(controlKey)}Options`]: noOptionsText,
     } = useContext(LanguageContext);
+
+    // Append the control key to the ID, if provided
     const inputId = id ? `${id}-${controlKey}` : null;
 
     function renderFilter() {
-        const {
-            canFilter,
-            disabled,
-            filterValue,
-            onFilterChange,
-        } = props;
-
         if (!canFilter) {
             return null;
         }
@@ -60,18 +66,6 @@ function ListBox(props) {
     }
 
     function renderSelect() {
-        const {
-            actions,
-            children,
-            disabled,
-            inputRef,
-            selections,
-            showNoOptionsText,
-            onDoubleClick,
-            onKeyUp,
-            onSelectionChange,
-        } = props;
-
         if (showNoOptionsText && Children.count(children) === 0) {
             return (
                 <div className="rdl-no-options">
@@ -112,6 +106,5 @@ function ListBox(props) {
 }
 
 ListBox.propTypes = propTypes;
-ListBox.defaultProps = defaultProps;
 
 export default ListBox;

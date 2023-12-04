@@ -3,6 +3,12 @@
   "env": {
     "node": true
   },
+  "rules": {
+    "react/require-default-props": ["error", {
+      "forbidDefaultForRequired": true,
+      "functions": "defaultArguments"
+    }]
+  },
   "settings": {
     "import/resolver": {
       "webpack": {

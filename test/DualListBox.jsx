@@ -1,10 +1,10 @@
-import React from 'react';
-import { assert } from 'chai';
 import { render, screen } from '@testing-library/react';
 import { configure, within } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
+import { assert } from 'chai';
+import React from 'react';
 
-import DualListBox from '../src/js/DualListBox';
+import DualListBox from '../src';
 
 const testId = 'test-id';
 

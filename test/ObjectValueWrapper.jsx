@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { assert } from 'chai';
 import React from 'react';
 
-import { ObjectValueWrapper as DualListBox } from '../src';
+import DualListBox from '../src';
 
 // Increase waitFor timeout to prevent unusual issues when there are many tests
 configure({
@@ -32,6 +32,7 @@ describe('ObjectValueWrapper', () => {
                         { label: 'Phobos', value: 'phobos' },
                     ]}
                     selected={[{ label: 'Moon', value: 'luna' }]}
+                    simpleValue={false}
                     onChange={(selected) => {
                         actual = selected;
                     }}
@@ -59,6 +60,7 @@ describe('ObjectValueWrapper', () => {
                         { label: 'Moon', value: 'luna' },
                         { label: 'Phobos', value: 'phobos' },
                     ]}
+                    simpleValue={false}
                     onChange={(selected) => {
                         actual = selected;
                     }}
@@ -90,6 +92,7 @@ describe('ObjectValueWrapper', () => {
                             ],
                         },
                     ]}
+                    simpleValue={false}
                     onChange={(selected) => {
                         actual = selected;
                     }}
@@ -120,6 +123,7 @@ describe('ObjectValueWrapper', () => {
                         { label: 'Phobos', value: 'phobos' },
                     ]}
                     selected={[]}
+                    simpleValue={false}
                     onChange={(selected, selection) => {
                         actualSelection = selection;
                     }}
@@ -157,6 +161,7 @@ describe('ObjectValueWrapper', () => {
                         { value: 'phobos', label: 'Phobos' },
                     ]}
                     showOrderButtons
+                    simpleValue={false}
                     onChange={(selected) => {
                         actual = selected;
                     }}

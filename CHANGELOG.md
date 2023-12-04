@@ -1,35 +1,42 @@
-# CHANGELOG
+# Changelog
 
-## v6.0.0 (TBA)
+## 6.0.0 (TBA)
 
-### Breaking Changes
+_This new version includes minor breaking changes. Please review them before upgrading._
 
-#### Properties
+### Added
 
-* `icons`:
+* Add `getOptionLabel` and `getOptionValue` properties to allow for custom keys beyond `label` and `value` (#208)
+* Add `LazyFilterExample.jsx` to demonstrate lazy loading for the `options` property by user search
+
+### Changed
+
+* **Breaking:** `icons` property:
   * Will now merge any missing keys with the default icons
-  * `moveLeft`, `moveAllLeft`, `moveRight`, and `moveAllRight` are now `moveToAvailable`, `moveAllToAvailable`, `moveToSelected`, and `moveAllToSelected`
-* `iconsClass`: now defaults to `'fa6'`
-* `id`: no longer defaults to a random UUID when null and no longer used for some child components
-* `lang`:
+  * Rename `moveLeft`, `moveAllLeft`, `moveRight`, and `moveAllRight` to `moveToAvailable`, `moveAllToAvailable`, `moveToSelected`, and `moveAllToSelected`
+* **Breaking:** `iconsClass` property: now defaults to `'fa6'`
+* **Breaking:** `id` property: no longer defaults to a random UUID when null and no longer used for some child components
+* **Breaking:** `lang` property:
   * Will now merge any missing keys with the default language
-  * `moveLeft`, `moveAllLeft`, `moveRight`, and `moveAllRight` are now `moveToAvailable`, `moveAllToAvailable`, `moveToSelected`, and `moveAllToSelected`
-  * `filterPlaceholder` has been split into `availableFilterPlaceholder` and `selectedFilterPlaceholder`
-* `options`: no longer has PropTypes validation for `label` and `value`
+  * Rename `moveLeft`, `moveAllLeft`, `moveRight`, and `moveAllRight` to `moveToAvailable`, `moveAllToAvailable`, `moveToSelected`, and `moveAllToSelected`
+  * Split `filterPlaceholder` into `availableFilterPlaceholder` and `selectedFilterPlaceholder`
+* **Breaking:** `options` property: no longer has PropTypes validation for `label` and `value`
+* **Breaking:** Rename `*-right` and `*-left` classes to `*-to-selected` and `*-to-available`
+* Improve accessibility of required error
 
-#### Styling
+### Removed
 
-* Drop support for Less.js styles
-* The `-right` and `-left` classes are now `-to-selected` and `-to-available`
-* Remove `rdl-sr-only` class
+* **Breaking:** Drop support for Less.js styles
+* **Breaking:** Drop support for React before v16.8
+* **Breaking:** Remove `rdl-sr-only` class
+* Drop usage of deprecated `defaultProps` (#248)
 
-#### Other
+### Fixed
 
-* Drop support for React before v16.8
+* Fix positioning of action buttons relative to the list boxes
+* Prevent situation where double-clicking an `optgroup` moved any selected options under it
 
-### Migration Guide
-
-#### `icons` and `lang` Key Renames
+### `icons` and `lang` Migration Guide
 
 The keys `moveLeft`, `moveAllLeft`, `moveRight`, and `moveAllRight` are now `moveToAvailable`, `moveAllToAvailable`, `moveToSelected`, and `moveAllToSelected` in all instances. Refer to the table below to rename any affected `icons` or `lang` keys:
 
@@ -39,25 +46,6 @@ The keys `moveLeft`, `moveAllLeft`, `moveRight`, and `moveAllRight` are now `mov
 | `moveAllLeft`  | `moveAllToAvailable` |
 | `moveRight`    | `moveToSelected`     |
 | `moveAllRight` | `moveAllToSelected`  |
-
-
-### New Features
-
-* Add `getOptionLabel` and `getOptionValue` properties to allow for custom option keys beyond `label` and `value` (#208)
-
-### New Examples
-
-* Add `LazyFilterExample.jsx` to show lazy loading of the `options` property by user search
-
-### Bug Fixes
-
-* Fix positioning of action buttons relative to the list boxes
-* Prevent situation where double-clicking an `optgroup` moved any selected options under it
-
-### Other
-
-* Drop usage of deprecated `defaultProps` (#248)
-* Improve accessibility of required error
 
 ### Other 
 

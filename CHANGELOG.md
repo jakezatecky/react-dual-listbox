@@ -23,6 +23,7 @@ _This new version includes minor breaking changes. Please review them before upg
 * **Breaking:** `options` property: no longer has PropTypes validation for `label` and `value`
 * **Breaking:** Rename `*-right` and `*-left` classes to `*-to-selected` and `*-to-available`
 * Improve accessibility of required error
+* Change filter input to `type="search"` (#247)
 
 ### Removed
 

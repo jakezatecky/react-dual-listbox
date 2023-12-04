@@ -29,7 +29,7 @@ function Filter(props) {
             data-control-key={controlKey}
             disabled={disabled}
             placeholder={filterPlaceholder}
-            type="text"
+            type="search"
             value={filterValue}
             onChange={onFilterChange}
         />

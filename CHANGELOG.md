@@ -2,46 +2,6 @@
 
 ## v6.0.0 (TBA)
 
-### Migration Guide
-
-#### `simpleValue={false}` to `ObjectValueWrapper`
-
-If you have previously relied on `simpleValue={false}`, you must now use the `ObjectValueWrapper` instead. Pass along all of your previous properties:
-
-```jsx
-import { ObjectValueWrapper as DualListBox } from 'react-dual-listbox';
-
-return <DualListBox {...props} />
-```
-
-#### `icons` and `lang` Key Renames
-
-The keys `moveLeft`, `moveAllLeft`, `moveRight`, and `moveAllRight` are now `moveToAvailable`, `moveAllToAvailable`, `moveToSelected`, and `moveAllToSelected` in all instances. Refer to the table below to rename any affected `icons` or `lang` keys:
-
-| Old Key Name   | New Key Name         |
-| -------------- | -------------------- |
-| `moveLeft`     | `moveToAvailable`    |
-| `moveAllLeft`  | `moveAllToAvailable` |
-| `moveRight`    | `moveToSelected`     |
-| `moveAllRight` | `moveAllToSelected`  |
-
-#### Other
-
-Refer to the **Breaking Changes** for any other changes that may affect your usage.
-
-### New Features
-
-* Add `getOptionLabel` and `getOptionValue` properties to allow for custom option keys beyond `label` and `value` (#208)
-
-### New Examples
-
-* Add `LazyFilterExample.jsx` to show lazy loading of the `options` property by user search
-
-### Bug Fixes
-
-* Fix positioning of action buttons relative to the list boxes
-* Prevent situation where double-clicking an `optgroup` moved any selected options under it
-
 ### Breaking Changes
 
 #### Properties
@@ -67,6 +27,43 @@ Refer to the **Breaking Changes** for any other changes that may affect your usa
 #### Other
 
 * Drop support for React before v16.8
+
+### Migration Guide
+
+#### `simpleValue={false}` to `ObjectValueWrapper`
+
+If you have previously relied on `simpleValue={false}`, you must now use the `ObjectValueWrapper` instead. Pass along all of your previous properties:
+
+```jsx
+import { ObjectValueWrapper as DualListBox } from 'react-dual-listbox';
+
+return <DualListBox {...props} />
+```
+
+#### `icons` and `lang` Key Renames
+
+The keys `moveLeft`, `moveAllLeft`, `moveRight`, and `moveAllRight` are now `moveToAvailable`, `moveAllToAvailable`, `moveToSelected`, and `moveAllToSelected` in all instances. Refer to the table below to rename any affected `icons` or `lang` keys:
+
+| Old Key Name   | New Key Name         |
+| -------------- | -------------------- |
+| `moveLeft`     | `moveToAvailable`    |
+| `moveAllLeft`  | `moveAllToAvailable` |
+| `moveRight`    | `moveToSelected`     |
+| `moveAllRight` | `moveAllToSelected`  |
+
+
+### New Features
+
+* Add `getOptionLabel` and `getOptionValue` properties to allow for custom option keys beyond `label` and `value` (#208)
+
+### New Examples
+
+* Add `LazyFilterExample.jsx` to show lazy loading of the `options` property by user search
+
+### Bug Fixes
+
+* Fix positioning of action buttons relative to the list boxes
+* Prevent situation where double-clicking an `optgroup` moved any selected options under it
 
 ## [v5.0.2](https://github.com/jakezatecky/react-dual-listbox/compare/v5.0.1...v5.0.2) (2023-02-08)
 

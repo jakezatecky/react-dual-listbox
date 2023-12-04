@@ -901,19 +901,10 @@ describe('<DualListBox />', async () => {
         });
 
         it('should use the value for `lang.requiredError` when triggering a validation message', () => {
-            let actualMessage = null;
-            let form = null;
             const expectedMessage = 'My custom error message.';
 
-            render((
-                <form
-                    ref={(c) => {
-                        form = c;
-                    }}
-                    onInvalid={(event) => {
-                        actualMessage = event.target.validationMessage;
-                    }}
-                >
+            const { container } = render((
+                <form>
                     <DualListBox
                         lang={{
                             moveLeft: '',
@@ -933,8 +924,10 @@ describe('<DualListBox />', async () => {
                 </form>
             ));
 
-            form.checkValidity();
-            assert.equal(expectedMessage, actualMessage);
+            container.querySelector('form').checkValidity();
+            const select = screen.getByLabelText('Available');
+
+            assert.equal(expectedMessage, select.validationMessage);
         });
     });
 

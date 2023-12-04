@@ -56,7 +56,8 @@ The keys `moveLeft`, `moveAllLeft`, `moveRight`, and `moveAllRight` are now `mov
 
 ### Other
 
-* (#248) Drop usage of deprecated `defaultProps`
+* Drop usage of deprecated `defaultProps` (#248)
+* Improve accessibility of required error
 
 ### Other 
 

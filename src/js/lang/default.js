@@ -2,6 +2,7 @@ export default {
     availableFilterHeader: 'Filter available',
     availableFilterPlaceholder: 'Search...',
     availableHeader: 'Available',
+    hiddenInputLabel: 'All selections',
     moveAllToAvailable: 'Move all to available',
     moveAllToSelected: 'Move all to selected',
     moveToAvailable: 'Move to available',

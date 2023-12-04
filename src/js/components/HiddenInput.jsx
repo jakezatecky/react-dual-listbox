@@ -1,11 +1,13 @@
 import PropTypes from 'prop-types';
-import React, { useContext, useEffect, useRef } from 'react';
+import React, { useContext, useEffect } from 'react';
 
+import refShape from '../shapes/refShape';
 import valueShape from '../shapes/valueShape';
 import { LanguageContext } from '../contexts';
 
 const noop = () => {};
 const propTypes = {
+    availableRef: refShape.isRequired,
     disabled: PropTypes.bool.isRequired,
     required: PropTypes.bool.isRequired,
     selected: valueShape.isRequired,
@@ -15,14 +17,14 @@ const propTypes = {
 };
 
 function HiddenInput({
+    availableRef,
     disabled,
     required,
     selected,
     onFocus,
     name = null,
 }) {
-    const { requiredError } = useContext(LanguageContext);
-    const input = useRef(null);
+    const { hiddenInputLabel, requiredError } = useContext(LanguageContext);
 
     useEffect(() => {
         if (!required) {
@@ -31,17 +33,17 @@ function HiddenInput({
 
         // If required, set a validity error when no options are selected
         const validity = selected.length === 0 ? requiredError : '';
-        input.current.setCustomValidity(validity);
-    });
+        availableRef.current.setCustomValidity(validity);
+    }, [selected]);
 
     const hiddenValue = selected.join(',');
 
     return (
         <input
+            aria-label={hiddenInputLabel}
             className="rdl-hidden-input"
             disabled={disabled}
             name={name}
-            ref={input}
             required={required}
             type={required ? 'text' : 'hidden'}
             value={hiddenValue}

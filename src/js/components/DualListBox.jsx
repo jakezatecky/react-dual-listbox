@@ -8,6 +8,7 @@ import React, {
     useState,
 } from 'react';
 
+import refShape from '../shapes/refShape';
 import optionsShape from '../shapes/optionsShape';
 import valueShape from '../shapes/valueShape';
 import indexesOf from '../util/indexesOf';
@@ -17,10 +18,6 @@ import Action from './Action';
 import HiddenInput from './HiddenInput';
 import ListBox from './ListBox';
 
-const refShape = PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
-]);
 const propTypes = {
     options: optionsShape.isRequired,
     onChange: PropTypes.func.isRequired,
@@ -812,6 +809,7 @@ function DualListBox(props) {
                 ) : null}
             </div>
             <HiddenInput
+                availableRef={availableRef}
                 disabled={disabled}
                 name={name}
                 required={required}

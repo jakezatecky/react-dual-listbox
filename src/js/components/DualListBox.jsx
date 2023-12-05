@@ -648,12 +648,12 @@ function DualListBox(props) {
     function renderOptions(options) {
         const { allowDuplicates, getOptionLabel, getOptionValue } = props;
 
-        return options.map((option, index) => {
+        return options.map((option) => {
             const label = getOptionLabel(option);
             const value = getOptionValue(option);
             const key = !allowDuplicates ?
                 `${value}-${label}` :
-                `${value}-${label}-${index}`;
+                `${value}-${label}-${option.order}`;
 
             if (option.options !== undefined) {
                 return (
@@ -670,7 +670,7 @@ function DualListBox(props) {
 
             // If we allow duplicates, append the index to keep each entry unique such that the
             // controlled component can easily update its state
-            const optionValue = !allowDuplicates ? value : `${value}-${index}`;
+            const optionValue = !allowDuplicates ? value : `${value}-${option.order}`;
 
             return (
                 <option

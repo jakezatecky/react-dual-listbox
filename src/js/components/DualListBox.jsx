@@ -12,6 +12,7 @@ import refShape from '../shapes/refShape';
 import optionsShape from '../shapes/optionsShape';
 import valueShape from '../shapes/valueShape';
 import indexesOf from '../util/indexesOf';
+import mergeRefs from '../util/mergeRefs';
 import swapOptions from '../util/swapOptions';
 import { ALIGNMENTS, KEYS } from '../constants';
 import Action from './Action';
@@ -708,21 +709,6 @@ function DualListBox(props) {
         // Wrap event handlers with a controlKey reference
         const wrapHandler = (handler) => ((event) => handler(event, controlKey));
 
-        // Set both internal ref and property ref
-        /* eslint-disable no-param-reassign */
-        const makeRef = (c) => {
-            ref.current = c;
-
-            if (refProp !== null) {
-                if (typeof refProp === 'function') {
-                    refProp(c);
-                } else {
-                    refProp.current = c;
-                }
-            }
-        };
-        /* eslint-enable no-param-reassign */
-
         return (
             <ListBox
                 actions={alignActions === ALIGNMENTS.TOP ? actions : null}
@@ -731,7 +717,7 @@ function DualListBox(props) {
                 disabled={disabled}
                 filterValue={filter[controlKey]}
                 id={id}
-                inputRef={makeRef}
+                inputRef={mergeRefs([ref, refProp])}
                 selections={selections[controlKey]}
                 showNoOptionsText={showNoOptionsText}
                 onDoubleClick={wrapHandler(onOptionDoubleClick)}

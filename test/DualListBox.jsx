@@ -1376,7 +1376,10 @@ describe('<DualListBox />', async () => {
             await user.click(screen.getByLabelText('Move to available'));
 
             assert.deepEqual(actualSelected, []);
-            assert.deepEqual(actualSelection, ['luna', 'phobos']);
+            assert.deepEqual(actualSelection, [
+                { index: 0, label: 'Moon', value: 'luna' },
+                { index: 1, label: 'Phobos', value: 'phobos' },
+            ]);
         });
 
         it('should identify the control responsible for the changes', async () => {

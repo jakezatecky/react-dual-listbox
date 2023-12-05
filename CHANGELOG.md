@@ -2,7 +2,7 @@
 
 ## 6.0.0 (TBA)
 
-_This new version includes minor breaking changes. Please review them before upgrading._
+_This new version includes a variety of breaking changes. Please review them before upgrading._
 
 ### Added
 
@@ -11,6 +11,7 @@ _This new version includes minor breaking changes. Please review them before upg
 
 ### Changed
 
+* **Breaking:** `onChange` property: the second argument now returns objects with `label`, `index`, and `value`, instead of just values (#230)
 * **Breaking:** `icons` property:
   * Will now merge any missing keys with the default icons
   * Rename `moveLeft`, `moveAllLeft`, `moveRight`, and `moveAllRight` to `moveToAvailable`, `moveAllToAvailable`, `moveToSelected`, and `moveAllToSelected`
@@ -20,7 +21,7 @@ _This new version includes minor breaking changes. Please review them before upg
   * Will now merge any missing keys with the default language
   * Rename `moveLeft`, `moveAllLeft`, `moveRight`, and `moveAllRight` to `moveToAvailable`, `moveAllToAvailable`, `moveToSelected`, and `moveAllToSelected`
   * Split `filterPlaceholder` into `availableFilterPlaceholder` and `selectedFilterPlaceholder`
-* **Breaking:** `options` property: no longer has PropTypes validation for `label` and `value`
+* **Breaking:** `options` property: no longer has PropTypes validation for `label` and `value` (#208)
 * **Breaking:** Rename `*-right` and `*-left` classes to `*-to-selected` and `*-to-available`
 * Improve accessibility of required error
 * Change filter input to `type="search"` (#247)

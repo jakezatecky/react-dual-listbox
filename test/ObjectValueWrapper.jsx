@@ -136,7 +136,7 @@ describe('ObjectValueWrapper', () => {
             await user.click(screen.getByLabelText('Move to selected'));
 
             assert.deepEqual(actualSelection, [
-                { label: 'Phobos', value: 'phobos' },
+                { index: 1, label: 'Phobos', value: 'phobos' },
             ]);
         });
     });

@@ -43,8 +43,8 @@ function ObjectValueWrapper(props) {
     const simpleSelected = flattenOptions(selected, getOptionValue);
 
     const simpleOnChange = useCallback((newSelected, userSelection, controlKey) => {
-        const sourceValues = { selected: newSelected, userSelection };
-        const complexValues = { selected: [], userSelection: [] };
+        const sourceValues = { selected: newSelected };
+        const complexValues = { selected: [] };
 
         // Reconstruct option objects for both the selected values and user selection
         Object.keys(sourceValues).forEach((key) => {
@@ -78,7 +78,7 @@ function ObjectValueWrapper(props) {
             });
         });
 
-        onChange(complexValues.selected, complexValues.userSelection, controlKey);
+        onChange(complexValues.selected, userSelection, controlKey);
     }, [getOptionValue, options]);
 
     /* eslint-disable react/jsx-props-no-spreading */

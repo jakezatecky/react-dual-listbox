@@ -145,11 +145,14 @@ function DualListBox(props) {
         }
 
         return Array.from(element.options)
-            .filter(({ selected: isSelected }) => isSelected)
-            .map(({ dataset: { order, value } }) => ({
-                index: parseInt(order, 10),
-                value: JSON.parse(value),
-            }));
+            .map(({ dataset, label, selected: isSelected }, index) => ({
+                index,
+                isSelected,
+                label,
+                order: parseInt(dataset.order, 10),
+                value: JSON.parse(dataset.value),
+            }))
+            .filter(({ isSelected }) => isSelected);
     }
 
     /**
@@ -331,20 +334,20 @@ function DualListBox(props) {
             // If all of the marked options are already as high as they can get, ignore the
             // re-arrangement request because they will end of swapping their order amongst
             // themselves.
-            if (markedOptions[markedOptions.length - 1].index > markedOptions.length - 1) {
-                markedOptions.forEach(({ index }) => {
-                    if (index > 0) {
-                        newOrder = swapOptions(index, index - 1)(newOrder);
+            if (markedOptions[markedOptions.length - 1].order > markedOptions.length - 1) {
+                markedOptions.forEach(({ order }) => {
+                    if (order > 0) {
+                        newOrder = swapOptions(order, order - 1)(newOrder);
                     }
                 });
             }
         } else if (direction === 'down') {
             // Similar to the above, if all of the marked options are already as low as they can
             // get, ignore the re-arrangement request.
-            if (markedOptions[0].index < selected.length - markedOptions.length) {
-                markedOptions.reverse().forEach(({ index }) => {
-                    if (index < selected.length - 1) {
-                        newOrder = swapOptions(index, index + 1)(newOrder);
+            if (markedOptions[0].order < selected.length - markedOptions.length) {
+                markedOptions.reverse().forEach(({ order }) => {
+                    if (order < selected.length - 1) {
+                        newOrder = swapOptions(order, order + 1)(newOrder);
                     }
                 });
             }
@@ -365,13 +368,13 @@ function DualListBox(props) {
         let unmarked = [...selected];
 
         // Filter out marked options
-        markedOptions.forEach(({ index }) => {
-            unmarked[index] = null;
+        markedOptions.forEach(({ order }) => {
+            unmarked[order] = null;
         });
         unmarked = unmarked.filter((v) => v !== null);
 
         // Condense marked options raw values
-        const marked = markedOptions.map(({ index }) => selected[index]);
+        const marked = markedOptions.map(({ order }) => selected[order]);
 
         if (direction === 'top') {
             return [...marked, ...unmarked];
@@ -478,7 +481,7 @@ function DualListBox(props) {
         const toggleItemsMap = { ...selectedItems };
 
         // Add/remove the individual items based on previous state
-        toggleItems.forEach(({ value, index }) => {
+        toggleItems.forEach(({ value, order }) => {
             const inSelectedOptions = selectedItems.indexOf(value) > -1;
 
             if (inSelectedOptions && (!allowDuplicates || controlKey === 'selected')) {
@@ -486,7 +489,7 @@ function DualListBox(props) {
                 // is set to true or the option was sourced from the selected ListBox. We use an
                 // object mapping such that we can remove the exact index of the selected items
                 // without the array re-arranging itself.
-                delete toggleItemsMap[index];
+                delete toggleItemsMap[order];
             } else {
                 selectedItems.push(value);
             }
@@ -510,7 +513,7 @@ function DualListBox(props) {
      */
     function onChange(newSelected, selection, controlKey, isRearrange = false) {
         const { onChange: onChangeProp } = props;
-        const userSelection = selection.map(({ value }) => value);
+        const userSelection = selection.map(({ index, label, value }) => ({ index, label, value }));
 
         onChangeProp(newSelected, userSelection, controlKey);
 

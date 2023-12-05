@@ -99,6 +99,7 @@ function DualListBox(props) {
         selected: [],
     });
 
+    // Update the filter state if the caller changes the property
     useEffect(() => {
         if (filterProp !== null) {
             setFilter(filterProp);
@@ -106,7 +107,7 @@ function DualListBox(props) {
     }, [filterProp]);
 
     /**
-     * Converts a flat array to a key/value mapping for duplicated value reference.
+     * Flattens a hierarchical list of options to a key/value mapping.
      *
      * @param {Array} options
      *
@@ -114,20 +115,20 @@ function DualListBox(props) {
      */
     function getValueMap(options) {
         const { getOptionValue } = props;
-        let labelMap = {};
+        let valueMap = {};
 
         options.forEach((option) => {
-            const value = getOptionValue(option);
             const { options: children } = option;
+            const value = getOptionValue(option);
 
             if (children !== undefined) {
-                labelMap = { ...labelMap, ...getValueMap(children) };
+                valueMap = { ...valueMap, ...getValueMap(children) };
             } else {
-                labelMap[value] = option;
+                valueMap[value] = option;
             }
         });
 
-        return labelMap;
+        return valueMap;
     }
 
     /**
@@ -144,62 +145,61 @@ function DualListBox(props) {
 
         return Array.from(element.options)
             .filter(({ selected: isSelected }) => isSelected)
-            .map(({ dataset: { index, realValue } }) => ({
-                index: parseInt(index, 10),
-                value: JSON.parse(realValue),
+            .map(({ dataset: { order, value } }) => ({
+                index: parseInt(order, 10),
+                value: JSON.parse(value),
             }));
     }
 
     /**
-     * Filter the given options by a ListBox filtering function and the user search string.
+     * Filter the given options with by filtering function and the search string.
      *
      * @param {Array} options
      * @param {Function} filterer
      * @param {string} filterInput
-     * @param {boolean} forceAllow
+     * @param {boolean} ignoreSearch
      *
      * @returns {Array}
      */
-    function filterOptions(options, filterer, filterInput, forceAllow = false) {
+    function filterOptions(options, filterer, filterInput, ignoreSearch = false) {
         const { canFilter, filterCallback } = props;
         const filtered = [];
 
         options.forEach((option) => {
             if (option.options !== undefined) {
                 // Recursively filter any children
-                const children = filterOptions(
+                const filteredChildren = filterOptions(
                     option.options,
                     filterer,
                     filterInput,
-                    // If the optgroup passes the filter, pre-clear all available children
-                    forceAllow || filterCallback(option, filterInput, props),
+                    // If the parent succeeds the search filter, then all children also pass
+                    ignoreSearch || filterCallback(option, filterInput, props),
                 );
 
-                if (children.length > 0) {
+                if (filteredChildren.length > 0) {
                     filtered.push({
                         ...option,
-                        options: children,
+                        options: filteredChildren,
                     });
                 }
             } else {
                 const subFiltered = [];
-                // Run the main, non-search filter function against the given item
+
+                // Run the main (non-search) filterer against the given item
                 const filterResult = filterer(option);
 
+                // For selected options, the filterer returns the indexes of all instances of a
+                // given option, because `allowDuplicates` allows for multiple instances, in
+                // contrast to available options.
                 if (Array.isArray(filterResult)) {
-                    // The selected list box will be filtered by whether the given options have a
-                    // selected index. This index will later be used when removing user selections.
-                    // This index is particularly relevant for duplicate selections, as we want to
-                    // preserve the removal order properly when `preserveSelectOrder` is set to
-                    // true, rather than simply removing the first value encountered.
                     filterResult.forEach((index) => {
                         subFiltered.push({
                             ...option,
-                            selectedIndex: index,
+                            order: index,
                         });
                     });
                 } else if (filterResult) {
-                    // Available options are much simpler and are merely filtered by a boolean
+                    // The available options filterer is simpler, as there can only be one instance
                     subFiltered.push(option);
                 }
 
@@ -209,7 +209,7 @@ function DualListBox(props) {
                 if (subFiltered.length > 0) {
                     if (
                         canFilter &&
-                        !forceAllow &&
+                        !ignoreSearch &&
                         !filterCallback(option, filterInput, props)
                     ) {
                         return;
@@ -229,11 +229,11 @@ function DualListBox(props) {
      * Filter the available options.
      *
      * @param {Array} options
-     * @param {boolean} noSearchFilter Ignore the search filter.
+     * @param {boolean} ignoreSearch Ignore the search filter.
      *
      * @returns {Array}
      */
-    function filterAvailable(options, noSearchFilter = false) {
+    function filterAvailable(options, ignoreSearch = false) {
         const { allowDuplicates, available, getOptionValue } = props;
         const { available: availableFilter } = filter;
 
@@ -255,11 +255,11 @@ function DualListBox(props) {
             true,
         );
 
-        return filterOptions(options, filterer, availableFilter, noSearchFilter);
+        return filterOptions(options, filterer, availableFilter, ignoreSearch);
     }
 
     /**
-     * Preserve the selection order. This drops the opt-group associations.
+     * Filter the selected options by selection order. This drops the optgroup associations.
      *
      * @param {Array} options
      *
@@ -270,9 +270,10 @@ function DualListBox(props) {
         const { selected: selectedFilter } = filter;
         const valueMap = getValueMap(options);
 
+        // Compile the full details of all selected options, including the selection order
         const selectedOptions = selected.map((value, index) => ({
             ...valueMap[value],
-            selectedIndex: index,
+            order: index,
         }));
 
         if (canFilter) {
@@ -288,24 +289,25 @@ function DualListBox(props) {
      * Filter the selected options.
      *
      * @param {Array} options
-     * @param {boolean} noSearchFilter Ignore the search filter.
+     * @param {boolean} ignoreSearch Ignore the search filter.
      *
      * @returns {Array}
      */
-    function filterSelected(options, noSearchFilter = false) {
+    function filterSelected(options, ignoreSearch = false) {
         const { getOptionValue, preserveSelectOrder } = props;
         const { selected: selectedFilter } = filter;
 
+        // Filter and order the selections by selection order
         if (preserveSelectOrder) {
             return filterSelectedByOrder(options);
         }
 
-        // Order the selections by the default order
+        // Filter and order the selections by the default order
         return filterOptions(
             options,
             (option) => indexesOf(selected, getOptionValue(option)),
             selectedFilter,
-            noSearchFilter,
+            ignoreSearch,
         );
     }
 
@@ -442,7 +444,7 @@ function DualListBox(props) {
                     ...makeOptionsUnselectedRecursive(option.options),
                 ];
             } else if (option.disabled) {
-                // Preserve only disabled options
+                // Preserve any disabled options
                 newSelected.push(getOptionValue(option));
             }
         });
@@ -498,8 +500,8 @@ function DualListBox(props) {
     }
 
     /**
-     * @param {Array} newSelected The new selected values
-     * @param {Array} selection The options the user highlighted (if any)
+     * @param {Array} newSelected The new selected values.
+     * @param {Array} selection The options the user highlighted (if any).
      * @param {string} controlKey The key for the control that fired this event.
      * @param {boolean} isRearrange Whether the change is a result of re-arrangement.
      *
@@ -673,8 +675,8 @@ function DualListBox(props) {
             return (
                 <option
                     key={key}
-                    data-index={option.selectedIndex}
-                    data-real-value={JSON.stringify(value)}
+                    data-order={option.order}
+                    data-value={JSON.stringify(value)}
                     disabled={option.disabled}
                     title={option.title}
                     value={optionValue}

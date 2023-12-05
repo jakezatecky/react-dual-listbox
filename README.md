@@ -244,7 +244,7 @@ const onChange = (selected, selection, controlKey) => {
 | Property              | Type     | Description                                                                                                             | Default          |
 | --------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------- | ---------------- |
 | `options`             | array    | **Required**. Specifies the list of options that may exist on either side of the dual list box.                         |                  |
-| `onChange`            | function | **Required**. The handler called when options are moved to either side: `function(selected, selection, controlKey) {}`. |                  |
+| `onChange`            | function | **Required**. The handler called when the selected options change: `function(selected, selection, controlKey) {}`.      |                  |
 | `alignActions`        | string   | A value specifying whether to align the action buttons to the `'top'` or `'middle'`.                                    | `middle`         |
 | `allowDuplicates`     | bool     | If true, duplicate options will be allowed in the selected list box.                                                    | `false`          |
 | `available`           | array    | A subset of the `options` array to optionally filter the available list box.                                            | `undefined`      |

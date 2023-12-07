@@ -17,7 +17,7 @@ module.exports = {
     resolve: {
         extensions: ['.js', '.jsx'],
         alias: {
-            'react-dual-listbox': path.resolve(__dirname, 'src/js/DualListBox'),
+            'react-dual-listbox': path.resolve(__dirname, 'src/index.js'),
         },
     },
     module: {

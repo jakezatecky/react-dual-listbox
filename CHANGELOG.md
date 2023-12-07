@@ -1,6 +1,57 @@
-# CHANGELOG
+# Changelog
 
-## [v5.0.2]((https://github.com/jakezatecky/react-dual-listbox/compare/v5.0.1...v5.0.2)) (2023-02-08)
+## [6.0.0](https://github.com/jakezatecky/react-dual-listbox/compare/v5.0.2...v6.0.0) (2023-12-06)
+
+_This new version includes a variety of breaking changes. Please review them before upgrading._
+
+### Added
+
+* Add `getOptionLabel` and `getOptionValue` properties to allow for custom keys beyond `label` and `value` (#208)
+* Add `LazyFilterExample.jsx` to demonstrate lazy loading for the `options` property by user search
+
+### Changed
+
+* **Breaking:** `onChange` property: the second argument now returns objects with `label`, `index`, and `value`, instead of just values (#230)
+* **Breaking:** `icons` property:
+  * Will now merge any missing keys with the default icons
+  * Rename `moveLeft`, `moveAllLeft`, `moveRight`, and `moveAllRight` to `moveToAvailable`, `moveAllToAvailable`, `moveToSelected`, and `moveAllToSelected`
+* **Breaking:** `iconsClass` property: now defaults to `'fa6'`
+* **Breaking:** `id` property: no longer defaults to a random UUID when null and no longer used for some child components
+* **Breaking:** `lang` property:
+  * Will now merge any missing keys with the default language
+  * Rename `moveLeft`, `moveAllLeft`, `moveRight`, and `moveAllRight` to `moveToAvailable`, `moveAllToAvailable`, `moveToSelected`, and `moveAllToSelected`
+  * Split `filterPlaceholder` into `availableFilterPlaceholder` and `selectedFilterPlaceholder`
+* **Breaking:** `options` property: no longer has PropTypes validation for `label` and `value` (#208)
+* **Breaking:** Rename `*-right` and `*-left` classes to `*-to-selected` and `*-to-available`
+* Improve accessibility of required error
+* Change filter input to `type="search"` (#247)
+
+### Removed
+
+* **Breaking:** Drop support for Less.js styles
+* **Breaking:** Drop support for React before v16.8
+* **Breaking:** Remove `rdl-sr-only` class
+* Drop usage of deprecated `defaultProps` (#248)
+
+### Fixed
+
+* Fix positioning of action buttons relative to the list boxes
+* Prevent situation where double-clicking an `optgroup` moved any selected options under it
+
+### `icons` and `lang` Migration Guide
+
+The keys `moveLeft`, `moveAllLeft`, `moveRight`, and `moveAllRight` are now `moveToAvailable`, `moveAllToAvailable`, `moveToSelected`, and `moveAllToSelected` in all instances. Refer to the table below to rename any affected `icons` or `lang` keys:
+
+| Old Key Name   | New Key Name         |
+| -------------- | -------------------- |
+| `moveLeft`     | `moveToAvailable`    |
+| `moveAllLeft`  | `moveAllToAvailable` |
+| `moveRight`    | `moveToSelected`     |
+| `moveAllRight` | `moveAllToSelected`  |
+
+### Other
+
+## [v5.0.2](https://github.com/jakezatecky/react-dual-listbox/compare/v5.0.1...v5.0.2) (2023-02-08)
 
 ### Bug Fixes
 
@@ -95,7 +146,7 @@
 ### New Features
 
 * [#80]: Add `disabled` support for elements in the `options` property
-* [#87]: Add `title` support for elements in the `options` property 
+* [#87]: Add `title` support for elements in the `options` property
 * [#90]: Add `selection` argument to the `onChange` handler to track highlighted values
 * [#104]: Add `className` property to allow specification of a custom class on the root node
 * [#133]: Add `moveTop` and `moveBottom` buttons to `showOrderButtons` property

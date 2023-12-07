@@ -1,5 +1,5 @@
-$rdl-icon-font-family-fa5: "Font Awesome 5 Free", "FontAwesome", sans-serif;
-$rdl-icon-font-family-fa6: "Font Awesome 6 Free", "FontAwesome", sans-serif;
+$rdl-icon-font-family: "Font Awesome 6 Free", "Font Awesome 5 Free",
+  "FontAwesome", sans-serif;
 $rdl-input-bg: #fff !default;
 $rdl-input-disabled-bg: #eee !default;
 $rdl-input-border: #ccc !default;
@@ -15,12 +15,6 @@ $rdl-btn-color: #333 !default;
 $rdl-line-height: 1.42857 !default;
 $rdl-desktop-min-width: 576px !default;
 
-// Force ASCII output until Sass supports it
-// https://github.com/sass/dart-sass/issues/568
-@function unicode($str) {
-  @return unquote("\"") + unquote(str-insert($str, "\\", 1)) + unquote("\"");
-}
-
 .react-dual-listbox {
   box-sizing: border-box;
 
@@ -31,20 +25,20 @@ $rdl-desktop-min-width: 576px !default;
   input,
   select {
     &:disabled {
-      background: $rdl-input-disabled-bg;
       cursor: not-allowed;
+      background: $rdl-input-disabled-bg;
     }
   }
 
   button,
   select {
-    line-height: $rdl-line-height;
     font-family: inherit;
+    line-height: $rdl-line-height;
   }
 
   // Set minimum height to prevent boxes from resizing on mobile
   select {
-    min-height: 140px;
+    min-height: 146px;
   }
 }
 
@@ -61,9 +55,9 @@ $rdl-desktop-min-width: 576px !default;
 
 .rdl-hidden-input {
   position: absolute;
-  opacity: 0;
   width: 0;
   height: 0;
+  opacity: 0;
 }
 
 .rdl-list-box {
@@ -76,20 +70,20 @@ $rdl-desktop-min-width: 576px !default;
 .rdl-filter,
 .rdl-control {
   display: block;
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 14px;
+  color: $rdl-input-color;
   border: 1px solid $rdl-input-border;
   border-radius: 2px;
-  padding: 8px 12px;
-  width: 100%;
-  color: $rdl-input-color;
-  font-size: 14px;
 }
 
 .rdl-filter {
   margin-bottom: 10px;
 
   &:focus:not(:disabled) {
-    outline: 0;
     border-color: $rdl-input-border-active;
+    outline: 0;
   }
 }
 
@@ -100,11 +94,13 @@ $rdl-desktop-min-width: 576px !default;
 }
 
 .rdl-control-label {
+  position: absolute;
   padding: 0 4px 4px;
+  clip: rect(0 0 0 0);
 
-  &.rdl-sr-only {
-    position: absolute;
-    clip: rect(0 0 0 0);
+  .rdl-has-header & {
+    position: static;
+    clip: auto;
   }
 }
 
@@ -112,8 +108,8 @@ $rdl-desktop-min-width: 576px !default;
   flex: 1 0 auto;
 
   &:focus:not(:disabled) {
-    outline: 0;
     border-color: $rdl-input-border-active;
+    outline: 0;
   }
 
   optgroup {
@@ -129,25 +125,14 @@ $rdl-desktop-min-width: 576px !default;
 
   @media (min-width: $rdl-desktop-min-width) {
     flex-direction: column;
-    margin: 0 10px;
+    align-self: flex-end;
     width: auto;
-
-    .rdl-has-header & {
-      padding-top: 31px;
-    }
-
-    .rdl-has-filter & {
-      padding-top: 46px;
-    }
-
-    .rdl-has-header.rdl-has-filter & {
-      padding-top: 77px;
-    }
+    margin: 0 10px;
   }
 }
 
-.rdl-actions-right,
-.rdl-actions-left {
+.rdl-actions-to-selected,
+.rdl-actions-to-available {
   display: flex;
 
   @media (min-width: $rdl-desktop-min-width) {
@@ -156,25 +141,25 @@ $rdl-desktop-min-width: 576px !default;
 }
 
 @media (min-width: $rdl-desktop-min-width) {
-  .rdl-actions-right {
-    margin-bottom: 10px;
+  .rdl-actions-to-selected {
+    margin-bottom: 5px;
   }
 }
 
 .rdl-btn {
+  padding: 5px 10px;
   margin: 0 3px;
+  font-size: 14px;
+  color: $rdl-btn-color;
+  cursor: pointer;
+  background: $rdl-input-bg;
   border: 1px solid $rdl-btn-border;
   border-radius: 2px;
-  background: $rdl-input-bg;
-  cursor: pointer;
-  padding: 5px 10px;
-  color: $rdl-btn-color;
-  font-size: 14px;
 
   &:active:not(:disabled),
   &:focus:not(:disabled) {
-    border-color: $rdl-btn-border-active;
     background: $rdl-btn-bg-active;
+    border-color: $rdl-btn-border-active;
   }
 
   &:focus:not(:disabled) {
@@ -183,13 +168,13 @@ $rdl-desktop-min-width: 576px !default;
   }
 
   &:hover:not(:disabled) {
-    border-color: $rdl-btn-border-hover;
     background: $rdl-btn-bg-active;
+    border-color: $rdl-btn-border-hover;
   }
 
   &:disabled {
-    opacity: .5;
     cursor: not-allowed;
+    opacity: 0.5;
   }
 
   &:last-child {
@@ -198,16 +183,21 @@ $rdl-desktop-min-width: 576px !default;
 
   .rdl-icon {
     display: inline-block;
+    font-size: 14px;
+    font-style: normal;
+    font-variant: normal;
     text-align: center;
     text-rendering: auto;
-    font-size: 14px;
-    font-variant: normal;
-    font-style: normal;
   }
 
   @media (min-width: $rdl-desktop-min-width) {
     margin: 0 0 5px;
   }
+}
+
+.rdl-no-options {
+  height: 100%;
+  padding: 4px 6px;
 }
 
 .rdl-align-top {
@@ -220,8 +210,8 @@ $rdl-desktop-min-width: 576px !default;
     border-top-right-radius: 0;
   }
 
-  .rdl-actions-left,
-  .rdl-actions-right {
+  .rdl-actions-to-available,
+  .rdl-actions-to-selected {
     flex-direction: row;
     margin: 0;
   }
@@ -232,13 +222,13 @@ $rdl-desktop-min-width: 576px !default;
 
     &:first-child {
       margin-bottom: 0;
-      border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
+      border-bottom-left-radius: 0;
     }
 
     &:last-child {
-      border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
+      border-bottom-left-radius: 0;
     }
   }
 
@@ -295,130 +285,123 @@ $rdl-desktop-min-width: 576px !default;
 .rdl-icons-fa5,
 .rdl-icons-fa6 {
   .rdl-icon {
+    font-family: $rdl-icon-font-family;
     font-weight: 900;
   }
 
-  .rdl-icon-move-all-right::before,
+  .rdl-icon-move-all-to-selected::before,
   .rdl-icon-move-bottom::before {
-    content: unicode("f103");
+    content: "\f103";
   }
 
-  .rdl-icon-move-right::before,
+  .rdl-icon-move-to-selected::before,
   .rdl-icon-move-down::before {
-    content: unicode("f107");
+    content: "\f107";
   }
 
-  .rdl-icon-move-left::before,
+  .rdl-icon-move-to-available::before,
   .rdl-icon-move-up::before {
-    content: unicode("f106");
+    content: "\f106";
   }
 
-  .rdl-icon-move-all-left::before,
+  .rdl-icon-move-all-to-available::before,
   .rdl-icon-move-top::before {
-    content: unicode("f102");
+    content: "\f102";
   }
 
   // Larger screens will arrange the boxes as columns, so "left" and "right" icons apply
   @media (min-width: $rdl-desktop-min-width) {
-    .rdl-icon-move-left::before {
-      content: unicode("f104");
+    .rdl-icon-move-to-available::before {
+      content: "\f104";
     }
 
-    .rdl-icon-move-all-left::before {
-      content: unicode("f100");
+    .rdl-icon-move-all-to-available::before {
+      content: "\f100";
     }
 
-    .rdl-icon-move-right::before {
-      content: unicode("f105");
+    .rdl-icon-move-to-selected::before {
+      content: "\f105";
     }
 
-    .rdl-icon-move-all-right::before {
-      content: unicode("f101");
+    .rdl-icon-move-all-to-selected::before {
+      content: "\f101";
     }
 
     // Change directions when right-to-left
     &[dir="rtl"] {
-      .rdl-icon-move-left::before {
-        content: unicode("f105");
+      .rdl-icon-move-to-available::before {
+        content: "\f105";
       }
 
-      .rdl-icon-move-all-left::before {
-        content: unicode("f101");
+      .rdl-icon-move-all-to-available::before {
+        content: "\f101";
       }
 
-      .rdl-icon-move-right::before {
-        content: unicode("f104");
+      .rdl-icon-move-to-selected::before {
+        content: "\f104";
       }
 
-      .rdl-icon-move-all-right::before {
-        content: unicode("f100");
+      .rdl-icon-move-all-to-selected::before {
+        content: "\f100";
       }
     }
   }
 }
 
-.rdl-icons-fa5 .rdl-icon {
-  font-family: $rdl-icon-font-family-fa5;
-}
-
-.rdl-icons-fa6 .rdl-icon {
-  font-family: $rdl-icon-font-family-fa6;
-}
-
 .rdl-icons-native {
-  .rdl-icon-move-all-right::before,
+  .rdl-icon-move-all-to-selected::before,
   .rdl-icon-move-bottom::before {
     content: "⮇";
   }
 
-  .rdl-icon-move-right::before,
+  .rdl-icon-move-to-selected::before,
   .rdl-icon-move-down::before {
     content: "🠣";
   }
 
-  .rdl-icon-move-left::before,
+  .rdl-icon-move-to-available::before,
   .rdl-icon-move-up::before {
     content: "🠡";
   }
 
-  .rdl-icon-move-all-left::before,
+  .rdl-icon-move-all-to-available::before,
   .rdl-icon-move-top::before {
     content: "⮅";
   }
 
   // Larger screens will arrange the boxes as columns, so "left" and "right" icons apply
   @media (min-width: $rdl-desktop-min-width) {
-    .rdl-icon-move-left::before {
+    .rdl-icon-move-to-available::before {
       content: "⭠";
     }
 
-    .rdl-icon-move-all-left::before {
+    .rdl-icon-move-all-to-available::before {
       content: "⮄";
     }
 
-    .rdl-icon-move-right::before {
+    .rdl-icon-move-to-selected::before {
       content: "⭢";
     }
 
-    .rdl-icon-move-all-right::before {
+    .rdl-icon-move-all-to-selected::before {
       content: "⮆";
     }
 
     // Change directions when right-to-left
     &[dir="rtl"] {
-      .rdl-icon-move-left::before {
+      .rdl-icon-move-to-available::before {
         content: "⭢";
       }
 
-      .rdl-icon-move-all-left::before {
+      .rdl-icon-move-all-to-available::before {
         content: "⮆";
       }
 
-      .rdl-icon-move-right::before {
+      .rdl-icon-move-to-selected::before {
         content: "⭠";
       }
 
-      .rdl-icon-move-all-right::before {
+      .rdl-icon-move-all-to-selected::before {
         content: "⮄";
       }
     }

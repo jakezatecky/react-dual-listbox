@@ -12,6 +12,7 @@ function BasicExample() {
 
     return (
         <DualListBox
+            id="basic"
             options={options}
             selected={selected}
             onChange={onChange}

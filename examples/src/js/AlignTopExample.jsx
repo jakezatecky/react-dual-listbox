@@ -14,6 +14,7 @@ function AlignTopExample() {
         <DualListBox
             alignActions="top"
             canFilter
+            id="align-top"
             options={options}
             selected={selected}
             onChange={onChange}

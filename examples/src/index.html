@@ -6,9 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#3498db">
     <meta name="description" content="React Dual Listbox: A feature-rich dual listbox for React.">
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css">
-    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:400,700">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="./scss/style.scss">
 
     <!-- Google tag (gtag.js) -->
@@ -33,8 +36,9 @@
     <section class="main-content">
       <p>
         <strong>React Dual Listbox</strong> is a lightweight React component for rendering dual listbox views.
-        Checkout the examples below and then view <a href="https://github.com/jakezatecky/react-dual-listbox/tree/master/examples/src/js">source code</a>
-        or main <a href="https://github.com/jakezatecky/react-dual-listbox">documentation page</a> when you are ready to try it out.
+        Checkout the examples and <a href="https://github.com/jakezatecky/react-dual-listbox/tree/master/examples/src/js">source code</a>
+        below. Head over to the main <a href="https://github.com/jakezatecky/react-dual-listbox">documentation page</a>
+        to see the full list of options.
       </p>
 
       <h1>Examples</h1>
@@ -58,6 +62,18 @@
         <code>filter</code> and <code>onFilterChange</code> to control the state yourself:
       </p>
       <div id="filter-example"></div>
+
+      <h3>Lazy Filter Example</h3>
+      <p>
+        The component can support lazy filtering/searching, using the <code>onFilterCallback</code> property. Try
+        searching for “europa” or “io”.
+      </p>
+      <p>
+        See
+        <a href="https://github.com/jakezatecky/react-dual-listbox/blob/master/examples/src/js/LazyFilterExample.jsx"><code>LazyFilterExample.jsx</code></a>
+        for the sample code that includes a mock API request.
+      </p>
+      <div id="lazy-filter-example"></div>
 
       <h3>Align Actions to Top Example</h3>
       <p>

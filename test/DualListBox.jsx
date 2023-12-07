@@ -1,10 +1,10 @@
-import React from 'react';
-import { assert } from 'chai';
 import { render, screen } from '@testing-library/react';
 import { configure, within } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
+import { assert } from 'chai';
+import React from 'react';
 
-import DualListBox from '../src/js/DualListBox';
+import DualListBox from '../src';
 
 const testId = 'test-id';
 
@@ -64,8 +64,8 @@ describe('<DualListBox />', async () => {
 
             const controls = container.querySelectorAll('.rdl-control-container');
             assert.isNull(container.querySelector('.rdl-actions'));
-            assert.isNotNull(controls[0].querySelector('.rdl-actions-right'));
-            assert.isNotNull(controls[1].querySelector('.rdl-actions-left'));
+            assert.isNotNull(controls[0].querySelector('.rdl-actions-to-selected'));
+            assert.isNotNull(controls[1].querySelector('.rdl-actions-to-available'));
         });
     });
 
@@ -92,35 +92,6 @@ describe('<DualListBox />', async () => {
             await user.dblClick(select);
 
             assert.deepEqual(actual, ['luna', 'phobos', 'phobos']);
-        });
-
-        // https://github.com/jakezatecky/react-dual-listbox/issues/103
-        it('should work when simpleValue={false}', async () => {
-            let actual = null;
-
-            const { user } = setup((
-                <DualListBox
-                    allowDuplicates
-                    options={[
-                        { label: 'Moon', value: 'luna' },
-                        { label: 'Phobos', value: 'phobos' },
-                    ]}
-                    selected={[{ label: 'Moon', value: 'luna' }]}
-                    simpleValue={false}
-                    onChange={(selected) => {
-                        actual = selected;
-                    }}
-                />
-            ));
-
-            const select = screen.getByLabelText('Available');
-            await user.selectOptions(select, ['Moon']);
-            await user.dblClick(select);
-
-            assert.deepEqual(actual, [
-                { label: 'Moon', value: 'luna' },
-                { label: 'Moon', value: 'luna' },
-            ]);
         });
 
         it('should NOT allow repeated selections of the same option when set to false', () => {
@@ -358,7 +329,7 @@ describe('<DualListBox />', async () => {
             ));
 
             const element = container.querySelector('.react-dual-listbox');
-            assert.equal(element.className, 'react-dual-listbox rdl-icons-fa5');
+            assert.equal(element.className, 'react-dual-listbox rdl-icons-fa6');
         });
     });
 
@@ -507,6 +478,44 @@ describe('<DualListBox />', async () => {
         });
     });
 
+    describe('props.getOptionLabel', () => {
+        it('should allow users to specify how to fetch the label', () => {
+            render((
+                <DualListBox
+                    getOptionLabel={({ name }) => name}
+                    options={[
+                        { name: 'Moon', value: 'luna' },
+                        { name: 'Phobos', value: 'phobos' },
+                    ]}
+                    onChange={() => {}}
+                />
+            ));
+
+            assert.isNotNull(screen.getByText('Moon'));
+        });
+    });
+
+    describe('props.getOptionValue', () => {
+        it('should allow users to specify how to fetch the value', async () => {
+            let actual = null;
+            const { user } = setup((
+                <DualListBox
+                    getOptionValue={({ id }) => id}
+                    options={[
+                        { name: 'Moon', id: 'luna' },
+                        { name: 'Phobos', id: 'phobos' },
+                    ]}
+                    onChange={(selected) => {
+                        actual = selected;
+                    }}
+                />
+            ));
+
+            await user.click(screen.getByLabelText('Move all to selected'));
+            assert.deepEqual(actual, ['luna', 'phobos']);
+        });
+    });
+
     describe('props.htmlDir', () => {
         it('should should default to LTR', () => {
             const { container } = render((
@@ -537,10 +546,7 @@ describe('<DualListBox />', async () => {
             render((
                 <DualListBox
                     icons={{
-                        moveLeft: <span />,
-                        moveAllLeft: <span />,
-                        moveRight: <span />,
-                        moveAllRight: <span className="new-icon" />,
+                        moveAllToSelected: <span className="new-icon" />,
                     }}
                     options={[
                         { label: 'Moon', value: 'luna' },
@@ -551,7 +557,29 @@ describe('<DualListBox />', async () => {
             ));
 
             const button = await screen.findByLabelText('Move all to selected');
-            assert.isNotNull(button.closest('button').querySelector('.new-icon'));
+            assert.isNotNull(
+                button.closest('button').querySelector('.new-icon'),
+            );
+        });
+
+        it('should use the defaults when a key is missing', async () => {
+            render((
+                <DualListBox
+                    icons={{
+                        moveAllToSelected: <span className="new-icon" />,
+                    }}
+                    options={[
+                        { label: 'Moon', value: 'luna' },
+                        { label: 'Phobos', value: 'phobos' },
+                    ]}
+                    onChange={() => {}}
+                />
+            ));
+
+            const button = await screen.findByLabelText('Move all to available');
+            assert.isNotNull(
+                button.closest('button').querySelector('.rdl-icon-move-all-to-available'),
+            );
         });
     });
 
@@ -571,7 +599,7 @@ describe('<DualListBox />', async () => {
     });
 
     describe('props.id', () => {
-        it('should pass the id for all elements', () => {
+        it('should pass the id to child elements', () => {
             const { container } = render((
                 <DualListBox
                     id={testId}
@@ -583,7 +611,7 @@ describe('<DualListBox />', async () => {
                 />
             ));
 
-            assert.isNotNull(container.querySelector(`#${testId}-option-luna`));
+            assert.isNotNull(container.querySelector(`#${testId}-available`));
         });
     });
 
@@ -592,10 +620,7 @@ describe('<DualListBox />', async () => {
             render((
                 <DualListBox
                     lang={{
-                        moveLeft: '',
-                        moveAllLeft: '',
-                        moveRight: '',
-                        moveAllRight: 'MOVE.ALL.RIGHT',
+                        moveAllToSelected: 'MOVE.ALL.RIGHT',
                     }}
                     options={[
                         { label: 'Moon', value: 'luna' },
@@ -608,7 +633,31 @@ describe('<DualListBox />', async () => {
             const button = await screen.queryByLabelText('MOVE.ALL.RIGHT');
 
             assert.isNotNull(button);
-            assert.isTrue(button.closest('button').classList.contains('rdl-move-all-right'));
+            assert.isTrue(
+                button.closest('button').classList.contains('rdl-move-all-to-selected'),
+            );
+        });
+
+        it('should use the defaults when a key is missing', async () => {
+            render((
+                <DualListBox
+                    lang={{
+                        moveAllToSelected: 'MOVE.ALL.RIGHT',
+                    }}
+                    options={[
+                        { label: 'Moon', value: 'luna' },
+                        { label: 'Phobos', value: 'phobos' },
+                    ]}
+                    onChange={() => {}}
+                />
+            ));
+
+            const button = await screen.queryByLabelText('Move all to available');
+
+            assert.isNotNull(button);
+            assert.isTrue(
+                button.closest('button').classList.contains('rdl-move-all-to-available'),
+            );
         });
     });
 
@@ -852,18 +901,10 @@ describe('<DualListBox />', async () => {
         });
 
         it('should use the value for `lang.requiredError` when triggering a validation message', () => {
-            let actualMessage = null;
-            let form = null;
             const expectedMessage = 'My custom error message.';
-            render((
-                <form
-                    ref={(c) => {
-                        form = c;
-                    }}
-                    onInvalid={(event) => {
-                        actualMessage = event.target.validationMessage;
-                    }}
-                >
+
+            const { container } = render((
+                <form>
                     <DualListBox
                         lang={{
                             moveLeft: '',
@@ -883,8 +924,10 @@ describe('<DualListBox />', async () => {
                 </form>
             ));
 
-            form.checkValidity();
-            assert.equal(expectedMessage, actualMessage);
+            container.querySelector('form').checkValidity();
+            const select = screen.getByLabelText('Available');
+
+            assert.equal(expectedMessage, select.validationMessage);
         });
     });
 
@@ -908,7 +951,7 @@ describe('<DualListBox />', async () => {
 
     describe('props.showHeaderLabels', () => {
         it('should make the labels above the list boxes appear when set to true', () => {
-            render((
+            const { container } = render((
                 <DualListBox
                     options={[
                         { value: 'luna', label: 'Moon' },
@@ -918,11 +961,11 @@ describe('<DualListBox />', async () => {
                 />
             ));
 
-            assert.isFalse(screen.getByText('Available').closest('label').classList.contains('rdl-sr-only'));
+            assert.isNotNull(container.querySelector('.rdl-has-header'));
         });
 
         it('should hide the labels above the list boxes when set to false', () => {
-            render((
+            const { container } = render((
                 <DualListBox
                     options={[
                         { value: 'luna', label: 'Moon' },
@@ -932,7 +975,7 @@ describe('<DualListBox />', async () => {
                 />
             ));
 
-            assert.isTrue(screen.getByText('Available').closest('label').classList.contains('rdl-sr-only'));
+            assert.isNull(container.querySelector('.rdl-has-header'));
         });
     });
 
@@ -1194,44 +1237,6 @@ describe('<DualListBox />', async () => {
             assert.deepEqual(actual, ['deimos', 'luna', 'phobos']);
         });
 
-        // https://github.com/jakezatecky/react-dual-listbox/issues/113
-        it('should play nicely with simpleValue={false}', async () => {
-            let actual = null;
-
-            const { user } = setup((
-                <DualListBox
-                    options={[
-                        { value: 'luna', label: 'Moon' },
-                        { value: 'phobos', label: 'Phobos' },
-                        { value: 'deimos', label: 'Deimos' },
-                        { value: 'io', label: 'Io' },
-                    ]}
-                    preserveSelectOrder
-                    selected={[
-                        { value: 'io', label: 'Io' },
-                        { value: 'deimos', label: 'Deimos' },
-                        { value: 'phobos', label: 'Phobos' },
-                    ]}
-                    showOrderButtons
-                    simpleValue={false}
-                    onChange={(selected) => {
-                        actual = selected;
-                    }}
-                />
-            ));
-
-            const select = screen.getByLabelText('Selected');
-
-            await user.selectOptions(select, ['io']);
-            await user.click(screen.getByLabelText('Rearrange down'));
-
-            assert.deepEqual(actual, [
-                { value: 'deimos', label: 'Deimos' },
-                { value: 'io', label: 'Io' },
-                { value: 'phobos', label: 'Phobos' },
-            ]);
-        });
-
         // https://github.com/jakezatecky/react-dual-listbox/issues/217
         it('should not clear out selections after moving', async () => {
             const options = [
@@ -1272,120 +1277,6 @@ describe('<DualListBox />', async () => {
             ));
 
             assert.isTrue(io.selected);
-        });
-    });
-
-    describe('props.simpleValue', () => {
-        it('should pass an array of values by default', async () => {
-            let actual = null;
-
-            const { user } = setup((
-                <DualListBox
-                    options={[
-                        { label: 'Moon', value: 'luna' },
-                        { label: 'Phobos', value: 'phobos' },
-                    ]}
-                    onChange={(selected) => {
-                        actual = selected;
-                    }}
-                />
-            ));
-
-            const select = screen.getByLabelText('Available');
-
-            await user.selectOptions(select, ['phobos']);
-            await user.dblClick(select);
-
-            assert.deepEqual(actual, ['phobos']);
-        });
-
-        it('should pass an array of options when false', async () => {
-            let actual = null;
-
-            const { user } = setup((
-                <DualListBox
-                    options={[
-                        { label: 'Moon', value: 'luna' },
-                        { label: 'Phobos', value: 'phobos' },
-                    ]}
-                    simpleValue={false}
-                    onChange={(selected) => {
-                        actual = selected;
-                    }}
-                />
-            ));
-
-            const select = screen.getByLabelText('Available');
-
-            await user.selectOptions(select, ['phobos']);
-            await user.dblClick(select);
-
-            assert.deepEqual(actual, [{
-                label: 'Phobos',
-                value: 'phobos',
-            }]);
-        });
-
-        it('should also pass optgroups when false', async () => {
-            let actual = null;
-
-            const { user } = setup((
-                <DualListBox
-                    options={[
-                        {
-                            label: 'Mars',
-                            options: [
-                                { value: 'phobos', label: 'Phobos' },
-                                { value: 'deimos', label: 'Deimos' },
-                            ],
-                        },
-                    ]}
-                    simpleValue={false}
-                    onChange={(selected) => {
-                        actual = selected;
-                    }}
-                />
-            ));
-
-            const select = screen.getByLabelText('Available');
-
-            await user.selectOptions(select, ['phobos']);
-            await user.dblClick(select);
-
-            assert.deepEqual(actual, [{
-                label: 'Mars',
-                options: [{
-                    label: 'Phobos',
-                    value: 'phobos',
-                }],
-            }]);
-        });
-
-        it('should also impact those values highlighted by the user', async () => {
-            let actualSelection = null;
-
-            const { user } = setup((
-                <DualListBox
-                    options={[
-                        { label: 'Moon', value: 'luna' },
-                        { label: 'Phobos', value: 'phobos' },
-                    ]}
-                    selected={[]}
-                    simpleValue={false}
-                    onChange={(selected, selection) => {
-                        actualSelection = selection;
-                    }}
-                />
-            ));
-
-            const select = screen.getByLabelText('Available');
-
-            await user.selectOptions(select, ['phobos']);
-            await user.click(screen.getByLabelText('Move to selected'));
-
-            assert.deepEqual(actualSelection, [
-                { label: 'Phobos', value: 'phobos' },
-            ]);
         });
     });
 
@@ -1485,7 +1376,10 @@ describe('<DualListBox />', async () => {
             await user.click(screen.getByLabelText('Move to available'));
 
             assert.deepEqual(actualSelected, []);
-            assert.deepEqual(actualSelection, ['luna', 'phobos']);
+            assert.deepEqual(actualSelection, [
+                { index: 0, label: 'Moon', value: 'luna' },
+                { index: 1, label: 'Phobos', value: 'phobos' },
+            ]);
         });
 
         it('should identify the control responsible for the changes', async () => {
@@ -1540,6 +1434,60 @@ describe('<DualListBox />', async () => {
             await user.click(screen.getByLabelText('Move to available'));
 
             assert.deepEqual(selected.closest('select').value, '');
+        });
+
+        it('should trigger on double-clicking an option', async () => {
+            let actual = null;
+
+            const { user } = setup((
+                <DualListBox
+                    options={[
+                        { label: 'Option 1', value: 'one' },
+                        { label: 'Option 2', value: 'two' },
+                    ]}
+                    selected={['one']}
+                    onChange={(selected) => {
+                        actual = selected;
+                    }}
+                />
+            ));
+
+            const select = screen.getByLabelText('Selected');
+
+            await user.selectOptions(select, ['one']);
+            await user.dblClick(select);
+
+            assert.deepEqual(actual, []);
+        });
+
+        it('should not trigger when double-clicking a parent', async () => {
+            let actual = null;
+
+            const { container, user } = setup((
+                <DualListBox
+                    options={[
+                        {
+                            label: 'Parent',
+                            options: [
+                                { label: 'Option 1', value: 'one' },
+                                { label: 'Option 2', value: 'two' },
+                            ],
+                        },
+                    ]}
+                    selected={[]}
+                    onChange={(selected) => {
+                        actual = selected;
+                    }}
+                />
+            ));
+
+            const select = screen.getByLabelText('Available');
+            const optgroup = container.querySelector('optgroup');
+
+            await user.selectOptions(select, ['one']);
+            await user.dblClick(optgroup);
+
+            assert.deepEqual(actual, null);
         });
     });
 

@@ -45,6 +45,7 @@ function RestrictAvailableExample() {
             </div>
             <DualListBox
                 available={planets[planet].moons}
+                id="restrict"
                 options={options}
                 selected={selected}
                 onChange={onChange}

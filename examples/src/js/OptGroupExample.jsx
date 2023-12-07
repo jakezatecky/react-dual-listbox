@@ -12,6 +12,7 @@ function OptGroupExample() {
 
     return (
         <DualListBox
+            id="opt-group"
             options={options}
             selected={selected}
             onChange={onChange}

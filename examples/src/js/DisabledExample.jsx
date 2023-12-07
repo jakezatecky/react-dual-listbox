@@ -14,6 +14,7 @@ function DisabledExample() {
         <DualListBox
             canFilter
             disabled
+            id="disabled"
             options={options}
             selected={selected}
             onChange={onChange}

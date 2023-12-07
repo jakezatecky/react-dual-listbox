@@ -41,7 +41,7 @@ import 'react-dual-listbox/lib/react-dual-listbox.css';
 
 ### Render Component
 
-The `DualListBox` is a [controlled][react-controlled] component, so you have to update the `selected` property in conjunction with the `onChange` handler if you want the selected values to change.
+The `DualListBox` is a [controlled][react-controlled] component. You must update the `selected` property in conjunction with the `onChange` handler if you want the selected values to change.
 
 Here is a minimal rendering of the component:
 
@@ -62,7 +62,7 @@ function Widget() {
         <DualListBox
             options={options}
             selected={selected}
-            onChange={(value) => setSelected(value)}
+            onChange={(newValue) => setSelected(newValue)}
         />
     );
 }
@@ -70,7 +70,7 @@ function Widget() {
 
 ### Optgroups
 
-Traditional `<optgroup>`'s are also supported:
+This component also supports traditional `<optgroup>` elements through the use of the `options` key:
 
 ``` jsx
 const options = [
@@ -137,7 +137,7 @@ You can enable filtering of available and selected options by merely passing in 
 <DualListBox canFilter options={options} />
 ```
 
-Optionally, you can also override the default filter placeholder text and the filtering function:
+Optionally, you can also override the default filtering function:
 
 ``` jsx
 <DualListBox
@@ -153,7 +153,7 @@ Optionally, you can also override the default filter placeholder text and the fi
 />
 ```
 
-In addition, you can control the filter search text, rather than leaving it up to the component:
+In addition, you may control the filter text state, rather than leaving it up to the component:
 
 ``` jsx
 <DualListBox
@@ -164,14 +164,14 @@ In addition, you can control the filter search text, rather than leaving it up t
     }}
     options={options}
     onFilterChange={(filter) => {
-        console.log(filter;
+        console.log(filter);
     }}
 />
 ```
 
 ### Action/Button Alignment
 
-By default, the component arranges movement buttons to the center. Another option is to align these actions to be above their respective lists:
+By default, the component arranges the action buttons to the center. Another option is to align these actions to be above their respective lists:
 
 ``` jsx
 <DualListBox alignActions="top" options={options} />
@@ -181,7 +181,7 @@ By default, the component arranges movement buttons to the center. Another optio
 
 By default, `react-dual-listbox` will order any selected items according to the order of the `options` property. There may be times in which you wish to preserve the selection order instead. In this case, you can add the `preserveSelectOrder` property.
 
-> **Note** &ndash; Any `<optgroup>`'s supplied will not be surfaced when preserving the selection order.
+> **Note** &ndash; Enabling this option hides `<optgroup>` associations in the selected listbox.
 
 ``` jsx
 <DualListBox options={options} preserveSelectOrder />

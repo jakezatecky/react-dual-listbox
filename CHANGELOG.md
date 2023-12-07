@@ -1,6 +1,6 @@
 # Changelog
 
-## 6.0.0 (TBA)
+## [6.0.0](https://github.com/jakezatecky/react-dual-listbox/compare/v5.0.2...v6.0.0) (2023-12-06)
 
 _This new version includes a variety of breaking changes. Please review them before upgrading._
 
@@ -49,7 +49,7 @@ The keys `moveLeft`, `moveAllLeft`, `moveRight`, and `moveAllRight` are now `mov
 | `moveRight`    | `moveToSelected`     |
 | `moveAllRight` | `moveAllToSelected`  |
 
-### Other 
+### Other
 
 ## [v5.0.2](https://github.com/jakezatecky/react-dual-listbox/compare/v5.0.1...v5.0.2) (2023-02-08)
 
@@ -146,7 +146,7 @@ The keys `moveLeft`, `moveAllLeft`, `moveRight`, and `moveAllRight` are now `mov
 ### New Features
 
 * [#80]: Add `disabled` support for elements in the `options` property
-* [#87]: Add `title` support for elements in the `options` property 
+* [#87]: Add `title` support for elements in the `options` property
 * [#90]: Add `selection` argument to the `onChange` handler to track highlighted values
 * [#104]: Add `className` property to allow specification of a custom class on the root node
 * [#133]: Add `moveTop` and `moveBottom` buttons to `showOrderButtons` property

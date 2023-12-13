@@ -1,5 +1,11 @@
 # Changelog
 
+## [6.0.1](https://github.com/jakezatecky/react-dual-listbox/compare/v6.0.0...v6.0.1) (2023-12-13)
+
+### Fixed
+
+* Fix type validation for `selected` prop when using integers (#258)
+
 ## [6.0.0](https://github.com/jakezatecky/react-dual-listbox/compare/v5.0.2...v6.0.0) (2023-12-06)
 
 _This new version includes a variety of breaking changes. Please review them before upgrading._
@@ -245,7 +251,7 @@ The keys `moveLeft`, `moveAllLeft`, `moveRight`, and `moveAllRight` are now `mov
 ### New Features
 
 * [#6]: Search and filtering has been added with the props `canFilter`, `filterPlaceholder`, and `filterCallback`
-* [#14]: Allow movement buttons to be arrange above lists using the `alignActions` prop
+* [#14]: Allow movement buttons to be arranged above lists using the `alignActions` prop
 
 ### Bug Fixes
 

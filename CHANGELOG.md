@@ -1,6 +1,6 @@
 # Changelog
 
-## [6.0.2](https://github.com/jakezatecky/react-dual-listbox/compare/v6.0.0...v6.0.2) (2023-02-06)
+## [6.0.2](https://github.com/jakezatecky/react-dual-listbox/compare/v6.0.1...v6.0.2) (2023-02-06)
 
 ### Fixed
 

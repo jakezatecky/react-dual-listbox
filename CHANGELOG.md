@@ -1,5 +1,11 @@
 # Changelog
 
+## [6.0.2](https://github.com/jakezatecky/react-dual-listbox/compare/v6.0.0...v6.0.2) (2023-02-06)
+
+### Fixed
+
+* Add SSR-safe check for the `Element` type
+
 ## [6.0.1](https://github.com/jakezatecky/react-dual-listbox/compare/v6.0.0...v6.0.1) (2023-12-13)
 
 ### Fixed

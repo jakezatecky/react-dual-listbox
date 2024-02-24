@@ -331,7 +331,7 @@ function DualListBox(props) {
         }
 
         if (direction === 'up') {
-            // If all of the marked options are already as high as they can get, ignore the
+            // If all the marked options are already as high as they can get, ignore the
             // re-arrangement request because they will end of swapping their order amongst
             // themselves.
             if (markedOptions[markedOptions.length - 1].order > markedOptions.length - 1) {
@@ -342,8 +342,8 @@ function DualListBox(props) {
                 });
             }
         } else if (direction === 'down') {
-            // Similar to the above, if all of the marked options are already as low as they can
-            // get, ignore the re-arrangement request.
+            // Similar to the above, if all the marked options are already as low as they can get,
+            // ignore the re-arrangement request.
             if (markedOptions[0].order < selected.length - markedOptions.length) {
                 markedOptions.reverse().forEach(({ order }) => {
                     if (order < selected.length - 1) {
@@ -388,7 +388,7 @@ function DualListBox(props) {
      *
      * @param {Array} options
      *
-     * @returns {Array}
+     * @returns {String[]}
      */
     function makeOptionsSelectedRecursive(options) {
         const { getOptionValue } = props;
@@ -418,7 +418,7 @@ function DualListBox(props) {
      *
      * @param {Array} options
      *
-     * @returns {Array}
+     * @returns {String[]}
      */
     function makeOptionsSelected(options) {
         const availableOptions = filterAvailable(options);
@@ -432,24 +432,24 @@ function DualListBox(props) {
     /**
      * Recursively unselect the given options, except for those disabled.
      *
-     * @param {Array} selectedOptions
+     * @param {String[]} previousSelected
+     * @param {Array} optionsToRemove
      *
-     * @returns {Array}
+     * @returns {String[]}
      */
-    function makeOptionsUnselectedRecursive(selectedOptions) {
+    function makeOptionsUnselectedRecursive(previousSelected, optionsToRemove) {
         const { getOptionValue } = props;
-        let newSelected = [];
+        let newSelected = [...previousSelected];
 
-        selectedOptions.forEach((option) => {
+        optionsToRemove.forEach((option) => {
             if (option.options !== undefined) {
                 // Traverse any parents for leaf options
-                newSelected = [
-                    ...newSelected,
-                    ...makeOptionsUnselectedRecursive(option.options),
-                ];
-            } else if (option.disabled) {
-                // Preserve any disabled options
-                newSelected.push(getOptionValue(option));
+                newSelected = makeOptionsUnselectedRecursive(newSelected, option.options);
+            } else if (!option.disabled) {
+                // Remove non-disabled options
+                newSelected = newSelected.filter((oldValue) => (
+                    oldValue !== getOptionValue(option)
+                ));
             }
         });
 
@@ -464,7 +464,7 @@ function DualListBox(props) {
      * @returns {Array}
      */
     function makeOptionsUnselected(options) {
-        return makeOptionsUnselectedRecursive(filterSelected(options, true));
+        return makeOptionsUnselectedRecursive(selected, filterSelected(options));
     }
 
     /**
@@ -560,7 +560,7 @@ function DualListBox(props) {
         }
 
         onChange(newSelected, marked, isToSelected ? 'available' : 'selected', isRearrangement);
-    }, [selected]);
+    }, [selected, filter]);
 
     /**
      * @param {Object} event

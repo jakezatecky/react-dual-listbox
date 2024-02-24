@@ -304,6 +304,74 @@ describe('<DualListBox />', async () => {
 
             assert.deepEqual(['luna', 'phobos'], actualSelected);
         });
+
+        // https://github.com/jakezatecky/react-dual-listbox/issues/268
+        it('should only move filtered options when moving all to selected', async () => {
+            let actualSelected = null;
+
+            const { user } = setup((
+                <DualListBox
+                    canFilter
+                    options={[
+                        { label: 'Moon', value: 'luna' },
+                        {
+                            label: 'Mars',
+                            options: [
+                                { value: 'phobos', label: 'Phobos' },
+                                { value: 'deimos', label: 'Deimos' },
+                            ],
+                        },
+                    ]}
+                    preserveSelectOrder
+                    selected={['deimos']}
+                    onChange={(selected) => {
+                        actualSelected = selected;
+                    }}
+                />
+            ));
+
+            const filter = screen.getByLabelText('Filter available');
+            const moveAllRight = screen.getByLabelText('Move all to selected');
+
+            await user.type(filter, 'moon');
+            await user.click(moveAllRight);
+
+            assert.deepEqual(['deimos', 'luna'], actualSelected);
+        });
+
+        // https://github.com/jakezatecky/react-dual-listbox/issues/268
+        it('should only move filtered options when moving all to available', async () => {
+            let actualSelected = null;
+
+            const { user } = setup((
+                <DualListBox
+                    canFilter
+                    options={[
+                        { label: 'Moon', value: 'luna' },
+                        {
+                            label: 'Mars',
+                            options: [
+                                { value: 'phobos', label: 'Phobos' },
+                                { value: 'deimos', label: 'Deimos' },
+                            ],
+                        },
+                    ]}
+                    preserveSelectOrder
+                    selected={['phobos', 'deimos']}
+                    onChange={(selected) => {
+                        actualSelected = selected;
+                    }}
+                />
+            ));
+
+            const filter = screen.getByLabelText('Filter selected');
+            const moveAllLeft = screen.getByLabelText('Move all to available');
+
+            await user.type(filter, 'phob');
+            await user.click(moveAllLeft);
+
+            assert.deepEqual(['deimos'], actualSelected);
+        });
     });
 
     describe('props.className', () => {

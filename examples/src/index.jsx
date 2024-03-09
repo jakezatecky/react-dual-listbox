@@ -1,17 +1,17 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 
-import AlignTopExample from './js/AlignTopExample';
-import AllowDuplicatesExample from './js/AllowDuplicatesExample';
-import BasicExample from './js/BasicExample';
-import DisabledExample from './js/DisabledExample';
-import FilterExample from './js/FilterExample';
-import LazyFilterExample from './js/LazyFilterExample';
-import PreserveSelectOrderExample from './js/PreserveSelectOrderExample';
-import OptGroupExample from './js/OptGroupExample';
-import RequiredExample from './js/RequiredExample';
-import RestrictAvailable from './js/RestrictAvailableExample';
-import RtlExample from './js/RtlExample';
+import AlignTopExample from './js/AlignTopExample.jsx';
+import AllowDuplicatesExample from './js/AllowDuplicatesExample.jsx';
+import BasicExample from './js/BasicExample.jsx';
+import DisabledExample from './js/DisabledExample.jsx';
+import FilterExample from './js/FilterExample.jsx';
+import LazyFilterExample from './js/LazyFilterExample.jsx';
+import PreserveSelectOrderExample from './js/PreserveSelectOrderExample.jsx';
+import OptGroupExample from './js/OptGroupExample.jsx';
+import RequiredExample from './js/RequiredExample.jsx';
+import RestrictAvailable from './js/RestrictAvailableExample.jsx';
+import RtlExample from './js/RtlExample.jsx';
 
 createRoot(document.getElementById('basic-example')).render(<BasicExample />);
 createRoot(document.getElementById('optgroup-example')).render(<OptGroupExample />);

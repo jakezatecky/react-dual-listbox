@@ -1,24 +1,20 @@
-const HtmlBundlerPlugin = require('html-bundler-webpack-plugin');
-const path = require('node:path');
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-module.exports = {
+/* eslint-disable no-underscore-dangle */
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+export default {
     mode: 'development',
     entry: {
-        index: path.join(__dirname, 'examples/src/index.jsx'),
-        style: path.join(__dirname, 'examples/src/scss/style.scss'),
+        index: path.join(__dirname, 'test/index.js'),
     },
     output: {
-        path: path.join(__dirname, 'examples/dist'),
-        library: {
-            name: 'ReactDualListBox',
-            type: 'umd',
-        },
+        path: path.join(__dirname, '/test-compiled'),
     },
     resolve: {
-        extensions: ['.js', '.jsx'],
-        alias: {
-            'react-dual-listbox': path.resolve(__dirname, 'src/index.js'),
-        },
+        extensions: ['.js'],
     },
     module: {
         rules: [
@@ -27,33 +23,6 @@ module.exports = {
                 exclude: /(node_modules)/,
                 loader: 'babel-loader',
             },
-            {
-                test: /\.s[ac]ss$/i,
-                use: [
-                    'css-loader',
-                    'sass-loader',
-                ],
-            },
         ],
     },
-    devServer: {
-        open: true,
-        static: {
-            directory: path.join(__dirname, 'examples/dist'),
-        },
-        watchFiles: ['src/**/*', 'examples/src/**/*'],
-    },
-    plugins: [
-        new HtmlBundlerPlugin({
-            entry: {
-                index: 'examples/src/index.html',
-            },
-            js: {
-                filename: '[name].[contenthash:8].js',
-            },
-            css: {
-                filename: '[name].[contenthash:8].css',
-            },
-        }),
-    ],
 };

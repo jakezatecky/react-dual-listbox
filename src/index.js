@@ -1,3 +1,3 @@
-import DualListBoxWrapper from './js/DualListBoxWrapper';
+import DualListBoxWrapper from '#js/DualListBoxWrapper.jsx';
 
 export default DualListBoxWrapper;

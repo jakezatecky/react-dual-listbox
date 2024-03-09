@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 
-import DualListBox, { propTypes } from './DualListBox';
+import DualListBox, { propTypes } from '#js/components/DualListBox.jsx';
 
 /**
  * Flatten an array of options to a simple list of values.

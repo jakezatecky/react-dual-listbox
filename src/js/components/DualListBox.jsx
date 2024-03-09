@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import escapeRegExp from 'lodash/escapeRegExp';
+import escapeRegExp from 'lodash/escapeRegExp.js';
 import PropTypes from 'prop-types';
 import React, {
     useCallback,
@@ -8,16 +8,16 @@ import React, {
     useState,
 } from 'react';
 
-import refShape from '../shapes/refShape';
-import optionsShape from '../shapes/optionsShape';
-import valueShape from '../shapes/valueShape';
-import indexesOf from '../util/indexesOf';
-import mergeRefs from '../util/mergeRefs';
-import swapOptions from '../util/swapOptions';
-import { ALIGNMENTS, KEYS } from '../constants';
-import Action from './Action';
-import HiddenInput from './HiddenInput';
-import ListBox from './ListBox';
+import refShape from '#js/shapes/refShape.js';
+import optionsShape from '#js/shapes/optionsShape.js';
+import valueShape from '#js/shapes/valueShape.js';
+import indexesOf from '#js/util/indexesOf.js';
+import mergeRefs from '#js/util/mergeRefs.js';
+import swapOptions from '#js/util/swapOptions.js';
+import { ALIGNMENTS, KEYS } from '#js/constants.js';
+import Action from '#js/components/Action.jsx';
+import HiddenInput from '#js/components/HiddenInput.jsx';
+import ListBox from '#js/components/ListBox.jsx';
 
 const propTypes = {
     options: optionsShape.isRequired,

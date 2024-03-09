@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import DualListBox from 'react-dual-listbox';
 
-import { planetsAndMoons as options } from './options';
+import { planetsAndMoons as options } from './options.js';
 
 function OptGroupExample() {
     const [selected, setSelected] = useState(['luna', 'io']);

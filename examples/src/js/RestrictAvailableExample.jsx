@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import DualListBox from 'react-dual-listbox';
 
-import { moons as options } from './options';
+import { moons as options } from './options.js';
 
 const planets = {
     earth: { name: 'Earth', moons: ['luna'] },

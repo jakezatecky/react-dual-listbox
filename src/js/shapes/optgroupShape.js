@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
-import optionShape from './optionShape';
+
+import optionShape from '#js/shapes/optionShape.js';
 
 export default PropTypes.shape({
     options: PropTypes.arrayOf(optionShape).isRequired,

@@ -1,16 +1,16 @@
-import memoize from 'lodash/memoize';
+import memoize from 'lodash/memoize.js';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import ObjectValueWrapper from './components/ObjectValueWrapper';
+import ObjectValueWrapper from '#js/components/ObjectValueWrapper.jsx';
 import DualListBox, {
     propTypes as mainPropTypes,
     defaultProps as mainDefaults,
-} from './components/DualListBox';
-import defaultLang from './lang/default';
-import iconsShape from './shapes/iconsShape';
-import languageShape from './shapes/languageShape';
-import { IconContext, LanguageContext } from './contexts';
+} from '#js/components/DualListBox.jsx';
+import defaultLang from '#js/lang/default.js';
+import iconsShape from '#js/shapes/iconsShape.js';
+import languageShape from '#js/shapes/languageShape.js';
+import { IconContext, LanguageContext } from '#js/contexts.js';
 
 const wrapperPropTypes = {
     icons: iconsShape,

@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import React, { useContext, useEffect } from 'react';
 
-import refShape from '../shapes/refShape';
-import valueShape from '../shapes/valueShape';
-import { LanguageContext } from '../contexts';
+import refShape from '#js/shapes/refShape.js';
+import valueShape from '#js/shapes/valueShape.js';
+import { LanguageContext } from '#js/contexts.js';
 
 const noop = () => {};
 const propTypes = {

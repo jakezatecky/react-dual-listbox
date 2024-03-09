@@ -1,5 +1,11 @@
 # Changelog
 
+## 6.1.0 (TBA)
+
+### Added
+
+* Add full support for ESM environments
+
 ## [6.0.3](https://github.com/jakezatecky/react-dual-listbox/compare/v6.0.2...v6.0.3) (2023-02-24)
 
 ### Fixed

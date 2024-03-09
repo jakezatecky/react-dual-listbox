@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import React, { Children, useContext } from 'react';
 
-import { LanguageContext } from '../contexts';
-import capitalizeFirstLetter from '../util/capitalizeFirstLetter';
-import Filter from './Filter';
+import { LanguageContext } from '#js/contexts.js';
+import capitalizeFirstLetter from '#js/util/capitalizeFirstLetter.js';
+import Filter from '#js/components/Filter.jsx';
 
 const propTypes = {
     canFilter: PropTypes.bool.isRequired,

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useContext } from 'react';
 
-import { LanguageContext } from '../contexts';
+import { LanguageContext } from '#js/contexts.js';
 
 const propTypes = {
     controlKey: PropTypes.string.isRequired,

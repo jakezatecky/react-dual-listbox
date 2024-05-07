@@ -6,13 +6,13 @@
 
 * Add full support for ESM environments
 
-## [6.0.3](https://github.com/jakezatecky/react-dual-listbox/compare/v6.0.2...v6.0.3) (2023-02-24)
+## [6.0.3](https://github.com/jakezatecky/react-dual-listbox/compare/v6.0.2...v6.0.3) (2024-02-24)
 
 ### Fixed
 
 * Fix issue with move all buttons ignoring filters (#268)
 
-## [6.0.2](https://github.com/jakezatecky/react-dual-listbox/compare/v6.0.1...v6.0.2) (2023-02-06)
+## [6.0.2](https://github.com/jakezatecky/react-dual-listbox/compare/v6.0.1...v6.0.2) (2024-02-06)
 
 ### Fixed
 

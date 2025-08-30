@@ -1,17 +1,14 @@
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 
-/* eslint-disable no-underscore-dangle */
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const { dirname } = import.meta;
 
 export default {
     mode: 'development',
     entry: {
-        index: path.join(__dirname, 'test/index.js'),
+        index: path.join(dirname, 'test/index.js'),
     },
     output: {
-        path: path.join(__dirname, '/test-compiled'),
+        path: path.join(dirname, '/test-compiled'),
     },
     resolve: {
         extensions: ['.js'],

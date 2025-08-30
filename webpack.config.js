@@ -1,12 +1,8 @@
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 import webpack from 'webpack';
 import { readFile } from 'node:fs/promises';
 
-/* eslint-disable no-underscore-dangle */
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
+const { dirname } = import.meta;
 const json = await readFile(new URL('./package.json', import.meta.url));
 const pkg = JSON.parse(json.toString());
 const banner = `
@@ -17,7 +13,7 @@ Licensed under the ${pkg.license} License.
 
 const commonConfig = {
     mode: 'none',
-    entry: path.join(__dirname, 'src/index.js'),
+    entry: path.join(dirname, 'src/index.js'),
     resolve: {
         extensions: ['.js', '.jsx'],
     },
@@ -40,7 +36,7 @@ const commonConfig = {
 const umdConfig = {
     ...commonConfig,
     output: {
-        path: path.join(__dirname, '/lib'),
+        path: path.join(dirname, '/lib'),
         filename: 'index.js',
         library: {
             name: 'ReactDualListbox',
@@ -54,7 +50,7 @@ const esmConfig = {
     ...commonConfig,
     target: 'es2020',
     output: {
-        path: path.join(__dirname, '/lib'),
+        path: path.join(dirname, '/lib'),
         filename: 'index.esm.js',
         library: {
             type: 'module',

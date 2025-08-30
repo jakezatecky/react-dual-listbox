@@ -1,5 +1,5 @@
-$rdl-icon-font-family: "Font Awesome 6 Free", "Font Awesome 5 Free",
-  "FontAwesome", sans-serif;
+$rdl-icon-font-family: // stylelint-disable-line scss/dollar-variable-colon-space-after
+  "Font Awesome 6 Free", "Font Awesome 5 Free", "FontAwesome", sans-serif;
 $rdl-input-bg: #fff !default;
 $rdl-input-disabled-bg: #eee !default;
 $rdl-input-border: #ccc !default;
@@ -82,8 +82,8 @@ $rdl-desktop-min-width: 576px !default;
   margin-bottom: 10px;
 
   &:focus:not(:disabled) {
-    border-color: $rdl-input-border-active;
     outline: 0;
+    border-color: $rdl-input-border-active;
   }
 }
 
@@ -108,8 +108,8 @@ $rdl-desktop-min-width: 576px !default;
   flex: 1 0 auto;
 
   &:focus:not(:disabled) {
-    border-color: $rdl-input-border-active;
     outline: 0;
+    border-color: $rdl-input-border-active;
   }
 
   optgroup {

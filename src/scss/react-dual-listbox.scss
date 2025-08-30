@@ -1,13 +1,23 @@
+@use "sass:color";
+
 $rdl-icon-font-family: // stylelint-disable-line scss/dollar-variable-colon-space-after
   "Font Awesome 6 Free", "Font Awesome 5 Free", "FontAwesome", sans-serif;
 $rdl-input-bg: #fff !default;
 $rdl-input-disabled-bg: #eee !default;
 $rdl-input-border: #ccc !default;
-$rdl-input-border-active: darken($rdl-input-border, 25%) !default;
-$rdl-input-border-hover: darken($rdl-input-border, 12%) !default;
+$rdl-input-border-active: color.scale(
+  $rdl-input-border,
+  $lightness: -25%,
+  $space: hsl
+) !default;
+$rdl-input-border-hover: color.scale(
+  $rdl-input-border,
+  $lightness: -12%,
+  $space: hsl
+) !default;
 $rdl-input-color: #333 !default;
 $rdl-btn-bg: $rdl-input-bg !default;
-$rdl-btn-bg-active: darken($rdl-btn-bg, 10%) !default;
+$rdl-btn-bg-active: color.scale($rdl-btn-bg, $lightness: -10%, $space: hsl) !default;
 $rdl-btn-border: $rdl-input-border !default;
 $rdl-btn-border-active: $rdl-input-border-active !default;
 $rdl-btn-border-hover: $rdl-input-border-hover !default;

@@ -17,7 +17,11 @@ $rdl-input-border-hover: color.scale(
 ) !default;
 $rdl-input-color: #333 !default;
 $rdl-btn-bg: $rdl-input-bg !default;
-$rdl-btn-bg-active: color.scale($rdl-btn-bg, $lightness: -10%, $space: hsl) !default;
+$rdl-btn-bg-active: color.scale(
+  $rdl-btn-bg,
+  $lightness: -10%,
+  $space: hsl
+) !default;
 $rdl-btn-border: $rdl-input-border !default;
 $rdl-btn-border-active: $rdl-input-border-active !default;
 $rdl-btn-border-hover: $rdl-input-border-hover !default;

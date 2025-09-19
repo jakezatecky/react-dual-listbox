@@ -30,10 +30,7 @@ export default [
             'src/**/*.{js,jsx}',
         ],
         languageOptions: {
-            globals: {
-                APP_NAME: 'readonly',
-                ...globals.browser,
-            },
+            globals: globals.browser,
         },
     },
     {
@@ -41,7 +38,6 @@ export default [
         files: ['test/**/*.{js,jsx}'],
         languageOptions: {
             globals: {
-                APP_NAME: 'readonly',
                 ...globals.browser,
                 ...globals.mocha,
             },
@@ -51,9 +47,7 @@ export default [
         // Build files
         files: ['*.{js,jsx}'],
         languageOptions: {
-            globals: {
-                ...globals.node,
-            },
+            globals: globals.node,
         },
     },
 ];

@@ -1,20 +1,29 @@
-name: Build
+name: Build and Test
+
 on:
   push:
   pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     strategy:
-      fail-fast: false
       matrix:
         node: [20, 22, 24]
     steps:
       -
-        uses: actions/checkout@v4
+        name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       -
         name: Use Node.js ${{ matrix.node }}
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node }}
       -
@@ -22,4 +31,7 @@ jobs:
         run: yarn install
       -
         name: Run tests
-        run: npm run release
+        run: yarn test
+      -
+        name: Build the library
+        run: yarn build

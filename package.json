@@ -18,9 +18,9 @@
     "url": "https://github.com/jakezatecky/react-dual-listbox"
   },
   "bugs": "https://github.com/jakezatecky/react-dual-listbox/issues",
-  "main": "lib/index.js",
-  "module": "lib/index.esm.js",
-  "browser": "lib/index.js",
+  "main": "lib/index.cjs",
+  "module": "lib/index.js",
+  "browser": "lib/index.cjs",
   "type": "module",
   "imports": {
     "#js/*": "./src/js/*",
@@ -28,8 +28,8 @@
   },
   "exports": {
     ".": {
-      "import": "./lib/index.esm.js",
-      "require": "./lib/index.js"
+      "import": "./lib/index.js",
+      "require": "./lib/index.cjs"
     },
     "./*": "./*"
   },

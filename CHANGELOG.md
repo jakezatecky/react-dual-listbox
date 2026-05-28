@@ -1,5 +1,11 @@
 # Changelog
 
+## 6.1.1
+
+### Fixed
+
+* Fix CommonJS exports
+
 ## [6.1.0](https://github.com/jakezatecky/react-dual-listbox/compare/v6.0.3...v6.1.0) (2026-05-10)
 
 ### Added

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useContext, useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 
 import refShape from '#js/shapes/refShape.js';
 import valueShape from '#js/shapes/valueShape.js';

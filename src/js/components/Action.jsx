@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import kebabCase from 'lodash/kebabCase';
 import PropTypes from 'prop-types';
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 
 import { IconContext, LanguageContext } from '#js/contexts.js';
 import capitalizeFirstLetter from '#js/util/capitalizeFirstLetter.js';

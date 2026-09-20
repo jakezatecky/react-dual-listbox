@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import DualListBox from 'react-dual-listbox';
 
 import { planetsAndMoons as options } from './options.js';

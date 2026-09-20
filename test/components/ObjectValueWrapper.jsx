@@ -2,7 +2,6 @@ import { configure } from '@testing-library/dom';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { assert } from 'chai';
-import React from 'react';
 
 import DualListBox from '#src/index.js';
 

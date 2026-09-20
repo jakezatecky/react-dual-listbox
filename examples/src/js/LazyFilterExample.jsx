@@ -1,5 +1,5 @@
 import { uniqBy } from 'lodash';
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import DualListBox from 'react-dual-listbox';
 
 import { moons } from './options.js';

@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import escapeRegExp from 'lodash/escapeRegExp.js';
 import PropTypes from 'prop-types';
-import React, {
+import {
     useCallback,
     useEffect,
     useRef,

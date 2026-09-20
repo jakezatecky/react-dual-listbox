@@ -1,6 +1,5 @@
 import memoize from 'lodash/memoize.js';
 import PropTypes from 'prop-types';
-import React from 'react';
 
 import ObjectValueWrapper from '#js/components/ObjectValueWrapper.jsx';
 import DualListBox, {

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Children, useContext } from 'react';
+import { Children, useContext } from 'react';
 
 import { LanguageContext } from '#js/contexts.js';
 import capitalizeFirstLetter from '#js/util/capitalizeFirstLetter.js';

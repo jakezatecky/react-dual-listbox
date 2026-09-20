@@ -996,6 +996,31 @@ describe('<DualListBox />', async () => {
 
             assert.equal(expectedMessage, select.validationMessage);
         });
+
+        it('should clear the validation message when `required` is changed to false', () => {
+            const options = [
+                { label: 'Moon', value: 'luna' },
+                { label: 'Phobos', value: 'phobos' },
+            ];
+
+            const { container, rerender } = render((
+                <form>
+                    <DualListBox options={options} required selected={[]} onChange={() => {}} />
+                </form>
+            ));
+            const select = screen.getByLabelText('Available');
+
+            assert.isFalse(container.querySelector('form').checkValidity());
+
+            rerender((
+                <form>
+                    <DualListBox options={options} selected={[]} onChange={() => {}} />
+                </form>
+            ));
+
+            assert.equal('', select.validationMessage);
+            assert.isTrue(container.querySelector('form').checkValidity());
+        });
     });
 
     describe('props.selected', () => {
@@ -1348,6 +1373,38 @@ describe('<DualListBox />', async () => {
     });
 
     describe('props.onChange', () => {
+        it('should call the latest `onChange` when it changes without `selected` changing', async () => {
+            const options = [
+                { label: 'Moon', value: 'luna' },
+                { label: 'Phobos', value: 'phobos' },
+            ];
+            const selected = [];
+            const calls = [];
+
+            const { rerender, user } = setup((
+                <DualListBox
+                    options={options}
+                    selected={selected}
+                    onChange={() => calls.push('first')}
+                />
+            ));
+
+            rerender((
+                <DualListBox
+                    options={options}
+                    selected={selected}
+                    onChange={() => calls.push('second')}
+                />
+            ));
+
+            const select = screen.getByLabelText('Available');
+
+            await user.selectOptions(select, ['phobos']);
+            await user.dblClick(select);
+
+            assert.deepEqual(calls, ['second']);
+        });
+
         it('should pass all options in the selected listbox after a change', async () => {
             let actual = null;
 

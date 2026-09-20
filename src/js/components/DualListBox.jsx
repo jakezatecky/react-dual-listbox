@@ -533,7 +533,7 @@ function DualListBox(props) {
      *
      * @returns {void}
      */
-    const onActionClick = useCallback(({ direction, isMoveAll }) => {
+    const onActionClick = ({ direction, isMoveAll }) => {
         const { options } = props;
         const isToSelected = direction === 'toSelected';
         const sourceListBox = isToSelected ? availableRef : selectedRef;
@@ -560,7 +560,7 @@ function DualListBox(props) {
         }
 
         onChange(newSelected, marked, isToSelected ? 'available' : 'selected', isRearrangement);
-    }, [selected, filter]);
+    };
 
     /**
      * @param {Object} event
@@ -568,7 +568,7 @@ function DualListBox(props) {
      *
      * @returns {void}
      */
-    const onOptionDoubleClick = useCallback((event, controlKey) => {
+    const onOptionDoubleClick = (event, controlKey) => {
         // Prevent double click from parent triggering a selected option
         if (event.target.tagName === 'OPTGROUP') {
             return;
@@ -578,7 +578,7 @@ function DualListBox(props) {
         const newSelected = toggleHighlighted(marked, controlKey);
 
         onChange(newSelected, marked, controlKey);
-    }, [selected]);
+    };
 
     /**
      * @param {Event} event
@@ -586,7 +586,7 @@ function DualListBox(props) {
      *
      * @returns {void}
      */
-    const onOptionKeyUp = useCallback((event, controlKey) => {
+    const onOptionKeyUp = (event, controlKey) => {
         const { currentTarget, key } = event;
         const { moveKeys } = props;
 
@@ -596,7 +596,7 @@ function DualListBox(props) {
 
             onChange(newSelected, marked, controlKey);
         }
-    }, [selected]);
+    };
 
     /**
      * @param {Event} event
@@ -604,7 +604,7 @@ function DualListBox(props) {
      *
      * @returns {void}
      */
-    const onSelectionChange = useCallback((event, controlKey) => {
+    const onSelectionChange = (event, controlKey) => {
         const { target: { options } } = event;
 
         const newSelections = Array.from(options)
@@ -615,14 +615,14 @@ function DualListBox(props) {
             ...selections,
             [controlKey]: newSelections,
         });
-    }, [selections]);
+    };
 
     /**
      * @param {Event} event
      *
      * @returns {void}
      */
-    const onFilterChangeCallback = useCallback((event) => {
+    const onFilterChangeCallback = (event) => {
         const { onFilterChange } = props;
         const { target: { value, dataset: { controlKey } } } = event;
 
@@ -633,7 +633,7 @@ function DualListBox(props) {
         } else {
             setFilter(newFilter);
         }
-    }, [filter]);
+    };
 
     /**
      * Focus the selected list-box whenever a form flags this component as invalid.
@@ -694,7 +694,7 @@ function DualListBox(props) {
     /**
      * @param {string} controlKey
      * @param {Array} options
-     * @param {React.MutableRefObject} ref
+     * @param {import('react').MutableRefObject<HTMLSelectElement|null>} ref
      * @param {JSX.Element} actions
      *
      * @returns {JSX.Element}

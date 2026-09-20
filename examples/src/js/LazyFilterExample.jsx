@@ -27,7 +27,7 @@ function LazyFilterExample() {
         { value: 'luna', label: 'Moon' },
     ]);
 
-    // In this case, luna is our single initial selected value
+    // In this case, Luna is our single initial selected value
     const [selected, setSelected] = useState(['luna']);
 
     // We need to control the filter state when doing lazy filters
@@ -53,7 +53,7 @@ function LazyFilterExample() {
                 ], 'value')
             ));
         });
-    }, [options]);
+    }, []);
 
     return (
         <DualListBox

@@ -79,7 +79,7 @@ function ObjectValueWrapper(props) {
         });
 
         onChange(complexValues.selected, userSelection, controlKey);
-    }, [getOptionValue, options]);
+    }, [getOptionValue, options, onChange]);
 
     /* eslint-disable react/jsx-props-no-spreading */
     return (

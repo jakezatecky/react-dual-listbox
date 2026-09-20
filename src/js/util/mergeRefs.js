@@ -1,7 +1,7 @@
 /**
  * Merge and set multiple refs for a component.
  *
- * @param {React.MutableRefObject[]} refs
+ * @param {Array<import('react').Ref<HTMLElement>>} refs
  *
  * @return {Function}
  */

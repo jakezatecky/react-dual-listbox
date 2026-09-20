@@ -26,15 +26,11 @@ function HiddenInput({
 }) {
     const { hiddenInputLabel, requiredError } = useContext(LanguageContext);
 
+    // Set a validity error when no options are selected
     useEffect(() => {
-        if (!required) {
-            return;
-        }
-
-        // If required, set a validity error when no options are selected
-        const validity = selected.length === 0 ? requiredError : '';
+        const validity = required && selected.length === 0 ? requiredError : '';
         availableRef.current.setCustomValidity(validity);
-    }, [selected]);
+    }, [availableRef, required, requiredError, selected]);
 
     const hiddenValue = selected.join(',');
 

@@ -4,10 +4,6 @@ import globals from 'globals';
 
 import webpackConfig from './webpack.config.examples.js';
 
-// Resolve issue with HTML Webpack Bundler causing circular references
-// https://github.com/webdiscus/html-bundler-webpack-plugin/issues/186
-delete webpackConfig.plugins;
-
 export default [
     ...takiyonConfig,
     {
@@ -15,8 +11,7 @@ export default [
             '**/*.{js,jsx}',
         ],
         settings: {
-            // Account for webpack.resolve.alias imports (e.g., `react-dual-listbox` in the
-            // examples), so that linting does not depend on a previous build of `lib/`
+            // Account for webpack.resolve.alias imports
             'import-x/resolver-next': [
                 createNodeResolver({
                     alias: Object.fromEntries(
